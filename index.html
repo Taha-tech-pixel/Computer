@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#home" class="nav-link active" data-page="home">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#programming-languages" class="nav-link" data-page="programming-languages">
+                    <i class="fas fa-laptop-code"></i> Programming Languages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#coding-schemes" class="nav-link" data-page="coding-schemes">
+                    <i class="fas fa-project-diagram"></i> Coding Schemes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#number-system" class="nav-link" data-page="number-system">
+                    <i class="fas fa-calculator"></i> Number System
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#compiler" class="nav-link" data-page="compiler">
+                    <i class="fas fa-cogs"></i> Compiler
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#challenges" class="nav-link" data-page="challenges">
+                    <i class="fas fa-trophy"></i> Challenges
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#progress" class="nav-link" data-page="progress">
+                    <i class="fas fa-chart-line"></i> Progress
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#ai-bot" class="nav-link" data-page="ai-bot">
+                    <i class="fas fa-robot"></i> AI Bot
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#oop" class="nav-link" data-page="oop">
+                    <i class="fas fa-cube"></i> OOP
+                </a>
+            </li>
+        </ul>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero-section">
+                <h1>Welcome to Your Learning Journey</h1>
+                <p>Master programming concepts across 9 comprehensive pages: Programming Languages, Coding Schemes, Number System, Compiler, Challenges, Progress, AI Bot, and OOP</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Get Started</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Programming Languages</h3>
+                    <p>Explore 30+ programming languages across 7 categories: Web Development, General-Purpose, Scripting, Data Science, Functional, Legacy, and Query languages. Learn about language paradigms and when to use each one.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">🌐 Web Dev</span>
+                        <span class="detail-tag">💻 General</span>
+                        <span class="detail-tag">📜 Scripting</span>
+                        <span class="detail-tag">📊 Data Science</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-project-diagram"></i>
+                    <h3>Coding Schemes</h3>
+                    <p>Master design patterns like Singleton and Factory patterns. Understand software architecture principles and best practices for writing maintainable code.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Singleton Pattern</span>
+                        <span class="detail-tag">Factory Pattern</span>
+                        <span class="detail-tag">Code Examples</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Number System</h3>
+                    <p>Convert between decimal, binary, hexadecimal, and octal number systems. Interactive tools help you understand how computers represent and process numbers.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Binary (Base-2)</span>
+                        <span class="detail-tag">Hex (Base-16)</span>
+                        <span class="detail-tag">Octal (Base-8)</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Compiler</h3>
+                    <p>Learn about the four phases of compilation: Lexical Analysis, Syntax Analysis, Semantic Analysis, and Code Generation. Try our interactive compiler demo.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">4 Phases</span>
+                        <span class="detail-tag">Interactive Demo</span>
+                        <span class="detail-tag">Expression Evaluator</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Challenges</h3>
+                    <p>Test your programming skills with three difficulty levels. Solve FizzBuzz, Palindrome Checker, and Binary Tree Traversal problems with detailed solutions.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Easy</span>
+                        <span class="detail-tag">Medium</span>
+                        <span class="detail-tag">Hard</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Progress</h3>
+                    <p>Track your learning journey with visual progress indicators, statistics dashboard, and weekly activity charts. Monitor your achievements and stay motivated.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Progress Circle</span>
+                        <span class="detail-tag">Statistics</span>
+                        <span class="detail-tag">Activity Chart</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI Bot</h3>
+                    <p>Get instant help from our AI Learning Assistant. Ask questions about programming concepts, get explanations, and use quick question buttons for common topics.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Chat Interface</span>
+                        <span class="detail-tag">Quick Questions</span>
+                        <span class="detail-tag">Programming Help</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cube"></i>
+                    <h3>OOP</h3>
+                    <p>Master Object-Oriented Programming fundamentals: Encapsulation, Inheritance, and Polymorphism. Learn with practical code examples and real-world applications.</p>
+                    <div class="feature-details">
+                        <span class="detail-tag">Encapsulation</span>
+                        <span class="detail-tag">Inheritance</span>
+                        <span class="detail-tag">Polymorphism</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programming Languages Page -->
+        <div id="programming-languages" class="page">
+            <div class="page-header">
+                <h1>Programming Languages</h1>
+                <p>Explore different programming languages and their features across various categories</p>
+            </div>
+            
+            <!-- Web Development Languages -->
+            <div class="language-category">
+                <h2>🌐 Web Development Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">📄</div>
+                        <h3>HTML</h3>
+                        <p>HyperText Markup Language - the standard markup language for creating web pages and web applications.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Markup</span>
+                            <span class="feature-tag">Web Structure</span>
+                            <span class="feature-tag">Semantic</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🎨</div>
+                        <h3>CSS</h3>
+                        <p>Cascading Style Sheets - used for describing the presentation of a document written in HTML.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Styling</span>
+                            <span class="feature-tag">Layout</span>
+                            <span class="feature-tag">Responsive</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">⚡</div>
+                        <h3>JavaScript</h3>
+                        <p>Dynamic programming language essential for interactive web development and modern applications.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Dynamic</span>
+                            <span class="feature-tag">Frontend</span>
+                            <span class="feature-tag">ES6+</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🔷</div>
+                        <h3>TypeScript</h3>
+                        <p>Typed superset of JavaScript that adds optional static typing and object-oriented features.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Static Typing</span>
+                            <span class="feature-tag">OOP</span>
+                            <span class="feature-tag">Microsoft</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🐘</div>
+                        <h3>PHP</h3>
+                        <p>Server-side scripting language designed for web development and can be embedded into HTML.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Server-side</span>
+                            <span class="feature-tag">WordPress</span>
+                            <span class="feature-tag">Laravel</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🟢</div>
+                        <h3>Node.js</h3>
+                        <p>JavaScript runtime built on Chrome's V8 engine for building scalable network applications.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Runtime</span>
+                            <span class="feature-tag">Backend</span>
+                            <span class="feature-tag">NPM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General-Purpose Programming Languages -->
+            <div class="language-category">
+                <h2>💻 General-Purpose Programming Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">🐍</div>
+                        <h3>Python</h3>
+                        <p>High-level, interpreted programming language known for its simplicity and readability.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Easy to Learn</span>
+                            <span class="feature-tag">AI/ML</span>
+                            <span class="feature-tag">Data Science</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">☕</div>
+                        <h3>Java</h3>
+                        <p>Object-oriented programming language that runs on billions of devices with "Write Once, Run Anywhere" philosophy.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Platform Independent</span>
+                            <span class="feature-tag">Enterprise</span>
+                            <span class="feature-tag">Android</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🔵</div>
+                        <h3>C</h3>
+                        <p>General-purpose programming language that provides low-level access to memory and system resources.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Low-level</span>
+                            <span class="feature-tag">Performance</span>
+                            <span class="feature-tag">Systems</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🔵</div>
+                        <h3>C++</h3>
+                        <p>Extension of C with object-oriented features, used for system software, game development, and applications.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">OOP</span>
+                            <span class="feature-tag">Performance</span>
+                            <span class="feature-tag">Games</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🔷</div>
+                        <h3>C#</h3>
+                        <p>Modern, object-oriented language developed by Microsoft for the .NET framework and Windows applications.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Microsoft</span>
+                            <span class="feature-tag">.NET</span>
+                            <span class="feature-tag">Unity</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🟠</div>
+                        <h3>Kotlin</h3>
+                        <p>Modern programming language that runs on the JVM and can be used for Android development.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">JVM</span>
+                            <span class="feature-tag">Android</span>
+                            <span class="feature-tag">Interoperable</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🔵</div>
+                        <h3>Go</h3>
+                        <p>Open-source programming language developed by Google, known for simplicity and concurrent programming.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Google</span>
+                            <span class="feature-tag">Concurrent</span>
+                            <span class="feature-tag">Simple</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🦀</div>
+                        <h3>Rust</h3>
+                        <p>Systems programming language focused on safety, speed, and concurrency without garbage collection.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Memory Safe</span>
+                            <span class="feature-tag">Performance</span>
+                            <span class="feature-tag">Zero-cost</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scripting / Automation Languages -->
+            <div class="language-category">
+                <h2>📜 Scripting / Automation Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">🐚</div>
+                        <h3>Bash</h3>
+                        <p>Unix shell and command language, commonly used for system administration and automation scripts.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Shell</span>
+                            <span class="feature-tag">Unix</span>
+                            <span class="feature-tag">Automation</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🐪</div>
+                        <h3>Perl</h3>
+                        <p>High-level, general-purpose programming language originally developed for text manipulation.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Text Processing</span>
+                            <span class="feature-tag">System Admin</span>
+                            <span class="feature-tag">CGI</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">💎</div>
+                        <h3>Ruby</h3>
+                        <p>Dynamic, reflective, object-oriented programming language with elegant syntax and developer happiness focus.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Elegant</span>
+                            <span class="feature-tag">Rails</span>
+                            <span class="feature-tag">OOP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistical / Data Science Languages -->
+            <div class="language-category">
+                <h2>📊 Statistical / Data Science Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">📈</div>
+                        <h3>R</h3>
+                        <p>Programming language and environment for statistical computing and graphics, widely used in data analysis.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Statistics</span>
+                            <span class="feature-tag">Data Analysis</span>
+                            <span class="feature-tag">Visualization</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functional / Multi-Paradigm Languages -->
+            <div class="language-category">
+                <h2>🧮 Functional / Multi-Paradigm Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">🍃</div>
+                        <h3>Clojure</h3>
+                        <p>Modern dialect of Lisp that runs on the JVM, emphasizing functional programming and immutability.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Lisp</span>
+                            <span class="feature-tag">Functional</span>
+                            <span class="feature-tag">JVM</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">⚡</div>
+                        <h3>Scala</h3>
+                        <p>Multi-paradigm programming language designed to integrate features of object-oriented and functional programming.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Multi-paradigm</span>
+                            <span class="feature-tag">JVM</span>
+                            <span class="feature-tag">Spark</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legacy / Scientific Languages -->
+            <div class="language-category">
+                <h2>🔬 Legacy / Scientific Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">🔢</div>
+                        <h3>Fortran</h3>
+                        <p>General-purpose programming language, particularly suited to numeric computation and scientific computing.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Scientific</span>
+                            <span class="feature-tag">Numeric</span>
+                            <span class="feature-tag">Legacy</span>
+                        </div>
+                    </div>
+                    <div class="language-card">
+                        <div class="language-icon">🟦</div>
+                        <h3>VB.NET</h3>
+                        <p>Object-oriented programming language implemented on Microsoft's .NET Framework, successor to Visual Basic.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Microsoft</span>
+                            <span class="feature-tag">.NET</span>
+                            <span class="feature-tag">Windows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query / DSL Languages -->
+            <div class="language-category">
+                <h2>🗄️ Query / DSL Languages</h2>
+                <div class="languages-grid">
+                    <div class="language-card">
+                        <div class="language-icon">🗃️</div>
+                        <h3>SQL</h3>
+                        <p>Structured Query Language used for managing and manipulating relational databases and data.</p>
+                        <div class="language-features">
+                            <span class="feature-tag">Database</span>
+                            <span class="feature-tag">Query</span>
+                            <span class="feature-tag">Relational</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coding Schemes Page -->
+        <div id="coding-schemes" class="page">
+            <div class="page-header">
+                <h1>Coding Schemes</h1>
+                <p>Learn about different coding methodologies and design patterns</p>
+            </div>
+            <div class="schemes-container">
+                <div class="scheme-section">
+                    <h2>Design Patterns</h2>
+                    <div class="pattern-grid">
+                        <div class="pattern-card">
+                            <h3>Singleton Pattern</h3>
+                            <p>Ensures a class has only one instance and provides global access to it.</p>
+                            <div class="code-example">
+                                <pre><code>class Singleton {
+    private static instance: Singleton;
+    private constructor() {}
+    
+    public static getInstance(): Singleton {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+        }
+        return Singleton.instance;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="pattern-card">
+                            <h3>Factory Pattern</h3>
+                            <p>Creates objects without specifying their exact classes.</p>
+                            <div class="code-example">
+                                <pre><code>interface Animal {
+    makeSound(): void;
+}
+
+class Dog implements Animal {
+    makeSound() { console.log('Woof!'); }
+}
+
+class Cat implements Animal {
+    makeSound() { console.log('Meow!'); }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Number System Page -->
+        <div id="number-system" class="page">
+            <div class="page-header">
+                <h1>Number Systems</h1>
+                <p>Master different number systems used in computing</p>
+            </div>
+            <div class="number-systems-container">
+                <div class="system-card">
+                    <h3>Binary (Base-2)</h3>
+                    <p>Uses only 0 and 1. Fundamental to computer operations.</p>
+                    <div class="converter">
+                        <input type="number" id="decimal-input" placeholder="Enter decimal number">
+                        <button onclick="convertToBinary()">Convert to Binary</button>
+                        <div id="binary-result" class="result"></div>
+                    </div>
+                </div>
+                <div class="system-card">
+                    <h3>Hexadecimal (Base-16)</h3>
+                    <p>Uses 0-9 and A-F. Common in programming and memory addresses.</p>
+                    <div class="converter">
+                        <input type="text" id="hex-input" placeholder="Enter hex number">
+                        <button onclick="convertFromHex()">Convert to Decimal</button>
+                        <div id="hex-result" class="result"></div>
+                    </div>
+                </div>
+                <div class="system-card">
+                    <h3>Octal (Base-8)</h3>
+                    <p>Uses digits 0-7. Historical significance in computing.</p>
+                    <div class="converter">
+                        <input type="number" id="octal-input" placeholder="Enter octal number">
+                        <button onclick="convertFromOctal()">Convert to Decimal</button>
+                        <div id="octal-result" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compiler Page -->
+        <div id="compiler" class="page">
+            <div class="page-header">
+                <h1>Compiler</h1>
+                <p>Learn about compilers and build a simple one</p>
+            </div>
+            <div class="compiler-container">
+                <div class="compiler-section">
+                    <h2>Compiler Phases</h2>
+                    <div class="phase-timeline">
+                        <div class="phase">
+                            <div class="phase-number">1</div>
+                            <h3>Lexical Analysis</h3>
+                            <p>Converts source code into tokens</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">2</div>
+                            <h3>Syntax Analysis</h3>
+                            <p>Creates parse tree from tokens</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">3</div>
+                            <h3>Semantic Analysis</h3>
+                            <p>Checks meaning and types</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">4</div>
+                            <h3>Code Generation</h3>
+                            <p>Generates target code</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="compiler-section">
+                    <h2>Simple Compiler Demo</h2>
+                    <div class="compiler-demo">
+                        <textarea id="source-code" placeholder="Enter simple arithmetic expression (e.g., 2 + 3 * 4)"></textarea>
+                        <button onclick="compileCode()">Compile</button>
+                        <div id="compilation-result" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges Page -->
+        <div id="challenges" class="page">
+            <div class="page-header">
+                <h1>Coding Challenges</h1>
+                <p>Test your skills with various programming challenges</p>
+            </div>
+            <div class="challenges-container">
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <h3>Easy: FizzBuzz</h3>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <p>Print numbers from 1 to n, but for multiples of 3 print "Fizz" and for multiples of 5 print "Buzz".</p>
+                    <button onclick="startChallenge('fizzbuzz')" class="btn btn-primary">Start Challenge</button>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <h3>Medium: Palindrome Checker</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Check if a given string is a palindrome (reads the same forwards and backwards).</p>
+                    <button onclick="startChallenge('palindrome')" class="btn btn-primary">Start Challenge</button>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <h3>Hard: Binary Tree Traversal</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Implement in-order, pre-order, and post-order traversal of a binary tree.</p>
+                    <button onclick="startChallenge('binary-tree')" class="btn btn-primary">Start Challenge</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Page -->
+        <div id="progress" class="page">
+            <div class="page-header">
+                <h1>Your Progress</h1>
+                <p>Track your learning journey and achievements</p>
+            </div>
+            <div class="progress-container">
+                <div class="progress-overview">
+                    <div class="progress-card">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-circle">
+                            <svg width="120" height="120">
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#4CAF50" stroke-width="8" 
+                                        stroke-dasharray="314" stroke-dashoffset="125.6" transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="progress-text">60%</div>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h4>Challenges Completed</h4>
+                            <span class="stat-number">12</span>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Languages Learned</h4>
+                            <span class="stat-number">3</span>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Streak Days</h4>
+                            <span class="stat-number">7</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-chart">
+                    <h3>Weekly Activity</h3>
+                    <div class="chart-container">
+                        <canvas id="progressChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Bot Page -->
+        <div id="ai-bot" class="page">
+            <div class="page-header">
+                <h1>AI Learning Assistant</h1>
+                <p>Get help and explanations from our AI tutor</p>
+            </div>
+            <div class="ai-chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI learning assistant. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Ask me anything about programming...">
+                    <button onclick="sendMessage()" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="quick-questions">
+                    <h4>Quick Questions:</h4>
+                    <div class="question-buttons">
+                        <button onclick="askQuestion('What is recursion?')" class="question-btn">What is recursion?</button>
+                        <button onclick="askQuestion('Explain OOP concepts')" class="question-btn">Explain OOP concepts</button>
+                        <button onclick="askQuestion('How do arrays work?')" class="question-btn">How do arrays work?</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OOP Page -->
+        <div id="oop" class="page">
+            <div class="page-header">
+                <h1>Object-Oriented Programming</h1>
+                <p>Master the fundamentals of OOP</p>
+            </div>
+            <div class="oop-container">
+                <div class="oop-concepts">
+                    <div class="concept-card">
+                        <h3>Encapsulation</h3>
+                        <p>Bundling data and methods that operate on that data within a single unit.</p>
+                        <div class="code-example">
+                            <pre><code>class BankAccount {
+    private balance: number;
+    
+    constructor(initialBalance: number) {
+        this.balance = initialBalance;
+    }
+    
+    public getBalance(): number {
+        return this.balance;
+    }
+    
+    public deposit(amount: number): void {
+        if (amount > 0) {
+            this.balance += amount;
+        }
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="concept-card">
+                        <h3>Inheritance</h3>
+                        <p>Creating new classes that are built upon existing classes.</p>
+                        <div class="code-example">
+                            <pre><code>class Animal {
+    protected name: string;
+    
+    constructor(name: string) {
+        this.name = name;
+    }
+    
+    public makeSound(): void {
+        console.log('Some sound');
+    }
+}
+
+class Dog extends Animal {
+    public makeSound(): void {
+        console.log('Woof!');
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="concept-card">
+                        <h3>Polymorphism</h3>
+                        <p>Ability to present the same interface for different underlying forms.</p>
+                        <div class="code-example">
+                            <pre><code>interface Shape {
+    calculateArea(): number;
+}
+
+class Circle implements Shape {
+    constructor(private radius: number) {}
+    
+    calculateArea(): number {
+        return Math.PI * this.radius ** 2;
+    }
+}
+
+class Rectangle implements Shape {
+    constructor(private width: number, private height: number) {}
+    
+    calculateArea(): number {
+        return this.width * this.height;
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
