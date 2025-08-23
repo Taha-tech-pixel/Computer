@@ -316,29 +316,367 @@ const User = sequelize.define('User', {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Node.js Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🟢 Complete Node.js Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>Node.js API documentation and guides</p>
-                            <a href="https://nodejs.org/docs/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Core Modules & File System</h4>
+                            <div class="code-example">
+                                <pre><code>// File System Operations
+const fs = require('fs').promises;
+const path = require('path');
+
+// Async file operations
+async function processFiles() {
+    try {
+        // Read file
+        const content = await fs.readFile('input.txt', 'utf8');
+        
+        // Process content
+        const processed = content.toUpperCase();
+        
+        // Write to new file
+        await fs.writeFile('output.txt', processed);
+        
+        // Create directory
+        await fs.mkdir('processed', { recursive: true });
+        
+        // Move file
+        await fs.rename('output.txt', 'processed/output.txt');
+        
+        console.log('Files processed successfully');
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+}
+
+// Stream operations for large files
+const fsSync = require('fs');
+const readStream = fsSync.createReadStream('large-file.txt');
+const writeStream = fsSync.createWriteStream('output.txt');
+
+readStream.pipe(writeStream);
+
+readStream.on('data', (chunk) => {
+    console.log('Processing chunk:', chunk.length, 'bytes');
+});
+
+writeStream.on('finish', () => {
+    console.log('File processing complete');
+});</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Node.js Best Practices</h4>
-                            <p>Community-driven best practices guide</p>
-                            <a href="https://github.com/goldbergyoni/nodebestpractices" target="_blank" class="btn btn-secondary">Read Guide</a>
+                            <h4>HTTP Server & Express.js</h4>
+                            <div class="code-example">
+                                <pre><code>// Basic HTTP Server
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    const { method, url } = req;
+    
+    if (method === 'GET' && url === '/api/users') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ users: [] }));
+    } else if (method === 'POST' && url === '/api/users') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            const user = JSON.parse(body);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'User created', user }));
+        });
+    } else {
+        res.writeHead(404);
+        res.end('Not Found');
+    }
+});
+
+server.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+
+// Express.js Application
+const express = require('express');
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Custom middleware
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+    next();
+});
+
+// Routes
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/users', async (req, res) => {
+    try {
+        const user = new User(req.body);
+        await user.save();
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Express.js Documentation</h4>
-                            <p>Learn the popular web framework</p>
-                            <a href="https://expressjs.com/" target="_blank" class="btn btn-secondary">Learn Express</a>
+                            <h4>Async Programming & Promises</h4>
+                            <div class="code-example">
+                                <pre><code>// Promise-based operations
+function fetchUserData(userId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (userId > 0) {
+                resolve({ id: userId, name: 'John Doe', email: 'john@example.com' });
+            } else {
+                reject(new Error('Invalid user ID'));
+            }
+        }, 1000);
+    });
+}
+
+// Async/await with error handling
+async function processUser(userId) {
+    try {
+        const user = await fetchUserData(userId);
+        const profile = await fetchUserProfile(user.id);
+        const settings = await fetchUserSettings(user.id);
+        
+        return { ...user, profile, settings };
+    } catch (error) {
+        console.error('Error processing user:', error.message);
+        throw error;
+    }
+}
+
+// Promise.all for parallel execution
+async function fetchMultipleUsers(userIds) {
+    try {
+        const promises = userIds.map(id => fetchUserData(id));
+        const users = await Promise.all(promises);
+        return users;
+    } catch (error) {
+        console.error('Error fetching users:', error.message);
+        return [];
+    }
+}
+
+// Promise.race for timeout
+function withTimeout(promise, timeoutMs) {
+    const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout')), timeoutMs);
+    });
+    
+    return Promise.race([promise, timeoutPromise]);
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Node.js Community</h4>
-                            <p>Stack Overflow, Reddit, and Node.js forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/node.js" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Event Emitters & Streams</h4>
+                            <div class="code-example">
+                                <pre><code>// Custom Event Emitter
+const EventEmitter = require('events');
+
+class UserManager extends EventEmitter {
+    constructor() {
+        super();
+        this.users = new Map();
+    }
+    
+    addUser(user) {
+        this.users.set(user.id, user);
+        this.emit('userAdded', user);
+    }
+    
+    removeUser(userId) {
+        const user = this.users.get(userId);
+        if (user) {
+            this.users.delete(userId);
+            this.emit('userRemoved', user);
+        }
+    }
+    
+    getUser(userId) {
+        return this.users.get(userId);
+    }
+}
+
+// Using the event emitter
+const userManager = new UserManager();
+
+userManager.on('userAdded', (user) => {
+    console.log('User added:', user.name);
+});
+
+userManager.on('userRemoved', (user) => {
+    console.log('User removed:', user.name);
+});
+
+// Custom streams
+const { Readable, Writable, Transform } = require('stream');
+
+class NumberGenerator extends Readable {
+    constructor(max) {
+        super({ objectMode: true });
+        this.max = max;
+        this.current = 0;
+    }
+    
+    _read() {
+        if (this.current >= this.max) {
+            this.push(null);
+        } else {
+            this.push({ number: this.current++ });
+        }
+    }
+}
+
+class NumberProcessor extends Transform {
+    constructor() {
+        super({ objectMode: true });
+    }
+    
+    _transform(chunk, encoding, callback) {
+        const processed = {
+            original: chunk.number,
+            squared: chunk.number ** 2,
+            doubled: chunk.number * 2
+        };
+        this.push(processed);
+        callback();
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Database Integration & ORM</h4>
+                            <div class="code-example">
+                                <pre><code>// MongoDB with Mongoose
+const mongoose = require('mongoose');
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/myapp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+// Define schemas
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    age: { type: Number, min: 0 },
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Add methods to schema
+userSchema.methods.getFullInfo = function() {
+    return `${this.name} (${this.email}) - Age: ${this.age}`;
+};
+
+// Add static methods
+userSchema.statics.findByAgeRange = function(minAge, maxAge) {
+    return this.find({ age: { $gte: minAge, $lte: maxAge } });
+};
+
+// Add virtual properties
+userSchema.virtual('isAdult').get(function() {
+    return this.age >= 18;
+});
+
+const User = mongoose.model('User', userSchema);
+
+// CRUD operations
+async function userOperations() {
+    try {
+        // Create
+        const user = new User({ name: 'John', email: 'john@example.com', age: 30 });
+        await user.save();
+        
+        // Read
+        const users = await User.findByAgeRange(18, 65);
+        const adultUsers = await User.find({ age: { $gte: 18 } });
+        
+        // Update
+        await User.updateOne({ _id: user._id }, { age: 31 });
+        
+        // Delete
+        await User.deleteOne({ _id: user._id });
+        
+    } catch (error) {
+        console.error('Database error:', error.message);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Testing & Debugging</h4>
+                            <div class="code-example">
+                                <pre><code>// Unit testing with Jest
+const { add, multiply, divide } = require('./math');
+
+describe('Math Operations', () => {
+    test('adds two numbers correctly', () => {
+        expect(add(2, 3)).toBe(5);
+        expect(add(-1, 1)).toBe(0);
+        expect(add(0, 0)).toBe(0);
+    });
+    
+    test('multiplies two numbers correctly', () => {
+        expect(multiply(2, 3)).toBe(6);
+        expect(multiply(-2, 3)).toBe(-6);
+        expect(multiply(0, 5)).toBe(0);
+    });
+    
+    test('divides two numbers correctly', () => {
+        expect(divide(6, 2)).toBe(3);
+        expect(divide(5, 2)).toBe(2.5);
+    });
+    
+    test('throws error when dividing by zero', () => {
+        expect(() => divide(5, 0)).toThrow('Division by zero');
+    });
+});
+
+// Integration testing
+const request = require('supertest');
+const app = require('../app');
+
+describe('User API', () => {
+    test('GET /api/users returns users list', async () => {
+        const response = await request(app)
+            .get('/api/users')
+            .expect(200);
+        
+        expect(response.body).toHaveProperty('users');
+        expect(Array.isArray(response.body.users)).toBe(true);
+    });
+    
+    test('POST /api/users creates new user', async () => {
+        const newUser = { name: 'Test User', email: 'test@example.com' };
+        
+        const response = await request(app)
+            .post('/api/users')
+            .send(newUser)
+            .expect(201);
+        
+        expect(response.body).toHaveProperty('_id');
+        expect(response.body.name).toBe(newUser.name);
+    });
+});</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

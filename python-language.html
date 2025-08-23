@@ -418,31 +418,210 @@ def validate_age(age):
                 </div>
 
                 <div class="section-card">
-                    <h2>📖 Learning Resources</h2>
+                    <h2>🐍 Complete Python Reference</h2>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h3>Official Documentation</h3>
-                            <ul>
-                                <li><a href="https://docs.python.org/" target="_blank">Python Official Docs</a></li>
-                                <li><a href="https://www.python.org/dev/peps/" target="_blank">PEP Index</a></li>
-                                <li><a href="https://wiki.python.org/moin/" target="_blank">Python Wiki</a></li>
-                            </ul>
+                            <h3>Data Structures & Collections</h3>
+                            <div class="code-example">
+                                <pre><code># Lists, Tuples, Sets, Dictionaries
+# List comprehensions
+numbers = [x**2 for x in range(10) if x % 2 == 0]
+matrix = [[i+j for j in range(3)] for i in range(3)]
+
+# Dictionary comprehensions
+squares = {x: x**2 for x in range(5)}
+word_count = {word: text.count(word) for word in set(text.split())}
+
+# Set operations
+set1 = {1, 2, 3, 4, 5}
+set2 = {4, 5, 6, 7, 8}
+union = set1 | set2
+intersection = set1 & set2
+difference = set1 - set2
+
+# Named tuples
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(3, 4)
+print(f"Point at ({p.x}, {p.y})")</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h3>Online Courses</h3>
-                            <ul>
-                                <li><a href="https://docs.python.org/3/tutorial/" target="_blank">Python Tutorial</a></li>
-                                <li><a href="https://www.learnpython.org/" target="_blank">LearnPython.org</a></li>
-                                <li><a href="https://realpython.com/" target="_blank">Real Python</a></li>
-                            </ul>
+                            <h3>Functions & Decorators</h3>
+                            <div class="code-example">
+                                <pre><code># Function decorators
+def timer(func):
+    import time
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"{func.__name__} took {end - start:.4f} seconds")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    import time
+    time.sleep(1)
+    return "Done!"
+
+# Lambda functions
+add = lambda x, y: x + y
+multiply = lambda x, y: x * y
+
+# Higher-order functions
+def apply_operation(func, a, b):
+    return func(a, b)
+
+result = apply_operation(add, 5, 3)
+result = apply_operation(multiply, 5, 3)</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h3>Books & References</h3>
-                            <ul>
-                                <li><a href="https://automatetheboringstuff.com/" target="_blank">Automate the Boring Stuff</a></li>
-                                <li><a href="https://www.python.org/dev/peps/pep-0008/" target="_blank">PEP 8 Style Guide</a></li>
-                                <li><a href="https://www.python.org/dev/peps/pep-0020/" target="_blank">The Zen of Python</a></li>
-                            </ul>
+                            <h3>Classes & OOP</h3>
+                            <div class="code-example">
+                                <pre><code># Class with properties and methods
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self._owner = owner
+        self._balance = balance
+    
+    @property
+    def balance(self):
+        return self._balance
+    
+    @balance.setter
+    def balance(self, value):
+        if value < 0:
+            raise ValueError("Balance cannot be negative")
+        self._balance = value
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            return True
+        return False
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self.balance:
+            self.balance -= amount
+            return True
+        return False
+    
+    def __str__(self):
+        return f"BankAccount(owner={self._owner}, balance=${self.balance})"
+
+# Inheritance
+class SavingsAccount(BankAccount):
+    def __init__(self, owner, balance=0, interest_rate=0.01):
+        super().__init__(owner, balance)
+        self.interest_rate = interest_rate
+    
+    def add_interest(self):
+        self.balance += self.balance * self.interest_rate</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>File Handling & Context Managers</h3>
+                            <div class="code-example">
+                                <pre><code># File operations with context managers
+with open('data.txt', 'r') as file:
+    content = file.read()
+    lines = content.splitlines()
+
+# Writing files
+with open('output.txt', 'w') as file:
+    file.write("Hello, World!\n")
+    file.writelines(["Line 1\n", "Line 2\n"])
+
+# CSV handling
+import csv
+with open('data.csv', 'r') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(f"Name: {row['name']}, Age: {row['age']}")
+
+# JSON operations
+import json
+data = {'name': 'John', 'age': 30, 'city': 'NYC'}
+with open('data.json', 'w') as file:
+    json.dump(data, file, indent=2)
+
+with open('data.json', 'r') as file:
+    loaded_data = json.load(file)</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Async Programming</h3>
+                            <div class="code-example">
+                                <pre><code># Async/await syntax
+import asyncio
+import aiohttp
+
+async def fetch_url(session, url):
+    async with session.get(url) as response:
+        return await response.text()
+
+async def fetch_multiple_urls(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_url(session, url) for url in urls]
+        results = await asyncio.gather(*tasks)
+        return results
+
+# Event loop
+async def main():
+    urls = [
+        'https://api.github.com/users/1',
+        'https://api.github.com/users/2',
+        'https://api.github.com/users/3'
+    ]
+    results = await fetch_multiple_urls(urls)
+    return results
+
+# Run async function
+results = asyncio.run(main())</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Error Handling & Testing</h3>
+                            <div class="code-example">
+                                <pre><code># Custom exception classes
+class ValidationError(Exception):
+    def __init__(self, message, field=None):
+        self.message = message
+        self.field = field
+        super().__init__(self.message)
+
+# Comprehensive error handling
+def process_user_data(data):
+    try:
+        if not isinstance(data, dict):
+            raise ValidationError("Data must be a dictionary")
+        
+        if 'name' not in data:
+            raise ValidationError("Name is required", 'name')
+        
+        if 'age' in data and not isinstance(data['age'], int):
+            raise ValidationError("Age must be an integer", 'age')
+        
+        return True
+        
+    except ValidationError as e:
+        print(f"Validation error in {e.field}: {e.message}")
+        return False
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return False
+
+# Unit testing with pytest
+import pytest
+
+def test_process_user_data():
+    assert process_user_data({'name': 'John', 'age': 30}) == True
+    assert process_user_data({'age': 'invalid'}) == False
+    assert process_user_data('not a dict') == False</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -359,29 +359,398 @@ public class MainActivity extends AppCompatActivity {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Java Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>☕ Complete Java Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>Java API documentation and tutorials</p>
-                            <a href="https://docs.oracle.com/javase/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Core Java Features & Collections</h4>
+                            <div class="code-example">
+                                <pre><code>// Collections Framework
+import java.util.*;
+
+public class CollectionsExample {
+    public static void main(String[] args) {
+        // List implementations
+        List&lt;String&gt; arrayList = new ArrayList&lt;&gt;();
+        List&lt;String&gt; linkedList = new LinkedList&lt;&gt;();
+        
+        // Set implementations
+        Set&lt;String&gt; hashSet = new HashSet&lt;&gt;();
+        Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();
+        
+        // Map implementations
+        Map&lt;String, Integer&gt; hashMap = new HashMap&lt;&gt;();
+        Map&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;();
+        
+        // Adding elements
+        arrayList.add("Java");
+        arrayList.add("Python");
+        arrayList.add("JavaScript");
+        
+        // Stream operations
+        List&lt;String&gt; filtered = arrayList.stream()
+            .filter(s -&gt; s.startsWith("J"))
+            .map(String::toUpperCase)
+            .collect(Collectors.toList());
+        
+        // Optional for null safety
+        Optional&lt;String&gt; first = arrayList.stream()
+            .findFirst();
+        
+        first.ifPresent(System.out::println);
+    }
+}
+
+// Generic classes
+public class Box&lt;T&gt; {
+    private T content;
+    
+    public void set(T content) {
+        this.content = content;
+    }
+    
+    public T get() {
+        return content;
+    }
+    
+    public static &lt;E&gt; void printArray(E[] array) {
+        for (E element : array) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Oracle Java Tutorials</h4>
-                            <p>Comprehensive learning path for Java</p>
-                            <a href="https://docs.oracle.com/javase/tutorial/" target="_blank" class="btn btn-secondary">Read Tutorials</a>
+                            <h4>Advanced OOP & Design Patterns</h4>
+                            <div class="code-example">
+                                <pre><code>// Abstract classes and interfaces
+public abstract class Animal {
+    protected String name;
+    protected int age;
+    
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public abstract void makeSound();
+    
+    public void sleep() {
+        System.out.println(name + " is sleeping");
+    }
+}
+
+public interface Flyable {
+    void fly();
+    int getMaxAltitude();
+}
+
+public class Bird extends Animal implements Flyable {
+    private int wingSpan;
+    
+    public Bird(String name, int age, int wingSpan) {
+        super(name, age);
+        this.wingSpan = wingSpan;
+    }
+    
+    @Override
+    public void makeSound() {
+        System.out.println(name + " chirps");
+    }
+    
+    @Override
+    public void fly() {
+        System.out.println(name + " is flying");
+    }
+    
+    @Override
+    public int getMaxAltitude() {
+        return 1000;
+    }
+}
+
+// Singleton Pattern
+public class DatabaseConnection {
+    private static DatabaseConnection instance;
+    private String connectionString;
+    
+    private DatabaseConnection() {
+        this.connectionString = "jdbc:mysql://localhost:3306/mydb";
+    }
+    
+    public static synchronized DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+    
+    public void connect() {
+        System.out.println("Connecting to: " + connectionString);
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Spring Framework</h4>
-                            <p>Learn the popular Java framework</p>
-                            <a href="https://spring.io/guides" target="_blank" class="btn btn-secondary">Learn Spring</a>
+                            <h4>Exception Handling & Logging</h4>
+                            <div class="code-example">
+                                <pre><code>// Custom exceptions
+public class ValidationException extends Exception {
+    private String field;
+    private String value;
+    
+    public ValidationException(String message, String field, String value) {
+        super(message);
+        this.field = field;
+        this.value = value;
+    }
+    
+    public String getField() { return field; }
+    public String getValue() { return value; }
+}
+
+// Comprehensive exception handling
+public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    
+    public User createUser(String name, String email, int age) throws ValidationException {
+        try {
+            // Validate input
+            if (name == null || name.trim().isEmpty()) {
+                throw new ValidationException("Name cannot be empty", "name", name);
+            }
+            
+            if (email == null || !email.contains("@")) {
+                throw new ValidationException("Invalid email format", "email", email);
+            }
+            
+            if (age &lt; 0 || age &gt; 150) {
+                throw new ValidationException("Invalid age", "age", String.valueOf(age));
+            }
+            
+            // Create user
+            User user = new User(name, email, age);
+            logger.info("User created successfully: {}", user.getName());
+            
+            return user;
+            
+        } catch (ValidationException e) {
+            logger.error("Validation error in field '{}': {}", e.getField(), e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error creating user: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to create user", e);
+        }
+    }
+    
+    public void processUsers(List&lt;User&gt; users) {
+        for (User user : users) {
+            try {
+                processUser(user);
+            } catch (Exception e) {
+                logger.error("Error processing user {}: {}", user.getName(), e.getMessage());
+                // Continue with next user
+            }
+        }
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Java Community</h4>
-                            <p>Stack Overflow, Reddit, and Java forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/java" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Concurrency & Multithreading</h4>
+                            <div class="code-example">
+                                <pre><code>// Thread creation and management
+public class ThreadExample {
+    public static void main(String[] args) {
+        // Thread using Runnable
+        Thread thread1 = new Thread(() -&gt; {
+            for (int i = 0; i &lt; 5; i++) {
+                System.out.println("Thread 1: " + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        });
+        
+        // Thread using Thread class
+        Thread thread2 = new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i &lt; 5; i++) {
+                    System.out.println("Thread 2: " + i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            }
+        };
+        
+        thread1.start();
+        thread2.start();
+        
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+// ExecutorService for thread pools
+public class ExecutorExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        
+        List&lt;Future&lt;String&gt;&gt; futures = new ArrayList&lt;&gt;();
+        
+        for (int i = 0; i &lt; 10; i++) {
+            final int taskId = i;
+            Future&lt;String&gt; future = executor.submit(() -&gt; {
+                Thread.sleep(1000);
+                return "Task " + taskId + " completed";
+            });
+            futures.add(future);
+        }
+        
+        // Collect results
+        for (Future&lt;String&gt; future : futures) {
+            try {
+                String result = future.get();
+                System.out.println(result);
+            } catch (Exception e) {
+                System.err.println("Task failed: " + e.getMessage());
+            }
+        }
+        
+        executor.shutdown();
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Java 8+ Features & Streams</h4>
+                            <div class="code-example">
+                                <pre><code>// Lambda expressions and functional interfaces
+@FunctionalInterface
+interface MathOperation {
+    int operate(int a, int b);
+}
+
+public class LambdaExample {
+    public static void main(String[] args) {
+        // Lambda expressions
+        MathOperation add = (a, b) -&gt; a + b;
+        MathOperation multiply = (a, b) -&gt; a * b;
+        MathOperation divide = (a, b) -&gt; b != 0 ? a / b : 0;
+        
+        System.out.println("10 + 5 = " + add.operate(10, 5));
+        System.out.println("10 * 5 = " + multiply.operate(10, 5));
+        
+        // Method references
+        List&lt;String&gt; names = Arrays.asList("Alice", "Bob", "Charlie");
+        names.forEach(System.out::println);
+        
+        // Stream operations
+        List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+        // Filter, map, reduce
+        int sumOfSquares = numbers.stream()
+            .filter(n -&gt; n % 2 == 0)
+            .map(n -&gt; n * n)
+            .reduce(0, Integer::sum);
+        
+        System.out.println("Sum of squares of even numbers: " + sumOfSquares);
+        
+        // Collectors
+        Map&lt;Boolean, List&lt;Integer&gt;&gt; partitioned = numbers.stream()
+            .collect(Collectors.partitioningBy(n -&gt; n % 2 == 0));
+        
+        System.out.println("Even numbers: " + partitioned.get(true));
+        System.out.println("Odd numbers: " + partitioned.get(false));
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Spring Framework & Testing</h4>
+                            <div class="code-example">
+                                <pre><code>// Spring Boot Application
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+
+// REST Controller
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping
+    public ResponseEntity&lt;List&lt;User&gt;&gt; getAllUsers() {
+        List&lt;User&gt; users = userService.findAll();
+        return ResponseEntity.ok(users);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity&lt;User&gt; getUserById(@PathVariable Long id) {
+        return userService.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
+    
+    @PostMapping
+    public ResponseEntity&lt;User&gt; createUser(@Valid @RequestBody User user) {
+        User savedUser = userService.save(user);
+        return ResponseEntity.created(URI.create("/api/users/" + savedUser.getId()))
+            .body(savedUser);
+    }
+}
+
+// Unit testing with JUnit 5
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    
+    @Mock
+    private UserRepository userRepository;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void shouldCreateUserSuccessfully() {
+        // Given
+        User user = new User("John", "john@example.com", 30);
+        User savedUser = new User(1L, "John", "john@example.com", 30);
+        
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+        
+        // When
+        User result = userService.save(user);
+        
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(1L);
+        assertThat(result.getName()).isEqualTo("John");
+        
+        verify(userRepository).save(user);
+    }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

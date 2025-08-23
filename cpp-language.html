@@ -526,29 +526,692 @@ int main() {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete C++ Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🔵 Complete C++ Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>C++ Standard documentation and reference</p>
-                            <a href="https://isocpp.org/" target="_blank" class="btn btn-secondary">Visit Site</a>
+                            <h4>Modern C++ Features & Smart Pointers</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+// Smart pointer examples
+class Resource {
+private:
+    std::string name;
+    int value;
+    
+public:
+    Resource(const std::string& n, int v) : name(n), value(v) {
+        std::cout << "Resource " << name << " created\n";
+    }
+    
+    ~Resource() {
+        std::cout << "Resource " << name << " destroyed\n";
+    }
+    
+    void use() const {
+        std::cout << "Using " << name << " with value " << value << "\n";
+    }
+    
+    std::string getName() const { return name; }
+    int getValue() const { return value; }
+};
+
+// Function that takes ownership
+std::unique_ptr&lt;Resource&gt; createResource(const std::string& name, int value) {
+    return std::make_unique&lt;Resource&gt;(name, value);
+}
+
+// Function that shares ownership
+void shareResource(std::shared_ptr&lt;Resource&gt; resource) {
+    std::cout << "Shared resource count: " << resource.use_count() << "\n";
+    resource->use();
+}
+
+int main() {
+    // Unique pointer - exclusive ownership
+    auto unique1 = std::make_unique&lt;Resource&gt;("Unique1", 100);
+    auto unique2 = createResource("Unique2", 200);
+    
+    // Transfer ownership
+    auto unique3 = std::move(unique1);
+    if (!unique1) {
+        std::cout << "unique1 is now null\n";
+    }
+    
+    // Shared pointer - shared ownership
+    auto shared1 = std::make_shared&lt;Resource&gt;("Shared1", 300);
+    auto shared2 = shared1; // Reference count increases
+    
+    shareResource(shared1);
+    std::cout << "After sharing, count: " << shared1.use_count() << "\n";
+    
+    // Weak pointer - non-owning reference
+    std::weak_ptr&lt;Resource&gt; weak = shared1;
+    if (auto locked = weak.lock()) {
+        locked->use();
+    }
+    
+    // Custom deleter
+    auto customDeleter = [](Resource* r) {
+        std::cout << "Custom deletion of " << r->getName() << "\n";
+        delete r;
+    };
+    
+    std::unique_ptr&lt;Resource, decltype(customDeleter)&gt; custom(
+        new Resource("Custom", 400), customDeleter);
+    
+    return 0;
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>C++ Core Guidelines</h4>
-                            <p>Best practices and guidelines by Bjarne Stroustrup</p>
-                            <a href="https://isocpp.github.io/CppCoreGuidelines/" target="_blank" class="btn btn-secondary">Read Guidelines</a>
+                            <h4>STL Algorithms & Lambda Expressions</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;functional&gt;
+#include &lt;numeric&gt;
+
+int main() {
+    std::vector&lt;int&gt; numbers = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
+    
+    // Lambda expressions
+    auto isEven = [](int n) { return n % 2 == 0; };
+    auto square = [](int n) { return n * n; };
+    auto sum = [](int acc, int n) { return acc + n; };
+    
+    // Count elements
+    int evenCount = std::count_if(numbers.begin(), numbers.end(), isEven);
+    std::cout << "Even numbers: " << evenCount << "\n";
+    
+    // Transform elements
+    std::vector&lt;int&gt; squared;
+    std::transform(numbers.begin(), numbers.end(), std::back_inserter(squared), square);
+    
+    // Find elements
+    auto it = std::find_if(numbers.begin(), numbers.end(), 
+        [](int n) { return n > 5; });
+    if (it != numbers.end()) {
+        std::cout << "First number > 5: " << *it << "\n";
+    }
+    
+    // Remove duplicates
+    std::sort(numbers.begin(), numbers.end());
+    auto last = std::unique(numbers.begin(), numbers.end());
+    numbers.erase(last, numbers.end());
+    
+    // Custom sorting with lambda
+    std::sort(numbers.begin(), numbers.end(), 
+        [](int a, int b) { return a > b; }); // Descending order
+    
+    // Accumulate with custom operation
+    int total = std::accumulate(numbers.begin(), numbers.end(), 0, sum);
+    std::cout << "Sum: " << total << "\n";
+    
+    // Partition elements
+    auto partitionPoint = std::partition(numbers.begin(), numbers.end(), isEven);
+    std::cout << "Even numbers: ";
+    std::copy(numbers.begin(), partitionPoint, 
+        std::ostream_iterator&lt;int&gt;(std::cout, " "));
+    std::cout << "\n";
+    
+    // Generate sequence
+    std::vector&lt;int&gt; sequence(10);
+    int counter = 0;
+    std::generate(sequence.begin(), sequence.end(), [&counter]() { return ++counter; });
+    
+    // Custom comparator for complex objects
+    struct Person {
+        std::string name;
+        int age;
+    };
+    
+    std::vector&lt;Person&gt; people = {
+        {"Alice", 25}, {"Bob", 30}, {"Charlie", 20}
+    };
+    
+    std::sort(people.begin(), people.end(), 
+        [](const Person& a, const Person& b) { return a.age < b.age; });
+    
+    return 0;
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>cppreference</h4>
-                            <p>Comprehensive C++ reference documentation</p>
-                            <a href="https://en.cppreference.com/" target="_blank" class="btn btn-secondary">View Reference</a>
+                            <h4>Template Metaprogramming & Concepts</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;type_traits&gt;
+#include &lt;concepts&gt;
+
+// C++20 Concepts
+template&lt;typename T&gt;
+concept Numeric = std::is_arithmetic_v&lt;T&gt;;
+
+template&lt;typename T&gt;
+concept Container = requires(T t) {
+    typename T::value_type;
+    typename T::iterator;
+    { t.begin() } -> std::convertible_to&lt;typename T::iterator&gt;;
+    { t.end() } -> std::convertible_to&lt;typename T::iterator&gt;;
+    { t.size() } -> std::convertible_to&lt;std::size_t&gt;;
+};
+
+// Template specialization with concepts
+template&lt;Numeric T&gt;
+T add(T a, T b) {
+    return a + b;
+}
+
+template&lt;Container T&gt;
+void printContainer(const T& container) {
+    for (const auto& item : container) {
+        std::cout << item << " ";
+    }
+    std::cout << "\n";
+}
+
+// SFINAE and type traits
+template&lt;typename T, typename = void&gt;
+struct has_size : std::false_type {};
+
+template&lt;typename T&gt;
+struct has_size&lt;T, std::void_t&lt;decltype(std::declval&lt;T&gt;().size())&gt;&gt; 
+    : std::true_type {};
+
+// Compile-time computations
+template&lt;int N&gt;
+struct Factorial {
+    static constexpr int value = N * Factorial&lt;N - 1&gt;::value;
+};
+
+template&lt;&gt;
+struct Factorial&lt;0&gt; {
+    static constexpr int value = 1;
+};
+
+// Variadic templates
+template&lt;typename... Args&gt;
+struct TupleSize;
+
+template&lt;&gt;
+struct TupleSize&lt;&gt; {
+    static constexpr std::size_t value = 0;
+};
+
+template&lt;typename T, typename... Args&gt;
+struct TupleSize&lt;T, Args...&gt; {
+    static constexpr std::size_t value = 1 + TupleSize&lt;Args...&gt;::value;
+};
+
+// Perfect forwarding
+template&lt;typename T&gt;
+void wrapper(T&& arg) {
+    // Forward the argument exactly as received
+    foo(std::forward&lt;T&gt;(arg));
+}
+
+// Type deduction guides
+template&lt;typename T&gt;
+class SmartPtr {
+    T* ptr;
+public:
+    SmartPtr(T* p) : ptr(p) {}
+    // ... other members
+};
+
+// Deduction guide
+template&lt;typename T&gt;
+SmartPtr(T*) -> SmartPtr&lt;T&gt;;
+
+int main() {
+    // Using concepts
+    std::cout << "5 + 3 = " << add(5, 3) << "\n";
+    std::cout << "3.14 + 2.71 = " << add(3.14, 2.71) << "\n";
+    
+    std::vector&lt;int&gt; vec = {1, 2, 3, 4, 5};
+    printContainer(vec);
+    
+    // Compile-time factorial
+    std::cout << "5! = " << Factorial&lt;5&gt;::value << "\n";
+    
+    // Tuple size
+    std::cout << "Tuple size: " << TupleSize&lt;int, double, std::string&gt;::value << "\n";
+    
+    // Type traits
+    std::cout << "Has size: " << has_size&lt;std::vector&lt;int&gt;&gt;::value << "\n";
+    std::cout << "Is arithmetic: " << std::is_arithmetic_v&lt;int&gt; << "\n";
+    
+    return 0;
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>C++ Community</h4>
-                            <p>Stack Overflow, Reddit, and C++ forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/c%2b%2b" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Move Semantics & Perfect Forwarding</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;utility&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+// Move-only class
+class MoveOnly {
+private:
+    std::string data;
+    
+public:
+    MoveOnly(const std::string& str) : data(str) {
+        std::cout << "Copy constructor\n";
+    }
+    
+    // Move constructor
+    MoveOnly(MoveOnly&& other) noexcept : data(std::move(other.data)) {
+        std::cout << "Move constructor\n";
+        other.data.clear();
+    }
+    
+    // Move assignment
+    MoveOnly& operator=(MoveOnly&& other) noexcept {
+        if (this != &other) {
+            data = std::move(other.data);
+            other.data.clear();
+            std::cout << "Move assignment\n";
+        }
+        return *this;
+    }
+    
+    // Delete copy operations
+    MoveOnly(const MoveOnly&) = delete;
+    MoveOnly& operator=(const MoveOnly&) = delete;
+    
+    const std::string& getData() const { return data; }
+};
+
+// Perfect forwarding template
+template&lt;typename T&gt;
+class Wrapper {
+private:
+    T data;
+    
+public:
+    // Perfect forwarding constructor
+    template&lt;typename U&gt;
+    Wrapper(U&& value) : data(std::forward&lt;U&gt;(value)) {
+        std::cout << "Wrapper constructor\n";
+    }
+    
+    const T& getData() const { return data; }
+};
+
+// Function with perfect forwarding
+template&lt;typename T&gt;
+void process(T&& value) {
+    std::cout << "Processing: " << std::forward&lt;T&gt;(value) << "\n";
+}
+
+// Move-aware container
+template&lt;typename T&gt;
+class MoveAwareVector {
+private:
+    std::vector&lt;T&gt; data;
+    
+public:
+    // Reserve space
+    void reserve(std::size_t size) {
+        data.reserve(size);
+    }
+    
+    // Add element with perfect forwarding
+    template&lt;typename U&gt;
+    void add(U&& element) {
+        data.emplace_back(std::forward&lt;U&gt;(element));
+    }
+    
+    // Move element out
+    T extract(std::size_t index) {
+        if (index < data.size()) {
+            T result = std::move(data[index]);
+            data.erase(data.begin() + index);
+            return result;
+        }
+        throw std::out_of_range("Index out of range");
+    }
+    
+    const std::vector&lt;T&gt;& getData() const { return data; }
+};
+
+int main() {
+    // Move semantics
+    MoveOnly original("Hello");
+    MoveOnly moved = std::move(original);
+    
+    std::cout << "Moved data: " << moved.getData() << "\n";
+    
+    // Perfect forwarding
+    std::string str = "World";
+    process(str);           // Lvalue
+    process(std::string("!")); // Rvalue
+    
+    // Wrapper with perfect forwarding
+    Wrapper&lt;std::string&gt; wrapper1("Direct");
+    Wrapper&lt;std::string&gt; wrapper2(str);
+    
+    // Move-aware container
+    MoveAwareVector&lt;MoveOnly&gt; container;
+    container.reserve(5);
+    
+    container.add(MoveOnly("First"));
+    container.add(MoveOnly("Second"));
+    
+    // Extract with move
+    MoveOnly extracted = container.extract(0);
+    std::cout << "Extracted: " << extracted.getData() << "\n";
+    
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Exception Safety & RAII</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;stdexcept&gt;
+#include &lt;vector&gt;
+
+// RAII resource manager
+class FileManager {
+private:
+    FILE* file;
+    
+public:
+    FileManager(const char* filename, const char* mode) : file(nullptr) {
+        file = fopen(filename, mode);
+        if (!file) {
+            throw std::runtime_error("Failed to open file");
+        }
+    }
+    
+    ~FileManager() {
+        if (file) {
+            fclose(file);
+        }
+    }
+    
+    // Delete copy operations
+    FileManager(const FileManager&) = delete;
+    FileManager& operator=(const FileManager&) = delete;
+    
+    // Allow move operations
+    FileManager(FileManager&& other) noexcept : file(other.file) {
+        other.file = nullptr;
+    }
+    
+    FileManager& operator=(FileManager&& other) noexcept {
+        if (this != &other) {
+            if (file) fclose(file);
+            file = other.file;
+            other.file = nullptr;
+        }
+        return *this;
+    }
+    
+    FILE* get() const { return file; }
+    FILE* release() {
+        FILE* temp = file;
+        file = nullptr;
+        return temp;
+    }
+};
+
+// Exception-safe class
+class SafeVector {
+private:
+    std::vector&lt;int&gt; data;
+    
+public:
+    // Strong exception guarantee
+    void insertAt(size_t index, int value) {
+        if (index > data.size()) {
+            throw std::out_of_range("Index out of range");
+        }
+        
+        // Create temporary copy
+        auto temp = data;
+        temp.insert(temp.begin() + index, value);
+        
+        // Swap only if successful
+        data.swap(temp);
+    }
+    
+    // No-throw operations
+    int get(size_t index) const noexcept {
+        return (index < data.size()) ? data[index] : 0;
+    }
+    
+    size_t size() const noexcept {
+        return data.size();
+    }
+    
+    // Exception-neutral
+    template&lt;typename Func&gt;
+    void transform(Func&& func) {
+        std::vector&lt;int&gt; temp;
+        temp.reserve(data.size());
+        
+        try {
+            for (const auto& item : data) {
+                temp.push_back(func(item));
+            }
+            data.swap(temp);
+        } catch (...) {
+            // Rollback on exception
+            throw;
+        }
+    }
+};
+
+// Function with different exception guarantees
+void processData(const std::vector&lt;int&gt;& input) {
+    SafeVector safeVec;
+    
+    try {
+        // Basic guarantee - object remains in valid state
+        for (size_t i = 0; i < input.size(); ++i) {
+            safeVec.insertAt(i, input[i]);
+        }
+        
+        // Strong guarantee - either succeeds completely or fails completely
+        safeVec.transform([](int x) { return x * 2; });
+        
+        // No-throw guarantee
+        std::cout << "Vector size: " << safeVec.size() << "\n";
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        // Object is still in valid state due to RAII
+    }
+}
+
+int main() {
+    try {
+        // RAII file management
+        FileManager file("test.txt", "w");
+        fprintf(file.get(), "Hello, RAII!\n");
+        
+        // Exception-safe operations
+        std::vector&lt;int&gt; testData = {1, 2, 3, 4, 5};
+        processData(testData);
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Main error: " << e.what() << "\n";
+    }
+    
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Concurrency & Async Programming</h4>
+                            <div class="code-example">
+                                <pre><code>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;future&gt;
+#include &lt;mutex&gt;
+#include &lt;condition_variable&gt;
+#include &lt;atomic&gt;
+#include &lt;chrono&gt;
+#include &lt;vector&gt;
+
+// Thread-safe counter
+class ThreadSafeCounter {
+private:
+    mutable std::mutex mutex;
+    int value = 0;
+    
+public:
+    void increment() {
+        std::lock_guard&lt;std::mutex&gt; lock(mutex);
+        ++value;
+    }
+    
+    int get() const {
+        std::lock_guard&lt;std::mutex&gt; lock(mutex);
+        return value;
+    }
+};
+
+// Producer-consumer pattern
+template&lt;typename T&gt;
+class ThreadSafeQueue {
+private:
+    std::queue&lt;T&gt; queue;
+    mutable std::mutex mutex;
+    std::condition_variable condition;
+    
+public:
+    void push(T value) {
+        std::lock_guard&lt;std::mutex&gt; lock(mutex);
+        queue.push(std::move(value));
+        condition.notify_one();
+    }
+    
+    bool try_pop(T& value) {
+        std::lock_guard&lt;std::mutex&gt; lock(mutex);
+        if (queue.empty()) {
+            return false;
+        }
+        value = std::move(queue.front());
+        queue.pop();
+        return true;
+    }
+    
+    void wait_and_pop(T& value) {
+        std::unique_lock&lt;std::mutex&gt; lock(mutex);
+        condition.wait(lock, [this] { return !queue.empty(); });
+        value = std::move(queue.front());
+        queue.pop();
+    }
+};
+
+// Async task execution
+std::future&lt;int&gt; asyncTask(int id) {
+    return std::async(std::launch::async, [id] {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        return id * id;
+    });
+}
+
+// Parallel algorithm
+template&lt;typename Iterator, typename Func&gt;
+void parallel_for_each(Iterator first, Iterator last, Func func) {
+    const size_t size = std::distance(first, last);
+    const size_t min_per_thread = 25;
+    
+    if (size < min_per_thread) {
+        std::for_each(first, last, func);
+        return;
+    }
+    
+    const size_t max_threads = (size + min_per_thread - 1) / min_per_thread;
+    const size_t hardware_threads = std::thread::hardware_concurrency();
+    const size_t num_threads = std::min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
+    
+    const size_t block_size = size / num_threads;
+    
+    std::vector&lt;std::future&lt;void&gt;&gt; futures(num_threads - 1);
+    Iterator block_start = first;
+    
+    for (size_t i = 0; i < num_threads - 1; ++i) {
+        Iterator block_end = block_start;
+        std::advance(block_end, block_size);
+        
+        futures[i] = std::async(std::launch::async, [block_start, block_end, func] {
+            std::for_each(block_start, block_end, func);
+        });
+        
+        block_start = block_end;
+    }
+    
+    std::for_each(block_start, last, func);
+    
+    for (auto& future : futures) {
+        future.wait();
+    }
+}
+
+int main() {
+    // Thread-safe counter
+    ThreadSafeCounter counter;
+    std::vector&lt;std::thread&gt; threads;
+    
+    for (int i = 0; i < 10; ++i) {
+        threads.emplace_back([&counter] {
+            for (int j = 0; j < 1000; ++j) {
+                counter.increment();
+            }
+        });
+    }
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    std::cout << "Final count: " << counter.get() << "\n";
+    
+    // Async tasks
+    std::vector&lt;std::future&lt;int&gt;&gt; futures;
+    for (int i = 0; i < 5; ++i) {
+        futures.push_back(asyncTask(i));
+    }
+    
+    for (auto& future : futures) {
+        std::cout << "Result: " << future.get() << "\n";
+    }
+    
+    // Parallel processing
+    std::vector&lt;int&gt; data(1000);
+    std::iota(data.begin(), data.end(), 0);
+    
+    parallel_for_each(data.begin(), data.end(), [](int& n) {
+        n *= 2;
+    });
+    
+    std::cout << "First few elements: ";
+    for (int i = 0; i < 10; ++i) {
+        std::cout << data[i] << " ";
+    }
+    std::cout << "\n";
+    
+    return 0;
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

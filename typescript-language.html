@@ -216,29 +216,263 @@ class UserManager {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete TypeScript Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🔷 Complete TypeScript Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>TypeScript Handbook and tutorials</p>
-                            <a href="https://www.typescriptlang.org/docs/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Basic Types & Interfaces</h4>
+                            <div class="code-example">
+                                <pre><code>// Basic Types
+let name: string = "TypeScript";
+let age: number = 5;
+let isActive: boolean = true;
+let hobbies: string[] = ["coding", "reading"];
+let tuple: [string, number] = ["age", 25];
+
+// Interfaces
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    age?: number; // Optional property
+    readonly createdAt: Date; // Read-only property
+}
+
+interface AdminUser extends User {
+    role: "admin" | "super-admin";
+    permissions: string[];
+}
+
+// Function interfaces
+interface MathFunc {
+    (x: number, y: number): number;
+}
+
+const add: MathFunc = (a, b) => a + b;
+const multiply: MathFunc = (a, b) => a * b;</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>TypeScript Playground</h4>
-                            <p>Online editor to experiment with TypeScript</p>
-                            <a href="https://www.typescriptlang.org/play" target="_blank" class="btn btn-secondary">Try Online</a>
+                            <h4>Advanced Types & Generics</h4>
+                            <div class="code-example">
+                                <pre><code>// Union and Intersection Types
+type Status = "pending" | "approved" | "rejected";
+type UserWithRole = User & { role: string };
+
+// Generic Types
+interface Container&lt;T&gt; {
+    value: T;
+    getValue(): T;
+    setValue(value: T): void;
+}
+
+class NumberContainer implements Container&lt;number&gt; {
+    constructor(public value: number) {}
+    
+    getValue(): number {
+        return this.value;
+    }
+    
+    setValue(value: number): void {
+        this.value = value;
+    }
+}
+
+// Generic Functions
+function identity&lt;T&gt;(arg: T): T {
+    return arg;
+}
+
+function merge&lt;T, U&gt;(obj1: T, obj2: U): T & U {
+    return { ...obj1, ...obj2 };
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>GitHub Repository</h4>
-                            <p>Source code and issue tracking</p>
-                            <a href="https://github.com/microsoft/TypeScript" target="_blank" class="btn btn-secondary">View Source</a>
+                            <h4>Classes & OOP</h4>
+                            <div class="code-example">
+                                <pre><code>// Abstract Classes
+abstract class Animal {
+    protected name: string;
+    
+    constructor(name: string) {
+        this.name = name;
+    }
+    
+    abstract makeSound(): string;
+    
+    move(): void {
+        console.log(`${this.name} is moving`);
+    }
+}
+
+class Dog extends Animal {
+    private breed: string;
+    
+    constructor(name: string, breed: string) {
+        super(name);
+        this.breed = breed;
+    }
+    
+    makeSound(): string {
+        return "Woof!";
+    }
+    
+    getBreed(): string {
+        return this.breed;
+    }
+}
+
+// Access Modifiers
+class BankAccount {
+    private balance: number = 0;
+    protected accountNumber: string;
+    
+    constructor(accountNumber: string) {
+        this.accountNumber = accountNumber;
+    }
+    
+    public deposit(amount: number): void {
+        if (amount > 0) {
+            this.balance += amount;
+        }
+    }
+    
+    public getBalance(): number {
+        return this.balance;
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Community</h4>
-                            <p>Stack Overflow, Reddit, and Discord communities</p>
-                            <a href="https://stackoverflow.com/questions/tagged/typescript" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Utility Types & Mapped Types</h4>
+                            <div class="code-example">
+                                <pre><code>// Built-in Utility Types
+type PartialUser = Partial&lt;User&gt;; // All properties optional
+type RequiredUser = Required&lt;User&gt;; // All properties required
+type UserKeys = keyof User; // Union of property names
+type UserValues = User[UserKeys]; // Union of property values
+
+// Pick and Omit
+type UserBasicInfo = Pick&lt;User, "name" | "email"&gt;;
+type UserWithoutId = Omit&lt;User, "id"&gt;;
+
+// Record and ReturnType
+type StatusMap = Record&lt;Status, string&gt;;
+type FuncReturnType = ReturnType&lt;typeof add&gt;;
+
+// Mapped Types
+type ReadonlyUser = {
+    readonly [K in keyof User]: User[K];
+};
+
+type OptionalUser = {
+    [K in keyof User]?: User[K];
+};
+
+// Conditional Types
+type NonNullableUser = NonNullable&lt;User | null | undefined&gt;;
+type ArrayElementType = string[] extends (infer U)[] ? U : never;</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Decorators & Metadata</h4>
+                            <div class="code-example">
+                                <pre><code>// Class Decorator
+function Logger(constructor: Function) {
+    console.log("Logging...");
+    console.log(constructor);
+}
+
+function WithTemplate(template: string, hookId: string) {
+    return function(constructor: any) {
+        const hookEl = document.getElementById(hookId);
+        if (hookEl) {
+            hookEl.innerHTML = template;
+            hookEl.querySelector("h1")!.textContent = constructor.name;
+        }
+    };
+}
+
+// Method Decorator
+function Log(target: any, propertyName: string, descriptor: PropertyDescriptor) {
+    const method = descriptor.value;
+    
+    descriptor.value = function(...args: any[]) {
+        console.log(`Calling ${propertyName} with args:`, args);
+        const result = method.apply(this, args);
+        console.log(`Result:`, result);
+        return result;
+    };
+}
+
+@Logger
+@WithTemplate("&lt;h1&gt;My Person Object&lt;/h1&gt;", "app")
+class Person {
+    name = "Max";
+    
+    constructor() {
+        console.log("Creating person object...");
+    }
+    
+    @Log
+    getName() {
+        return this.name;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Advanced Patterns & Best Practices</h4>
+                            <div class="code-example">
+                                <pre><code>// Singleton Pattern
+class Singleton {
+    private static instance: Singleton;
+    private constructor() {}
+    
+    static getInstance(): Singleton {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+        }
+        return Singleton.instance;
+    }
+}
+
+// Factory Pattern
+interface Product {
+    operation(): string;
+}
+
+class ConcreteProduct implements Product {
+    operation(): string {
+        return "ConcreteProduct";
+    }
+}
+
+class ProductFactory {
+    static createProduct(): Product {
+        return new ConcreteProduct();
+    }
+}
+
+// Observer Pattern
+interface Observer {
+    update(data: any): void;
+}
+
+class Subject {
+    private observers: Observer[] = [];
+    
+    attach(observer: Observer): void {
+        this.observers.push(observer);
+    }
+    
+    notify(data: any): void {
+        this.observers.forEach(observer => observer.update(data));
+    }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initProgressChart();
     initAIResponses();
     
+    // Add debugging for language detail links
+    initLanguageLinks();
+    
     // Show home page by default
     showPage('home');
 });
@@ -471,6 +474,20 @@ function hideLoading(elementId, content) {
     if (element) {
         element.innerHTML = content;
     }
+}
+
+// Add debugging for language detail links
+function initLanguageLinks() {
+    // Find all language detail links
+    const languageLinks = document.querySelectorAll('.language-actions .btn');
+    
+    languageLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            console.log('Language link clicked:', this.href);
+            // Don't prevent default - let the link work normally
+            // This ensures language detail pages open correctly
+        });
+    });
 }
 
 // Add CSS for modal and loading states

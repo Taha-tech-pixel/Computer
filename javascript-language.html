@@ -327,31 +327,218 @@ document.body.appendChild(newDiv);</code></pre>
                 </div>
 
                 <div class="section-card">
-                    <h2>📖 Learning Resources</h2>
+                    <h2>⚡ Complete JavaScript Reference</h2>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h3>Official Documentation</h3>
-                            <ul>
-                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">MDN Web Docs</a></li>
-                                <li><a href="https://tc39.es/ecma262/" target="_blank">ECMAScript Specification</a></li>
-                                <li><a href="https://www.ecma-international.org/" target="_blank">ECMA International</a></li>
-                            </ul>
+                            <h3>Modern ES6+ Syntax</h3>
+                            <div class="code-example">
+                                <pre><code>// Arrow Functions & Template Literals
+const greet = (name) => `Hello, ${name}!`;
+const multiply = (a, b) => a * b;
+
+// Destructuring
+const person = { name: 'John', age: 30, city: 'NYC' };
+const { name, age, ...rest } = person;
+
+const numbers = [1, 2, 3, 4, 5];
+const [first, second, ...remaining] = numbers;
+
+// Spread Operator
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5, 6];
+
+const obj1 = { foo: 'bar' };
+const obj2 = { ...obj1, baz: 'qux' };
+
+// Default Parameters
+const createUser = (name = 'Anonymous', age = 18) => ({
+    name,
+    age,
+    createdAt: new Date()
+});</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h3>Online Courses</h3>
-                            <ul>
-                                <li><a href="https://javascript.info/" target="_blank">JavaScript.info</a></li>
-                                <li><a href="https://www.w3schools.com/js/" target="_blank">W3Schools JavaScript</a></li>
-                                <li><a href="https://eloquentjavascript.net/" target="_blank">Eloquent JavaScript</a></li>
-                            </ul>
+                            <h3>Async Programming</h3>
+                            <div class="code-example">
+                                <pre><code>// Async/Await
+async function fetchUserData(userId) {
+    try {
+        const response = await fetch(`/api/users/${userId}`);
+        const userData = await response.json();
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error;
+    }
+}
+
+// Promise.all for parallel requests
+async function fetchMultipleUsers(userIds) {
+    const promises = userIds.map(id => fetchUserData(id));
+    const users = await Promise.all(promises);
+    return users;
+}
+
+// Promise.race for timeout
+const timeoutPromise = new Promise((_, reject) => 
+    setTimeout(() => reject(new Error('Timeout')), 5000)
+);
+
+const result = await Promise.race([
+    fetchUserData(1),
+    timeoutPromise
+]);</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h3>Tools & Playgrounds</h3>
-                            <ul>
-                                <li><a href="https://jsfiddle.net/" target="_blank">JSFiddle</a></li>
-                                <li><a href="https://codepen.io/" target="_blank">CodePen</a></li>
-                                <li><a href="https://repl.it/" target="_blank">Replit</a></li>
-                            </ul>
+                            <h3>Array Methods & Functional Programming</h3>
+                            <div class="code-example">
+                                <pre><code>// Array Methods
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const doubled = numbers.map(n => n * 2);
+const evens = numbers.filter(n => n % 2 === 0);
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+const hasEven = numbers.some(n => n % 2 === 0);
+const allPositive = numbers.every(n => n > 0);
+
+// Chaining
+const result = numbers
+    .filter(n => n > 5)
+    .map(n => n * 2)
+    .reduce((acc, n) => acc + n, 0);
+
+// Functional Programming
+const compose = (...fns) => x => 
+    fns.reduceRight((acc, fn) => fn(acc), x);
+
+const addOne = x => x + 1;
+const double = x => x * 2;
+const square = x => x ** 2;
+
+const transform = compose(square, double, addOne);
+const result = transform(5); // ((5 + 1) * 2)² = 144</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Classes & OOP</h3>
+                            <div class="code-example">
+                                <pre><code>// ES6 Classes
+class Animal {
+    constructor(name, species) {
+        this.name = name;
+        this.species = species;
+    }
+    
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+    
+    static create(name, species) {
+        return new Animal(name, species);
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name, 'Canis');
+        this.breed = breed;
+    }
+    
+    speak() {
+        return `${this.name} barks: Woof!`;
+    }
+    
+    fetch() {
+        return `${this.name} fetches the ball`;
+    }
+}
+
+// Private Fields (ES2022)
+class BankAccount {
+    #balance = 0;
+    
+    constructor(initialBalance) {
+        this.#balance = initialBalance;
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this.#balance += amount;
+        }
+    }
+    
+    getBalance() {
+        return this.#balance;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>DOM Manipulation & Events</h3>
+                            <div class="code-example">
+                                <pre><code>// DOM Selection & Manipulation
+const element = document.querySelector('.my-class');
+const elements = document.querySelectorAll('.my-class');
+
+// Event Handling
+element.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('Clicked!');
+});
+
+// Event Delegation
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.button')) {
+        handleButtonClick(e.target);
+    }
+});
+
+// Custom Events
+const customEvent = new CustomEvent('myEvent', {
+    detail: { message: 'Hello World' }
+});
+
+element.dispatchEvent(customEvent);
+
+// DOM Traversal
+const parent = element.parentElement;
+const children = element.children;
+const nextSibling = element.nextElementSibling;
+const prevSibling = element.previousElementSibling;</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Modules & Import/Export</h3>
+                            <div class="code-example">
+                                <pre><code>// Named Exports
+export const PI = 3.14159;
+export function calculateArea(radius) {
+    return PI * radius ** 2;
+}
+
+export class Calculator {
+    add(a, b) { return a + b; }
+    subtract(a, b) { return a - b; }
+}
+
+// Default Export
+export default class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+}
+
+// Importing
+import { PI, calculateArea, Calculator } from './math.js';
+import User, { PI as MathPI } from './user.js';
+
+// Dynamic Imports
+const module = await import('./dynamic-module.js');
+const result = await module.default();</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
