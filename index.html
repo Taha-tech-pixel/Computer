@@ -93,11 +93,11 @@
                 <div class="feature-card">
                     <i class="fas fa-project-diagram"></i>
                     <h3>Coding Schemes</h3>
-                    <p>Master design patterns like Singleton and Factory patterns. Understand software architecture principles and best practices for writing maintainable code.</p>
+                    <p>Learn about character encoding schemes (ASCII, Unicode) and design patterns. Understand how computers represent text and software architecture principles.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">Singleton Pattern</span>
-                        <span class="detail-tag">Factory Pattern</span>
-                        <span class="detail-tag">Code Examples</span>
+                        <span class="detail-tag">ASCII</span>
+                        <span class="detail-tag">Unicode</span>
+                        <span class="detail-tag">Design Patterns</span>
                     </div>
                 </div>
                 <div class="feature-card">
@@ -454,17 +454,81 @@
         <div id="coding-schemes" class="page">
             <div class="page-header">
                 <h1>Coding Schemes</h1>
-                <p>Learn about different coding methodologies and design patterns</p>
+                <p>Learn about different coding methodologies, character encoding schemes, and design patterns</p>
             </div>
-            <div class="schemes-container">
-                <div class="scheme-section">
-                    <h2>Design Patterns</h2>
-                    <div class="pattern-grid">
-                        <div class="pattern-card">
-                            <h3>Singleton Pattern</h3>
-                            <p>Ensures a class has only one instance and provides global access to it.</p>
-                            <div class="code-example">
-                                <pre><code>class Singleton {
+            
+            <!-- Character Encoding Schemes -->
+            <div class="scheme-section">
+                <h2>🔤 Character Encoding Schemes</h2>
+                <div class="scheme-grid">
+                    <div class="scheme-card">
+                        <div class="scheme-icon">📝</div>
+                        <h3>ASCII (American Standard Code for Information Interchange)</h3>
+                        <p>A 7-bit character encoding scheme that represents 128 characters including English letters, digits, punctuation marks, and control characters. It's the foundation of modern text encoding.</p>
+                        <div class="scheme-features">
+                            <span class="scheme-tag">7-bit</span>
+                            <span class="scheme-tag">128 Characters</span>
+                            <span class="scheme-tag">English Only</span>
+                        </div>
+                        <div class="scheme-details">
+                            <h4>Key Features:</h4>
+                            <ul>
+                                <li>Uses 7 bits (0-127)</li>
+                                <li>Standard for English text</li>
+                                <li>Includes control characters (0-31)</li>
+                                <li>Printable characters (32-126)</li>
+                                <li>Delete character (127)</li>
+                            </ul>
+                        </div>
+                        <div class="code-example">
+                            <pre><code>// ASCII Examples
+'A' = 65 (01000001)
+'a' = 97 (01100001)
+'0' = 48 (00110000)
+' ' = 32 (00100000)
+'\n' = 10 (00001010)</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="scheme-card">
+                        <div class="scheme-icon">🌍</div>
+                        <h3>Unicode</h3>
+                        <p>A universal character encoding standard that supports virtually all writing systems and languages in the world. It provides a unique number for every character across different platforms and languages.</p>
+                        <div class="scheme-features">
+                            <span class="scheme-tag">Universal</span>
+                            <span class="scheme-tag">Multi-language</span>
+                            <span class="scheme-tag">Extensible</span>
+                        </div>
+                        <div class="scheme-details">
+                            <h4>Key Features:</h4>
+                            <ul>
+                                <li>Supports over 1.1 million characters</li>
+                                <li>Backward compatible with ASCII</li>
+                                <li>Multiple encoding forms (UTF-8, UTF-16, UTF-32)</li>
+                                <li>Includes emojis and symbols</li>
+                                <li>International standard (ISO/IEC 10646)</li>
+                            </ul>
+                        </div>
+                        <div class="code-example">
+                            <pre><code>// Unicode Examples
+'😀' = U+1F600 (Grinning Face)
+'ñ' = U+00F1 (Latin Small Letter N with Tilde)
+'中' = U+4E2D (Chinese Character)
+'🌍' = U+1F30D (Earth Globe Europe-Africa)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Patterns -->
+            <div class="scheme-section">
+                <h2>🏗️ Design Patterns</h2>
+                <div class="pattern-grid">
+                    <div class="pattern-card">
+                        <h3>Singleton Pattern</h3>
+                        <p>Ensures a class has only one instance and provides global access to it.</p>
+                        <div class="code-example">
+                            <pre><code>class Singleton {
     private static instance: Singleton;
     private constructor() {}
     
@@ -475,13 +539,13 @@
         return Singleton.instance;
     }
 }</code></pre>
-                            </div>
                         </div>
-                        <div class="pattern-card">
-                            <h3>Factory Pattern</h3>
-                            <p>Creates objects without specifying their exact classes.</p>
-                            <div class="code-example">
-                                <pre><code>interface Animal {
+                    </div>
+                    <div class="pattern-card">
+                        <h3>Factory Pattern</h3>
+                        <p>Creates objects without specifying their exact classes.</p>
+                        <div class="code-example">
+                            <pre><code>interface Animal {
     makeSound(): void;
 }
 
@@ -492,7 +556,6 @@ class Dog implements Animal {
 class Cat implements Animal {
     makeSound() { console.log('Meow!'); }
 }</code></pre>
-                            </div>
                         </div>
                     </div>
                 </div>

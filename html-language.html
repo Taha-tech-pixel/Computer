@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML - HyperText Markup Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html#home" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#programming-languages" class="nav-link">
+                    <i class="fas fa-laptop-code"></i> Programming Languages
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>📄 HTML (HyperText Markup Language)</h1>
+                <p>The standard markup language for creating web pages and web applications</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>HTML is the backbone of the World Wide Web. It provides the structure and content for web pages, allowing developers to create documents that can be displayed in web browsers. HTML uses a system of tags and attributes to define the structure and content of web pages.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <span class="stat-label">First Released</span>
+                            <span class="stat-value">1993</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Latest Version</span>
+                            <span class="stat-value">HTML5</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Paradigm</span>
+                            <span class="stat-value">Markup</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Typing</span>
+                            <span class="stat-value">None</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <div class="section-card">
+                    <h2>🔑 Key Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-tags"></i>
+                            <h3>Tag-Based Structure</h3>
+                            <p>Uses opening and closing tags to define elements and their content</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-sitemap"></i>
+                            <h3>Hierarchical Structure</h3>
+                            <p>Elements can be nested within other elements to create complex structures</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <h3>Semantic Elements</h3>
+                            <p>HTML5 introduced semantic tags that provide meaning to content structure</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Responsive Design</h3>
+                            <p>Supports responsive design principles through meta tags and flexible layouts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📚 Basic Syntax</h2>
+                    <div class="code-example">
+                        <h3>HTML Document Structure</h3>
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+    
+    &lt;main&gt;
+        &lt;section id="home"&gt;
+            &lt;h2&gt;Home Section&lt;/h2&gt;
+            &lt;p&gt;This is the main content area.&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+    
+    &lt;footer&gt;
+        &lt;p&gt;&copy; 2024 My Website&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🏗️ Common HTML Elements</h2>
+                    <div class="elements-grid">
+                        <div class="element-card">
+                            <h3>Text Elements</h3>
+                            <ul>
+                                <li><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> - Headings</li>
+                                <li><code>&lt;p&gt;</code> - Paragraphs</li>
+                                <li><code>&lt;span&gt;</code> - Inline text</li>
+                                <li><code>&lt;strong&gt;</code> - Bold text</li>
+                                <li><code>&lt;em&gt;</code> - Italic text</li>
+                                <li><code>&lt;br&gt;</code> - Line break</li>
+                            </ul>
+                        </div>
+                        <div class="element-card">
+                            <h3>Structure Elements</h3>
+                            <ul>
+                                <li><code>&lt;header&gt;</code> - Page header</li>
+                                <li><code>&lt;nav&gt;</code> - Navigation</li>
+                                <li><code>&lt;main&gt;</code> - Main content</li>
+                                <li><code>&lt;section&gt;</code> - Content section</li>
+                                <li><code>&lt;article&gt;</code> - Article content</li>
+                                <li><code>&lt;footer&gt;</code> - Page footer</li>
+                            </ul>
+                        </div>
+                        <div class="element-card">
+                            <h3>Form Elements</h3>
+                            <ul>
+                                <li><code>&lt;form&gt;</code> - Form container</li>
+                                <li><code>&lt;input&gt;</code> - Input fields</li>
+                                <li><code>&lt;textarea&gt;</code> - Multi-line input</li>
+                                <li><code>&lt;select&gt;</code> - Dropdown</li>
+                                <li><code>&lt;button&gt;</code> - Buttons</li>
+                                <li><code>&lt;label&gt;</code> - Form labels</li>
+                            </ul>
+                        </div>
+                        <div class="element-card">
+                            <h3>Media Elements</h3>
+                            <ul>
+                                <li><code>&lt;img&gt;</code> - Images</li>
+                                <li><code>&lt;video&gt;</code> - Video content</li>
+                                <li><code>&lt;audio&gt;</code> - Audio content</li>
+                                <li><code>&lt;iframe&gt;</code> - Embedded content</li>
+                                <li><code>&lt;canvas&gt;</code> - Drawing canvas</li>
+                                <li><code>&lt;svg&gt;</code> - Vector graphics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🎯 HTML5 Semantic Elements</h2>
+                    <div class="semantic-grid">
+                        <div class="semantic-item">
+                            <h3>&lt;header&gt;</h3>
+                            <p>Defines a header for a document or section</p>
+                            <div class="usage-example">
+                                <pre><code>&lt;header&gt;
+    &lt;h1&gt;Website Title&lt;/h1&gt;
+    &lt;nav&gt;Navigation menu&lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+                            </div>
+                        </div>
+                        <div class="semantic-item">
+                            <h3>&lt;nav&gt;</h3>
+                            <p>Defines a set of navigation links</p>
+                            <div class="usage-example">
+                                <pre><code>&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+                            </div>
+                        </div>
+                        <div class="semantic-item">
+                            <h3>&lt;main&gt;</h3>
+                            <p>Specifies the main content of a document</p>
+                            <div class="usage-example">
+                                <pre><code>&lt;main&gt;
+    &lt;h1&gt;Most Important Heading&lt;/h1&gt;
+    &lt;p&gt;Main content goes here...&lt;/p&gt;
+&lt;/main&gt;</code></pre>
+                            </div>
+                        </div>
+                        <div class="semantic-item">
+                            <h3>&lt;section&gt;</h3>
+                            <p>Defines a section in a document</p>
+                            <div class="usage-example">
+                                <pre><code>&lt;section&gt;
+    &lt;h2&gt;Section Heading&lt;/h2&gt;
+    &lt;p&gt;Section content...&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔧 HTML Attributes</h2>
+                    <div class="attributes-grid">
+                        <div class="attribute-group">
+                            <h3>Global Attributes</h3>
+                            <ul>
+                                <li><code>id</code> - Unique identifier</li>
+                                <li><code>class</code> - CSS class names</li>
+                                <li><code>style</code> - Inline CSS styles</li>
+                                <li><code>title</code> - Tooltip text</li>
+                                <li><code>lang</code> - Language specification</li>
+                                <li><code>data-*</code> - Custom data attributes</li>
+                            </ul>
+                        </div>
+                        <div class="attribute-group">
+                            <h3>Form Attributes</h3>
+                            <ul>
+                                <li><code>type</code> - Input type (text, email, password)</li>
+                                <li><code>name</code> - Form field name</li>
+                                <li><code>value</code> - Default value</li>
+                                <li><code>placeholder</code> - Hint text</li>
+                                <li><code>required</code> - Required field</li>
+                                <li><code>disabled</code> - Disabled field</li>
+                            </ul>
+                        </div>
+                        <div class="attribute-group">
+                            <h3>Link Attributes</h3>
+                            <ul>
+                                <li><code>href</code> - URL destination</li>
+                                <li><code>target</code> - Link target (_blank, _self)</li>
+                                <li><code>rel</code> - Relationship to current page</li>
+                                <li><code>download</code> - Download link</li>
+                                <li><code>title</code> - Link description</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📱 Responsive HTML</h2>
+                    <div class="responsive-content">
+                        <h3>Viewport Meta Tag</h3>
+                        <div class="code-example">
+                            <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+                        </div>
+                        
+                        <h3>Responsive Images</h3>
+                        <div class="code-example">
+                            <pre><code>&lt;img src="image.jpg" alt="Description" 
+     srcset="image-small.jpg 300w,
+             image-medium.jpg 600w,
+             image-large.jpg 900w"
+     sizes="(max-width: 600px) 300px,
+            (max-width: 900px) 600px,
+            900px"&gt;</code></pre>
+                        </div>
+                        
+                        <h3>Responsive Tables</h3>
+                        <div class="code-example">
+                            <pre><code>&lt;div class="table-responsive"&gt;
+    &lt;table&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Header 1&lt;/th&gt;
+                &lt;th&gt;Header 2&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Data 1&lt;/td&gt;
+                &lt;td&gt;Data 2&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🚀 Best Practices</h2>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h3>1. Semantic HTML</h3>
+                            <p>Use semantic elements to provide meaning to your content structure. This improves accessibility and SEO.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>2. Proper Document Structure</h3>
+                            <p>Always include DOCTYPE, html, head, and body tags. Use proper heading hierarchy (h1, h2, h3, etc.).</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>3. Accessibility</h3>
+                            <p>Include alt attributes for images, use proper form labels, and ensure keyboard navigation works.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>4. Clean Code</h3>
+                            <p>Use consistent indentation, meaningful names for IDs and classes, and comment complex sections.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>5. Validation</h3>
+                            <p>Validate your HTML using the W3C validator to ensure standards compliance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔗 Related Technologies</h2>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h3>CSS</h3>
+                            <p>Used for styling and layout of HTML elements</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>JavaScript</h3>
+                            <p>Adds interactivity and dynamic behavior to HTML pages</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>DOM</h3>
+                            <p>Document Object Model for manipulating HTML elements</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Web APIs</h3>
+                            <p>Browser APIs for enhanced functionality</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📖 Learning Resources</h2>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h3>Official Documentation</h3>
+                            <ul>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN Web Docs</a></li>
+                                <li><a href="https://www.w3.org/TR/html52/" target="_blank">W3C HTML Specification</a></li>
+                                <li><a href="https://html.spec.whatwg.org/" target="_blank">WHATWG HTML Living Standard</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Online Courses</h3>
+                            <ul>
+                                <li><a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML Tutorial</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML" target="_blank">MDN Learning Area</a></li>
+                                <li><a href="https://www.freecodecamp.org/learn/responsive-web-design/" target="_blank">freeCodeCamp</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Tools & Validators</h3>
+                            <ul>
+                                <li><a href="https://validator.w3.org/" target="_blank">W3C HTML Validator</a></li>
+                                <li><a href="https://caniuse.com/" target="_blank">Can I Use</a></li>
+                                <li><a href="https://html5test.com/" target="_blank">HTML5 Test</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

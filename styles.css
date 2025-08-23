@@ -325,13 +325,93 @@ body {
 }
 
 .scheme-section {
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .scheme-section h2 {
     color: white;
     margin-bottom: 2rem;
     font-size: 2rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.scheme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.scheme-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.scheme-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.scheme-card h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.scheme-card p {
+    margin-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.scheme-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.scheme-tag {
+    background: #667eea;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.scheme-details {
+    margin-bottom: 1.5rem;
+}
+
+.scheme-details h4 {
+    color: #333;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.scheme-details ul {
+    color: #666;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+}
+
+.scheme-details li {
+    margin-bottom: 0.3rem;
 }
 
 .pattern-grid {
@@ -879,6 +959,7 @@ body {
     .features-grid,
     .languages-grid,
     .pattern-grid,
+    .scheme-grid,
     .number-systems-container,
     .challenges-container,
     .oop-concepts {
