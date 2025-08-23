@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bash - Unix Shell and Command Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🐚 Bash</h1>
+                <p>Unix shell and command language, commonly used for system administration and automation scripts</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>Bash (Bourne Again Shell) is a Unix shell and command language written by Brian Fox for the GNU Project as a free software replacement for the Bourne shell. It's the default shell on most Linux distributions and macOS, and is widely used for system administration, automation, and scripting.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1989</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">5.2+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Command Language</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Dynamic, Weak</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Command Execution</h4>
+                            <p>Execute system commands and programs</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Scripting</h4>
+                            <p>Write reusable automation scripts</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>File Operations</h4>
+                            <p>Manipulate files and directories</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Process Control</h4>
+                            <p>Manage and control running processes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>#!/bin/bash
+
+# Hello World script
+echo "Hello, World!"
+
+# Variables
+name="Alice"
+age=25
+echo "Name: $name, Age: $age"
+
+# Command substitution
+current_date=$(date)
+echo "Current date: $current_date"
+
+# Arithmetic
+x=10
+y=5
+sum=$((x + y))
+echo "Sum: $sum"
+
+# String operations
+greeting="Hello"
+name="World"
+message="$greeting, $name!"
+echo "$message"
+
+# Arrays
+fruits=("apple" "banana" "orange")
+echo "First fruit: ${fruits[0]}"
+echo "All fruits: ${fruits[@]}"
+
+# Functions
+greet() {
+    local name=$1
+    echo "Hello, $name!"
+}
+
+greet "Bob"</code></pre>
+                    </div>
+                </div>
+
+                <!-- Control Structures -->
+                <div class="section-card">
+                    <h3>Control Structures</h3>
+                    <div class="code-example">
+                        <pre><code>#!/bin/bash
+
+# If statement
+age=18
+if [ $age -ge 18 ]; then
+    echo "You are an adult"
+else
+    echo "You are a minor"
+fi
+
+# Case statement
+day="Monday"
+case $day in
+    "Monday"|"Tuesday"|"Wednesday"|"Thursday"|"Friday")
+        echo "Weekday"
+        ;;
+    "Saturday"|"Sunday")
+        echo "Weekend"
+        ;;
+    *)
+        echo "Invalid day"
+        ;;
+esac
+
+# For loop
+for i in {1..5}; do
+    echo "Number: $i"
+done
+
+# While loop
+count=0
+while [ $count -lt 5 ]; do
+    echo "Count: $count"
+    count=$((count + 1))
+done
+
+# Until loop
+count=0
+until [ $count -ge 5 ]; do
+    echo "Count: $count"
+    count=$((count + 1))
+done
+
+# Break and continue
+for i in {1..10}; do
+    if [ $i -eq 5 ]; then
+        continue
+    fi
+    if [ $i -eq 8 ]; then
+        break
+    fi
+    echo "Processing: $i"
+done</code></pre>
+                    </div>
+                </div>
+
+                <!-- File Operations -->
+                <div class="section-card">
+                    <h3>File Operations</h3>
+                    <div class="code-example">
+                        <pre><code>#!/bin/bash
+
+# Check if file exists
+if [ -f "file.txt" ]; then
+    echo "File exists"
+else
+    echo "File does not exist"
+fi
+
+# Check if directory exists
+if [ -d "directory" ]; then
+    echo "Directory exists"
+else
+    echo "Directory does not exist"
+fi
+
+# File permissions
+if [ -r "file.txt" ]; then
+    echo "File is readable"
+fi
+
+if [ -w "file.txt" ]; then
+    echo "File is writable"
+fi
+
+if [ -x "file.txt" ]; then
+    echo "File is executable"
+fi
+
+# File size
+if [ -s "file.txt" ]; then
+    echo "File is not empty"
+else
+    echo "File is empty"
+fi
+
+# Copy files
+cp source.txt destination.txt
+
+# Move/rename files
+mv oldname.txt newname.txt
+
+# Remove files
+rm file.txt
+
+# Create directories
+mkdir new_directory
+
+# Remove directories
+rmdir empty_directory
+rm -rf directory_with_contents</code></pre>
+                    </div>
+                </div>
+
+                <!-- Text Processing -->
+                <div class="section-card">
+                    <h3>Text Processing</h3>
+                    <div class="code-example">
+                        <pre><code>#!/bin/bash
+
+# Using grep to search
+echo "Searching for 'hello' in files:"
+grep -r "hello" .
+
+# Using sed for text replacement
+echo "Original text: Hello World"
+echo "Hello World" | sed 's/World/Bash/'
+
+# Using awk for text processing
+echo "Processing text with awk:"
+echo "Alice 25 Engineer" | awk '{print $1 " is " $2 " years old and works as " $3}'
+
+# String manipulation
+text="Hello World"
+echo "Original: $text"
+echo "Length: ${#text}"
+echo "Uppercase: ${text^^}"
+echo "Lowercase: ${text,,}"
+echo "Substring: ${text:0:5}"
+
+# Pattern matching
+filename="document.txt"
+if [[ $filename == *.txt ]]; then
+    echo "Text file detected"
+fi
+
+# Regular expressions
+if [[ "hello123" =~ ^[a-z]+[0-9]+$ ]]; then
+    echo "String matches pattern"
+fi
+
+# Text extraction
+line="Name: John, Age: 30, City: New York"
+name=$(echo "$line" | grep -o 'Name: [^,]*' | cut -d' ' -f2)
+age=$(echo "$line" | grep -o 'Age: [^,]*' | cut -d' ' -f2)
+echo "Extracted: $name, $age"</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Shebang Line</h4>
+                            <p>Always start scripts with #!/bin/bash</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Check exit codes and handle errors appropriately</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Quoting</h4>
+                            <p>Use quotes around variables to handle spaces and special characters</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Comments</h4>
+                            <p>Add clear comments explaining complex logic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Bash Reference Manual</h4>
+                            <p>Official GNU Bash reference documentation</p>
+                            <a href="https://www.gnu.org/software/bash/manual/" target="_blank" class="btn btn-secondary">Read Manual</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Bash Hackers Wiki</h4>
+                            <p>Community-driven Bash scripting resource</p>
+                            <a href="https://wiki.bash-hackers.org/" target="_blank" class="btn btn-secondary">Visit Wiki</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Advanced Bash Scripting Guide</h4>
+                            <p>Comprehensive guide to Bash scripting</p>
+                            <a href="https://tldp.org/LDP/abs/html/" target="_blank" class="btn btn-secondary">Read Guide</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Bash Community</h4>
+                            <p>Stack Overflow, Reddit, and Bash forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/bash" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

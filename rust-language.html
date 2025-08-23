@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust - Systems Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🦀 Rust</h1>
+                <p>Systems programming language focused on safety, speed, and concurrency without garbage collection</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>Rust is a multi-paradigm, general-purpose programming language designed for performance and safety, especially safe concurrency. Rust is syntactically similar to C++, but can guarantee memory safety without using garbage collection, and achieves thread safety without data races.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">2010</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">1.75+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Multi-paradigm</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Memory Safety</h4>
+                            <p>No null pointer dereferences, data races, or buffer overflows</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Zero-Cost Abstractions</h4>
+                            <p>High-level abstractions with no runtime overhead</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Ownership System</h4>
+                            <p>Unique memory management without garbage collection</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Fearless Concurrency</h4>
+                            <p>Thread-safe code without data races</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>// Hello World program
+fn main() {
+    println!("Hello, World!");
+}
+
+// Variables and data types
+fn main() {
+    // Mutable variables
+    let mut x = 5;
+    println!("x is {}", x);
+    x = 6;
+    println!("x is now {}", x);
+    
+    // Immutable variables (default)
+    let y = 10;
+    
+    // Type annotations
+    let z: i32 = 42;
+    let pi: f64 = 3.14159;
+    let is_active: bool = true;
+    let letter: char = 'A';
+    
+    // Shadowing
+    let x = 5;
+    let x = x + 1;
+    let x = x * 2;
+    println!("x is {}", x); // x is 12
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Ownership and Borrowing -->
+                <div class="section-card">
+                    <h3>Ownership and Borrowing</h3>
+                    <div class="code-example">
+                        <pre><code>fn main() {
+    // Ownership example
+    let s1 = String::from("hello");
+    let s2 = s1; // s1's value moves to s2, s1 is no longer valid
+    
+    // Borrowing (references)
+    let s3 = String::from("world");
+    let len = calculate_length(&s3); // s3 is borrowed, not moved
+    println!("Length of '{}' is {}", s3, len);
+    
+    // Mutable borrowing
+    let mut s4 = String::from("hello");
+    change_string(&mut s4);
+    println!("Changed string: {}", s4);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+
+fn change_string(s: &mut String) {
+    s.push_str(" world");
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Structs and Enums -->
+                <div class="section-card">
+                    <h3>Structs and Enums</h3>
+                    <div class="code-example">
+                        <pre><code>// Define a struct
+struct User {
+    username: String,
+    email: String,
+    sign_in_count: u64,
+    active: bool,
+}
+
+// Methods for struct
+impl User {
+    // Constructor
+    fn new(username: String, email: String) -> User {
+        User {
+            username,
+            email,
+            sign_in_count: 1,
+            active: true,
+        }
+    }
+    
+    // Method that takes ownership
+    fn sign_in(&mut self) {
+        self.sign_in_count += 1;
+    }
+}
+
+// Enums
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Error Handling -->
+                <div class="section-card">
+                    <h3>Error Handling</h3>
+                    <div class="code-example">
+                        <pre><code>use std::fs::File;
+use std::io::{self, Read};
+
+// Function that returns Result
+fn read_username_from_file() -> Result&lt;String, io::Error&gt; {
+    let mut file = File::open("hello.txt")?;
+    let mut s = String::new();
+    file.read_to_string(&mut s)?;
+    Ok(s)
+}
+
+// Custom error
+#[derive(Debug)]
+enum CustomError {
+    IoError(io::Error),
+    ValidationError(String),
+}
+
+fn main() -> Result&lt;(), CustomError&gt; {
+    match read_username_from_file() {
+        Ok(result) => println!("Success: {}", result),
+        Err(e) => println!("Error: {}", e),
+    }
+    Ok(())
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Ownership Rules</h4>
+                            <p>Understand and follow Rust's ownership system for memory safety</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Use Result and Option types instead of panicking</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Traits</h4>
+                            <p>Use traits for shared behavior and generic programming</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Documentation</h4>
+                            <p>Write comprehensive documentation with examples</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Book</h4>
+                            <p>The Rust Programming Language (The Book)</p>
+                            <a href="https://doc.rust-lang.org/book/" target="_blank" class="btn btn-secondary">Read Book</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Rust by Example</h4>
+                            <p>Collection of runnable examples for Rust concepts</p>
+                            <a href="https://doc.rust-lang.org/rust-by-example/" target="_blank" class="btn btn-secondary">Learn Examples</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Rust Playground</h4>
+                            <p>Online editor to experiment with Rust</p>
+                            <a href="https://play.rust-lang.org/" target="_blank" class="btn btn-secondary">Try Online</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Rust Community</h4>
+                            <p>Stack Overflow, Reddit, and Rust forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/rust" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

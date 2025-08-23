@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL - Structured Query Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🗃️ SQL</h1>
+                <p>Structured Query Language used for managing and manipulating relational databases and data</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>SQL (Structured Query Language) is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS). It is particularly useful in handling structured data, i.e., data incorporating relations among entities and variables.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1974</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Standard</div>
+                            <div class="stat-value">SQL:2023</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Declarative</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Data Definition</h4>
+                            <p>Create, modify, and delete database structures</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Data Manipulation</h4>
+                            <p>Insert, update, delete, and query data</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Data Control</h4>
+                            <p>Manage access permissions and security</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Transaction Control</h4>
+                            <p>Ensure data consistency and integrity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>-- Create a table
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INT CHECK (age >= 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert data
+INSERT INTO users (username, email, age) VALUES
+('john_doe', 'john@example.com', 30),
+('jane_smith', 'jane@example.com', 25),
+('bob_wilson', 'bob@example.com', 35);
+
+-- Select data
+SELECT username, email, age 
+FROM users 
+WHERE age > 25 
+ORDER BY age DESC;
+
+-- Update data
+UPDATE users 
+SET age = 31 
+WHERE username = 'john_doe';
+
+-- Delete data
+DELETE FROM users 
+WHERE username = 'bob_wilson';</code></pre>
+                    </div>
+                </div>
+
+                <!-- Data Types -->
+                <div class="section-card">
+                    <h3>Data Types</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Numeric</h4>
+                            <p>INT, BIGINT, DECIMAL, FLOAT, DOUBLE</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>String</h4>
+                            <p>VARCHAR, CHAR, TEXT, LONGTEXT</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Date/Time</h4>
+                            <p>DATE, TIME, DATETIME, TIMESTAMP</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Binary</h4>
+                            <p>BLOB, LONGBLOB, VARBINARY</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Queries -->
+                <div class="section-card">
+                    <h3>Advanced Queries</h3>
+                    <div class="code-example">
+                        <pre><code>-- JOINs
+SELECT u.username, p.title, p.content
+FROM users u
+INNER JOIN posts p ON u.id = p.user_id
+WHERE u.age > 25;
+
+-- LEFT JOIN
+SELECT u.username, COUNT(p.id) as post_count
+FROM users u
+LEFT JOIN posts p ON u.id = p.user_id
+GROUP BY u.id, u.username;
+
+-- Subqueries
+SELECT username, email
+FROM users
+WHERE age > (SELECT AVG(age) FROM users);
+
+-- EXISTS
+SELECT username
+FROM users u
+WHERE EXISTS (
+    SELECT 1 FROM posts p 
+    WHERE p.user_id = u.id 
+    AND p.created_at > '2023-01-01'
+);
+
+-- Window Functions
+SELECT username, age,
+       ROW_NUMBER() OVER (ORDER BY age DESC) as age_rank,
+       AVG(age) OVER () as avg_age
+FROM users;</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Indexing</h4>
+                            <p>Create indexes on frequently queried columns</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Parameterized Queries</h4>
+                            <p>Use prepared statements to prevent SQL injection</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Transaction Management</h4>
+                            <p>Use transactions for data consistency</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Query Optimization</h4>
+                            <p>Write efficient queries and use EXPLAIN to analyze performance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>SQL Tutorial</h4>
+                            <p>W3Schools SQL tutorial and reference</p>
+                            <a href="https://www.w3schools.com/sql/" target="_blank" class="btn btn-secondary">Learn SQL</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>SQLite Documentation</h4>
+                            <p>Lightweight database with excellent SQL support</p>
+                            <a href="https://www.sqlite.org/docs.html" target="_blank" class="btn btn-secondary">Read Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>MySQL Documentation</h4>
+                            <p>Popular open-source database system</p>
+                            <a href="https://dev.mysql.com/doc/" target="_blank" class="btn btn-secondary">View Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>SQL Community</h4>
+                            <p>Stack Overflow, Reddit, and SQL forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/sql" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

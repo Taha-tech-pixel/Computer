@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scala Programming Language - Learn Everything About Scala</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-scala"></i>
+                </div>
+                <div class="language-info">
+                    <h1>Scala Programming Language</h1>
+                    <p class="language-tagline">"Scalable Language" - Combines object-oriented and functional programming paradigms</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 2004</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Martin Odersky</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Multi-paradigm, OOP, Functional</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>Scala is a modern, multi-paradigm programming language designed to express common programming patterns in a concise, elegant, and type-safe way. It seamlessly integrates object-oriented and functional programming concepts, making it ideal for building scalable applications, particularly in the big data and distributed computing domains.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">19+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">50K+</div>
+                        <div class="stat-label">GitHub Repositories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2M+</div>
+                        <div class="stat-label">Developers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-cube"></i>
+                        <h4>Object-Oriented</h4>
+                        <p>Pure object-oriented language where every value is an object</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Functional Programming</h4>
+                        <p>First-class functions, immutability, and pattern matching</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Static Typing</h4>
+                        <p>Advanced type system with type inference and generics</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-coffee"></i>
+                        <h4>JVM Compatibility</h4>
+                        <p>Runs on Java Virtual Machine with seamless Java interop</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>// Simple output
+println("Hello, World!")
+
+// Function definition
+def greet(name: String): String = {
+  s"Hello, $name!"
+}
+
+// Usage
+val message = greet("Scala")
+println(message)</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Variables and Types</h4>
+                        <pre><code>// Variable declarations
+val immutable = "Cannot be changed"  // Immutable
+var mutable = "Can be changed"       // Mutable
+
+// Type inference
+val number = 42        // Int
+val text = "Hello"     // String
+val decimal = 3.14     // Double
+
+// Explicit types
+val age: Int = 25
+val name: String = "Alice"
+val isActive: Boolean = true</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Collections</h4>
+                        <pre><code>// Lists (immutable)
+val numbers = List(1, 2, 3, 4, 5)
+
+// Arrays (mutable)
+val array = Array(1, 2, 3, 4, 5)
+
+// Maps
+val person = Map("name" -> "Alice", "age" -> 25)
+
+// Sets
+val uniqueNumbers = Set(1, 2, 2, 3, 3, 4)
+
+// Tuples
+val coordinates = (10, 20)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Functions</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Function Definition</h4>
+                        <pre><code>// Basic function
+def add(x: Int, y: Int): Int = {
+  x + y
+}
+
+// Function with default parameters
+def greet(name: String, greeting: String = "Hello"): String = {
+  s"$greeting, $name!"
+}
+
+// Function with multiple parameter lists
+def multiply(x: Int)(y: Int): Int = x * y
+
+// Higher-order function
+def applyOperation(x: Int, y: Int, op: (Int, Int) => Int): Int = {
+  op(x, y)
+}</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Anonymous Functions</h4>
+                        <pre><code>// Lambda functions
+val add = (x: Int, y: Int) => x + y
+val square = (x: Int) => x * x
+
+// Using underscore notation
+val numbers = List(1, 2, 3, 4, 5)
+val doubled = numbers.map(_ * 2)
+val filtered = numbers.filter(_ > 2)
+
+// Function composition
+val addOne = (x: Int) => x + 1
+val multiplyByTwo = (x: Int) => x * 2
+val composed = addOne.andThen(multiplyByTwo)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Classes and Objects</h3>
+                <div class="oop-content">
+                    <h4>Class Definition</h4>
+                    <pre><code>// Basic class
+class Person(val name: String, val age: Int) {
+  def introduce(): String = {
+    s"Hi, I'm $name and I'm $age years old"
+  }
+  
+  def isAdult(): Boolean = age >= 18
+}
+
+// Case class (immutable, with equals, hashCode, toString)
+case class Employee(name: String, age: Int, salary: Double)
+
+// Companion object
+object Person {
+  def apply(name: String, age: Int): Person = new Person(name, age)
+  
+  def createAdult(name: String, age: Int): Option[Person] = {
+    if (age >= 18) Some(new Person(name, age)) else None
+  }
+}</code></pre>
+                    
+                    <h4>Inheritance and Traits</h4>
+                    <pre><code>// Trait (similar to interface)
+trait Animal {
+  def makeSound(): String
+  def name: String
+}
+
+// Class implementing trait
+class Dog(val name: String) extends Animal {
+  def makeSound(): String = "Woof!"
+}
+
+// Multiple trait inheritance
+trait Swimmable {
+  def swim(): String = "Swimming..."
+}
+
+trait Flyable {
+  def fly(): String = "Flying..."
+}
+
+class Duck extends Animal with Swimmable with Flyable {
+  def makeSound(): String = "Quack!"
+  def name: String = "Duck"
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Pattern Matching</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Basic Pattern Matching</h4>
+                        <pre><code>// Pattern matching with match expression
+def describe(x: Any): String = x match {
+  case 0 => "Zero"
+  case "hello" => "Greeting"
+  case _ => "Something else"
+}
+
+// Pattern matching with case classes
+def processPerson(person: Person): String = person match {
+  case Person("Alice", age) if age > 20 => "Adult Alice"
+  case Person(name, age) if age < 18 => s"Minor $name"
+  case Person(name, _) => s"Adult $name"
+  case _ => "Unknown person"
+}</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Advanced Pattern Matching</h4>
+                        <pre><code>// Pattern matching with lists
+def processList(list: List[Int]): String = list match {
+  case Nil => "Empty list"
+  case head :: Nil => s"Single element: $head"
+  case head :: tail => s"First: $head, rest: $tail"
+}
+
+// Pattern matching with tuples
+def processTuple(tuple: (String, Int)): String = tuple match {
+  case (name, age) if age > 18 => s"$name is an adult"
+  case (name, _) => s"$name is a minor"
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Collections and Higher-Order Functions</h3>
+                <div class="data-structures-grid">
+                    <div class="structure-item">
+                        <h4>Collection Operations</h4>
+                        <pre><code>val numbers = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+// Transform elements
+val doubled = numbers.map(_ * 2)
+val strings = numbers.map(_.toString)
+
+// Filter elements
+val evens = numbers.filter(_ % 2 == 0)
+val greaterThan5 = numbers.filter(_ > 5)
+
+// Reduce/combine elements
+val sum = numbers.reduce(_ + _)
+val product = numbers.reduce(_ * _)
+
+// Fold with initial value
+val sumWithFold = numbers.foldLeft(0)(_ + _)</code></pre>
+                    </div>
+                    <div class="structure-item">
+                        <h4>For Comprehensions</h4>
+                        <pre><code>// Basic for comprehension
+val result = for {
+  x <- List(1, 2, 3)
+  y <- List(10, 20)
+} yield x * y
+
+// With conditions
+val filtered = for {
+  x <- List(1, 2, 3, 4, 5)
+  if x % 2 == 0
+  y <- List(10, 20)
+} yield x * y
+
+// Nested for loops
+val matrix = for {
+  i <- 1 to 3
+  j <- 1 to 3
+} yield (i, j, i * j)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Error Handling</h3>
+                <div class="error-handling-content">
+                    <h4>Option Type</h4>
+                    <pre><code>// Option represents presence or absence of value
+def divide(x: Int, y: Int): Option[Int] = {
+  if (y != 0) Some(x / y) else None
+}
+
+// Using Option
+val result = divide(10, 2)
+result match {
+  case Some(value) => println(s"Result: $value")
+  case None => println("Cannot divide by zero")
+}
+
+// Using map, flatMap, getOrElse
+val safeResult = divide(10, 2)
+  .map(_ * 2)
+  .getOrElse(0)</code></pre>
+                    
+                    <h4>Try and Either</h4>
+                    <pre><code>import scala.util.Try
+
+// Try for exception handling
+def safeDivide(x: Int, y: Int): Try[Int] = Try(x / y)
+
+val result = safeDivide(10, 0)
+result match {
+  case scala.util.Success(value) => println(s"Result: $value")
+  case scala.util.Failure(exception) => println(s"Error: ${exception.getMessage}")
+}
+
+// Either for error handling
+def validateAge(age: Int): Either[String, Int] = {
+  if (age >= 0 && age <= 150) Right(age)
+  else Left("Invalid age")
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Concurrency</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Futures</h4>
+                        <pre><code>import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
+// Creating futures
+val future1 = Future {
+  Thread.sleep(1000)
+  42
+}
+
+val future2 = Future {
+  Thread.sleep(500)
+  "Hello"
+}
+
+// Combining futures
+val combined = for {
+  num <- future1
+  str <- future2
+} yield s"$str $num"
+
+// Handling future results
+combined.onComplete {
+  case scala.util.Success(result) => println(result)
+  case scala.util.Failure(exception) => println(s"Error: $exception")
+}</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Actors (Akka)</h4>
+                        <pre><code>import akka.actor.{Actor, ActorSystem, Props}
+
+// Define actor
+class Greeter extends Actor {
+  def receive: Receive = {
+    case name: String => println(s"Hello, $name!")
+    case _ => println("Unknown message")
+  }
+}
+
+// Create actor system
+val system = ActorSystem("GreeterSystem")
+val greeter = system.actorOf(Props[Greeter], "greeter")
+
+// Send messages
+greeter ! "Alice"
+greeter ! "Bob"</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Prefer immutability</h4>
+                        <p>Use val over var and immutable collections when possible</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use pattern matching</h4>
+                        <p>Leverage pattern matching instead of if-else statements</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Functional programming</h4>
+                        <p>Use higher-order functions and avoid side effects</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Type safety</h4>
+                        <p>Leverage Scala's type system for compile-time safety</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-coffee"></i>
+                        <h4>JVM Ecosystem</h4>
+                        <p>Java libraries, Spring Framework, Maven/SBT, JUnit testing</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Big Data & Analytics</h4>
+                        <p>Apache Spark, Apache Kafka, Apache Flink, Hadoop</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                        <p>Play Framework, Akka HTTP, Lift, Scalatra</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-tools"></i>
+                        <h4>Build Tools</h4>
+                        <p>SBT (Scala Build Tool), Maven, Gradle</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Programming in Scala" by Martin Odersky</li>
+                            <li>"Scala for the Impatient" by Cay Horstmann</li>
+                            <li>"Functional Programming in Scala" by Paul Chiusano</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://scala-lang.org" target="_blank">Scala-lang.org</a></li>
+                            <li><a href="https://docs.scala-lang.org" target="_blank">Scala Documentation</a></li>
+                            <li><a href="https://scala-exercises.org" target="_blank">Scala Exercises</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Scala Discord</li>
+                            <li>Stack Overflow Scala tag</li>
+                            <li>Reddit r/scala</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

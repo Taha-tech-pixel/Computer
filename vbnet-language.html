@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VB.NET Programming Language - Learn Everything About VB.NET</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-windows"></i>
+                </div>
+                <div class="language-info">
+                    <h1>VB.NET Programming Language</h1>
+                    <p class="language-tagline">"Visual Basic .NET" - Modern, object-oriented language for the .NET platform</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 2002</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Microsoft</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Object-oriented, Event-driven</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>VB.NET (Visual Basic .NET) is a modern, object-oriented programming language developed by Microsoft as part of the .NET Framework. It evolved from the classic Visual Basic language and provides a simple, readable syntax while offering the full power of the .NET platform. VB.NET is widely used for Windows applications, web development, and enterprise software.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">21+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">.NET 6</div>
+                        <div class="stat-label">Latest Version</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Cross-Platform</div>
+                        <div class="stat-label">Windows, macOS, Linux</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-eye"></i>
+                        <h4>Readable Syntax</h4>
+                        <p>Clear, English-like syntax that's easy to read and understand</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cube"></i>
+                        <h4>Object-Oriented</h4>
+                        <p>Full support for classes, inheritance, polymorphism, and encapsulation</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-windows"></i>
+                        <h4>.NET Integration</h4>
+                        <p>Seamless access to the entire .NET Framework and libraries</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Cross-Platform</h4>
+                        <p>Runs on Windows, macOS, and Linux with .NET Core</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>Module Program
+    Sub Main()
+        Console.WriteLine("Hello, World!")
+        
+        ' Function call
+        Dim message As String = Greet("VB.NET")
+        Console.WriteLine(message)
+    End Sub
+    
+    Function Greet(name As String) As String
+        Return "Hello, " & name & "!"
+    End Function
+End Module</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Variables and Data Types</h4>
+                        <pre><code>Module Variables
+    Sub Main()
+        ' Variable declarations
+        Dim age As Integer = 25
+        Dim name As String = "Alice"
+        Dim height As Double = 175.5
+        Dim isStudent As Boolean = True
+        
+        ' Type inference with Dim
+        Dim city = "New York"        ' String
+        Dim score = 95               ' Integer
+        Dim price = 19.99            ' Double
+        
+        ' Constants
+        Const PI As Double = 3.14159
+        Const MAX_SIZE As Integer = 100
+        
+        ' Display values
+        Console.WriteLine($"Name: {name}, Age: {age}")
+        Console.WriteLine($"Height: {height}cm, Student: {isStudent}")
+    End Sub
+End Module</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Arrays and Collections</h4>
+                        <pre><code>Module Collections
+    Sub Main()
+        ' Arrays
+        Dim numbers(4) As Integer
+        numbers(0) = 1
+        numbers(1) = 2
+        numbers(2) = 3
+        numbers(3) = 4
+        numbers(4) = 5
+        
+        ' Array initialization
+        Dim colors() As String = {"Red", "Green", "Blue"}
+        
+        ' Lists
+        Dim names As New List(Of String)
+        names.Add("Alice")
+        names.Add("Bob")
+        names.Add("Charlie")
+        
+        ' Dictionary
+        Dim person As New Dictionary(Of String, Object)
+        person("Name") = "Alice"
+        person("Age") = 25
+        person("City") = "New York"
+        
+        ' Display collections
+        For Each color In colors
+            Console.WriteLine(color)
+        Next
+        
+        For Each name In names
+            Console.WriteLine(name)
+        Next
+    End Sub
+End Module</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code>Module Conditionals
+    Sub Main()
+        Dim age As Integer = 18
+        
+        ' If-Else statement
+        If age >= 18 Then
+            Console.WriteLine("Adult")
+        ElseIf age >= 13 Then
+            Console.WriteLine("Teenager")
+        Else
+            Console.WriteLine("Child")
+        End If
+        
+        ' Select Case statement
+        Select Case age
+            Case 0 To 12
+                Console.WriteLine("Child")
+            Case 13 To 17
+                Console.WriteLine("Teenager")
+            Case 18 To 64
+                Console.WriteLine("Adult")
+            Case Else
+                Console.WriteLine("Senior")
+        End Select
+        
+        ' Ternary-like operator
+        Dim status As String = If(age >= 18, "Adult", "Minor")
+        Console.WriteLine($"Status: {status}")
+    End Sub
+End Module</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops</h4>
+                        <pre><code>Module Loops
+    Sub Main()
+        ' For loop
+        For i As Integer = 1 To 5
+            Console.WriteLine($"Count: {i}")
+        Next
+        
+        ' For Each loop
+        Dim fruits() As String = {"Apple", "Banana", "Orange"}
+        For Each fruit In fruits
+            Console.WriteLine(fruit)
+        Next
+        
+        ' While loop
+        Dim counter As Integer = 0
+        While counter < 3
+            Console.WriteLine($"While: {counter}")
+            counter += 1
+        End While
+        
+        ' Do While loop
+        Dim number As Integer = 1
+        Do
+            Console.WriteLine($"Do While: {number}")
+            number += 1
+        Loop While number <= 3
+        
+        ' Loop with Exit
+        For i As Integer = 1 To 10
+            If i = 6 Then
+                Exit For
+            End If
+            Console.WriteLine(i)
+        Next
+    End Sub
+End Module</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Classes and Objects</h3>
+                <div class="oop-content">
+                    <h4>Class Definition</h4>
+                    <pre><code>Public Class Person
+    ' Fields
+    Private _name As String
+    Private _age As Integer
+    
+    ' Properties
+    Public Property Name As String
+        Get
+            Return _name
+        End Get
+        Set(value As String)
+            _name = value
+        End Set
+    End Property
+    
+    Public Property Age As Integer
+        Get
+            Return _age
+        End Get
+        Set(value As Integer)
+            If value >= 0 Then
+                _age = value
+            End If
+        End Set
+    End Property
+    
+    ' Constructor
+    Public Sub New(name As String, age As Integer)
+        Me.Name = name
+        Me.Age = age
+    End Sub
+    
+    ' Methods
+    Public Function Introduce() As String
+        Return $"Hi, I'm {Name} and I'm {Age} years old"
+    End Function
+    
+    Public Function IsAdult() As Boolean
+        Return Age >= 18
+    End Function
+End Class</code></pre>
+                    
+                    <h4>Inheritance and Interfaces</h4>
+                    <pre><code>' Interface
+Public Interface IAnimal
+    Property Name As String
+    Function MakeSound() As String
+End Interface
+
+' Base class
+Public Class Animal
+    Public Property Name As String
+    
+    Public Sub New(name As String)
+        Me.Name = name
+    End Sub
+    
+    Public Overridable Function MakeSound() As String
+        Return "Some sound"
+    End Function
+End Class
+
+' Derived class
+Public Class Dog
+    Inherits Animal
+    Implements IAnimal
+    
+    Public Sub New(name As String)
+        MyBase.New(name)
+    End Sub
+    
+    Public Overrides Function MakeSound() As String
+        Return "Woof!"
+    End Function
+End Class
+
+' Usage
+Module Inheritance
+    Sub Main()
+        Dim dog As New Dog("Buddy")
+        Console.WriteLine(dog.MakeSound())
+        
+        ' Polymorphism
+        Dim animal As Animal = dog
+        Console.WriteLine(animal.MakeSound())
+    End Sub
+End Module</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Exception Handling</h3>
+                <div class="error-handling-content">
+                    <h4>Try-Catch Blocks</h4>
+                    <pre><code>Module ExceptionHandling
+    Sub Main()
+        Try
+            ' Risky code
+            Dim result As Integer = Divide(10, 0)
+            Console.WriteLine($"Result: {result}")
+            
+        Catch ex As DivideByZeroException
+            Console.WriteLine("Error: Cannot divide by zero")
+            Console.WriteLine($"Details: {ex.Message}")
+            
+        Catch ex As Exception
+            Console.WriteLine($"Unexpected error: {ex.Message}")
+            
+        Finally
+            Console.WriteLine("This always executes")
+        End Try
+    End Sub
+    
+    Function Divide(a As Integer, b As Integer) As Integer
+        If b = 0 Then
+            Throw New DivideByZeroException("Division by zero is not allowed")
+        End If
+        Return a \ b
+    End Function
+End Module</code></pre>
+                    
+                    <h4>Custom Exceptions</h4>
+                    <pre><code>' Custom exception class
+Public Class ValidationException
+    Inherits Exception
+    
+    Public Sub New(message As String)
+        MyBase.New(message)
+    End Sub
+    
+    Public Sub New(message As String, innerException As Exception)
+        MyBase.New(message, innerException)
+    End Sub
+End Class
+
+Module CustomExceptions
+    Sub Main()
+        Try
+            ValidateAge(-5)
+        Catch ex As ValidationException
+            Console.WriteLine($"Validation failed: {ex.Message}")
+        End Try
+    End Sub
+    
+    Sub ValidateAge(age As Integer)
+        If age < 0 Then
+            Throw New ValidationException("Age cannot be negative")
+        End If
+        Console.WriteLine($"Valid age: {age}")
+    End Sub
+End Module</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>File Operations</h3>
+                <div class="file-handling-content">
+                    <h4>Reading Files</h4>
+                    <pre><code>Imports System.IO
+
+Module FileOperations
+    Sub ReadFile()
+        Try
+            ' Read all text
+            Dim content As String = File.ReadAllText("data.txt")
+            Console.WriteLine(content)
+            
+            ' Read lines
+            Dim lines() As String = File.ReadAllLines("data.txt")
+            For Each line In lines
+                Console.WriteLine(line)
+            Next
+            
+            ' Stream reader
+            Using reader As New StreamReader("data.txt")
+                Dim line As String
+                While (line = reader.ReadLine()) IsNot Nothing
+                    Console.WriteLine(line)
+                End While
+            End Using
+            
+        Catch ex As FileNotFoundException
+            Console.WriteLine("File not found")
+        Catch ex As Exception
+            Console.WriteLine($"Error reading file: {ex.Message}")
+        End Try
+    End Sub
+End Module</code></pre>
+                    
+                    <h4>Writing Files</h4>
+                    <pre><code>Imports System.IO
+
+Module FileWriting
+    Sub WriteFile()
+        Try
+            ' Write all text
+            File.WriteAllText("output.txt", "Hello, VB.NET!")
+            
+            ' Write lines
+            Dim lines() As String = {"Line 1", "Line 2", "Line 3"}
+            File.WriteAllLines("output.txt", lines)
+            
+            ' Append text
+            File.AppendAllText("output.txt", vbCrLf & "New line")
+            
+            ' Stream writer
+            Using writer As New StreamWriter("output.txt", True)
+                writer.WriteLine("Another line")
+                writer.WriteLine("And another")
+            End Using
+            
+            Console.WriteLine("File written successfully")
+            
+        Catch ex As Exception
+            Console.WriteLine($"Error writing file: {ex.Message}")
+        End Try
+    End Sub
+End Module</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>LINQ and Data Processing</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>LINQ Queries</h4>
+                        <pre><code>Imports System.Linq
+
+Module LINQExamples
+    Sub Main()
+        Dim numbers() As Integer = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+        
+        ' Filter and transform
+        Dim evens = From num In numbers
+                    Where num Mod 2 = 0
+                    Select num * 2
+        
+        ' Alternative syntax
+        Dim evens2 = numbers.Where(Function(n) n Mod 2 = 0).
+                            Select(Function(n) n * 2)
+        
+        ' Aggregation
+        Dim sum = numbers.Sum()
+        Dim average = numbers.Average()
+        Dim max = numbers.Max()
+        Dim min = numbers.Min()
+        
+        ' Complex query
+        Dim result = From num In numbers
+                     Where num > 5
+                     Order By num Descending
+                     Select New With {.Number = num, .Square = num * num}
+        
+        ' Display results
+        Console.WriteLine($"Sum: {sum}, Average: {average}")
+        Console.WriteLine($"Max: {max}, Min: {min}")
+        
+        For Each item In result
+            Console.WriteLine($"Number: {item.Number}, Square: {item.Square}")
+        Next
+    End Sub
+End Module</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Working with Collections</h4>
+                        <pre><code>Module Collections
+    Sub Main()
+        Dim people As New List(Of Person)
+        people.Add(New Person("Alice", 25))
+        people.Add(New Person("Bob", 30))
+        people.Add(New Person("Charlie", 35))
+        people.Add(New Person("Diana", 28))
+        
+        ' Filter people over 25
+        Dim adults = From p In people
+                     Where p.Age > 25
+                     Order By p.Name
+                     Select p
+        
+        ' Group by age range
+        Dim ageGroups = From p In people
+                        Group p By AgeRange = If(p.Age < 30, "Young", "Mature")
+                        Into Group
+                        Select New With {.AgeRange, .Count = Group.Count()}
+        
+        ' Display results
+        Console.WriteLine("Adults over 25:")
+        For Each person In adults
+            Console.WriteLine(person.Introduce())
+        Next
+        
+        Console.WriteLine(vbCrLf & "Age groups:")
+        For Each group In ageGroups
+            Console.WriteLine($"{group.AgeRange}: {group.Count} people")
+        Next
+    End Sub
+End Module</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use Option Strict On</h4>
+                        <p>Enables strict type checking to catch errors at compile time</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Proper exception handling</h4>
+                        <p>Use specific exception types and provide meaningful error messages</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use properties instead of public fields</h4>
+                        <p>Properties provide better encapsulation and validation</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Follow naming conventions</h4>
+                        <p>Use PascalCase for classes and methods, camelCase for variables</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-windows"></i>
+                        <h4>.NET Framework</h4>
+                        <p>.NET Core, .NET 5+, ASP.NET, Windows Forms, WPF</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Database Access</h4>
+                        <p>ADO.NET, Entity Framework, LINQ to SQL, SQL Server</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                        <p>ASP.NET Core, Web API, SignalR, Blazor</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Mobile Development</h4>
+                        <p>Xamarin, .NET MAUI, Windows Mobile</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Visual Basic .NET Programming" by Michael Halvorson</li>
+                            <li>"Programming Microsoft Visual Basic .NET" by Francesco Balena</li>
+                            <li>"VB.NET Language in a Nutshell" by Steven Roman</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://docs.microsoft.com/en-us/dotnet/visual-basic" target="_blank">Microsoft VB.NET Documentation</a></li>
+                            <li><a href="https://dotnet.microsoft.com/languages/vb" target="_blank">.NET VB.NET</a></li>
+                            <li><a href="https://visualstudio.microsoft.com" target="_blank">Visual Studio</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Microsoft Developer Community</li>
+                            <li>Stack Overflow VB.NET tag</li>
+                            <li>Reddit r/dotnet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

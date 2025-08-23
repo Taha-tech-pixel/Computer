@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortran Programming Language - Learn Everything About Fortran</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="language-info">
+                    <h1>Fortran Programming Language</h1>
+                    <p class="language-tagline">"Formula Translation" - The first high-level programming language, designed for scientific computing</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 1957</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: IBM (John Backus)</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Procedural, Imperative</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>Fortran (Formula Translation) is one of the oldest high-level programming languages, originally developed by IBM for scientific and engineering applications. It has evolved through multiple standards (FORTRAN 66, FORTRAN 77, Fortran 90, Fortran 95, Fortran 2003, Fortran 2008, Fortran 2018) and remains widely used in high-performance computing, numerical analysis, and scientific simulations.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">66+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Major Standards</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1M+</div>
+                        <div class="stat-label">Lines of Code</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-rocket"></i>
+                        <h4>High Performance</h4>
+                        <p>Optimized for numerical computations and scientific applications</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calculator"></i>
+                        <h4>Mathematical Operations</h4>
+                        <p>Built-in support for complex arithmetic and mathematical functions</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-vector-square"></i>
+                        <h4>Array Operations</h4>
+                        <p>Efficient array handling with built-in array operations</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-microchip"></i>
+                        <h4>Parallel Computing</h4>
+                        <p>Modern Fortran supports OpenMP and MPI for parallel processing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>program hello
+  implicit none
+  
+  print *, "Hello, World!"
+  
+end program hello</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Variable Declarations</h4>
+                        <pre><code>program variables
+  implicit none
+  
+  ! Variable declarations
+  integer :: age
+  real :: height, weight
+  character(len=20) :: name
+  logical :: is_student
+  
+  ! Assignment
+  age = 25
+  height = 175.5
+  weight = 70.2
+  name = "Alice"
+  is_student = .true.
+  
+end program variables</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Arrays</h4>
+                        <pre><code>program arrays
+  implicit none
+  
+  ! Array declarations
+  integer, dimension(5) :: numbers
+  real, dimension(3,3) :: matrix
+  character(len=10), dimension(4) :: names
+  
+  ! Array initialization
+  numbers = [1, 2, 3, 4, 5]
+  matrix = reshape([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0], [3, 3])
+  names = ["Alice", "Bob", "Charlie", "Diana"]
+  
+end program arrays</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code>program conditionals
+  implicit none
+  
+  integer :: age
+  
+  age = 25
+  
+  if (age >= 18) then
+    print *, "Adult"
+  else if (age >= 13) then
+    print *, "Teenager"
+  else
+    print *, "Child"
+  end if
+  
+  ! Single line if
+  if (age >= 18) print *, "Can vote"
+  
+end program conditionals</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops</h4>
+                        <pre><code>program loops
+  implicit none
+  
+  integer :: i, sum
+  
+  ! Do loop
+  sum = 0
+  do i = 1, 10
+    sum = sum + i
+  end do
+  
+  ! Do while loop
+  i = 1
+  do while (i <= 5)
+    print *, i
+    i = i + 1
+  end do
+  
+  ! Do loop with step
+  do i = 10, 1, -1
+    print *, i
+  end do
+  
+end program loops</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Functions and Subroutines</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Function Definition</h4>
+                        <pre><code>program functions
+  implicit none
+  
+  real :: result
+  
+  result = calculate_area(5.0, 3.0)
+  print *, "Area:", result
+  
+contains
+  
+  function calculate_area(length, width) result(area)
+    real, intent(in) :: length, width
+    real :: area
+    
+    area = length * width
+  end function calculate_area
+  
+end program functions</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Subroutine</h4>
+                        <pre><code>program subroutines
+  implicit none
+  
+  real :: x, y, sum, product
+  
+  x = 10.0
+  y = 5.0
+  
+  call calculate_values(x, y, sum, product)
+  print *, "Sum:", sum, "Product:", product
+  
+contains
+  
+  subroutine calculate_values(a, b, s, p)
+    real, intent(in) :: a, b
+    real, intent(out) :: s, p
+    
+    s = a + b
+    p = a * b
+  end subroutine calculate_values
+  
+end program subroutines</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Array Operations</h3>
+                <div class="data-structures-grid">
+                    <div class="structure-item">
+                        <h4>Array Manipulation</h4>
+                        <pre><code>program array_ops
+  implicit none
+  
+  integer, dimension(5) :: arr1, arr2, result
+  real, dimension(3,3) :: matrix
+  
+  ! Array initialization
+  arr1 = [1, 2, 3, 4, 5]
+  arr2 = [10, 20, 30, 40, 50]
+  
+  ! Element-wise operations
+  result = arr1 + arr2
+  print *, "Sum:", result
+  
+  result = arr1 * arr2
+  print *, "Product:", result
+  
+  ! Matrix operations
+  matrix = reshape([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0], [3, 3])
+  print *, "Matrix:"
+  call print_matrix(matrix)
+  
+contains
+  
+  subroutine print_matrix(mat)
+    real, dimension(:,:), intent(in) :: mat
+    integer :: i, j
+    
+    do i = 1, size(mat, 1)
+      do j = 1, size(mat, 2)
+        write(*, '(F8.2)', advance='no') mat(i, j)
+      end do
+      print *
+    end do
+  end subroutine print_matrix
+  
+end program array_ops</code></pre>
+                    </div>
+                    <div class="structure-item">
+                        <h4>Array Functions</h4>
+                        <pre><code>program array_functions
+  implicit none
+  
+  real, dimension(5) :: data
+  real :: max_val, min_val, sum_val, avg_val
+  
+  data = [3.14, 2.71, 1.41, 2.24, 1.73]
+  
+  ! Built-in array functions
+  max_val = maxval(data)
+  min_val = minval(data)
+  sum_val = sum(data)
+  avg_val = sum_val / size(data)
+  
+  print *, "Data:", data
+  print *, "Max:", max_val
+  print *, "Min:", min_val
+  print *, "Sum:", sum_val
+  print *, "Average:", avg_val
+  
+  ! Array slicing
+  print *, "First 3 elements:", data(1:3)
+  print *, "Every other element:", data(1:5:2)
+  
+end program array_functions</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Modules and Derived Types</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Module Definition</h4>
+                        <pre><code>module math_utils
+  implicit none
+  
+  ! Module variables
+  real, parameter :: PI = 3.14159265359
+  
+  ! Module procedures
+  contains
+  
+  function circle_area(radius) result(area)
+    real, intent(in) :: radius
+    real :: area
+    
+    area = PI * radius * radius
+  end function circle_area
+  
+  function factorial(n) result(fact)
+    integer, intent(in) :: n
+    integer :: fact, i
+    
+    fact = 1
+    do i = 2, n
+      fact = fact * i
+    end do
+  end function factorial
+  
+end module math_utils</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Using Modules</h4>
+                        <pre><code>program use_module
+  use math_utils
+  implicit none
+  
+  real :: radius, area
+  integer :: n, fact
+  
+  radius = 5.0
+  area = circle_area(radius)
+  print *, "Circle area:", area
+  
+  n = 5
+  fact = factorial(n)
+  print *, n, "! =", fact
+  
+end program use_module</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>File I/O</h3>
+                <div class="file-handling-content">
+                    <h4>Reading Files</h4>
+                    <pre><code>program file_read
+  implicit none
+  
+  integer :: unit, iostat
+  character(len=100) :: line
+  real :: number
+  
+  ! Open file for reading
+  open(unit=10, file='data.txt', status='old', action='read')
+  
+  ! Read file line by line
+  do
+    read(10, '(A)', iostat=iostat) line
+    if (iostat /= 0) exit
+    print *, trim(line)
+  end do
+  
+  ! Close file
+  close(10)
+  
+end program file_read</code></pre>
+                    
+                    <h4>Writing Files</h4>
+                    <pre><code>program file_write
+  implicit none
+  
+  integer :: i
+  real :: x, y
+  
+  ! Open file for writing
+  open(unit=20, file='output.txt', status='replace', action='write')
+  
+  ! Write data to file
+  do i = 1, 10
+    x = real(i)
+    y = x * x
+    write(20, *) x, y
+  end do
+  
+  ! Close file
+  close(20)
+  
+end program file_write</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Modern Fortran Features</h3>
+                <div class="semantic-grid">
+                    <div class="semantic-item">
+                        <h4>Dynamic Arrays</h4>
+                        <pre><code>program dynamic_arrays
+  implicit none
+  
+  integer, allocatable :: arr(:)
+  integer :: n, i
+  
+  print *, "Enter array size:"
+  read *, n
+  
+  ! Allocate array
+  allocate(arr(n))
+  
+  ! Initialize array
+  do i = 1, n
+    arr(i) = i * i
+  end do
+  
+  print *, "Array:", arr
+  
+  ! Deallocate array
+  deallocate(arr)
+  
+end program dynamic_arrays</code></pre>
+                    </div>
+                    <div class="semantic-item">
+                        <h4>Pointers</h4>
+                        <pre><code>program pointers
+  implicit none
+  
+  integer, pointer :: ptr(:)
+  integer, target :: target_array(5)
+  integer :: i
+  
+  ! Initialize target array
+  do i = 1, 5
+    target_array(i) = i
+  end do
+  
+  ! Associate pointer with target
+  ptr => target_array
+  
+  ! Use pointer
+  print *, "Pointer values:", ptr
+  
+  ! Modify through pointer
+  ptr(1) = 100
+  print *, "Modified target:", target_array
+  
+end program pointers</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Always use implicit none</h4>
+                        <p>Prevents implicit variable declarations and catches typos</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use intent attributes</h4>
+                        <p>Specify whether parameters are input, output, or both</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Proper array bounds</h4>
+                        <p>Always check array bounds to avoid runtime errors</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use modules for organization</h4>
+                        <p>Organize related procedures and data in modules</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-microchip"></i>
+                        <h4>Parallel Computing</h4>
+                        <p>OpenMP, MPI, Coarrays, CUDA Fortran</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-calculator"></i>
+                        <h4>Numerical Libraries</h4>
+                        <p>LAPACK, BLAS, FFTW, NetCDF, HDF5</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-rocket"></i>
+                        <h4>High Performance Computing</h4>
+                        <p>Supercomputers, clusters, GPU computing</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-flask"></i>
+                        <h4>Scientific Applications</h4>
+                        <p>Climate modeling, physics simulations, engineering analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Modern Fortran Explained" by Metcalf, Reid, and Cohen</li>
+                            <li>"Fortran 90/95 Explained" by Metcalf and Reid</li>
+                            <li>"Scientific Software Development with Fortran" by Chapman</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://fortran-lang.org" target="_blank">Fortran-lang.org</a></li>
+                            <li><a href="https://gcc.gnu.org/fortran" target="_blank">GNU Fortran</a></li>
+                            <li><a href="https://www.intel.com/fortran" target="_blank">Intel Fortran</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Fortran Discourse</li>
+                            <li>Stack Overflow Fortran tag</li>
+                            <li>Reddit r/fortran</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

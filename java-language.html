@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java - Object-Oriented Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>☕ Java</h1>
+                <p>Object-oriented programming language that runs on billions of devices with "Write Once, Run Anywhere" philosophy</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>Java is a high-level, class-based, object-oriented programming language designed to have as few implementation dependencies as possible. It is intended to let application developers "write once, run anywhere" (WORA), meaning that compiled Java code can run on all platforms that support Java without the need for recompilation.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1995</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">21 (LTS)</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Object-Oriented</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Platform Independent</h4>
+                            <p>Write once, run anywhere with JVM</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Object-Oriented</h4>
+                            <p>Classes, inheritance, polymorphism, encapsulation</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Automatic Memory Management</h4>
+                            <p>Garbage collection handles memory allocation</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Rich Standard Library</h4>
+                            <p>Comprehensive API for common programming tasks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>// Hello World program
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+
+// Variables and data types
+public class Variables {
+    public static void main(String[] args) {
+        // Primitive types
+        int number = 42;
+        double decimal = 3.14;
+        boolean flag = true;
+        char letter = 'A';
+        
+        // Reference types
+        String text = "Hello Java";
+        Integer wrapper = 100;
+        
+        // Arrays
+        int[] numbers = {1, 2, 3, 4, 5};
+        String[] names = new String[3];
+    }
+}
+
+// Classes and objects
+public class Person {
+    // Instance variables
+    private String name;
+    private int age;
+    
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Methods
+    public String getName() {
+        return name;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Object-Oriented Programming -->
+                <div class="section-card">
+                    <h3>Object-Oriented Programming</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Classes</h4>
+                            <p>Blueprints for creating objects with state and behavior</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Inheritance</h4>
+                            <p>Extend classes to create hierarchical relationships</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Polymorphism</h4>
+                            <p>Same interface, different implementations</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Encapsulation</h4>
+                            <p>Bundling data and methods that operate on that data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collections Framework -->
+                <div class="section-card">
+                    <h3>Collections Framework</h3>
+                    <div class="code-example">
+                        <pre><code>import java.util.*;
+
+public class CollectionsExample {
+    public static void main(String[] args) {
+        // List - ordered collection
+        List<String> names = new ArrayList<>();
+        names.add("Alice");
+        names.add("Bob");
+        names.add("Charlie");
+        
+        // Set - unique elements
+        Set<Integer> numbers = new HashSet<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(1); // Duplicate, won't be added
+        
+        // Map - key-value pairs
+        Map<String, Integer> ages = new HashMap<>();
+        ages.put("Alice", 25);
+        ages.put("Bob", 30);
+        ages.put("Charlie", 35);
+        
+        // Iterating through collections
+        for (String name : names) {
+            System.out.println("Name: " + name);
+        }
+        
+        // Stream API (Java 8+)
+        names.stream()
+             .filter(name -> name.startsWith("A"))
+             .forEach(System.out::println);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Exception Handling -->
+                <div class="section-card">
+                    <h3>Exception Handling</h3>
+                    <div class="code-example">
+                        <pre><code>public class ExceptionHandling {
+    public static void main(String[] args) {
+        try {
+            // Risky code
+            int result = divide(10, 0);
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            // Handle specific exception
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            // Handle general exceptions
+            System.out.println("Unexpected error: " + e.getMessage());
+        } finally {
+            // Always executed
+            System.out.println("Cleanup code");
+        }
+    }
+    
+    public static int divide(int a, int b) throws ArithmeticException {
+        if (b == 0) {
+            throw new ArithmeticException("Division by zero");
+        }
+        return a / b;
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Modern Java Features -->
+                <div class="section-card">
+                    <h3>Modern Java Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Lambda Expressions</h4>
+                            <p>Functional programming with anonymous functions</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Stream API</h4>
+                            <p>Functional-style operations on collections</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Optional Class</h4>
+                            <p>Better null handling and null-safe operations</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Records (Java 14+)</h4>
+                            <p>Immutable data classes with minimal boilerplate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Frameworks -->
+                <div class="section-card">
+                    <h3>Popular Frameworks</h3>
+                    <div class="frameworks-grid">
+                        <div class="framework-item">
+                            <h4>Spring Framework</h4>
+                            <p>Comprehensive framework for enterprise Java development</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Hibernate</h4>
+                            <p>Object-relational mapping framework for databases</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Maven/Gradle</h4>
+                            <p>Build automation and dependency management tools</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>JUnit</h4>
+                            <p>Unit testing framework for Java</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Android Development -->
+                <div class="section-card">
+                    <h3>Android Development</h3>
+                    <div class="code-example">
+                        <pre><code>// Simple Android Activity
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        // Find views
+        Button button = findViewById(R.id.button);
+        TextView textView = findViewById(R.id.textView);
+        
+        // Set click listener
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setText("Button clicked!");
+            }
+        });
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Naming Conventions</h4>
+                            <p>Use camelCase for variables/methods, PascalCase for classes</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Access Modifiers</h4>
+                            <p>Use private for encapsulation, public only when necessary</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Exception Handling</h4>
+                            <p>Always handle exceptions appropriately, don't ignore them</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Documentation</h4>
+                            <p>Use JavaDoc for public APIs and complex methods</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>JVM</h4>
+                            <p>Java Virtual Machine for platform independence</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>JRE</h4>
+                            <p>Java Runtime Environment for running applications</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>JDK</h4>
+                            <p>Java Development Kit for development tools</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Android SDK</h4>
+                            <p>Software development kit for Android development</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>Java API documentation and tutorials</p>
+                            <a href="https://docs.oracle.com/javase/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Oracle Java Tutorials</h4>
+                            <p>Comprehensive learning path for Java</p>
+                            <a href="https://docs.oracle.com/javase/tutorial/" target="_blank" class="btn btn-secondary">Read Tutorials</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Spring Framework</h4>
+                            <p>Learn the popular Java framework</p>
+                            <a href="https://spring.io/guides" target="_blank" class="btn btn-secondary">Learn Spring</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Java Community</h4>
+                            <p>Stack Overflow, Reddit, and Java forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/java" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

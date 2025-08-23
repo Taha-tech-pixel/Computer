@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C - General-Purpose Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🔵 C</h1>
+                <p>General-purpose programming language that provides low-level access to memory and system resources</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>C is a general-purpose, procedural programming language supporting structured programming, lexical variable scope, and recursion, with a static type system. By design, C provides constructs that map efficiently to typical machine instructions, making it suitable for system programming and embedded systems.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1972</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Standard</div>
+                            <div class="stat-value">C18/C2x</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Procedural</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Weak</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Low-Level Access</h4>
+                            <p>Direct memory manipulation and hardware access</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Portability</h4>
+                            <p>Code can be compiled on different platforms</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Efficiency</h4>
+                            <p>Fast execution and minimal memory overhead</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Standard Library</h4>
+                            <p>Rich set of built-in functions and utilities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>// Hello World program
+#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+
+// Variables and data types
+#include &lt;stdio.h&gt;
+
+int main() {
+    // Integer types
+    int number = 42;
+    short small = 100;
+    long big = 1000000L;
+    
+    // Floating point types
+    float pi = 3.14f;
+    double precise = 3.14159265359;
+    
+    // Character type
+    char letter = 'A';
+    
+    // Arrays
+    int numbers[5] = {1, 2, 3, 4, 5};
+    
+    // Pointers
+    int *ptr = &number;
+    
+    printf("Number: %d, Pointer: %p\n", number, ptr);
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Functions -->
+                <div class="section-card">
+                    <h3>Functions</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;stdio.h&gt;
+
+// Function declaration (prototype)
+int add(int a, int b);
+void printMessage(const char* message);
+
+int main() {
+    int result = add(10, 20);
+    printf("Result: %d\n", result);
+    
+    printMessage("Hello from function!");
+    return 0;
+}
+
+// Function definition
+int add(int a, int b) {
+    return a + b;
+}
+
+void printMessage(const char* message) {
+    printf("%s\n", message);
+}
+
+// Recursive function
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Pointers and Memory -->
+                <div class="section-card">
+                    <h3>Pointers and Memory</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    // Basic pointer usage
+    int x = 10;
+    int *ptr = &x;
+    
+    printf("Value of x: %d\n", x);
+    printf("Address of x: %p\n", (void*)&x);
+    printf("Value at ptr: %d\n", *ptr);
+    
+    // Dynamic memory allocation
+    int *dynamicArray = (int*)malloc(5 * sizeof(int));
+    
+    if (dynamicArray != NULL) {
+        // Initialize array
+        for (int i = 0; i < 5; i++) {
+            dynamicArray[i] = i + 1;
+        }
+        
+        // Use array
+        for (int i = 0; i < 5; i++) {
+            printf("%d ", dynamicArray[i]);
+        }
+        printf("\n");
+        
+        // Free memory
+        free(dynamicArray);
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Structures -->
+                <div class="section-card">
+                    <h3>Structures</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+// Structure definition
+struct Person {
+    char name[50];
+    int age;
+    float height;
+};
+
+// Structure with pointer
+struct Student {
+    char* name;
+    int id;
+    float gpa;
+};
+
+int main() {
+    // Creating and using structures
+    struct Person person1;
+    strcpy(person1.name, "John Doe");
+    person1.age = 30;
+    person1.height = 175.5;
+    
+    printf("Name: %s, Age: %d, Height: %.1f\n", 
+           person1.name, person1.age, person1.height);
+    
+    // Structure pointers
+    struct Person *ptr = &person1;
+    printf("Name via pointer: %s\n", ptr->name);
+    
+    // Array of structures
+    struct Person people[3] = {
+        {"Alice", 25, 165.0},
+        {"Bob", 35, 180.0},
+        {"Charlie", 28, 170.0}
+    };
+    
+    for (int i = 0; i < 3; i++) {
+        printf("Person %d: %s, %d, %.1f\n", 
+               i+1, people[i].name, people[i].age, people[i].height);
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- File I/O -->
+                <div class="section-card">
+                    <h3>File I/O</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    FILE *file;
+    char buffer[100];
+    
+    // Writing to file
+    file = fopen("test.txt", "w");
+    if (file != NULL) {
+        fprintf(file, "Hello, this is a test file!\n");
+        fprintf(file, "Line 2: C programming is fun!\n");
+        fclose(file);
+        printf("File written successfully!\n");
+    }
+    
+    // Reading from file
+    file = fopen("test.txt", "r");
+    if (file != NULL) {
+        printf("File contents:\n");
+        while (fgets(buffer, sizeof(buffer), file) != NULL) {
+            printf("%s", buffer);
+        }
+        fclose(file);
+    }
+    
+    // Binary file operations
+    int numbers[] = {1, 2, 3, 4, 5};
+    file = fopen("data.bin", "wb");
+    if (file != NULL) {
+        fwrite(numbers, sizeof(int), 5, file);
+        fclose(file);
+        printf("Binary file written!\n");
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Preprocessor Directives -->
+                <div class="section-card">
+                    <h3>Preprocessor Directives</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;stdio.h&gt;
+
+// Macro definitions
+#define PI 3.14159
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define SQUARE(x) ((x) * (x))
+
+// Conditional compilation
+#define DEBUG 1
+
+int main() {
+    double radius = 5.0;
+    double area = PI * SQUARE(radius);
+    
+    printf("Area of circle: %.2f\n", area);
+    printf("Maximum of 10 and 20: %d\n", MAX(10, 20));
+    
+    #if DEBUG
+        printf("Debug mode is enabled\n");
+    #endif
+    
+    #ifdef PI
+        printf("PI is defined as: %f\n", PI);
+    #endif
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Common Libraries -->
+                <div class="section-card">
+                    <h3>Common Libraries</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>stdio.h</h4>
+                            <p>Input/output operations and file handling</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>stdlib.h</h4>
+                            <p>Memory allocation, random numbers, utilities</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>string.h</h4>
+                            <p>String manipulation functions</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>math.h</h4>
+                            <p>Mathematical functions and constants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Memory Management</h4>
+                            <p>Always free allocated memory and check for NULL pointers</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Check return values and handle errors appropriately</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Buffer Safety</h4>
+                            <p>Use bounds checking to prevent buffer overflows</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Code Organization</h4>
+                            <p>Use header files for function declarations and constants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>GCC</h4>
+                            <p>GNU Compiler Collection for C compilation</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Make</h4>
+                            <p>Build automation tool for C projects</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>GDB</h4>
+                            <p>GNU Debugger for debugging C programs</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Valgrind</h4>
+                            <p>Memory error detection tool</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>K&R Book</h4>
+                            <p>The C Programming Language by Kernighan & Ritchie</p>
+                            <a href="https://en.wikipedia.org/wiki/The_C_Programming_Language" target="_blank" class="btn btn-secondary">Learn More</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C Standard</h4>
+                            <p>ISO/IEC 9899 C language standard</p>
+                            <a href="https://www.iso.org/standard/74528.html" target="_blank" class="btn btn-secondary">View Standard</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>GCC Documentation</h4>
+                            <p>GNU Compiler Collection documentation</p>
+                            <a href="https://gcc.gnu.org/onlinedocs/" target="_blank" class="btn btn-secondary">Read Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C Community</h4>
+                            <p>Stack Overflow, Reddit, and C programming forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/c" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

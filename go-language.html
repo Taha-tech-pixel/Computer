@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go - Systems Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🔵 Go</h1>
+                <p>Open-source programming language developed by Google, known for simplicity and concurrent programming</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>Go (also known as Golang) is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">2009</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">1.21+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Multi-paradigm</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Simplicity</h4>
+                            <p>Clean, readable syntax with minimal keywords</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Concurrency</h4>
+                            <p>Built-in support for goroutines and channels</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Fast Compilation</h4>
+                            <p>Quick build times and efficient execution</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Garbage Collection</h4>
+                            <p>Automatic memory management</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import "fmt"
+
+// Hello World program
+func main() {
+    fmt.Println("Hello, World!")
+}
+
+// Variables and data types
+func main() {
+    // Variable declarations
+    var name string = "Alice"
+    var age int = 25
+    
+    // Short variable declarations
+    city := "New York"
+    isActive := true
+    
+    // Multiple declarations
+    var (
+        firstName = "John"
+        lastName  = "Doe"
+        height    = 175.5
+    )
+    
+    // Constants
+    const pi = 3.14159
+    const (
+        appName = "MyApp"
+        version = "1.0.0"
+    )
+    
+    // Type inference
+    var number = 42        // int
+    var price = 19.99      // float64
+    var letter = 'A'       // rune (int32)
+    
+    fmt.Printf("Name: %s, Age: %d, City: %s\n", name, age, city)
+    fmt.Printf("Constants: %s v%s, PI: %f\n", appName, version, pi)
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Functions -->
+                <div class="section-card">
+                    <h3>Functions</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import "fmt"
+
+// Basic function
+func greet(name string) string {
+    return "Hello, " + name + "!"
+}
+
+// Function with multiple return values
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("division by zero")
+    }
+    return a / b, nil
+}
+
+// Function with named return values
+func calculate(x, y int) (sum, product int) {
+    sum = x + y
+    product = x * y
+    return // naked return
+}
+
+// Variadic function
+func sum(numbers ...int) int {
+    total := 0
+    for _, num := range numbers {
+        total += num
+    }
+    return total
+}
+
+// Function as a value
+func applyOperation(x, y int, operation func(int, int) int) int {
+    return operation(x, y)
+}
+
+// Anonymous function (closure)
+func main() {
+    // Call basic function
+    message := greet("Alice")
+    fmt.Println(message)
+    
+    // Call function with multiple returns
+    result, err := divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("10 / 2 = %d\n", result)
+    }
+    
+    // Call function with named returns
+    sum, product := calculate(5, 3)
+    fmt.Printf("Sum: %d, Product: %d\n", sum, product)
+    
+    // Call variadic function
+    total := sum(1, 2, 3, 4, 5)
+    fmt.Printf("Sum of 1,2,3,4,5: %d\n", total)
+    
+    // Use function as value
+    add := func(a, b int) int { return a + b }
+    multiply := func(a, b int) int { return a * b }
+    
+    fmt.Printf("5 + 3 = %d\n", applyOperation(5, 3, add))
+    fmt.Printf("5 * 3 = %d\n", applyOperation(5, 3, multiply))
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Structs and Methods -->
+                <div class="section-card">
+                    <h3>Structs and Methods</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import "fmt"
+
+// Define a struct
+type Person struct {
+    Name string
+    Age  int
+    City string
+}
+
+// Method with value receiver
+func (p Person) Describe() string {
+    return fmt.Sprintf("%s is %d years old and lives in %s", p.Name, p.Age, p.City)
+}
+
+// Method with pointer receiver (can modify the struct)
+func (p *Person) Birthday() {
+    p.Age++
+}
+
+// Method with pointer receiver
+func (p *Person) MoveTo(city string) {
+    p.City = city
+}
+
+// Constructor function (Go convention)
+func NewPerson(name string, age int, city string) *Person {
+    return &Person{
+        Name: name,
+        Age:  age,
+        City: city,
+    }
+}
+
+// Embedded structs (composition)
+type Employee struct {
+    Person
+    EmployeeID string
+    Salary     float64
+}
+
+// Method for Employee
+func (e Employee) GetInfo() string {
+    return fmt.Sprintf("Employee %s: %s, Salary: $%.2f", 
+        e.EmployeeID, e.Describe(), e.Salary)
+}
+
+// Interface
+type Describable interface {
+    Describe() string
+}
+
+// Function that works with any Describable
+func printDescription(d Describable) {
+    fmt.Println(d.Describe())
+}
+
+func main() {
+    // Create a person
+    person := NewPerson("Alice", 30, "New York")
+    fmt.Println(person.Describe())
+    
+    // Use pointer receiver methods
+    person.Birthday()
+    person.MoveTo("Los Angeles")
+    fmt.Println(person.Describe())
+    
+    // Create an employee
+    employee := &Employee{
+        Person:     *person,
+        EmployeeID: "EMP001",
+        Salary:     75000.0,
+    }
+    
+    fmt.Println(employee.GetInfo())
+    
+    // Use interface
+    printDescription(person)
+    printDescription(employee)
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Slices and Maps -->
+                <div class="section-card">
+                    <h3>Slices and Maps</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import "fmt"
+
+func main() {
+    // Slices (dynamic arrays)
+    var numbers []int                    // nil slice
+    numbers = make([]int, 0, 5)         // create with capacity 5
+    
+    // Append elements
+    numbers = append(numbers, 1, 2, 3)
+    numbers = append(numbers, 4, 5)
+    
+    // Slice literal
+    fruits := []string{"apple", "banana", "orange"}
+    
+    // Slice operations
+    fmt.Println("Original:", fruits)
+    fmt.Println("First two:", fruits[:2])
+    fmt.Println("Last two:", fruits[1:])
+    fmt.Println("Middle:", fruits[1:3])
+    
+    // Copy slices
+    fruitsCopy := make([]string, len(fruits))
+    copy(fruitsCopy, fruits)
+    
+    // Maps (key-value pairs)
+    ages := make(map[string]int)
+    ages["Alice"] = 25
+    ages["Bob"] = 30
+    ages["Charlie"] = 35
+    
+    // Map literal
+    scores := map[string]int{
+        "Alice":   95,
+        "Bob":     87,
+        "Charlie": 92,
+    }
+    
+    // Access map values
+    if age, exists := ages["Alice"]; exists {
+        fmt.Printf("Alice's age: %d\n", age)
+    }
+    
+    // Delete from map
+    delete(ages, "Charlie")
+    
+    // Iterate over maps
+    for name, age := range ages {
+        fmt.Printf("%s: %d\n", name, age)
+    }
+    
+    // Slice of maps
+    people := []map[string]interface{}{
+        {"name": "Alice", "age": 25, "city": "New York"},
+        {"name": "Bob", "age": 30, "city": "Los Angeles"},
+        {"name": "Charlie", "age": 35, "city": "Chicago"},
+    }
+    
+    for _, person := range people {
+        fmt.Printf("%s is %v years old and lives in %s\n",
+            person["name"], person["age"], person["city"])
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Goroutines and Channels -->
+                <div class="section-card">
+                    <h3>Goroutines and Channels</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import (
+    "fmt"
+    "time"
+)
+
+// Simple goroutine
+func sayHello(name string) {
+    for i := 0; i < 3; i++ {
+        fmt.Printf("Hello %s from goroutine\n", name)
+        time.Sleep(100 * time.Millisecond)
+    }
+}
+
+// Function that sends data to channel
+func sendData(ch chan string, data string) {
+    ch <- data
+    close(ch)
+}
+
+// Function that receives data from channel
+func receiveData(ch chan string) {
+    for data := range ch {
+        fmt.Printf("Received: %s\n", data)
+    }
+}
+
+// Worker function
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for job := range jobs {
+        fmt.Printf("Worker %d processing job %d\n", id, job)
+        time.Sleep(time.Second) // Simulate work
+        results <- job * 2
+    }
+}
+
+func main() {
+    // Start a goroutine
+    go sayHello("Alice")
+    
+    // Main goroutine continues
+    fmt.Println("Main goroutine running")
+    time.Sleep(500 * time.Millisecond)
+    
+    // Channels for communication
+    ch := make(chan string)
+    go sendData(ch, "Hello from goroutine")
+    go receiveData(ch)
+    
+    time.Sleep(100 * time.Millisecond)
+    
+    // Worker pool example
+    const numJobs = 5
+    const numWorkers = 3
+    
+    jobs := make(chan int, numJobs)
+    results := make(chan int, numJobs)
+    
+    // Start workers
+    for w := 1; w <= numWorkers; w++ {
+        go worker(w, jobs, results)
+    }
+    
+    // Send jobs
+    for j := 1; j <= numJobs; j++ {
+        jobs <- j
+    }
+    close(jobs)
+    
+    // Collect results
+    for a := 1; a <= numJobs; a++ {
+        result := <-results
+        fmt.Printf("Result: %d\n", result)
+    }
+    
+    // Select statement for non-blocking operations
+    ch1 := make(chan string)
+    ch2 := make(chan string)
+    
+    go func() {
+        time.Sleep(100 * time.Millisecond)
+        ch1 <- "from ch1"
+    }()
+    
+    go func() {
+        time.Sleep(200 * time.Millisecond)
+        ch2 <- "from ch2"
+    }()
+    
+    for i := 0; i < 2; i++ {
+        select {
+        case msg1 := <-ch1:
+            fmt.Printf("Received %s\n", msg1)
+        case msg2 := <-ch2:
+            fmt.Printf("Received %s\n", msg2)
+        case <-time.After(300 * time.Millisecond):
+            fmt.Println("Timeout")
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Error Handling -->
+                <div class="section-card">
+                    <h3>Error Handling</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import (
+    "errors"
+    "fmt"
+    "strconv"
+)
+
+// Custom error type
+type ValidationError struct {
+    Field string
+    Value string
+}
+
+func (e ValidationError) Error() string {
+    return fmt.Sprintf("validation failed for field '%s' with value '%s'", e.Field, e.Value)
+}
+
+// Function that returns an error
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+// Function with custom error
+func validateAge(ageStr string) (int, error) {
+    age, err := strconv.Atoi(ageStr)
+    if err != nil {
+        return 0, fmt.Errorf("invalid age format: %w", err)
+    }
+    
+    if age < 0 || age > 150 {
+        return 0, ValidationError{
+            Field: "age",
+            Value: ageStr,
+        }
+    }
+    
+    return age, nil
+}
+
+// Function that handles multiple errors
+func processUser(name, ageStr, email string) error {
+    var errs []error
+    
+    if name == "" {
+        errs = append(errs, errors.New("name is required"))
+    }
+    
+    if _, err := validateAge(ageStr); err != nil {
+        errs = append(errs, fmt.Errorf("age validation failed: %w", err))
+    }
+    
+    if email == "" {
+        errs = append(errs, errors.New("email is required"))
+    }
+    
+    if len(errs) > 0 {
+        return fmt.Errorf("validation errors: %v", errs)
+    }
+    
+    return nil
+}
+
+func main() {
+    // Basic error handling
+    result, err := divide(10, 2)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+        return
+    }
+    fmt.Printf("10 / 2 = %d\n", result)
+    
+    // Try division by zero
+    _, err = divide(10, 0)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+    
+    // Custom error handling
+    age, err := validateAge("25")
+    if err != nil {
+        if validationErr, ok := err.(ValidationError); ok {
+            fmt.Printf("Validation error: %s\n", validationErr.Error())
+        } else {
+            fmt.Printf("Other error: %v\n", err)
+        }
+        return
+    }
+    fmt.Printf("Valid age: %d\n", age)
+    
+    // Multiple error handling
+    err = processUser("", "invalid", "")
+    if err != nil {
+        fmt.Printf("Processing error: %v\n", err)
+    }
+    
+    // Successful processing
+    err = processUser("Alice", "25", "alice@example.com")
+    if err != nil {
+        fmt.Printf("Processing error: %v\n", err)
+    } else {
+        fmt.Println("User processed successfully")
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Web Development -->
+                <div class="section-card">
+                    <h3>Web Development</h3>
+                    <div class="code-example">
+                        <pre><code>package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "time"
+)
+
+// User struct
+type User struct {
+    ID       int    `json:"id"`
+    Name     string `json:"name"`
+    Email    string `json:"email"`
+    Created  string `json:"created"`
+}
+
+// Response struct
+type Response struct {
+    Success bool        `json:"success"`
+    Message string      `json:"message"`
+    Data    interface{} `json:"data,omitempty"`
+}
+
+// Global users storage (in real app, use database)
+var users = []User{
+    {ID: 1, Name: "Alice", Email: "alice@example.com", Created: time.Now().Format(time.RFC3339)},
+    {ID: 2, Name: "Bob", Email: "bob@example.com", Created: time.Now().Format(time.RFC3339)},
+}
+
+// Handler functions
+func getUsers(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodGet {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    
+    response := Response{
+        Success: true,
+        Message: "Users retrieved successfully",
+        Data:    users,
+    }
+    
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(response)
+}
+
+func createUser(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    
+    var newUser User
+    if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
+        http.Error(w, "Invalid JSON", http.StatusBadRequest)
+        return
+    }
+    
+    // Validate user data
+    if newUser.Name == "" || newUser.Email == "" {
+        response := Response{
+            Success: false,
+            Message: "Name and email are required",
+        }
+        w.Header().Set("Content-Type", "application/json")
+        w.WriteHeader(http.StatusBadRequest)
+        json.NewEncoder(w).Encode(response)
+        return
+    }
+    
+    // Assign ID and creation time
+    newUser.ID = len(users) + 1
+    newUser.Created = time.Now().Format(time.RFC3339)
+    
+    users = append(users, newUser)
+    
+    response := Response{
+        Success: true,
+        Message: "User created successfully",
+        Data:    newUser,
+    }
+    
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(response)
+}
+
+// Middleware for logging
+func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        next(w, r)
+        log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
+    }
+}
+
+func main() {
+    // Define routes
+    http.HandleFunc("/users", loggingMiddleware(getUsers))
+    http.HandleFunc("/users/create", loggingMiddleware(createUser))
+    
+    // Start server
+    fmt.Println("Server starting on :8080")
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Always check and handle errors, don't ignore them</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Goroutines</h4>
+                            <p>Use goroutines for concurrent operations, but manage them properly</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Interfaces</h4>
+                            <p>Keep interfaces small and focused on specific behavior</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Package Organization</h4>
+                            <p>Organize code into logical packages with clear responsibilities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>Go Modules</h4>
+                            <p>Dependency management system for Go</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Gin/Echo</h4>
+                            <p>Popular web frameworks for Go</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>GORM</h4>
+                            <p>Object-relational mapping library for Go</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Docker</h4>
+                            <p>Containerization platform that works well with Go</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>Go language documentation and tutorials</p>
+                            <a href="https://golang.org/doc/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Go Playground</h4>
+                            <p>Online editor to experiment with Go</p>
+                            <a href="https://play.golang.org/" target="_blank" class="btn btn-secondary">Try Online</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Go by Example</h4>
+                            <p>Hands-on introduction to Go using annotated example programs</p>
+                            <a href="https://gobyexample.com/" target="_blank" class="btn btn-secondary">Learn Examples</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Go Community</h4>
+                            <p>Stack Overflow, Reddit, and Go forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/go" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

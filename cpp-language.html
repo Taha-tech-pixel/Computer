@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ - Object-Oriented Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🔵 C++</h1>
+                <p>Extension of C with object-oriented features, used for system software, game development, and applications</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>C++ is a general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It offers a perfect blend of high-level and low-level language features, making it suitable for both system programming and application development.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1985</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Standard</div>
+                            <div class="stat-value">C++23</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Multi-paradigm</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Object-Oriented</h4>
+                            <p>Classes, inheritance, polymorphism, encapsulation</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Generic Programming</h4>
+                            <p>Templates for type-independent code</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>STL</h4>
+                            <p>Standard Template Library with containers and algorithms</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Performance</h4>
+                            <p>High performance with minimal overhead</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Hello World program
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+
+// Variables and data types
+int main() {
+    // Basic types
+    int number = 42;
+    double pi = 3.14159;
+    char letter = 'A';
+    bool flag = true;
+    
+    // String type
+    string message = "Hello C++";
+    
+    // Auto type deduction
+    auto value = 3.14; // double
+    auto text = "Hello"; // const char*
+    
+    // References
+    int& ref = number; // Reference to number
+    
+    cout << "Number: " << number << ", Reference: " << ref << endl;
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Classes and Objects -->
+                <div class="section-card">
+                    <h3>Classes and Objects</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int age;
+    
+public:
+    // Constructor
+    Person(string n, int a) : name(n), age(a) {}
+    
+    // Copy constructor
+    Person(const Person& other) : name(other.name), age(other.age) {}
+    
+    // Destructor
+    ~Person() {
+        cout << "Person " << name << " destroyed" << endl;
+    }
+    
+    // Member functions
+    void display() const {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+    
+    // Getters and setters
+    string getName() const { return name; }
+    int getAge() const { return age; }
+    void setAge(int a) { age = a; }
+    
+    // Static member
+    static int getCount() { return count; }
+    
+private:
+    static int count;
+};
+
+int Person::count = 0;
+
+int main() {
+    Person person1("Alice", 25);
+    Person person2 = person1; // Copy constructor
+    
+    person1.display();
+    person2.setAge(30);
+    person2.display();
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Inheritance and Polymorphism -->
+                <div class="section-card">
+                    <h3>Inheritance and Polymorphism</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Base class
+class Shape {
+protected:
+    string color;
+    
+public:
+    Shape(string c) : color(c) {}
+    
+    // Virtual function for polymorphism
+    virtual double getArea() const = 0; // Pure virtual function
+    
+    virtual void display() const {
+        cout << "Shape color: " << color << endl;
+    }
+    
+    // Virtual destructor
+    virtual ~Shape() {}
+};
+
+// Derived class
+class Circle : public Shape {
+private:
+    double radius;
+    
+public:
+    Circle(string c, double r) : Shape(c), radius(r) {}
+    
+    double getArea() const override {
+        return 3.14159 * radius * radius;
+    }
+    
+    void display() const override {
+        cout << "Circle - Color: " << color << ", Radius: " << radius << endl;
+    }
+};
+
+// Another derived class
+class Rectangle : public Shape {
+private:
+    double width, height;
+    
+public:
+    Rectangle(string c, double w, double h) : Shape(c), width(w), height(h) {}
+    
+    double getArea() const override {
+        return width * height;
+    }
+    
+    void display() const override {
+        cout << "Rectangle - Color: " << color << ", Width: " << width << ", Height: " << height << endl;
+    }
+};
+
+int main() {
+    // Polymorphism through base class pointers
+    Shape* shapes[] = {
+        new Circle("Red", 5.0),
+        new Rectangle("Blue", 4.0, 6.0)
+    };
+    
+    for (Shape* shape : shapes) {
+        shape->display();
+        cout << "Area: " << shape->getArea() << endl;
+        delete shape;
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Templates -->
+                <div class="section-card">
+                    <h3>Templates</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Function template
+template &lt;typename T&gt;
+T maximum(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+// Class template
+template &lt;typename T&gt;
+class Stack {
+private:
+    T* elements;
+    int top;
+    int capacity;
+    
+public:
+    Stack(int size) : capacity(size), top(-1) {
+        elements = new T[capacity];
+    }
+    
+    ~Stack() {
+        delete[] elements;
+    }
+    
+    void push(T value) {
+        if (top < capacity - 1) {
+            elements[++top] = value;
+        }
+    }
+    
+    T pop() {
+        if (top >= 0) {
+            return elements[top--];
+        }
+        throw runtime_error("Stack is empty");
+    }
+    
+    bool isEmpty() const {
+        return top == -1;
+    }
+};
+
+// Template specialization
+template &lt;&gt;
+string maximum(string a, string b) {
+    return (a.length() > b.length()) ? a : b;
+}
+
+int main() {
+    // Using function template
+    cout << "Max of 10 and 20: " << maximum(10, 20) << endl;
+    cout << "Max of 3.14 and 2.71: " << maximum(3.14, 2.71) << endl;
+    cout << "Max of 'hello' and 'world': " << maximum(string("hello"), string("world")) << endl;
+    
+    // Using class template
+    Stack&lt;int&gt; intStack(5);
+    intStack.push(1);
+    intStack.push(2);
+    intStack.push(3);
+    
+    while (!intStack.isEmpty()) {
+        cout << intStack.pop() << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- STL Containers -->
+                <div class="section-card">
+                    <h3>STL Containers</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    // Vector - dynamic array
+    vector&lt;int&gt; numbers = {3, 1, 4, 1, 5, 9, 2, 6};
+    
+    // Sorting
+    sort(numbers.begin(), numbers.end());
+    
+    // Using algorithms
+    auto it = find(numbers.begin(), numbers.end(), 5);
+    if (it != numbers.end()) {
+        cout << "Found 5 at position: " << (it - numbers.begin()) << endl;
+    }
+    
+    // Map - key-value pairs
+    map&lt;string, int&gt; ages;
+    ages["Alice"] = 25;
+    ages["Bob"] = 30;
+    ages["Charlie"] = 35;
+    
+    for (const auto& pair : ages) {
+        cout << pair.first << ": " << pair.second << endl;
+    }
+    
+    // Set - unique elements
+    set&lt;int&gt; uniqueNumbers = {1, 2, 2, 3, 3, 3, 4, 5};
+    
+    // Lambda functions with algorithms
+    for_each(uniqueNumbers.begin(), uniqueNumbers.end(), 
+        [](int n) { cout << n << " "; });
+    cout << endl;
+    
+    // Custom sorting with lambda
+    vector&lt;string&gt; names = {"Charlie", "Alice", "Bob"};
+    sort(names.begin(), names.end(), 
+        [](const string& a, const string& b) {
+            return a.length() < b.length();
+        });
+    
+    for (const string& name : names) {
+        cout << name << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Smart Pointers -->
+                <div class="section-card">
+                    <h3>Smart Pointers</h3>
+                    <div class="code-example">
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+class Resource {
+public:
+    Resource() { cout << "Resource created" << endl; }
+    ~Resource() { cout << "Resource destroyed" << endl; }
+    
+    void use() { cout << "Resource used" << endl; }
+};
+
+// Function that takes unique_ptr
+void processResource(unique_ptr&lt;Resource&gt; resource) {
+    resource->use();
+    // unique_ptr automatically deleted when function ends
+}
+
+int main() {
+    // unique_ptr - exclusive ownership
+    unique_ptr&lt;Resource&gt; resource1 = make_unique&lt;Resource&gt;();
+    resource1->use();
+    
+    // Transfer ownership
+    unique_ptr&lt;Resource&gt; resource2 = move(resource1);
+    // resource1 is now nullptr
+    
+    // shared_ptr - shared ownership
+    shared_ptr&lt;Resource&gt; shared1 = make_shared&lt;Resource&gt;();
+    shared_ptr&lt;Resource&gt; shared2 = shared1; // Reference count: 2
+    
+    cout << "Reference count: " << shared1.use_count() << endl;
+    
+    // weak_ptr - non-owning reference
+    weak_ptr&lt;Resource&gt; weak = shared1;
+    
+    if (auto locked = weak.lock()) {
+        locked->use();
+    }
+    
+    // Vector of smart pointers
+    vector&lt;unique_ptr&lt;Resource&gt;&gt; resources;
+    resources.push_back(make_unique&lt;Resource&gt;());
+    resources.push_back(make_unique&lt;Resource&gt;());
+    
+    // Process resources
+    for (auto& resource : resources) {
+        processResource(move(resource));
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Modern C++ Features -->
+                <div class="section-card">
+                    <h3>Modern C++ Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Auto Keyword</h4>
+                            <p>Automatic type deduction for variables</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Range-based For</h4>
+                            <p>Simplified iteration over containers</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Lambda Expressions</h4>
+                            <p>Anonymous function objects</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Move Semantics</h4>
+                            <p>Efficient resource transfer and rvalue references</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>RAII</h4>
+                            <p>Resource Acquisition Is Initialization - use constructors and destructors</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Smart Pointers</h4>
+                            <p>Use smart pointers instead of raw pointers when possible</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Const Correctness</h4>
+                            <p>Use const wherever possible to prevent accidental modifications</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Exception Safety</h4>
+                            <p>Ensure strong exception guarantees in your code</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>GCC/G++</h4>
+                            <p>GNU Compiler Collection for C++ compilation</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Clang</h4>
+                            <p>LLVM-based C++ compiler</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>CMake</h4>
+                            <p>Cross-platform build system generator</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Conan</h4>
+                            <p>C++ package manager for dependencies</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>C++ Standard documentation and reference</p>
+                            <a href="https://isocpp.org/" target="_blank" class="btn btn-secondary">Visit Site</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C++ Core Guidelines</h4>
+                            <p>Best practices and guidelines by Bjarne Stroustrup</p>
+                            <a href="https://isocpp.github.io/CppCoreGuidelines/" target="_blank" class="btn btn-secondary">Read Guidelines</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>cppreference</h4>
+                            <p>Comprehensive C++ reference documentation</p>
+                            <a href="https://en.cppreference.com/" target="_blank" class="btn btn-secondary">View Reference</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C++ Community</h4>
+                            <p>Stack Overflow, Reddit, and C++ forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/c%2b%2b" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

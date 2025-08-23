@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# - Modern Object-Oriented Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🔷 C#</h1>
+                <p>Modern, object-oriented language developed by Microsoft for the .NET framework and Windows applications</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>C# (pronounced "C sharp") is a modern, object-oriented programming language developed by Microsoft as part of the .NET initiative. It combines the power and flexibility of C++ with the simplicity of Visual Basic, making it ideal for building Windows applications, web services, and enterprise software.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">2000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">C# 12.0</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Object-Oriented</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Strong</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>.NET Framework</h4>
+                            <p>Rich class library and runtime environment</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Type Safety</h4>
+                            <p>Strong typing with compile-time error checking</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Garbage Collection</h4>
+                            <p>Automatic memory management</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Cross-Platform</h4>
+                            <p>Runs on Windows, macOS, and Linux with .NET Core</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+
+// Hello World program
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+    }
+}
+
+// Variables and data types
+class Variables
+{
+    static void Main()
+    {
+        // Value types
+        int number = 42;
+        double pi = 3.14159;
+        char letter = 'A';
+        bool flag = true;
+        decimal price = 19.99m;
+        
+        // Reference types
+        string message = "Hello C#";
+        object obj = new object();
+        
+        // Implicit typing
+        var implicitString = "Type inferred";
+        var implicitNumber = 100;
+        
+        // Constants
+        const double PI = 3.14159;
+        
+        Console.WriteLine($"Number: {number}, Message: {message}");
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Classes and Objects -->
+                <div class="section-card">
+                    <h3>Classes and Objects</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+
+// Basic class
+public class Person
+{
+    // Fields
+    private string name;
+    private int age;
+    
+    // Properties
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+    
+    public int Age
+    {
+        get { return age; }
+        set 
+        { 
+            if (value >= 0)
+                age = value; 
+        }
+    }
+    
+    // Auto-implemented properties
+    public string Email { get; set; }
+    
+    // Constructor
+    public Person(string name, int age)
+    {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Method
+    public virtual void Display()
+    {
+        Console.WriteLine($"Name: {Name}, Age: {Age}");
+    }
+    
+    // Static method
+    public static Person CreateAdult(string name)
+    {
+        return new Person(name, 18);
+    }
+}
+
+// Inheritance
+public class Student : Person
+{
+    public string StudentId { get; set; }
+    
+    public Student(string name, int age, string studentId) 
+        : base(name, age)
+    {
+        StudentId = studentId;
+    }
+    
+    public override void Display()
+    {
+        base.Display();
+        Console.WriteLine($"Student ID: {StudentId}");
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Interfaces and Abstract Classes -->
+                <div class="section-card">
+                    <h3>Interfaces and Abstract Classes</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+using System.Collections.Generic;
+
+// Interface
+public interface IShape
+{
+    double CalculateArea();
+    double CalculatePerimeter();
+    void Display();
+}
+
+// Abstract class
+public abstract class Shape : IShape
+{
+    public string Color { get; set; }
+    
+    public abstract double CalculateArea();
+    public abstract double CalculatePerimeter();
+    
+    public virtual void Display()
+    {
+        Console.WriteLine($"Shape Color: {Color}");
+    }
+}
+
+// Concrete implementation
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    
+    public Circle(double radius, string color)
+    {
+        Radius = radius;
+        Color = color;
+    }
+    
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+    
+    public override double CalculatePerimeter()
+    {
+        return 2 * Math.PI * Radius;
+    }
+    
+    public override void Display()
+    {
+        base.Display();
+        Console.WriteLine($"Circle - Radius: {Radius}");
+    }
+}
+
+// Generic interface
+public interface IRepository&lt;T&gt;
+{
+    T GetById(int id);
+    IEnumerable&lt;T&gt; GetAll();
+    void Add(T entity);
+    void Update(T entity);
+    void Delete(int id);
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Collections and LINQ -->
+                <div class="section-card">
+                    <h3>Collections and LINQ</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class CollectionsExample
+{
+    static void Main()
+    {
+        // List
+        List&lt;int&gt; numbers = new List&lt;int&gt; { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        
+        // Dictionary
+        Dictionary&lt;string, int&gt; ages = new Dictionary&lt;string, int&gt;
+        {
+            {"Alice", 25},
+            {"Bob", 30},
+            {"Charlie", 35}
+        };
+        
+        // HashSet
+        HashSet&lt;int&gt; uniqueNumbers = new HashSet&lt;int&gt; { 1, 2, 2, 3, 3, 4, 5 };
+        
+        // LINQ queries
+        var evenNumbers = numbers.Where(n => n % 2 == 0);
+        var doubledNumbers = numbers.Select(n => n * 2);
+        var sum = numbers.Sum();
+        var average = numbers.Average();
+        
+        // Method syntax
+        var result = numbers
+            .Where(n => n > 5)
+            .Select(n => n * n)
+            .OrderByDescending(n => n)
+            .Take(3);
+        
+        // Query syntax
+        var queryResult = from n in numbers
+                         where n % 2 == 0
+                         orderby n descending
+                         select n * 2;
+        
+        // Grouping
+        var groupedByEven = numbers.GroupBy(n => n % 2 == 0);
+        
+        foreach (var group in groupedByEven)
+        {
+            Console.WriteLine($"Is Even: {group.Key}");
+            foreach (var number in group)
+            {
+                Console.WriteLine($"  {number}");
+            }
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Exception Handling -->
+                <div class="section-card">
+                    <h3>Exception Handling</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+
+class ExceptionHandling
+{
+    static void Main()
+    {
+        try
+        {
+            // Risky operation
+            int result = Divide(10, 0);
+            Console.WriteLine($"Result: {result}");
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine($"Division by zero error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+        }
+        finally
+        {
+            Console.WriteLine("Cleanup code executed");
+        }
+        
+        // Custom exception
+        try
+        {
+            ValidateAge(-5);
+        }
+        catch (InvalidAgeException ex)
+        {
+            Console.WriteLine($"Validation error: {ex.Message}");
+        }
+    }
+    
+    static int Divide(int a, int b)
+    {
+        if (b == 0)
+            throw new DivideByZeroException("Cannot divide by zero");
+        return a / b;
+    }
+    
+    static void ValidateAge(int age)
+    {
+        if (age < 0)
+            throw new InvalidAgeException("Age cannot be negative");
+    }
+}
+
+// Custom exception
+public class InvalidAgeException : Exception
+{
+    public InvalidAgeException(string message) : base(message) { }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Async Programming -->
+                <div class="section-card">
+                    <h3>Async Programming</h3>
+                    <div class="code-example">
+                        <pre><code>using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+class AsyncExample
+{
+    static async Task Main()
+    {
+        Console.WriteLine("Starting async operations...");
+        
+        // Sequential execution
+        var result1 = await FetchDataAsync("https://api.example.com/data1");
+        var result2 = await FetchDataAsync("https://api.example.com/data2");
+        
+        Console.WriteLine($"Sequential results: {result1}, {result2}");
+        
+        // Parallel execution
+        var task1 = FetchDataAsync("https://api.example.com/data1");
+        var task2 = FetchDataAsync("https://api.example.com/data2");
+        
+        await Task.WhenAll(task1, task2);
+        
+        Console.WriteLine($"Parallel results: {task1.Result}, {task2.Result}");
+        
+        // Task with cancellation
+        using (var cts = new System.Threading.CancellationTokenSource())
+        {
+            cts.CancelAfter(TimeSpan.FromSeconds(5)); // Cancel after 5 seconds
+            
+            try
+            {
+                var result = await FetchDataWithTimeoutAsync("https://api.example.com/slow", cts.Token);
+                Console.WriteLine($"Result: {result}");
+            }
+            catch (TaskCanceledException)
+            {
+                Console.WriteLine("Operation was cancelled due to timeout");
+            }
+        }
+    }
+    
+    static async Task&lt;string&gt; FetchDataAsync(string url)
+    {
+        using (var client = new HttpClient())
+        {
+            await Task.Delay(1000); // Simulate network delay
+            return $"Data from {url}";
+        }
+    }
+    
+    static async Task&lt;string&gt; FetchDataWithTimeoutAsync(string url, System.Threading.CancellationToken cancellationToken)
+    {
+        using (var client = new HttpClient())
+        {
+            await Task.Delay(10000, cancellationToken); // Simulate long operation
+            return $"Data from {url}";
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Popular Frameworks -->
+                <div class="section-card">
+                    <h3>Popular Frameworks</h3>
+                    <div class="frameworks-grid">
+                        <div class="framework-item">
+                            <h4>ASP.NET Core</h4>
+                            <p>Cross-platform web framework for building web applications</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Entity Framework</h4>
+                            <p>Object-relational mapping framework for database access</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Xamarin</h4>
+                            <p>Cross-platform mobile development framework</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Unity</h4>
+                            <p>Game development engine with C# scripting</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Naming Conventions</h4>
+                            <p>Use PascalCase for public members, camelCase for private members</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Exception Handling</h4>
+                            <p>Only catch exceptions you can handle, let others bubble up</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Async/Await</h4>
+                            <p>Use async/await for I/O operations, avoid async void</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>LINQ</h4>
+                            <p>Use LINQ for data manipulation, prefer method syntax for complex queries</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>.NET Framework</h4>
+                            <p>Windows-only runtime and class library</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>.NET Core</h4>
+                            <p>Cross-platform runtime and framework</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Visual Studio</h4>
+                            <p>Integrated development environment for C#</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>NuGet</h4>
+                            <p>Package manager for .NET</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>Microsoft C# documentation and tutorials</p>
+                            <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C# Programming Guide</h4>
+                            <p>Comprehensive language reference and examples</p>
+                            <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/" target="_blank" class="btn btn-secondary">Read Guide</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>.NET Documentation</h4>
+                            <p>Framework and runtime documentation</p>
+                            <a href="https://docs.microsoft.com/en-us/dotnet/" target="_blank" class="btn btn-secondary">Learn .NET</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>C# Community</h4>
+                            <p>Stack Overflow, Reddit, and C# forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/c%23" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

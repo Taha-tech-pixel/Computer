@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perl Programming Language - Learn Everything About Perl</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fab fa-perl"></i>
+                </div>
+                <div class="language-info">
+                    <h1>Perl Programming Language</h1>
+                    <p class="language-tagline">"There's more than one way to do it" - The Swiss Army chainsaw of programming</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 1987</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Larry Wall</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Multi-paradigm</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>Perl is a high-level, general-purpose programming language originally developed for text manipulation and now used for a wide range of tasks including system administration, web development, network programming, GUI development, and more.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">35+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">200K+</div>
+                        <div class="stat-label">CPAN Modules</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3M+</div>
+                        <div class="stat-label">Downloads/Month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-text-height"></i>
+                        <h4>Text Processing</h4>
+                        <p>Powerful regular expressions and text manipulation capabilities</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-network-wired"></i>
+                        <h4>System Integration</h4>
+                        <p>Excellent for system administration and automation tasks</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Cross-Platform</h4>
+                        <p>Runs on virtually all operating systems</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <h4>CPAN Ecosystem</h4>
+                        <p>Comprehensive Perl Archive Network with thousands of modules</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>#!/usr/bin/perl
+use strict;
+use warnings;
+
+print "Hello, World!\n";</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Variables</h4>
+                        <pre><code>my $scalar = "Hello";           # Scalar
+my @array = (1, 2, 3);         # Array
+my %hash = (key => "value");    # Hash
+
+print "$scalar\n";
+print "@array\n";
+print "$hash{key}\n";</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Regular Expressions</h4>
+                        <pre><code>my $text = "Hello World";
+if ($text =~ /World/) {
+    print "Found 'World'\n";
+}
+
+$text =~ s/World/Perl/;
+print "$text\n";  # Hello Perl</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code>if ($condition) {
+    # code
+} elsif ($other_condition) {
+    # code
+} else {
+    # code
+}</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops</h4>
+                        <pre><code>for my $i (1..10) {
+    print "$i\n";
+}
+
+while ($condition) {
+    # code
+}
+
+foreach my $item (@array) {
+    print "$item\n";
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>File Operations</h3>
+                <div class="file-handling-content">
+                    <h4>Reading Files</h4>
+                    <pre><code>open(my $fh, '<', 'file.txt') or die "Cannot open file: $!";
+while (my $line = <$fh>) {
+    chomp $line;
+    print "$line\n";
+}
+close $fh;</code></pre>
+                    
+                    <h4>Writing Files</h4>
+                    <pre><code>open(my $fh, '>', 'output.txt') or die "Cannot create file: $!";
+print $fh "Hello World\n";
+close $fh;</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Subroutines</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Basic Subroutine</h4>
+                        <pre><code>sub greet {
+    my ($name) = @_;
+    return "Hello, $name!";
+}
+
+my $message = greet("World");
+print "$message\n";</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Subroutine with Default Values</h4>
+                        <pre><code>sub multiply {
+    my ($a, $b) = @_;
+    $b //= 1;  # Default value
+    return $a * $b;
+}
+
+print multiply(5);      # 5
+print multiply(5, 3);   # 15</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Modules and Packages</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Using CPAN Modules</h4>
+                        <pre><code>use strict;
+use warnings;
+use LWP::Simple;  # Web requests
+use JSON;         # JSON parsing
+use DBI;          # Database interface
+
+my $content = get("http://example.com");
+my $data = decode_json($content);</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Creating Packages</h4>
+                        <pre><code>package MyModule;
+
+sub new {
+    my $class = shift;
+    my $self = {};
+    bless $self, $class;
+    return $self;
+}
+
+sub method {
+    my $self = shift;
+    return "Hello from method";
+}
+
+1;  # Return true</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Error Handling</h3>
+                <div class="error-handling-content">
+                    <h4>Basic Error Handling</h4>
+                    <pre><code>eval {
+    # Risky code
+    open(my $fh, '<', 'nonexistent.txt') or die "File not found";
+};
+if ($@) {
+    print "Error: $@\n";
+}</code></pre>
+                    
+                    <h4>Using Carp</h4>
+                    <pre><code>use Carp;
+
+sub process_data {
+    my ($data) = @_;
+    unless (defined $data) {
+        croak "Data is required";
+    }
+    # Process data
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Always use strict and warnings</h4>
+                        <p>Enables strict variable declaration and helpful warnings</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use meaningful variable names</h4>
+                        <p>Choose descriptive names that explain the purpose</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Handle errors gracefully</h4>
+                        <p>Use eval blocks and proper error messages</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Document your code</h4>
+                        <p>Use POD (Plain Old Documentation) for complex functions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Database Integration</h4>
+                        <p>DBI, DBD::mysql, DBD::PostgreSQL, DBD::SQLite</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                        <p>Dancer, Mojolicious, Catalyst, CGI, mod_perl</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-server"></i>
+                        <h4>System Administration</h4>
+                        <p>File operations, process management, network tools</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Data Processing</h4>
+                        <p>Text parsing, CSV handling, XML/JSON processing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Learning Perl" by Randal L. Schwartz</li>
+                            <li>"Programming Perl" by Larry Wall</li>
+                            <li>"Modern Perl" by chromatic</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://perldoc.perl.org" target="_blank">Perl Documentation</a></li>
+                            <li><a href="https://www.perl.org" target="_blank">Perl.org</a></li>
+                            <li><a href="https://metacpan.org" target="_blank">MetaCPAN</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Perl Monks</li>
+                            <li>Stack Overflow Perl tag</li>
+                            <li>Reddit r/perl</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

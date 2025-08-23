@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Programming Language - Learn Everything About Ruby</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="language-info">
+                    <h1>Ruby Programming Language</h1>
+                    <p class="language-tagline">"A programmer's best friend" - Elegant, readable, and productive</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 1995</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Yukihiro "Matz" Matsumoto</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Object-oriented, Functional</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write. Ruby is the foundation of the Ruby on Rails web framework and is widely used for web development, automation, and general-purpose programming.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">28+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">180K+</div>
+                        <div class="stat-label">RubyGems</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">15M+</div>
+                        <div class="stat-label">Downloads/Month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-heart"></i>
+                        <h4>Elegant Syntax</h4>
+                        <p>Clean, readable syntax that emphasizes programmer happiness</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cube"></i>
+                        <h4>Pure OOP</h4>
+                        <p>Everything is an object, including primitive data types</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-magic"></i>
+                        <h4>Metaprogramming</h4>
+                        <p>Powerful metaprogramming capabilities for dynamic code generation</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Blocks & Procs</h4>
+                        <p>First-class functions and powerful block syntax</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>puts "Hello, World!"
+
+# Simple method definition
+def greet(name)
+  "Hello, #{name}!"
+end
+
+puts greet("Ruby")</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Variables and Data Types</h4>
+                        <pre><code># Local variables
+name = "Ruby"
+age = 25
+price = 19.99
+
+# Constants
+PI = 3.14159
+
+# Arrays
+colors = ["red", "green", "blue"]
+
+# Hashes
+person = { name: "John", age: 30 }
+
+puts "Name: #{person[:name]}"</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>String Interpolation</h4>
+                        <pre><code>name = "World"
+greeting = "Hello, #{name}!"
+puts greeting
+
+# Alternative syntax
+puts "Hello, " + name + "!"
+puts "Hello, %s!" % name</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code>age = 18
+
+if age >= 18
+  puts "Adult"
+elsif age >= 13
+  puts "Teenager"
+else
+  puts "Child"
+end
+
+# Postfix if
+puts "Adult" if age >= 18
+
+# Unless (opposite of if)
+puts "Minor" unless age >= 18</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops and Iterators</h4>
+                        <pre><code># Traditional for loop
+for i in 1..5
+  puts i
+end
+
+# Each iterator (preferred)
+(1..5).each { |i| puts i }
+
+# Times iterator
+5.times { |i| puts i + 1 }
+
+# While loop
+i = 0
+while i < 5
+  puts i
+  i += 1
+end</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Classes and Objects</h3>
+                <div class="oop-content">
+                    <h4>Class Definition</h4>
+                    <pre><code>class Person
+  # Class variable
+  @@count = 0
+  
+  # Constructor
+  def initialize(name, age)
+    @name = name
+    @age = age
+    @@count += 1
+  end
+  
+  # Getter methods
+  attr_reader :name, :age
+  
+  # Instance method
+  def introduce
+    "Hi, I'm #{@name} and I'm #{@age} years old"
+  end
+  
+  # Class method
+  def self.count
+    @@count
+  end
+end
+
+person = Person.new("Alice", 25)
+puts person.introduce
+puts "Total people: #{Person.count}"</code></pre>
+                    
+                    <h4>Inheritance</h4>
+                    <pre><code>class Employee < Person
+  def initialize(name, age, salary)
+    super(name, age)
+    @salary = salary
+  end
+  
+  def work
+    "#{@name} is working hard"
+  end
+end
+
+employee = Employee.new("Bob", 30, 50000)
+puts employee.introduce
+puts employee.work</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Blocks and Procs</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Blocks</h4>
+                        <pre><code># Block with do...end
+[1, 2, 3, 4, 5].each do |num|
+  puts num * 2
+end
+
+# Block with curly braces
+[1, 2, 3, 4, 5].each { |num| puts num * 2 }
+
+# Custom method with block
+def repeat(times)
+  times.times { yield }
+end
+
+repeat(3) { puts "Hello!" }</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Procs and Lambdas</h4>
+                        <pre><code># Proc
+double = Proc.new { |x| x * 2 }
+puts double.call(5)  # 10
+
+# Lambda
+square = lambda { |x| x ** 2 }
+puts square.call(4)  # 16
+
+# Method that takes a proc
+def apply_operation(numbers, operation)
+  numbers.map(&operation)
+end
+
+result = apply_operation([1, 2, 3], double)
+puts result.inspect  # [2, 4, 6]</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Modules and Mixins</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Module Definition</h4>
+                        <pre><code>module MathUtils
+  PI = 3.14159
+  
+  def self.square(x)
+    x * x
+  end
+  
+  def self.circle_area(radius)
+    PI * radius * radius
+  end
+end
+
+puts MathUtils::PI
+puts MathUtils.square(5)
+puts MathUtils.circle_area(3)</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Mixins</h4>
+                        <pre><code>module Swimmable
+  def swim
+    "I can swim!"
+  end
+end
+
+module Flyable
+  def fly
+    "I can fly!"
+  end
+end
+
+class Duck
+  include Swimmable
+  include Flyable
+  
+  def quack
+    "Quack!"
+  end
+end
+
+duck = Duck.new
+puts duck.quack
+puts duck.swim
+puts duck.fly</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>File Operations</h3>
+                <div class="file-handling-content">
+                    <h4>Reading Files</h4>
+                    <pre><code># Read entire file
+content = File.read("file.txt")
+puts content
+
+# Read line by line
+File.foreach("file.txt") do |line|
+  puts line.chomp
+end
+
+# Read with encoding
+content = File.read("file.txt", encoding: "UTF-8")</code></pre>
+                    
+                    <h4>Writing Files</h4>
+                    <pre><code># Write to file
+File.write("output.txt", "Hello, Ruby!")
+
+# Append to file
+File.open("log.txt", "a") do |file|
+  file.puts Time.now
+  file.puts "Log entry"
+end</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Error Handling</h3>
+                <div class="error-handling-content">
+                    <h4>Exception Handling</h4>
+                    <pre><code>begin
+  # Risky code
+  result = 10 / 0
+rescue ZeroDivisionError => e
+  puts "Error: #{e.message}"
+rescue => e
+  puts "Unexpected error: #{e.message}"
+else
+  puts "No errors occurred"
+ensure
+  puts "This always runs"
+end</code></pre>
+                    
+                    <h4>Custom Exceptions</h4>
+                    <pre><code>class ValidationError < StandardError
+  def initialize(message)
+    super(message)
+  end
+end
+
+def validate_age(age)
+  if age < 0
+    raise ValidationError, "Age cannot be negative"
+  end
+  puts "Valid age: #{age}"
+end
+
+begin
+  validate_age(-5)
+rescue ValidationError => e
+  puts "Validation failed: #{e.message}"
+end</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Follow Ruby conventions</h4>
+                        <p>Use snake_case for methods and variables, CamelCase for classes</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Prefer blocks over loops</h4>
+                        <p>Use each, map, select, and other enumerable methods</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use symbols for hash keys</h4>
+                        <p>Symbols are more memory efficient than strings</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Handle exceptions properly</h4>
+                        <p>Use specific exception types and provide meaningful messages</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                        <p>Ruby on Rails, Sinatra, Hanami, Grape API framework</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Database Integration</h4>
+                        <p>Active Record, Sequel, DataMapper, MongoDB driver</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-tools"></i>
+                        <h4>DevOps & Automation</h4>
+                        <p>Chef, Puppet, Capistrano, Rake tasks</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Data Processing</h4>
+                        <p>Nokogiri (XML/HTML), CSV library, JSON parsing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Programming Ruby" by Dave Thomas</li>
+                            <li>"The Well-Grounded Rubyist" by David A. Black</li>
+                            <li>"Eloquent Ruby" by Russ Olsen</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
+                            <li><a href="https://www.ruby-lang.org" target="_blank">Ruby-lang.org</a></li>
+                            <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Ruby Forum</li>
+                            <li>Stack Overflow Ruby tag</li>
+                            <li>Reddit r/ruby</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

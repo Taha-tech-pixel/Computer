@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clojure Programming Language - Learn Everything About Clojure</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-brackets-curly"></i>
+                </div>
+                <div class="language-info">
+                    <h1>Clojure Programming Language</h1>
+                    <p class="language-tagline">"A dynamic, general-purpose programming language combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming"</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 2007</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Rich Hickey</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Functional, Lisp</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>Clojure is a modern, dynamic, and functional dialect of the Lisp programming language that runs on the Java Virtual Machine (JVM), Common Language Runtime (CLR), and JavaScript engines. It emphasizes functional programming, immutability, and provides powerful tools for managing state and concurrency.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">16+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100K+</div>
+                        <div class="stat-label">Downloads/Month</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Platforms</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Functional Programming</h4>
+                        <p>First-class functions, immutable data structures, and pure functions</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Immutability</h4>
+                        <p>Persistent, immutable data structures that enable safe concurrent programming</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-code"></i>
+                        <h4>Lisp Syntax</h4>
+                        <p>Homoiconic syntax with powerful macro system for metaprogramming</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-network-wired"></i>
+                        <h4>Concurrency</h4>
+                        <p>Built-in support for managing state and concurrency with atoms, refs, and agents</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code>;; Simple output
+(println "Hello, World!")
+
+;; Function definition
+(defn greet [name]
+  (str "Hello, " name "!"))
+
+(greet "Clojure")</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Data Types and Literals</h4>
+                        <pre><code>;; Numbers
+42          ; Integer
+3.14        ; Double
+22/7        ; Ratio
+
+;; Strings
+"Hello"     ; String
+\H          ; Character
+
+;; Keywords
+:name       ; Keyword
+:age        ; Keyword
+
+;; Booleans
+true        ; Boolean
+false       ; Boolean
+nil         ; Null</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Collections</h4>
+                        <pre><code>;; Lists (linked lists)
+'(1 2 3 4 5)
+(list 1 2 3 4 5)
+
+;; Vectors (indexed)
+[1 2 3 4 5]
+(vector 1 2 3 4 5)
+
+;; Maps (key-value pairs)
+{:name "Alice" :age 25}
+(hash-map :name "Bob" :age 30)
+
+;; Sets (unique values)
+#{1 2 3 4 5}
+(set [1 2 2 3 3 4])</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Functions</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Function Definition</h4>
+                        <pre><code>;; Basic function
+(defn add [x y]
+  (+ x y))
+
+;; Function with multiple arities
+(defn greet
+  ([name] (str "Hello, " name "!"))
+  ([name greeting] (str greeting ", " name "!")))
+
+;; Function with docstring
+(defn calculate-area
+  "Calculate the area of a rectangle"
+  [width height]
+  (* width height))</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Anonymous Functions</h4>
+                        <pre><code>;; Lambda function
+(fn [x] (* x x))
+
+;; Shorthand syntax
+#(* % %)
+
+;; Multiple parameters
+#(str %1 " and " %2)
+
+;; Usage with map
+(map #(* % %) [1 2 3 4 5])
+;; => (1 4 9 16 25)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code>;; If statement
+(if (> age 18)
+  "Adult"
+  "Minor")
+
+;; If with multiple expressions
+(if (> age 18)
+  (do
+    (println "You are an adult")
+    "Adult")
+  "Minor")
+
+;; Cond (multiple conditions)
+(cond
+  (< age 13) "Child"
+  (< age 18) "Teenager"
+  (< age 65) "Adult"
+  :else "Senior")</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops and Iteration</h4>
+                        <pre><code>;; Loop with recur
+(loop [i 0 result []]
+  (if (< i 5)
+    (recur (inc i) (conj result i))
+    result))
+
+;; Doseq (for side effects)
+(doseq [item [1 2 3 4 5]]
+  (println (str "Item: " item)))
+
+;; For (list comprehension)
+(for [x [1 2 3]
+      y [10 20]]
+  (* x y))</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Data Manipulation</h3>
+                <div class="data-structures-grid">
+                    <div class="structure-item">
+                        <h4>Sequence Operations</h4>
+                        <pre><code>;; Map - transform each element
+(map inc [1 2 3 4 5])
+;; => (2 3 4 5 6)
+
+;; Filter - select elements
+(filter even? [1 2 3 4 5 6])
+;; => (2 4 6)
+
+;; Reduce - combine elements
+(reduce + [1 2 3 4 5])
+;; => 15
+
+;; Take - get first n elements
+(take 3 [1 2 3 4 5])
+;; => (1 2 3)</code></pre>
+                    </div>
+                    <div class="structure-item">
+                        <h4>Collection Operations</h4>
+                        <pre><code>;; Conj - add to collection
+(conj [1 2 3] 4)
+;; => [1 2 3 4]
+
+;; Assoc - add/update in map
+(assoc {:name "Alice"} :age 25)
+;; => {:name "Alice" :age 25}
+
+;; Dissoc - remove from map
+(dissoc {:name "Alice" :age 25} :age)
+;; => {:name "Alice"}
+
+;; Get - retrieve from map
+(get {:name "Alice" :age 25} :name)
+;; => "Alice"</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>State Management</h3>
+                <div class="semantic-grid">
+                    <div class="semantic-item">
+                        <h4>Atoms</h4>
+                        <pre><code>;; Create an atom
+(def counter (atom 0))
+
+;; Read atom value
+@counter
+;; => 0
+
+;; Update atom
+(swap! counter inc)
+;; => 1
+
+;; Reset atom
+(reset! counter 100)
+;; => 100
+
+;; Dereference atom
+(deref counter)
+;; => 100</code></pre>
+                    </div>
+                    <div class="semantic-item">
+                        <h4>Refs and Transactions</h4>
+                        <pre><code>;; Create refs
+(def account1 (ref 1000))
+(def account2 (ref 500))
+
+;; Transfer money atomically
+(dosync
+  (alter account1 - 100)
+  (alter account2 + 100))
+
+;; Read ref values
+(println "Account1:" @account1)
+(println "Account2:" @account2)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Macros</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Basic Macro</h4>
+                        <pre><code>;; Define a macro
+(defmacro when [test & body]
+  (list 'if test (cons 'do body)))
+
+;; Usage
+(when (> 5 3)
+  (println "5 is greater than 3")
+  (println "This is true"))
+
+;; Macro expansion
+(macroexpand-1 '(when (> 5 3) (println "Hello")))
+;; => (if (> 5 3) (do (println "Hello")))</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Macro with Syntax Quote</h4>
+                        <pre><code>;; Using syntax quote
+(defmacro unless [test & body]
+  `(if (not ~test)
+     (do ~@body)))
+
+;; Usage
+(unless (> 3 5)
+  (println "3 is not greater than 5"))
+
+;; Macro with gensym
+(defmacro with-time [& body]
+  `(let [start# (System/currentTimeMillis)]
+     ~@body
+     (- (System/currentTimeMillis) start#)))</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Java Interop</h3>
+                <div class="file-handling-content">
+                    <h4>Calling Java Methods</h4>
+                    <pre><code>;; Create Java object
+(def calendar (java.util.Calendar/getInstance))
+
+;; Call instance method
+(.get calendar java.util.Calendar/YEAR)
+
+;; Call static method
+(System/currentTimeMillis)
+
+;; Create and use Java object
+(def file (java.io.File. "test.txt"))
+(.exists file)
+(.getName file)</code></pre>
+                    
+                    <h4>Using Java Collections</h4>
+                    <pre><code>;; Convert to Java collections
+(vec (java.util.ArrayList. [1 2 3]))
+
+;; Use Java streams
+(-> [1 2 3 4 5]
+    (.stream)
+    (.filter #(> % 2))
+    (.map #(* % %))
+    (.collect (java.util.stream.Collectors/toList)))</code></pre>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Prefer pure functions</h4>
+                        <p>Write functions that don't have side effects and always return the same output for the same input</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use immutable data</h4>
+                        <p>Leverage Clojure's persistent data structures instead of mutable state</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Compose functions</h4>
+                        <p>Build complex behavior by composing simple, focused functions</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use threading macros</h4>
+                        <p>Use -> and ->> for cleaner, more readable code</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-coffee"></i>
+                        <h4>JVM Ecosystem</h4>
+                        <p>Java libraries, Spring Framework, Maven/Gradle, JUnit testing</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                        <p>Ring, Compojure, Hiccup, Reagent, Re-frame</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Database Integration</h4>
+                        <p>HugSQL, Korma, Datomic, MongoDB driver</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-tools"></i>
+                        <h4>Development Tools</h4>
+                        <p>Leiningen, CIDER, Calva, REPL-driven development</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"Clojure Programming" by Chas Emerick</li>
+                            <li>"Programming Clojure" by Stuart Halloway</li>
+                            <li>"The Joy of Clojure" by Michael Fogus</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://clojure.org" target="_blank">Clojure.org</a></li>
+                            <li><a href="https://clojuredocs.org" target="_blank">ClojureDocs</a></li>
+                            <li><a href="https://clojureverse.org" target="_blank">ClojureVerse</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>Clojure Slack</li>
+                            <li>Stack Overflow Clojure tag</li>
+                            <li>Reddit r/Clojure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

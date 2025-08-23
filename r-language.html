@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R Programming Language - Learn Everything About R</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-detail-page">
+        <header class="language-header">
+            <div class="header-content">
+                <div class="language-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="language-info">
+                    <h1>R Programming Language</h1>
+                    <p class="language-tagline">"The language of statistics and data science" - Powerful statistical computing and graphics</p>
+                    <div class="language-meta">
+                        <span class="meta-item"><i class="fas fa-calendar"></i> Created: 1993</span>
+                        <span class="meta-item"><i class="fas fa-user"></i> Creator: Ross Ihaka & Robert Gentleman</span>
+                        <span class="meta-item"><i class="fas fa-code"></i> Paradigm: Multi-paradigm, Statistical</span>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+
+        <div class="language-overview">
+            <div class="overview-card">
+                <h2>Language Overview</h2>
+                <p>R is a free software environment for statistical computing and graphics. It provides a wide variety of statistical and graphical techniques, and is highly extensible. R is widely used among statisticians and data miners for developing statistical software and data analysis.</p>
+                
+                <div class="language-stats">
+                    <div class="stat">
+                        <div class="stat-value">30+</div>
+                        <div class="stat-label">Years Active</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">18K+</div>
+                        <div class="stat-label">CRAN Packages</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2M+</div>
+                        <div class="stat-label">Users Worldwide</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-sections">
+            <div class="section-card">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Statistical Computing</h4>
+                        <p>Comprehensive statistical analysis and modeling capabilities</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-palette"></i>
+                        <h4>Advanced Graphics</h4>
+                        <p>Publication-quality plots and interactive visualizations</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <h4>Package Ecosystem</h4>
+                        <p>Extensive CRAN repository with specialized packages</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Data Manipulation</h4>
+                        <p>Powerful tools for data cleaning, transformation, and analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Basic Syntax</h3>
+                <div class="syntax-examples">
+                    <div class="code-example">
+                        <h4>Hello World</h4>
+                        <pre><code># Simple output
+print("Hello, World!")
+
+# Variables
+name <- "R Language"
+cat("Welcome to", name, "\n")
+
+# Function definition
+greet <- function(name) {
+  paste("Hello,", name, "!")
+}
+
+greet("Data Scientist")</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Data Types and Structures</h4>
+                        <pre><code># Vectors
+numbers <- c(1, 2, 3, 4, 5)
+names <- c("Alice", "Bob", "Charlie")
+
+# Matrices
+matrix_data <- matrix(1:9, nrow = 3, ncol = 3)
+
+# Data frames
+df <- data.frame(
+  name = c("Alice", "Bob", "Charlie"),
+  age = c(25, 30, 35),
+  salary = c(50000, 60000, 70000)
+)
+
+# Lists
+person <- list(name = "Alice", age = 25, city = "New York")</code></pre>
+                    </div>
+                    <div class="code-example">
+                        <h4>Basic Operations</h4>
+                        <pre><code># Arithmetic
+x <- 10
+y <- 5
+sum <- x + y
+product <- x * y
+
+# Vector operations
+vec1 <- c(1, 2, 3)
+vec2 <- c(4, 5, 6)
+vec_sum <- vec1 + vec2
+
+# Logical operations
+is_adult <- age >= 18
+is_high_salary <- salary > 50000</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Data Manipulation</h3>
+                <div class="data-structures-grid">
+                    <div class="structure-item">
+                        <h4>Subsetting and Filtering</h4>
+                        <pre><code># Vector subsetting
+numbers[1:3]           # First 3 elements
+numbers[numbers > 3]   # Elements greater than 3
+
+# Data frame operations
+df[df$age > 30, ]      # Rows where age > 30
+df$name                 # Extract name column
+df[, c("name", "age")] # Select specific columns
+
+# List operations
+person$name             # Extract by name
+person[["age"]]        # Extract by name (alternative)</code></pre>
+                    </div>
+                    <div class="structure-item">
+                        <h4>Data Transformation</h4>
+                        <pre><code># Using dplyr (tidyverse)
+library(dplyr)
+
+df %>%
+  filter(age > 25) %>%
+  select(name, salary) %>%
+  mutate(salary_k = salary / 1000) %>%
+  arrange(desc(salary))
+
+# Base R alternatives
+subset(df, age > 25, select = c(name, salary))
+df$salary_k <- df$salary / 1000</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Statistical Analysis</h3>
+                <div class="semantic-grid">
+                    <div class="semantic-item">
+                        <h4>Descriptive Statistics</h4>
+                        <pre><code># Summary statistics
+summary(df$salary)
+mean(df$salary)
+median(df$salary)
+sd(df$salary)
+
+# Correlation
+cor(df$age, df$salary)
+
+# Frequency tables
+table(df$age)
+prop.table(table(df$age))</code></pre>
+                    </div>
+                    <div class="semantic-item">
+                        <h4>Statistical Tests</h4>
+                        <pre><code># T-test
+t.test(salary ~ gender, data = df)
+
+# Chi-square test
+chisq.test(table(df$gender, df$department))
+
+# Linear regression
+model <- lm(salary ~ age + experience, data = df)
+summary(model)
+
+# ANOVA
+anova_result <- aov(salary ~ department, data = df)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Data Visualization</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Base R Graphics</h4>
+                        <pre><code># Scatter plot
+plot(df$age, df$salary, 
+     main = "Age vs Salary",
+     xlab = "Age", 
+     ylab = "Salary")
+
+# Histogram
+hist(df$salary, 
+     main = "Salary Distribution",
+     xlab = "Salary")
+
+# Box plot
+boxplot(salary ~ department, data = df)</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>ggplot2 (Tidyverse)</h4>
+                        <pre><code>library(ggplot2)
+
+# Scatter plot
+ggplot(df, aes(x = age, y = salary)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Age vs Salary",
+       x = "Age", 
+       y = "Salary") +
+  theme_minimal()
+
+# Bar plot
+ggplot(df, aes(x = department, y = salary)) +
+  geom_bar(stat = "identity") +
+  coord_flip()</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Control Structures</h3>
+                <div class="control-flow-grid">
+                    <div class="flow-item">
+                        <h4>Conditionals</h4>
+                        <pre><code># If-else statements
+age <- 25
+if (age >= 18) {
+  status <- "Adult"
+} else if (age >= 13) {
+  status <- "Teenager"
+} else {
+  status <- "Child"
+}
+
+# Vectorized ifelse
+status <- ifelse(age >= 18, "Adult", "Minor")</code></pre>
+                    </div>
+                    <div class="flow-item">
+                        <h4>Loops</h4>
+                        <pre><code># For loop
+for (i in 1:5) {
+  print(paste("Iteration", i))
+}
+
+# While loop
+i <- 1
+while (i <= 5) {
+  print(paste("Count:", i))
+  i <- i + 1
+}
+
+# Apply family (preferred)
+sapply(1:5, function(x) x^2)
+lapply(df, summary)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Functions</h3>
+                <div class="functions-grid">
+                    <div class="function-item">
+                        <h4>Function Definition</h4>
+                        <pre><code># Basic function
+calculate_stats <- function(x) {
+  mean_val <- mean(x, na.rm = TRUE)
+  sd_val <- sd(x, na.rm = TRUE)
+  median_val <- median(x, na.rm = TRUE)
+  
+  return(list(
+    mean = mean_val,
+    sd = sd_val,
+    median = median_val
+  ))
+}
+
+# Usage
+result <- calculate_stats(df$salary)
+result$mean</code></pre>
+                    </div>
+                    <div class="function-item">
+                        <h4>Function with Default Values</h4>
+                        <pre><code># Function with defaults
+normalize_data <- function(x, method = "zscore", na.rm = TRUE) {
+  if (method == "zscore") {
+    (x - mean(x, na.rm = na.rm)) / sd(x, na.rm = na.rm)
+  } else if (method == "minmax") {
+    (x - min(x, na.rm = na.rm)) / (max(x, na.rm = na.rm) - min(x, na.rm = na.rm))
+  }
+}
+
+# Usage
+normalized_salary <- normalize_data(df$salary)
+normalized_salary_minmax <- normalize_data(df$salary, method = "minmax")</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Package Management</h3>
+                <div class="libraries-grid">
+                    <div class="library-item">
+                        <h4>Installing Packages</h4>
+                        <pre><code># Install from CRAN
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyr")
+
+# Install multiple packages
+install.packages(c("ggplot2", "dplyr", "tidyr"))
+
+# Install from GitHub (if devtools is available)
+library(devtools)
+install_github("username/package_name")</code></pre>
+                    </div>
+                    <div class="library-item">
+                        <h4>Loading and Using Packages</h4>
+                        <pre><code># Load packages
+library(ggplot2)
+library(dplyr)
+
+# Check loaded packages
+search()
+
+# Get package information
+packageVersion("ggplot2")
+help(package = "ggplot2")</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Best Practices</h3>
+                <div class="best-practices">
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use vectorized operations</h4>
+                        <p>Avoid loops when possible, use built-in vectorized functions</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Handle missing data properly</h4>
+                        <p>Use na.rm = TRUE parameter and check for NA values</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Use meaningful variable names</h4>
+                        <p>Choose descriptive names that explain the data content</p>
+                    </div>
+                    <div class="practice-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Comment your code</h4>
+                        <p>Add comments to explain complex statistical procedures</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Related Technologies</h3>
+                <div class="related-tech">
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Data Sources</h4>
+                        <p>CSV, Excel, SQL databases, JSON, APIs, web scraping</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-pie"></i>
+                        <h4>Visualization Tools</h4>
+                        <p>ggplot2, plotly, shiny, R Markdown, knitr</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-brain"></i>
+                        <h4>Machine Learning</h4>
+                        <p>caret, randomForest, e1071, nnet, keras</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-cloud"></i>
+                        <h4>Big Data</h4>
+                        <p>SparkR, data.table, dplyr, parallel processing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Learning Resources</h3>
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Books</h4>
+                        <ul>
+                            <li>"R for Data Science" by Hadley Wickham</li>
+                            <li>"The Art of R Programming" by Norman Matloff</li>
+                            <li>"R Cookbook" by Paul Teetor</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Online Resources</h4>
+                        <ul>
+                            <li><a href="https://cran.r-project.org" target="_blank">CRAN - The Comprehensive R Archive Network</a></li>
+                            <li><a href="https://www.r-project.org" target="_blank">The R Project for Statistical Computing</a></li>
+                            <li><a href="https://rstudio.com" target="_blank">RStudio IDE</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <h4>Community</h4>
+                        <ul>
+                            <li>R-bloggers</li>
+                            <li>Stack Overflow R tag</li>
+                            <li>Reddit r/rstats</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
