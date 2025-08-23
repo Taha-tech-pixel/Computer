@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js - JavaScript Runtime</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🟢 Node.js</h1>
+                <p>JavaScript runtime built on Chrome's V8 engine for building scalable network applications</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Runtime Overview</h2>
+                    <p>Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside of a web browser. It allows developers to use JavaScript for server-side scripting, making it possible to build fast, scalable network applications.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">2009</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">20.0+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Engine</div>
+                            <div class="stat-value">V8 (Chrome)</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Package Manager</div>
+                            <div class="stat-value">npm/yarn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Event-Driven</h4>
+                            <p>Non-blocking I/O model with event loop architecture</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Single Threaded</h4>
+                            <p>Uses a single-threaded event loop for concurrency</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Cross-Platform</h4>
+                            <p>Runs on Windows, macOS, Linux, and Unix systems</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>NPM Ecosystem</h4>
+                            <p>Largest package registry with millions of packages</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Usage -->
+                <div class="section-card">
+                    <h3>Basic Usage</h3>
+                    <div class="code-example">
+                        <pre><code>// Simple HTTP server
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello World\n');
+});
+
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
+});
+
+// File system operations
+const fs = require('fs');
+
+fs.readFile('input.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading file:', err);
+        return;
+    }
+    console.log('File contents:', data);
+});
+
+// Async/await with promises
+const util = require('util');
+const readFile = util.promisify(fs.readFile);
+
+async function readFileAsync() {
+    try {
+        const data = await readFile('input.txt', 'utf8');
+        console.log('File contents:', data);
+    } catch (err) {
+        console.error('Error reading file:', err);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Core Modules -->
+                <div class="section-card">
+                    <h3>Core Modules</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>http/https</h4>
+                            <p>HTTP server and client functionality</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>fs</h4>
+                            <p>File system operations and file I/O</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>path</h4>
+                            <p>File and directory path utilities</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>events</h4>
+                            <p>Event emitter and event handling</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Development -->
+                <div class="section-card">
+                    <h3>Web Development</h3>
+                    <div class="code-example">
+                        <pre><code>// Express.js web framework
+const express = require('express');
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.static('public'));
+
+// Routes
+app.get('/api/users', (req, res) => {
+    res.json({ users: ['John', 'Jane', 'Bob'] });
+});
+
+app.post('/api/users', (req, res) => {
+    const { name, email } = req.body;
+    // Save user logic here
+    res.status(201).json({ message: 'User created', name, email });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
+app.listen(3000, () => {
+    console.log('Express server running on port 3000');
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Package Management -->
+                <div class="section-card">
+                    <h3>Package Management</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>npm</h4>
+                            <p>Default package manager for Node.js</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>yarn</h4>
+                            <p>Fast, reliable alternative to npm</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>package.json</h4>
+                            <p>Project configuration and dependencies</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>node_modules</h4>
+                            <p>Directory containing installed packages</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Frameworks -->
+                <div class="section-card">
+                    <h3>Popular Frameworks</h3>
+                    <div class="frameworks-grid">
+                        <div class="framework-item">
+                            <h4>Express.js</h4>
+                            <p>Minimal and flexible web application framework</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Koa.js</h4>
+                            <p>Next generation web framework by Express team</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Nest.js</h4>
+                            <p>Progressive Node.js framework with TypeScript support</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Fastify</h4>
+                            <p>Fast and low overhead web framework</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Integration -->
+                <div class="section-card">
+                    <h3>Database Integration</h3>
+                    <div class="code-example">
+                        <pre><code>// MongoDB with Mongoose
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/test', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+const User = mongoose.model('User', {
+    name: String,
+    email: String,
+    age: Number
+});
+
+// Create user
+const user = new User({ name: 'John', email: 'john@example.com', age: 30 });
+user.save().then(() => console.log('User saved'));
+
+// PostgreSQL with Sequelize
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('database', 'username', 'password', {
+    host: 'localhost',
+    dialect: 'postgres'
+});
+
+const User = sequelize.define('User', {
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    age: DataTypes.INTEGER
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Use try-catch blocks and error middleware</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Environment Variables</h4>
+                            <p>Use .env files for configuration</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Logging</h4>
+                            <p>Implement proper logging with Winston or Bunyan</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Security</h4>
+                            <p>Use helmet, cors, and input validation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>MongoDB</h4>
+                            <p>NoSQL database commonly used with Node.js</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Redis</h4>
+                            <p>In-memory data structure store for caching</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Docker</h4>
+                            <p>Containerization for Node.js applications</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>PM2</h4>
+                            <p>Process manager for Node.js applications</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>Node.js API documentation and guides</p>
+                            <a href="https://nodejs.org/docs/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Node.js Best Practices</h4>
+                            <p>Community-driven best practices guide</p>
+                            <a href="https://github.com/goldbergyoni/nodebestpractices" target="_blank" class="btn btn-secondary">Read Guide</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Express.js Documentation</h4>
+                            <p>Learn the popular web framework</p>
+                            <a href="https://expressjs.com/" target="_blank" class="btn btn-secondary">Learn Express</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Node.js Community</h4>
+                            <p>Stack Overflow, Reddit, and Node.js forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/node.js" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

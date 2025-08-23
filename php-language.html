@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP - Server-Side Scripting Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🐘 PHP</h1>
+                <p>Server-side scripting language designed for web development and can be embedded into HTML</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. It's known for its simplicity, flexibility, and extensive library support.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">1995</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">8.3+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Multi-paradigm</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Dynamic, Weak</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Server-Side</h4>
+                            <p>Executes on the server, generates HTML for clients</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Cross-Platform</h4>
+                            <p>Runs on Windows, Linux, macOS, and Unix systems</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Database Support</h4>
+                            <p>Built-in support for MySQL, PostgreSQL, SQLite</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Frameworks</h4>
+                            <p>Laravel, Symfony, CodeIgniter, WordPress</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>&lt;?php
+// Variables
+$name = "John";
+$age = 30;
+$isActive = true;
+
+// Arrays
+$fruits = ["apple", "banana", "orange"];
+$person = [
+    "name" => "John",
+    "age" => 30,
+    "city" => "New York"
+];
+
+// Functions
+function greet($name, $age) {
+    return "Hello $name, you are $age years old";
+}
+
+// Classes
+class User {
+    private $name;
+    private $email;
+    
+    public function __construct($name, $email) {
+        $this->name = $name;
+        $this->email = $email;
+    }
+    
+    public function getName() {
+        return $this->name;
+    }
+}
+
+// Usage
+$user = new User("John", "john@example.com");
+echo $user->getName();
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <!-- Web Development Features -->
+                <div class="section-card">
+                    <h3>Web Development Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Session Management</h4>
+                            <p>Built-in session handling and cookies</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Form Processing</h4>
+                            <p>Easy handling of HTML forms and user input</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>File Uploads</h4>
+                            <p>Secure file upload handling and validation</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>HTTP Headers</h4>
+                            <p>Control over HTTP response headers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Integration -->
+                <div class="section-card">
+                    <h3>Database Integration</h3>
+                    <div class="code-example">
+                        <pre><code>&lt;?php
+// MySQL connection
+$conn = new mysqli("localhost", "username", "password", "database");
+
+// Prepared statement
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// PDO (PHP Data Objects)
+$pdo = new PDO("mysql:host=localhost;dbname=database", "username", "password");
+$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+?&gt;</code></pre>
+                    </div>
+                </div>
+
+                <!-- Modern PHP Features -->
+                <div class="section-card">
+                    <h3>Modern PHP Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Type Declarations</h4>
+                            <p>Optional type hints for parameters and return values</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Namespaces</h4>
+                            <p>Organize code into logical groups</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Composer</h4>
+                            <p>Dependency management and autoloading</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Attributes</h4>
+                            <p>Metadata programming with #[attribute] syntax</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Frameworks -->
+                <div class="section-card">
+                    <h3>Popular Frameworks</h3>
+                    <div class="frameworks-grid">
+                        <div class="framework-item">
+                            <h4>Laravel</h4>
+                            <p>Full-featured web application framework with elegant syntax</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>Symfony</h4>
+                            <p>Enterprise-grade framework with reusable components</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>CodeIgniter</h4>
+                            <p>Lightweight framework for rapid development</p>
+                        </div>
+                        <div class="framework-item">
+                            <h4>WordPress</h4>
+                            <p>Content management system built with PHP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Security</h4>
+                            <p>Use prepared statements, validate input, escape output</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Error Handling</h4>
+                            <p>Implement proper error handling and logging</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Code Organization</h4>
+                            <p>Use namespaces, autoloading, and PSR standards</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Performance</h4>
+                            <p>Use OPcache, optimize database queries, implement caching</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>Apache/Nginx</h4>
+                            <p>Web servers that run PHP applications</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>MySQL/PostgreSQL</h4>
+                            <p>Relational databases commonly used with PHP</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Composer</h4>
+                            <p>Dependency manager for PHP</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Docker</h4>
+                            <p>Containerization for PHP development and deployment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>PHP Manual and tutorials</p>
+                            <a href="https://www.php.net/manual/en/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>PHP The Right Way</h4>
+                            <p>Modern PHP best practices guide</p>
+                            <a href="https://phptherightway.com/" target="_blank" class="btn btn-secondary">Read Guide</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Laravel Documentation</h4>
+                            <p>Learn the popular PHP framework</p>
+                            <a href="https://laravel.com/docs" target="_blank" class="btn btn-secondary">Learn Laravel</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>PHP Community</h4>
+                            <p>Stack Overflow, Reddit, and PHP forums</p>
+                            <a href="https://stackoverflow.com/questions/tagged/php" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

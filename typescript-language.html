@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript - Typed JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">CodeLearn Hub</a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            <a href="index.html#number-system" class="nav-link">Number System</a>
+            <a href="index.html#compiler" class="nav-link">Compiler</a>
+            <a href="index.html#challenges" class="nav-link">Challenges</a>
+            <a href="index.html#progress" class="nav-link">Progress</a>
+            <a href="index.html#ai-bot" class="nav-link">AI Bot</a>
+            <a href="index.html#oop" class="nav-link">OOP</a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🔷 TypeScript</h1>
+                <p>Typed superset of JavaScript that adds optional static typing and object-oriented features</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale. It adds optional types, classes, and modules to JavaScript, making it ideal for large-scale applications.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <div class="stat-label">First Released</div>
+                            <div class="stat-value">2012</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Latest Version</div>
+                            <div class="stat-value">5.0+</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Paradigm</div>
+                            <div class="stat-value">Multi-paradigm</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Typing</div>
+                            <div class="stat-value">Static, Optional</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <!-- Key Features -->
+                <div class="section-card">
+                    <h3>Key Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Static Typing</h4>
+                            <p>Optional static typing that catches errors at compile time</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Object-Oriented</h4>
+                            <p>Classes, interfaces, and inheritance support</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>ES6+ Support</h4>
+                            <p>Full support for modern JavaScript features</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Tooling</h4>
+                            <p>Excellent IDE support with IntelliSense</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="section-card">
+                    <h3>Basic Syntax</h3>
+                    <div class="code-example">
+                        <pre><code>// Variable declarations with types
+let name: string = "John";
+let age: number = 30;
+let isActive: boolean = true;
+
+// Function with type annotations
+function greet(name: string, age: number): string {
+    return `Hello ${name}, you are ${age} years old`;
+}
+
+// Interface definition
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    age?: number; // Optional property
+}
+
+// Class with TypeScript features
+class UserManager {
+    private users: User[] = [];
+    
+    addUser(user: User): void {
+        this.users.push(user);
+    }
+    
+    getUserById(id: number): User | undefined {
+        return this.users.find(user => user.id === id);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Type System -->
+                <div class="section-card">
+                    <h3>Type System</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Basic Types</h4>
+                            <p>string, number, boolean, array, tuple, enum, any, void, null, undefined</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Union Types</h4>
+                            <p>string | number, allowing multiple types</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Generic Types</h4>
+                            <p>Reusable types with type parameters</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Type Guards</h4>
+                            <p>Runtime type checking with typeof, instanceof</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Features -->
+                <div class="section-card">
+                    <h3>Advanced Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>Decorators</h4>
+                            <p>Metadata programming with @decorator syntax</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Namespaces</h4>
+                            <p>Logical grouping of related code</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Modules</h4>
+                            <p>ES6 module system with type safety</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Utility Types</h4>
+                            <p>Built-in utility types like Partial, Pick, Record</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="section-card">
+                    <h3>Best Practices</h3>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h4>Use Strict Mode</h4>
+                            <p>Enable strict type checking in tsconfig.json</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Prefer Interfaces</h4>
+                            <p>Use interfaces for object shapes, classes for implementation</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Avoid Any</h4>
+                            <p>Use specific types instead of any when possible</p>
+                        </div>
+                        <div class="practice-item">
+                            <h4>Type Inference</h4>
+                            <p>Let TypeScript infer types when they're obvious</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Technologies -->
+                <div class="section-card">
+                    <h3>Related Technologies</h3>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h4>Angular</h4>
+                            <p>Full-featured framework built with TypeScript</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>React + TypeScript</h4>
+                            <p>Type-safe React development</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Node.js</h4>
+                            <p>Server-side TypeScript development</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>VS Code</h4>
+                            <p>Excellent TypeScript support and IntelliSense</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Resources -->
+                <div class="section-card">
+                    <h3>Learning Resources</h3>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h4>Official Documentation</h4>
+                            <p>TypeScript Handbook and tutorials</p>
+                            <a href="https://www.typescriptlang.org/docs/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>TypeScript Playground</h4>
+                            <p>Online editor to experiment with TypeScript</p>
+                            <a href="https://www.typescriptlang.org/play" target="_blank" class="btn btn-secondary">Try Online</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>GitHub Repository</h4>
+                            <p>Source code and issue tracking</p>
+                            <a href="https://github.com/microsoft/TypeScript" target="_blank" class="btn btn-secondary">View Source</a>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Community</h4>
+                            <p>Stack Overflow, Reddit, and Discord communities</p>
+                            <a href="https://stackoverflow.com/questions/tagged/typescript" target="_blank" class="btn btn-secondary">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
