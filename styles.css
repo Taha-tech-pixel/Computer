@@ -1022,7 +1022,10 @@ body {
 .selectors-grid,
 .data-structures-grid,
 .control-flow-grid,
-.libraries-grid {
+.libraries-grid,
+.frameworks-grid,
+.functions-grid,
+.modern-features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
@@ -1031,7 +1034,9 @@ body {
 .selector-item,
 .structure-item,
 .flow-item,
-.library-item {
+.library-item,
+.framework-item,
+.function-item {
     background: rgba(102, 126, 234, 0.05);
     padding: 1.5rem;
     border-radius: 10px;
@@ -1041,7 +1046,9 @@ body {
 .selector-item h3,
 .structure-item h3,
 .flow-item h3,
-.library-item h3 {
+.library-item h3,
+.framework-item h3,
+.function-item h3 {
     color: #333;
     margin-bottom: 1rem;
     font-size: 1.2rem;
@@ -1049,7 +1056,9 @@ body {
 
 .selector-item p,
 .structure-item p,
-.flow-item p {
+.flow-item p,
+.framework-item p,
+.function-item p {
     color: #666;
     margin-bottom: 1rem;
     line-height: 1.5;
@@ -1141,7 +1150,8 @@ body {
 .advanced-features h3,
 .oop-content h3,
 .file-handling-content h3,
-.error-handling-content h3 {
+.error-handling-content h3,
+.dom-content h3 {
     color: #333;
     margin-bottom: 1rem;
     font-size: 1.3rem;

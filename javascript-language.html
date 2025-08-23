@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Dynamic Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html#home" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#programming-languages" class="nav-link">
+                    <i class="fas fa-laptop-code"></i> Programming Languages
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>⚡ JavaScript</h1>
+                <p>A dynamic, high-level programming language essential for modern web development</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>JavaScript is a versatile, high-level programming language that powers the interactive web. Originally created to add interactivity to web pages, JavaScript has evolved into a full-featured programming language used for frontend and backend development, mobile apps, and even desktop applications.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <span class="stat-label">First Released</span>
+                            <span class="stat-value">1995</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Latest Version</span>
+                            <span class="stat-value">ES2023</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Paradigm</span>
+                            <span class="stat-value">Multi-paradigm</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Typing</span>
+                            <span class="stat-value">Dynamic, Weak</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <div class="section-card">
+                    <h2>🔑 Key Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <h3>Web Native</h3>
+                            <p>Built into every modern web browser</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-sync-alt"></i>
+                            <h3>Event-Driven</h3>
+                            <p>Asynchronous programming with callbacks and promises</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Cross-Platform</h3>
+                            <p>Runs on browsers, servers, and mobile devices</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-code-branch"></i>
+                            <h3>Functional Programming</h3>
+                            <p>First-class functions and closures</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📚 Basic Syntax</h2>
+                    <div class="code-example">
+                        <h3>Variables and Data Types</h3>
+                        <pre><code>// Variable declarations
+let name = "JavaScript";        // Block-scoped variable
+const version = "ES2023";       // Constant
+var oldWay = "Legacy";         // Function-scoped (avoid)
+
+// Data types
+let string = "Hello World";     // String
+let number = 42;               // Number
+let boolean = true;            // Boolean
+let array = [1, 2, 3];        // Array
+let object = {                 // Object
+    key: "value",
+    method: function() {
+        return "Hello";
+    }
+};
+let nothing = null;            // Null
+let undefined;                 // Undefined
+
+// Template literals
+let greeting = `Hello, ${name}! Welcome to ${version}`;</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🏗️ Functions and Scope</h2>
+                    <div class="functions-grid">
+                        <div class="function-item">
+                            <h3>Function Declarations</h3>
+                            <div class="code-example">
+                                <pre><code>// Function declaration
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+// Function expression
+const greetFunc = function(name) {
+    return `Hello, ${name}!`;
+};
+
+// Arrow function
+const greetArrow = (name) => `Hello, ${name}!`;
+
+// Arrow function with multiple parameters
+const add = (a, b) => a + b;</code></pre>
+                            </div>
+                        </div>
+                        <div class="function-item">
+                            <h3>Closures and Scope</h3>
+                            <div class="code-example">
+                                <pre><code>function createCounter() {
+    let count = 0;
+    
+    return function() {
+        count++;
+        return count;
+    };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+
+// The inner function has access to 'count'</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔄 Modern JavaScript Features</h2>
+                    <div class="modern-features-grid">
+                        <div class="feature-item">
+                            <h3>Destructuring</h3>
+                            <div class="code-example">
+                                <pre><code>// Array destructuring
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+console.log(first);  // 1
+console.log(rest);   // [3, 4, 5]
+
+// Object destructuring
+const { name, age, ...otherProps } = {
+    name: "John",
+    age: 30,
+    city: "NYC",
+    job: "Developer"
+};</code></pre>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <h3>Spread and Rest</h3>
+                            <div class="code-example">
+                                <pre><code>// Spread operator
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+const obj1 = { foo: 'bar' };
+const obj2 = { ...obj1, baz: 'qux' };
+
+// Rest parameters
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <h3>Async/Await</h3>
+                            <div class="code-example">
+                                <pre><code>async function fetchUser(id) {
+    try {
+        const response = await fetch(`/api/users/${id}`);
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Using the async function
+fetchUser(123).then(user => {
+    console.log(user);
+});</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🎯 DOM Manipulation</h2>
+                    <div class="dom-content">
+                        <h3>Selecting and Modifying Elements</h3>
+                        <div class="code-example">
+                            <pre><code>// Selecting elements
+const element = document.getElementById('myId');
+const elements = document.querySelectorAll('.myClass');
+const firstElement = document.querySelector('.myClass');
+
+// Modifying content
+element.textContent = 'New text';
+element.innerHTML = '&lt;strong&gt;Bold text&lt;/strong&gt;';
+
+// Modifying attributes
+element.setAttribute('class', 'newClass');
+element.classList.add('anotherClass');
+element.classList.remove('oldClass');
+
+// Creating elements
+const newDiv = document.createElement('div');
+newDiv.textContent = 'New element';
+document.body.appendChild(newDiv);</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📦 Popular Frameworks and Libraries</h2>
+                    <div class="frameworks-grid">
+                        <div class="framework-item">
+                            <h3>Frontend Frameworks</h3>
+                            <ul>
+                                <li><strong>React</strong> - Component-based UI library</li>
+                                <li><strong>Vue.js</strong> - Progressive framework</li>
+                                <li><strong>Angular</strong> - Full-featured framework</li>
+                                <li><strong>Svelte</strong> - Compiler-based framework</li>
+                            </ul>
+                        </div>
+                        <div class="framework-item">
+                            <h3>Backend & Runtime</h3>
+                            <ul>
+                                <li><strong>Node.js</strong> - Server-side runtime</li>
+                                <li><strong>Express.js</strong> - Web application framework</li>
+                                <li><strong>Next.js</strong> - React framework</li>
+                                <li><strong>Nuxt.js</strong> - Vue framework</li>
+                            </ul>
+                        </div>
+                        <div class="framework-item">
+                            <h3>Utility Libraries</h3>
+                            <ul>
+                                <li><strong>Lodash</strong> - Utility functions</li>
+                                <li><strong>Axios</strong> - HTTP client</li>
+                                <li><strong>Moment.js</strong> - Date manipulation</li>
+                                <li><strong>Chart.js</strong> - Charting library</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🚀 Best Practices</h2>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h3>1. Use Modern Syntax</h3>
+                            <p>Prefer const and let over var, use arrow functions, and implement destructuring.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>2. Handle Errors Properly</h3>
+                            <p>Use try-catch blocks and implement proper error handling for async operations.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>3. Avoid Global Variables</h3>
+                            <p>Use modules and proper scoping to avoid polluting the global namespace.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>4. Write Clean Code</h3>
+                            <p>Follow consistent naming conventions and use meaningful variable names.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>5. Use ES6+ Features</h3>
+                            <p>Leverage modern JavaScript features like classes, modules, and async/await.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔗 Related Technologies</h2>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h3>HTML & CSS</h3>
+                            <p>Structure and styling that JavaScript enhances</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>TypeScript</h3>
+                            <p>Typed superset of JavaScript</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Node.js</h3>
+                            <p>Server-side JavaScript runtime</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Web APIs</h3>
+                            <p>Browser APIs for enhanced functionality</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📖 Learning Resources</h2>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h3>Official Documentation</h3>
+                            <ul>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">MDN Web Docs</a></li>
+                                <li><a href="https://tc39.es/ecma262/" target="_blank">ECMAScript Specification</a></li>
+                                <li><a href="https://www.ecma-international.org/" target="_blank">ECMA International</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Online Courses</h3>
+                            <ul>
+                                <li><a href="https://javascript.info/" target="_blank">JavaScript.info</a></li>
+                                <li><a href="https://www.w3schools.com/js/" target="_blank">W3Schools JavaScript</a></li>
+                                <li><a href="https://eloquentjavascript.net/" target="_blank">Eloquent JavaScript</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Tools & Playgrounds</h3>
+                            <ul>
+                                <li><a href="https://jsfiddle.net/" target="_blank">JSFiddle</a></li>
+                                <li><a href="https://codepen.io/" target="_blank">CodePen</a></li>
+                                <li><a href="https://repl.it/" target="_blank">Replit</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
