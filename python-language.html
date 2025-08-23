@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python - High-Level Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html#home" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#programming-languages" class="nav-link">
+                    <i class="fas fa-laptop-code"></i> Programming Languages
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="language-detail-page">
+            <div class="page-header">
+                <h1>🐍 Python</h1>
+                <p>A high-level, interpreted programming language known for its simplicity and readability</p>
+            </div>
+
+            <div class="language-overview">
+                <div class="overview-card">
+                    <h2>Language Overview</h2>
+                    <p>Python is a versatile, high-level programming language that emphasizes code readability and simplicity. Created by Guido van Rossum in 1991, Python has become one of the most popular programming languages due to its clean syntax, extensive standard library, and wide range of applications from web development to artificial intelligence.</p>
+                    
+                    <div class="language-stats">
+                        <div class="stat">
+                            <span class="stat-label">First Released</span>
+                            <span class="stat-value">1991</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Latest Version</span>
+                            <span class="stat-value">3.12</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Paradigm</span>
+                            <span class="stat-value">Multi-paradigm</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Typing</span>
+                            <span class="stat-value">Dynamic, Duck</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="language-sections">
+                <div class="section-card">
+                    <h2>🔑 Key Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Readable Syntax</h3>
+                            <p>Clean, readable code that resembles natural language</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-boxes"></i>
+                            <h3>Extensive Libraries</h3>
+                            <p>Rich standard library and third-party packages</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-robot"></i>
+                            <h3>AI/ML Support</h3>
+                            <p>Excellent libraries for machine learning and data science</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <h3>Cross-Platform</h3>
+                            <p>Runs on Windows, macOS, Linux, and more</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📚 Basic Syntax</h2>
+                    <div class="code-example">
+                        <h3>Hello World and Basic Structure</h3>
+                        <pre><code># This is a comment
+print("Hello, World!")
+
+# Variables and data types
+name = "Python"           # String
+age = 30                  # Integer
+height = 1.75            # Float
+is_awesome = True        # Boolean
+
+# String formatting
+print(f"Hello, {name}! You are {age} years old.")
+
+# Basic operations
+result = 10 + 5 * 2      # Result: 20 (follows order of operations)
+print(f"Result: {result}")</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🏗️ Data Structures</h2>
+                    <div class="data-structures-grid">
+                        <div class="structure-item">
+                            <h3>Lists</h3>
+                            <div class="code-example">
+                                <pre><code># Creating and manipulating lists
+fruits = ["apple", "banana", "orange"]
+fruits.append("grape")        # Add item
+fruits.remove("banana")       # Remove item
+print(fruits[0])              # Access first item
+print(len(fruits))            # Get length
+
+# List comprehension
+squares = [x**2 for x in range(5)]
+print(squares)  # [0, 1, 4, 9, 16]</code></pre>
+                            </div>
+                        </div>
+                        <div class="structure-item">
+                            <h3>Dictionaries</h3>
+                            <div class="code-example">
+                                <pre><code># Key-value pairs
+person = {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+}
+
+# Accessing values
+print(person["name"])         # John
+print(person.get("age"))      # 30
+
+# Adding/updating
+person["job"] = "Developer"
+person["age"] = 31</code></pre>
+                            </div>
+                        </div>
+                        <div class="structure-item">
+                            <h3>Tuples</h3>
+                            <div class="code-example">
+                                <pre><code># Immutable sequences
+coordinates = (10, 20)
+x, y = coordinates            # Unpacking
+
+# Tuple methods
+print(coordinates.count(10))  # Count occurrences
+print(coordinates.index(20))  # Find index</code></pre>
+                            </div>
+                        </div>
+                        <div class="structure-item">
+                            <h3>Sets</h3>
+                            <div class="code-example">
+                                <pre><code># Unique, unordered collections
+numbers = {1, 2, 3, 3, 4}    # Duplicates removed
+numbers.add(5)                # Add element
+numbers.remove(1)             # Remove element
+
+# Set operations
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+union = set1 | set2           # Union
+intersection = set1 & set2    # Intersection</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔄 Control Flow</h2>
+                    <div class="control-flow-grid">
+                        <div class="flow-item">
+                            <h3>Conditional Statements</h3>
+                            <div class="code-example">
+                                <pre><code>age = 18
+
+if age >= 18:
+    print("You are an adult")
+elif age >= 13:
+    print("You are a teenager")
+else:
+    print("You are a child")
+
+# Ternary operator
+status = "adult" if age >= 18 else "minor"</code></pre>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <h3>Loops</h3>
+                            <div class="code-example">
+                                <pre><code># For loop
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# While loop
+count = 0
+while count < 3:
+    print(f"Count: {count}")
+    count += 1
+
+# Loop with enumerate
+fruits = ["apple", "banana", "orange"]
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")</code></pre>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <h3>Functions</h3>
+                            <div class="code-example">
+                                <pre><code># Basic function
+def greet(name):
+    return f"Hello, {name}!"
+
+# Function with default parameters
+def power(base, exponent=2):
+    return base ** exponent
+
+# Lambda function
+square = lambda x: x**2
+print(square(5))  # 25</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🏛️ Object-Oriented Programming</h2>
+                    <div class="oop-content">
+                        <h3>Classes and Objects</h3>
+                        <div class="code-example">
+                            <pre><code>class Dog:
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+    
+    def bark(self):
+        return f"{self.name} says Woof!"
+    
+    def get_info(self):
+        return f"{self.name} is a {self.breed}"
+
+# Creating objects
+my_dog = Dog("Buddy", "Golden Retriever")
+print(my_dog.bark())         # Buddy says Woof!
+print(my_dog.get_info())     # Buddy is a Golden Retriever
+
+# Inheritance
+class Puppy(Dog):
+    def __init__(self, name, breed, age):
+        super().__init__(name, breed)
+        self.age = age
+    
+    def play(self):
+        return f"{self.name} is playing at age {self.age}"</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📦 Popular Libraries and Frameworks</h2>
+                    <div class="libraries-grid">
+                        <div class="library-item">
+                            <h3>Web Development</h3>
+                            <ul>
+                                <li><strong>Django</strong> - Full-featured web framework</li>
+                                <li><strong>Flask</strong> - Lightweight web framework</li>
+                                <li><strong>FastAPI</strong> - Modern API framework</li>
+                                <li><strong>Pyramid</strong> - Flexible web framework</li>
+                            </ul>
+                        </div>
+                        <div class="library-item">
+                            <h3>Data Science & ML</h3>
+                            <ul>
+                                <li><strong>NumPy</strong> - Numerical computing</li>
+                                <li><strong>Pandas</strong> - Data manipulation</li>
+                                <li><strong>Matplotlib</strong> - Data visualization</li>
+                                <li><strong>Scikit-learn</strong> - Machine learning</li>
+                                <li><strong>TensorFlow</strong> - Deep learning</li>
+                                <li><strong>PyTorch</strong> - Deep learning</li>
+                            </ul>
+                        </div>
+                        <div class="library-item">
+                            <h3>GUI Development</h3>
+                            <ul>
+                                <li><strong>Tkinter</strong> - Built-in GUI toolkit</li>
+                                <li><strong>PyQt</strong> - Professional GUI framework</li>
+                                <li><strong>Kivy</strong> - Cross-platform GUI</li>
+                                <li><strong>wxPython</strong> - Native GUI toolkit</li>
+                            </ul>
+                        </div>
+                        <div class="library-item">
+                            <h3>Other Popular Libraries</h3>
+                            <ul>
+                                <li><strong>Requests</strong> - HTTP library</li>
+                                <li><strong>Beautiful Soup</strong> - Web scraping</li>
+                                <li><strong>Pillow</strong> - Image processing</li>
+                                <li><strong>SQLAlchemy</strong> - Database ORM</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔧 File Handling</h2>
+                    <div class="file-handling-content">
+                        <h3>Reading and Writing Files</h3>
+                        <div class="code-example">
+                            <pre><code># Reading a file
+with open('file.txt', 'r') as file:
+    content = file.read()
+    print(content)
+
+# Writing to a file
+with open('output.txt', 'w') as file:
+    file.write("Hello, Python!")
+
+# Reading line by line
+with open('file.txt', 'r') as file:
+    for line in file:
+        print(line.strip())
+
+# Working with CSV
+import csv
+with open('data.csv', 'r') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row['name'], row['age'])</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🐛 Error Handling</h2>
+                    <div class="error-handling-content">
+                        <h3>Try-Except Blocks</h3>
+                        <div class="code-example">
+                            <pre><code>try:
+    number = int(input("Enter a number: "))
+    result = 10 / number
+    print(f"Result: {result}")
+except ValueError:
+    print("Please enter a valid number")
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    print("This always executes")
+
+# Custom exceptions
+class CustomError(Exception):
+    pass
+
+def validate_age(age):
+    if age < 0:
+        raise CustomError("Age cannot be negative")
+    return age</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🚀 Best Practices</h2>
+                    <div class="best-practices">
+                        <div class="practice-item">
+                            <h3>1. Follow PEP 8</h3>
+                            <p>Use consistent naming conventions, proper indentation, and line length limits.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>2. Use Virtual Environments</h3>
+                            <p>Create isolated environments for different projects to manage dependencies.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>3. Write Docstrings</h3>
+                            <p>Document your functions and classes with clear docstrings.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>4. Use List Comprehensions</h3>
+                            <p>Prefer list comprehensions over traditional for loops when appropriate.</p>
+                        </div>
+                        <div class="practice-item">
+                            <h3>5. Handle Exceptions Properly</h3>
+                            <p>Use specific exception types and avoid bare except clauses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>🔗 Related Technologies</h2>
+                    <div class="related-tech">
+                        <div class="tech-item">
+                            <h3>Package Managers</h3>
+                            <p>pip, conda, poetry for dependency management</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Development Tools</h3>
+                            <p>PyCharm, VS Code, Jupyter Notebooks</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Testing Frameworks</h3>
+                            <p>pytest, unittest, doctest</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Code Quality</h3>
+                            <p>flake8, black, pylint, mypy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2>📖 Learning Resources</h2>
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <h3>Official Documentation</h3>
+                            <ul>
+                                <li><a href="https://docs.python.org/" target="_blank">Python Official Docs</a></li>
+                                <li><a href="https://www.python.org/dev/peps/" target="_blank">PEP Index</a></li>
+                                <li><a href="https://wiki.python.org/moin/" target="_blank">Python Wiki</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Online Courses</h3>
+                            <ul>
+                                <li><a href="https://docs.python.org/3/tutorial/" target="_blank">Python Tutorial</a></li>
+                                <li><a href="https://www.learnpython.org/" target="_blank">LearnPython.org</a></li>
+                                <li><a href="https://realpython.com/" target="_blank">Real Python</a></li>
+                            </ul>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Books & References</h3>
+                            <ul>
+                                <li><a href="https://automatetheboringstuff.com/" target="_blank">Automate the Boring Stuff</a></li>
+                                <li><a href="https://www.python.org/dev/peps/pep-0008/" target="_blank">PEP 8 Style Guide</a></li>
+                                <li><a href="https://www.python.org/dev/peps/pep-0020/" target="_blank">The Zen of Python</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
