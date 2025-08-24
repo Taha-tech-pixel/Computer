@@ -90,6 +90,19 @@
             </li>
         </ul>
         
+        <!-- User Authentication -->
+        <div id="authButtons" class="auth-buttons">
+            <button id="loginBtn" class="btn btn-primary">Login</button>
+            <button id="registerBtn" class="btn btn-secondary">Register</button>
+        </div>
+        
+        <div id="userSection" class="user-section" style="display: none;">
+            <div class="user-info">
+                <span class="user-name">User</span>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+        
         <!-- Enhanced Controls -->
         <div class="nav-controls">
             <button id="darkModeToggle" class="control-btn theme-toggle" title="Toggle Dark Mode (Ctrl+/)">
@@ -103,6 +116,12 @@
             </button>
             <button id="searchToggle" class="control-btn" title="Search (Ctrl+K)" data-tooltip="Search Platform">
                 <i class="fas fa-search"></i>
+            </button>
+            <button id="collaborationBtn" class="control-btn" title="Collaboration" data-tooltip="Real-time Collaboration">
+                <i class="fas fa-users"></i>
+            </button>
+            <button id="highContrastBtn" class="control-btn" title="High Contrast" data-tooltip="Accessibility">
+                <i class="fas fa-eye"></i>
             </button>
         </div>
         
@@ -281,6 +300,80 @@
                 Explore interactive learning, master coding challenges, and unlock your potential with our AI-powered platform.
             </p>
             <button class="welcome-btn" onclick="closeWelcomePopup()">Start Exploring</button>
+        </div>
+    </div>
+    
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+            
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form">
+                <h2>Login</h2>
+                <form onsubmit="login(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email:</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register here</a></p>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="registerForm" class="auth-form" style="display: none;">
+                <h2>Register</h2>
+                <form onsubmit="register(event)">
+                    <div class="form-group">
+                        <label for="registerName">Name:</label>
+                        <input type="text" id="registerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email:</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password:</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <p>Already have an account? <a href="#" onclick="showLoginForm()">Login here</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Collaboration Modal -->
+    <div id="collaborationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAllModals()">&times;</span>
+            <h2>Real-time Collaboration</h2>
+            <div class="collaboration-info">
+                <p>Room ID: <span id="roomId" class="room-id"></span></p>
+                <p>Share this room ID with your teammates to start coding together!</p>
+            </div>
+            <div class="collaboration-chat">
+                <h3>Chat</h3>
+                <div id="collaborationChat" class="chat-container"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type your message...">
+                    <button onclick="sendChatMessage()" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+            <div class="collaboration-code">
+                <h3>Shared Code Editor</h3>
+                <textarea id="sharedCodeEditor" placeholder="Start coding together..."></textarea>
+                <button onclick="saveSharedCode()" class="btn btn-primary">Save Code</button>
+            </div>
         </div>
     </div>
 
