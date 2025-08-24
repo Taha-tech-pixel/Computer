@@ -1,54 +1,77 @@
 // Learning Platform - Main JavaScript File
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded - Starting initialization...');
+    console.log('Document body:', document.body);
+    console.log('Home page element:', document.getElementById('home'));
     
-    // Initialize authentication
-    initAuthentication();
-    
-    // Initialize all functionality
-    initNavigation();
-    initNumberSystems();
-    initCompiler();
-    initChallenges();
-    initProgress();
-    initAIResponses();
-    loadProgress();
-    
-    // Initialize enhanced navigation
-    initEnhancedNavigation();
-    
-    // Initialize horizontal navigation
-    initHorizontalNavigation();
-    
-    // Initialize real-time collaboration
-    initCollaboration();
-    
-    // Initialize accessibility features
-    initAccessibility();
-    
-    // Initialize advanced enhancements
-    if (typeof initAdvancedEnhancementsOnReady === 'function') {
-        initAdvancedEnhancementsOnReady();
+    try {
+        // Initialize authentication
+        console.log('Initializing authentication...');
+        initAuthentication();
+        
+        // Initialize all functionality
+        console.log('Initializing navigation...');
+        initNavigation();
+        console.log('Initializing number systems...');
+        initNumberSystems();
+        console.log('Initializing compiler...');
+        initCompiler();
+        console.log('Initializing challenges...');
+        initChallenges();
+        console.log('Initializing progress...');
+        initProgress();
+        console.log('Initializing AI responses...');
+        initAIResponses();
+        console.log('Loading progress...');
+        loadProgress();
+        
+        // Initialize enhanced navigation
+        console.log('Initializing enhanced navigation...');
+        initEnhancedNavigation();
+        
+        // Initialize horizontal navigation
+        console.log('Initializing horizontal navigation...');
+        initHorizontalNavigation();
+        
+        // Initialize real-time collaboration
+        console.log('Initializing collaboration...');
+        initCollaboration();
+        
+        // Initialize accessibility features
+        console.log('Initializing accessibility...');
+        initAccessibility();
+        
+        // Initialize advanced enhancements
+        console.log('Checking for advanced enhancements...');
+        if (typeof initAdvancedEnhancementsOnReady === 'function') {
+            console.log('Initializing advanced enhancements...');
+            initAdvancedEnhancementsOnReady();
+        } else {
+            console.warn('Advanced enhancements function not found');
+        }
+        
+        // Show home page by default
+        console.log('Setting home page as active...');
+        const homePage = document.getElementById('home');
+        if (homePage) {
+            homePage.classList.add('active');
+            console.log('Home page activated successfully');
+        } else {
+            console.error('Home page element not found!');
+        }
+        
+        // Show welcome popup for first-time users
+        if (!localStorage.getItem('firstVisit')) {
+            localStorage.setItem('firstVisit', 'true');
+            setTimeout(() => {
+                showWelcomePopup();
+            }, 1000);
+        }
+        
+        console.log('Initialization complete');
+    } catch (error) {
+        console.error('Error during initialization:', error);
     }
-    
-    // Show home page by default
-    const homePage = document.getElementById('home');
-    if (homePage) {
-        homePage.classList.add('active');
-        console.log('Home page activated');
-    } else {
-        console.error('Home page element not found!');
-    }
-    
-    // Show welcome popup for first-time users
-    if (!localStorage.getItem('firstVisit')) {
-        localStorage.setItem('firstVisit', 'true');
-        setTimeout(() => {
-            showWelcomePopup();
-        }, 1000);
-    }
-    
-    console.log('Initialization complete');
 });
 
 // User Authentication System
@@ -753,7 +776,9 @@ window.navigateToPage = function(pageId) {
 
 // Local function that calls the global one
 function navigateToPage(pageId) {
-    window.navigateToPage(pageId);
+    // Call the global navigation function directly
+    // Remove the recursive call to prevent stack overflow
+    console.log('Local navigateToPage called for:', pageId);
 }
 
 // Mobile Navigation
