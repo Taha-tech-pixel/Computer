@@ -13,6 +13,19 @@
             <i class="fas fa-code"></i>
             <span>Learning Platform</span>
         </div>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search languages, concepts, challenges..." class="search-input">
+                <button id="clearSearch" class="clear-search" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        
         <ul class="nav-menu">
             <li class="nav-item">
                 <a href="#home" class="nav-link active" data-page="home">
@@ -40,8 +53,18 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="#playground" class="nav-link" data-page="playground">
+                    <i class="fas fa-gamepad"></i> Playground
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="#challenges" class="nav-link" data-page="challenges">
                     <i class="fas fa-trophy"></i> Challenges
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#projects" class="nav-link" data-page="projects">
+                    <i class="fas fa-rocket"></i> Projects
                 </a>
             </li>
             <li class="nav-item">
@@ -50,20 +73,150 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="#gamification" class="nav-link" data-page="gamification">
+                    <i class="fas fa-medal"></i> Achievements
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#ai-tutor" class="nav-link" data-page="ai-tutor">
+                    <i class="fas fa-chalkboard-teacher"></i> AI Tutor
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="#ai-bot" class="nav-link" data-page="ai-bot">
                     <i class="fas fa-robot"></i> AI Bot
                 </a>
             </li>
-            <li class="nav-item">
-
-            </li>
         </ul>
+        
+        <!-- Enhanced Controls -->
+        <div class="nav-controls">
+            <button id="darkModeToggle" class="control-btn" title="Toggle Dark Mode (Ctrl+D)">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="tutorialBtn" class="control-btn" title="Start Tutorial (Ctrl+T)">
+                <i class="fas fa-graduation-cap"></i>
+            </button>
+            <button id="settingsBtn" class="control-btn" title="Settings (Ctrl+,)">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        
         <div class="hamburger">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </div>
     </nav>
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+        <span class="breadcrumb-item active">Home</span>
+    </div>
+    
+    <!-- Tutorial Overlay -->
+    <div id="tutorialOverlay" class="tutorial-overlay" style="display: none;">
+        <div class="tutorial-content">
+            <div class="tutorial-header">
+                <h3>Welcome to Learning Platform Tutorial</h3>
+                <button id="closeTutorial" class="close-tutorial">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="tutorial-steps">
+                <div class="tutorial-step active" data-step="1">
+                    <h4>Step 1: Explore Programming Languages</h4>
+                    <p>Click on "Programming Languages" to explore 30+ languages across 7 categories.</p>
+                    <div class="tutorial-actions">
+                        <button class="tutorial-next">Next</button>
+                    </div>
+                </div>
+                <div class="tutorial-step" data-step="2">
+                    <h4>Step 2: Try the Compiler</h4>
+                    <p>Use our multi-language compiler to write and test code in different programming languages.</p>
+                    <div class="tutorial-actions">
+                        <button class="tutorial-prev">Previous</button>
+                        <button class="tutorial-next">Next</button>
+                    </div>
+                </div>
+                <div class="tutorial-step" data-step="3">
+                    <h4>Step 3: Complete Challenges</h4>
+                    <p>Test your skills with programming challenges and track your progress.</p>
+                    <div class="tutorial-actions">
+                        <button class="tutorial-prev">Previous</button>
+                        <button class="tutorial-next">Next</button>
+                    </div>
+                </div>
+                <div class="tutorial-step" data-step="4">
+                    <h4>Step 4: Get AI Help</h4>
+                    <p>Use the AI Bot for instant help with programming concepts and questions.</p>
+                    <div class="tutorial-actions">
+                        <button class="tutorial-prev">Previous</button>
+                        <button class="tutorial-finish">Finish Tutorial</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="settings-modal" style="display: none;">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="closeSettings" class="close-settings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="settings-body">
+                <div class="setting-group">
+                    <h4>Appearance</h4>
+                    <div class="setting-item">
+                        <label for="themeSelect">Theme:</label>
+                        <select id="themeSelect">
+                            <option value="auto">Auto (System)</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="fontSize">Font Size:</label>
+                        <select id="fontSize">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4>Notifications</h4>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="progressNotifications" checked>
+                            Progress notifications
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="challengeReminders" checked>
+                            Challenge reminders
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4>Data Management</h4>
+                    <div class="setting-actions">
+                        <button id="exportSettings" class="setting-btn">Export Settings</button>
+                        <button id="importSettings" class="setting-btn">Import Settings</button>
+                        <button id="resetSettings" class="setting-btn danger">Reset All Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification System -->
+    <div id="notificationContainer" class="notification-container"></div>
 
     <main class="main-content">
         <!-- Home Page -->
@@ -1430,23 +1583,770 @@
                         </button>
                     </div>
                 </div>
-                <div class="quick-questions">
-                    <h4>💡 Quick Questions:</h4>
-                    <div class="question-buttons">
-                        <button onclick="askQuestion('What is recursion and how does it work?')" class="question-btn">What is recursion?</button>
-                        <button onclick="askQuestion('Explain Object-Oriented Programming concepts with examples')" class="question-btn">OOP Concepts</button>
-                        <button onclick="askQuestion('How do data structures like arrays and linked lists work?')" class="question-btn">Data Structures</button>
-                        <button onclick="askQuestion('What are design patterns and when to use them?')" class="question-btn">Design Patterns</button>
-                        <button onclick="askQuestion('Explain the difference between synchronous and asynchronous programming')" class="question-btn">Async Programming</button>
-                        <button onclick="askQuestion('How does memory management work in programming?')" class="question-btn">Memory Management</button>
+                                 <div class="quick-questions">
+                     <h4>💡 Quick Questions:</h4>
+                     <div class="question-buttons">
+                         <button onclick="askQuestion('What is recursion and how does it work?')" class="question-btn">What is recursion?</button>
+                         <button onclick="askQuestion('Explain Object-Oriented Programming concepts with examples')" class="question-btn">OOP Concepts</button>
+                         <button onclick="askQuestion('How do data structures like arrays and linked lists work?')" class="question-btn">Data Structures</button>
+                         <button onclick="askQuestion('What are design patterns and when to use them?')" class="question-btn">Design Patterns</button>
+                         <button onclick="askQuestion('Explain the difference between synchronous and asynchronous programming')" class="question-btn">Async Programming</button>
+                         <button onclick="askQuestion('How does memory management work in programming?')" class="question-btn">Memory Management</button>
+                     </div>
+                 </div>
+                 
+                 <!-- Enhanced AI Features -->
+                 <div class="ai-features">
+                     <div class="feature-section">
+                         <h4>🎯 Code Analysis</h4>
+                         <div class="feature-buttons">
+                             <button onclick="analyzeCodeSnippet()" class="feature-btn">
+                                 <i class="fas fa-code"></i> Analyze Code
+                             </button>
+                             <button onclick="optimizeCode()" class="feature-btn">
+                                 <i class="fas fa-rocket"></i> Optimize Code
+                             </button>
+                             <button onclick="debugCode()" class="feature-btn">
+                                 <i class="fas fa-bug"></i> Debug Code
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <div class="feature-section">
+                         <h4>📚 Learning Paths</h4>
+                         <div class="feature-buttons">
+                             <button onclick="generateLearningPath('beginner')" class="feature-btn">
+                                 <i class="fas fa-baby"></i> Beginner Path
+                             </button>
+                             <button onclick="generateLearningPath('intermediate')" class="feature-btn">
+                                 <i class="fas fa-user"></i> Intermediate Path
+                             </button>
+                             <button onclick="generateLearningPath('advanced')" class="feature-btn">
+                                 <i class="fas fa-crown"></i> Advanced Path
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <div class="feature-section">
+                         <h4>🔧 Interactive Tools</h4>
+                         <div class="feature-buttons">
+                             <button onclick="openCodeGenerator()" class="feature-btn">
+                                 <i class="fas fa-magic"></i> Code Generator
+                             </button>
+                             <button onclick="openAlgorithmVisualizer()" class="feature-btn">
+                                 <i class="fas fa-project-diagram"></i> Algorithm Visualizer
+                             </button>
+                             <button onclick="openRegexTester()" class="feature-btn">
+                                 <i class="fas fa-search"></i> Regex Tester
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <!-- New Advanced Features -->
+                     <div class="feature-section">
+                         <h4>🎤 Voice & AI</h4>
+                         <div class="feature-buttons">
+                             <button onclick="toggleVoiceCommands()" class="feature-btn" id="voiceBtn">
+                                 <i class="fas fa-microphone"></i> Voice Commands
+                             </button>
+                             <button onclick="startCodeReview()" class="feature-btn">
+                                 <i class="fas fa-eye"></i> AI Code Review
+                             </button>
+                             <button onclick="generateDocumentation()" class="feature-btn">
+                                 <i class="fas fa-file-alt"></i> Auto Documentation
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <div class="feature-section">
+                         <h4>👥 Collaboration</h4>
+                         <div class="feature-buttons">
+                             <button onclick="createCodeSession()" class="feature-btn">
+                                 <i class="fas fa-users"></i> Live Code Session
+                             </button>
+                             <button onclick="shareCode()" class="feature-btn">
+                                 <i class="fas fa-share"></i> Share Code
+                             </button>
+                             <button onclick="exportToGitHub()" class="feature-btn">
+                                 <i class="fab fa-github"></i> Export to GitHub
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <div class="feature-section">
+                         <h4>📊 Analytics</h4>
+                         <div class="feature-buttons">
+                             <button onclick="showCodeMetrics()" class="feature-btn">
+                                 <i class="fas fa-chart-line"></i> Code Metrics
+                             </button>
+                             <button onclick="performanceAnalysis()" class="feature-btn">
+                                 <i class="fas fa-tachometer-alt"></i> Performance Analysis
+                             </button>
+                             <button onclick="securityScan()" class="feature-btn">
+                                 <i class="fas fa-shield-alt"></i> Security Scan
+                             </button>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Voice Command Interface -->
+                 <div class="voice-interface" id="voiceInterface" style="display: none;">
+                     <div class="voice-header">
+                         <h4>🎤 Voice Commands</h4>
+                         <div class="voice-status" id="voiceStatus">Click to start listening</div>
+                     </div>
+                     <div class="voice-controls">
+                         <button onclick="startVoiceRecognition()" class="voice-btn" id="startVoiceBtn">
+                             <i class="fas fa-microphone"></i> Start Listening
+                         </button>
+                         <button onclick="stopVoiceRecognition()" class="voice-btn" id="stopVoiceBtn" style="display: none;">
+                             <i class="fas fa-stop"></i> Stop Listening
+                         </button>
+                     </div>
+                     <div class="voice-transcript" id="voiceTranscript"></div>
+                     <div class="voice-commands-help">
+                         <h5>Available Commands:</h5>
+                         <ul>
+                             <li>"Analyze this code"</li>
+                             <li>"Generate a function for..."</li>
+                             <li>"Explain recursion"</li>
+                             <li>"Show me an example of..."</li>
+                             <li>"Debug this code"</li>
+                         </ul>
+                     </div>
+                 </div>
+                 
+                 <!-- Code Collaboration Modal -->
+                 <div id="collaborationModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3>Live Code Collaboration</h3>
+                             <button onclick="closeCollaborationModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div class="collaboration-options">
+                                 <div class="session-info">
+                                     <h4>Session Details</h4>
+                                     <div class="session-id">
+                                         <label>Session ID:</label>
+                                         <input type="text" id="sessionId" readonly>
+                                         <button onclick="copySessionId()" class="btn btn-secondary">Copy</button>
+                                     </div>
+                                     <div class="participants">
+                                         <label>Participants:</label>
+                                         <div id="participantsList">Just you</div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="collaboration-controls">
+                                     <button onclick="inviteParticipant()" class="btn btn-primary">
+                                         <i class="fas fa-user-plus"></i> Invite
+                                     </button>
+                                     <button onclick="startScreenShare()" class="btn btn-secondary">
+                                         <i class="fas fa-desktop"></i> Share Screen
+                                     </button>
+                                     <button onclick="recordSession()" class="btn btn-secondary">
+                                         <i class="fas fa-video"></i> Record
+                                     </button>
+                                 </div>
+                                 
+                                 <div class="shared-editor">
+                                     <h4>Shared Code Editor</h4>
+                                     <textarea id="sharedCode" placeholder="Start coding together..."></textarea>
+                                     <div class="editor-actions">
+                                         <button onclick="saveSharedCode()" class="btn btn-primary">Save</button>
+                                         <button onclick="exportSharedCode()" class="btn btn-secondary">Export</button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Analytics Dashboard Modal -->
+                 <div id="analyticsModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3>Code Analytics Dashboard</h3>
+                             <button onclick="closeAnalyticsModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div class="analytics-grid">
+                                 <div class="metric-card">
+                                     <h4>Code Quality</h4>
+                                     <div class="metric-value" id="qualityScore">85%</div>
+                                     <div class="metric-bar">
+                                         <div class="metric-fill" style="width: 85%"></div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="metric-card">
+                                     <h4>Performance</h4>
+                                     <div class="metric-value" id="performanceScore">92%</div>
+                                     <div class="metric-bar">
+                                         <div class="metric-fill" style="width: 92%"></div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="metric-card">
+                                     <h4>Security</h4>
+                                     <div class="metric-value" id="securityScore">78%</div>
+                                     <div class="metric-bar">
+                                         <div class="metric-fill" style="width: 78%"></div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="metric-card">
+                                     <h4>Maintainability</h4>
+                                     <div class="metric-value" id="maintainabilityScore">88%</div>
+                                     <div class="metric-bar">
+                                         <div class="metric-fill" style="width: 88%"></div>
+                                     </div>
+                                 </div>
+                             </div>
+                             
+                             <div class="analytics-details">
+                                 <h4>Detailed Analysis</h4>
+                                 <div id="analyticsDetails">
+                                     <div class="analysis-item">
+                                         <span class="analysis-label">Cyclomatic Complexity:</span>
+                                         <span class="analysis-value">Low (3)</span>
+                                     </div>
+                                     <div class="analysis-item">
+                                         <span class="analysis-label">Code Duplication:</span>
+                                         <span class="analysis-value">2%</span>
+                                     </div>
+                                     <div class="analysis-item">
+                                         <span class="analysis-label">Test Coverage:</span>
+                                         <span class="analysis-value">75%</span>
+                                     </div>
+                                     <div class="analysis-item">
+                                         <span class="analysis-label">Documentation:</span>
+                                         <span class="analysis-value">Good</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Code Input Area -->
+                 <div class="code-input-section" id="codeInputSection" style="display: none;">
+                     <h4>📝 Paste Your Code</h4>
+                     <textarea id="codeInput" placeholder="Paste your code here for analysis, optimization, or debugging..."></textarea>
+                     <div class="code-actions">
+                         <button onclick="submitCodeForAnalysis()" class="btn btn-primary">Analyze</button>
+                         <button onclick="closeCodeInput()" class="btn btn-secondary">Cancel</button>
+                     </div>
+                 </div>
+                 
+                 <!-- Learning Path Modal -->
+                 <div id="learningPathModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3 id="learningPathTitle">Learning Path</h3>
+                             <button onclick="closeLearningPathModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div id="learningPathContent"></div>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Code Generator Modal -->
+                 <div id="codeGeneratorModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3>Code Generator</h3>
+                             <button onclick="closeCodeGeneratorModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div class="generator-options">
+                                 <label for="generatorType">Generate:</label>
+                                 <select id="generatorType">
+                                     <option value="function">Function</option>
+                                     <option value="class">Class</option>
+                                     <option value="api">API Endpoint</option>
+                                     <option value="database">Database Query</option>
+                                     <option value="test">Unit Test</option>
+                                 </select>
+                                 
+                                 <label for="generatorLanguage">Language:</label>
+                                 <select id="generatorLanguage">
+                                     <option value="javascript">JavaScript</option>
+                                     <option value="python">Python</option>
+                                     <option value="java">Java</option>
+                                     <option value="cpp">C++</option>
+                                     <option value="php">PHP</option>
+                                 </select>
+                                 
+                                 <label for="generatorDescription">Description:</label>
+                                 <textarea id="generatorDescription" placeholder="Describe what you want to generate..."></textarea>
+                                 
+                                 <button onclick="generateCode()" class="btn btn-primary">Generate Code</button>
+                             </div>
+                             <div id="generatedCode" class="generated-code"></div>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Algorithm Visualizer Modal -->
+                 <div id="algorithmModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3>Algorithm Visualizer</h3>
+                             <button onclick="closeAlgorithmModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div class="algorithm-selector">
+                                 <label for="algorithmType">Select Algorithm:</label>
+                                 <select id="algorithmType">
+                                     <option value="bubble-sort">Bubble Sort</option>
+                                     <option value="quick-sort">Quick Sort</option>
+                                     <option value="binary-search">Binary Search</option>
+                                     <option value="dfs">Depth-First Search</option>
+                                     <option value="bfs">Breadth-First Search</option>
+                                 </select>
+                                 
+                                 <label for="algorithmInput">Input Data:</label>
+                                 <input type="text" id="algorithmInput" placeholder="e.g., 64,34,25,12,22,11,90">
+                                 
+                                 <button onclick="visualizeAlgorithm()" class="btn btn-primary">Visualize</button>
+                             </div>
+                             <div id="algorithmVisualization" class="algorithm-visualization"></div>
+                         </div>
+                     </div>
+                 </div>
+                 
+                 <!-- Regex Tester Modal -->
+                 <div id="regexModal" class="ai-modal" style="display: none;">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h3>Regex Tester</h3>
+                             <button onclick="closeRegexModal()" class="close-modal">
+                                 <i class="fas fa-times"></i>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             <div class="regex-tester">
+                                 <label for="regexPattern">Regex Pattern:</label>
+                                 <input type="text" id="regexPattern" placeholder="Enter regex pattern...">
+                                 
+                                 <label for="regexTestText">Test Text:</label>
+                                 <textarea id="regexTestText" placeholder="Enter text to test against the pattern..."></textarea>
+                                 
+                                 <button onclick="testRegex()" class="btn btn-primary">Test Regex</button>
+                             </div>
+                             <div id="regexResults" class="regex-results"></div>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Playground Page -->
+        <div id="playground" class="page">
+            <div class="page-header">
+                <h1>Interactive Code Playground</h1>
+                <p>Experiment with code in real-time with instant feedback and debugging tools</p>
+            </div>
+            
+            <div class="playground-container">
+                <div class="playground-controls">
+                    <div class="language-selector">
+                        <label for="playgroundLanguage">Language:</label>
+                        <select id="playgroundLanguage">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="java">Java</option>
+                            <option value="cpp">C++</option>
+                        </select>
+                    </div>
+                    
+                    <div class="playground-actions">
+                        <button id="runCode" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                        <button id="debugCode" class="btn btn-secondary">
+                            <i class="fas fa-bug"></i> Debug
+                        </button>
+                        <button id="savePlayground" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button id="loadTemplate" class="btn btn-info">
+                            <i class="fas fa-file-code"></i> Templates
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="playground-workspace">
+                    <div class="code-editor-panel">
+                        <div class="editor-header">
+                            <span>Code Editor</span>
+                            <div class="editor-controls">
+                                <button id="toggleTheme" class="btn-icon">
+                                    <i class="fas fa-palette"></i>
+                                </button>
+                                <button id="toggleFullscreen" class="btn-icon">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="playgroundCode" placeholder="Write your code here..."></textarea>
+                    </div>
+                    
+                    <div class="output-panel">
+                        <div class="output-header">
+                            <span>Output</span>
+                            <div class="output-controls">
+                                <button id="clearOutput" class="btn-icon">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button id="copyOutput" class="btn-icon">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="playgroundOutput" class="output-content"></div>
+                    </div>
+                </div>
+                
+                <div class="debug-panel" id="debugPanel" style="display: none;">
+                    <div class="debug-header">
+                        <span>Debug Console</span>
+                        <button id="closeDebug" class="btn-icon">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="debug-controls">
+                        <button id="stepOver" class="btn btn-sm">Step Over</button>
+                        <button id="stepInto" class="btn btn-sm">Step Into</button>
+                        <button id="stepOut" class="btn btn-sm">Step Out</button>
+                        <button id="continueExecution" class="btn btn-sm">Continue</button>
+                    </div>
+                    <div id="debugOutput" class="debug-content"></div>
+                    <div id="variableInspector" class="variable-inspector"></div>
+                </div>
+                
+                <div class="template-library" id="templateLibrary" style="display: none;">
+                    <div class="template-header">
+                        <h4>Code Templates</h4>
+                        <button id="closeTemplates" class="btn-icon">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="template-categories">
+                        <button class="template-category active" data-category="basics">Basics</button>
+                        <button class="template-category" data-category="algorithms">Algorithms</button>
+                        <button class="template-category" data-category="data-structures">Data Structures</button>
+                        <button class="template-category" data-category="web">Web Development</button>
+                        <button class="template-category" data-category="games">Games</button>
+                    </div>
+                    <div id="templateList" class="template-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projects" class="page">
+            <div class="page-header">
+                <h1>Project-Based Learning</h1>
+                <p>Build real-world applications with guided tutorials and portfolio creation</p>
+            </div>
+            
+            <div class="projects-container">
+                <div class="project-categories">
+                    <button class="project-category active" data-category="beginner">Beginner</button>
+                    <button class="project-category" data-category="intermediate">Intermediate</button>
+                    <button class="project-category" data-category="advanced">Advanced</button>
+                    <button class="project-category" data-category="expert">Expert</button>
+                </div>
+                
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Projects will be dynamically loaded -->
+                </div>
+                
+                <div class="portfolio-section">
+                    <h3>My Portfolio</h3>
+                    <div class="portfolio-controls">
+                        <button id="createPortfolio" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create Portfolio
+                        </button>
+                        <button id="exportPortfolio" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button id="sharePortfolio" class="btn btn-success">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                    </div>
+                    <div id="portfolioProjects" class="portfolio-projects"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification Page -->
+        <div id="gamification" class="page">
+            <div class="page-header">
+                <h1>Achievements & Gamification</h1>
+                <p>Track your progress, earn badges, and compete with other learners</p>
+            </div>
+            
+            <div class="gamification-container">
+                <div class="user-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="userLevel">Level 5</h3>
+                            <p>Current Level</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="userStreak">7 Days</h3>
+                            <p>Learning Streak</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="userXP">2,450 XP</h3>
+                            <p>Total Experience</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="userBadges">12</h3>
+                            <p>Badges Earned</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="achievements-section">
+                    <h3>Achievements</h3>
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <!-- Achievements will be dynamically loaded -->
+                    </div>
+                </div>
+                
+                <div class="leaderboard-section">
+                    <h3>Leaderboard</h3>
+                    <div class="leaderboard-tabs">
+                        <button class="leaderboard-tab active" data-period="weekly">This Week</button>
+                        <button class="leaderboard-tab" data-period="monthly">This Month</button>
+                        <button class="leaderboard-tab" data-period="all-time">All Time</button>
+                    </div>
+                    <div id="leaderboardList" class="leaderboard-list">
+                        <!-- Leaderboard will be dynamically loaded -->
+                    </div>
+                </div>
+                
+                <div class="skill-tree-section">
+                    <h3>Skill Tree</h3>
+                    <div class="skill-tree-container">
+                        <div class="skill-tree" id="skillTree">
+                            <!-- Skill tree will be dynamically generated -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <!-- AI Tutor Page -->
+        <div id="ai-tutor" class="page">
+            <div class="page-header">
+                <h1>AI Tutor</h1>
+                <p>Get personalized guidance and step-by-step explanations for complex concepts</p>
+            </div>
+            
+            <div class="ai-tutor-container">
+                <div class="tutor-interface">
+                    <div class="tutor-chat">
+                        <div class="chat-header">
+                            <div class="tutor-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="tutor-info">
+                                <h4>AI Tutor</h4>
+                                <span class="tutor-status">Online</span>
+                            </div>
+                            <div class="chat-controls">
+                                <button id="clearTutorChat" class="btn-icon">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button id="exportTutorChat" class="btn-icon">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="tutorMessages" class="tutor-messages">
+                            <div class="tutor-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Hello! I'm your AI Tutor. I can help you with:</p>
+                                    <ul>
+                                        <li>Step-by-step explanations of complex concepts</li>
+                                        <li>Personalized learning recommendations</li>
+                                        <li>Code review and improvement suggestions</li>
+                                        <li>Problem-solving strategies</li>
+                                        <li>Concept visualization and diagrams</li>
+                                    </ul>
+                                    <p>What would you like to learn today?</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tutor-input">
+                            <textarea id="tutorInput" placeholder="Ask me anything about programming..."></textarea>
+                            <button id="sendTutorMessage" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tutor-sidebar">
+                        <div class="tutor-quick-actions">
+                            <h4>Quick Actions</h4>
+                            <button class="quick-action" data-action="explain-concept">
+                                <i class="fas fa-lightbulb"></i>
+                                Explain Concept
+                            </button>
+                            <button class="quick-action" data-action="code-review">
+                                <i class="fas fa-code"></i>
+                                Code Review
+                            </button>
+                            <button class="quick-action" data-action="problem-solving">
+                                <i class="fas fa-puzzle-piece"></i>
+                                Problem Solving
+                            </button>
+                            <button class="quick-action" data-action="visualization">
+                                <i class="fas fa-chart-bar"></i>
+                                Create Visualization
+                            </button>
+                            <button class="quick-action" data-action="learning-path">
+                                <i class="fas fa-route"></i>
+                                Learning Path
+                            </button>
+                        </div>
+                        
+                        <div class="tutor-topics">
+                            <h4>Popular Topics</h4>
+                            <div class="topic-tags">
+                                <span class="topic-tag">Algorithms</span>
+                                <span class="topic-tag">Data Structures</span>
+                                <span class="topic-tag">OOP</span>
+                                <span class="topic-tag">Web Development</span>
+                                <span class="topic-tag">Database</span>
+                                <span class="topic-tag">API Design</span>
+                                <span class="topic-tag">Testing</span>
+                                <span class="topic-tag">Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tutor-visualization" id="tutorVisualization" style="display: none;">
+                    <div class="visualization-header">
+                        <h4>Concept Visualization</h4>
+                        <button id="closeVisualization" class="btn-icon">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="visualizationContent" class="visualization-content"></div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="settings-modal" style="display: none;">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="closeSettings" class="close-settings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h4>Appearance</h4>
+                    <div class="setting-item">
+                        <label for="themeSelect">Theme:</label>
+                        <select id="themeSelect">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="auto">Auto</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="fontSize">Font Size:</label>
+                        <select id="fontSize">
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Notifications</h4>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="enableNotifications"> Enable Notifications
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="dailyReminders"> Daily Learning Reminders
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Data Management</h4>
+                    <div class="setting-item">
+                        <button onclick="exportUserSettings()" class="btn btn-secondary">Export Settings</button>
+                        <button onclick="importUserSettings()" class="btn btn-secondary">Import Settings</button>
+                    </div>
+                    <div class="setting-item">
+                        <button onclick="resetUserSettings()" class="btn btn-danger">Reset All Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+    
+         <script src="script.js"></script>
+     <script src="advanced-features.js"></script>
+ </body>
+ </html>

@@ -8,6 +8,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initProgress();
     initAIResponses();
     loadProgress();
+    
+    // Initialize new enhanced features
+    initEnhancedFeatures();
+    initEnhancedNavigation();
+    initAdvancedFeatures();
+    
+    // Show welcome message for first-time users
+    if (!localStorage.getItem('firstVisit')) {
+        localStorage.setItem('firstVisit', 'true');
+        setTimeout(() => {
+            showNotification('Welcome to Learning Platform!', 'Click the graduation cap icon to start the tutorial', 'info', 8000);
+        }, 2000);
+    }
 });
 
 // Navigation functionality
@@ -1315,3 +1328,2750 @@ function handleKeyPress(event) {
         sendMessage();
     }
 }
+
+// Enhanced Features Initialization
+function initEnhancedFeatures() {
+    initSearch();
+    initDarkMode();
+    initTutorial();
+    initSettings();
+    initBreadcrumbs();
+    initNotifications();
+    initKeyboardShortcuts();
+    loadUserSettings();
+}
+
+// Search Functionality
+function initSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const clearSearch = document.getElementById('clearSearch');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', handleSearch);
+        searchInput.addEventListener('focus', showSearchResults);
+        searchInput.addEventListener('blur', hideSearchResults);
+    }
+    
+    if (clearSearch) {
+        clearSearch.addEventListener('click', clearSearchInput);
+    }
+    
+    // Search data
+    window.searchData = {
+        languages: [
+            { name: 'JavaScript', category: 'Web Development', url: '#programming-languages' },
+            { name: 'Python', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'Java', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'C++', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'HTML', category: 'Web Development', url: '#programming-languages' },
+            { name: 'CSS', category: 'Web Development', url: '#programming-languages' },
+            { name: 'TypeScript', category: 'Web Development', url: '#programming-languages' },
+            { name: 'PHP', category: 'Web Development', url: '#programming-languages' },
+            { name: 'Node.js', category: 'Web Development', url: '#programming-languages' },
+            { name: 'C#', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'Kotlin', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'Go', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'Rust', category: 'General-Purpose', url: '#programming-languages' },
+            { name: 'Bash', category: 'Scripting', url: '#programming-languages' },
+            { name: 'SQL', category: 'Query', url: '#programming-languages' },
+            { name: 'Perl', category: 'Scripting', url: '#programming-languages' },
+            { name: 'Ruby', category: 'Scripting', url: '#programming-languages' },
+            { name: 'R', category: 'Data Science', url: '#programming-languages' },
+            { name: 'Clojure', category: 'Functional', url: '#programming-languages' },
+            { name: 'Scala', category: 'Functional', url: '#programming-languages' },
+            { name: 'Fortran', category: 'Legacy', url: '#programming-languages' },
+            { name: 'VB.NET', category: 'Legacy', url: '#programming-languages' }
+        ],
+        concepts: [
+            { name: 'ASCII', category: 'Coding Schemes', url: '#coding-schemes' },
+            { name: 'Unicode', category: 'Coding Schemes', url: '#coding-schemes' },
+            { name: 'Binary', category: 'Number System', url: '#number-system' },
+            { name: 'Hexadecimal', category: 'Number System', url: '#number-system' },
+            { name: 'Octal', category: 'Number System', url: '#number-system' },
+            { name: 'Decimal', category: 'Number System', url: '#number-system' },
+            { name: 'Compiler', category: 'Tools', url: '#compiler' },
+            { name: 'Challenges', category: 'Practice', url: '#challenges' },
+            { name: 'Progress', category: 'Tracking', url: '#progress' },
+            { name: 'AI Bot', category: 'Help', url: '#ai-bot' }
+        ]
+    };
+}
+
+function handleSearch() {
+    const query = this.value.toLowerCase().trim();
+    const clearBtn = document.getElementById('clearSearch');
+    
+    if (query.length > 0) {
+        clearBtn.style.display = 'block';
+        const results = performSearch(query);
+        displaySearchResults(results);
+    } else {
+        clearBtn.style.display = 'none';
+        hideSearchResults();
+    }
+}
+
+function performSearch(query) {
+    const results = [];
+    
+    // Search languages
+    window.searchData.languages.forEach(lang => {
+        if (lang.name.toLowerCase().includes(query) || 
+            lang.category.toLowerCase().includes(query)) {
+            results.push({
+                ...lang,
+                type: 'language',
+                icon: 'fas fa-laptop-code'
+            });
+        }
+    });
+    
+    // Search concepts
+    window.searchData.concepts.forEach(concept => {
+        if (concept.name.toLowerCase().includes(query) || 
+            concept.category.toLowerCase().includes(query)) {
+            results.push({
+                ...concept,
+                type: 'concept',
+                icon: 'fas fa-lightbulb'
+            });
+        }
+    });
+    
+    return results.slice(0, 10); // Limit to 10 results
+}
+
+function displaySearchResults(results) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+    } else {
+        searchResults.innerHTML = results.map(result => `
+            <div class="search-result-item" onclick="navigateToSearchResult('${result.url}')">
+                <i class="${result.icon}"></i>
+                <div>
+                    <div><strong>${result.name}</strong></div>
+                    <div style="font-size: 0.8rem; color: #666;">${result.category}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    searchResults.style.display = 'block';
+}
+
+function navigateToSearchResult(url) {
+    const targetId = url.substring(1);
+    const targetPage = document.getElementById(targetId);
+    
+    if (targetPage) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+        
+        // Show target page
+        targetPage.style.display = 'block';
+        
+        // Update navigation
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.querySelector(`[href="${url}"]`).classList.add('active');
+        
+        // Update breadcrumbs
+        updateBreadcrumbs(targetId);
+        
+        // Hide search results
+        hideSearchResults();
+        clearSearchInput();
+    }
+}
+
+function showSearchResults() {
+    const searchResults = document.getElementById('searchResults');
+    if (searchResults.innerHTML.trim()) {
+        searchResults.style.display = 'block';
+    }
+}
+
+function hideSearchResults() {
+    setTimeout(() => {
+        document.getElementById('searchResults').style.display = 'none';
+    }, 200);
+}
+
+function clearSearchInput() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearSearch').style.display = 'none';
+    hideSearchResults();
+}
+
+// Dark Mode Functionality
+function initDarkMode() {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const themeSelect = document.getElementById('themeSelect');
+    
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    }
+    
+    if (themeSelect) {
+        themeSelect.addEventListener('change', changeTheme);
+    }
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'auto';
+    applyTheme(savedTheme);
+}
+
+function toggleDarkMode() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update toggle button
+    const icon = document.querySelector('#darkModeToggle i');
+    icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    
+    showNotification('Theme changed', `Switched to ${newTheme} mode`, 'info');
+}
+
+function changeTheme() {
+    const theme = document.getElementById('themeSelect').value;
+    applyTheme(theme);
+    localStorage.setItem('theme', theme);
+    showNotification('Theme updated', `Theme set to ${theme}`, 'info');
+}
+
+function applyTheme(theme) {
+    if (theme === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+}
+
+// Tutorial Functionality
+function initTutorial() {
+    const tutorialBtn = document.getElementById('tutorialBtn');
+    const tutorialOverlay = document.getElementById('tutorialOverlay');
+    const closeTutorial = document.getElementById('closeTutorial');
+    const tutorialSteps = document.querySelectorAll('.tutorial-step');
+    const nextBtns = document.querySelectorAll('.tutorial-next');
+    const prevBtns = document.querySelectorAll('.tutorial-prev');
+    const finishBtn = document.querySelector('.tutorial-finish');
+    
+    if (tutorialBtn) {
+        tutorialBtn.addEventListener('click', startTutorial);
+    }
+    
+    if (closeTutorial) {
+        closeTutorial.addEventListener('click', closeTutorialOverlay);
+    }
+    
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', nextTutorialStep);
+    });
+    
+    prevBtns.forEach(btn => {
+        btn.addEventListener('click', prevTutorialStep);
+    });
+    
+    if (finishBtn) {
+        finishBtn.addEventListener('click', finishTutorial);
+    }
+    
+    // Close tutorial when clicking outside
+    if (tutorialOverlay) {
+        tutorialOverlay.addEventListener('click', (e) => {
+            if (e.target === tutorialOverlay) {
+                closeTutorialOverlay();
+            }
+        });
+    }
+}
+
+function startTutorial() {
+    document.getElementById('tutorialOverlay').style.display = 'flex';
+    showTutorialStep(1);
+    localStorage.setItem('tutorialCompleted', 'false');
+}
+
+function closeTutorialOverlay() {
+    document.getElementById('tutorialOverlay').style.display = 'none';
+}
+
+function nextTutorialStep() {
+    const currentStep = document.querySelector('.tutorial-step.active');
+    const currentStepNum = parseInt(currentStep.dataset.step);
+    const nextStepNum = currentStepNum + 1;
+    
+    if (nextStepNum <= 4) {
+        showTutorialStep(nextStepNum);
+    }
+}
+
+function prevTutorialStep() {
+    const currentStep = document.querySelector('.tutorial-step.active');
+    const currentStepNum = parseInt(currentStep.dataset.step);
+    const prevStepNum = currentStepNum - 1;
+    
+    if (prevStepNum >= 1) {
+        showTutorialStep(prevStepNum);
+    }
+}
+
+function showTutorialStep(stepNum) {
+    document.querySelectorAll('.tutorial-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    document.querySelector(`[data-step="${stepNum}"]`).classList.add('active');
+}
+
+function finishTutorial() {
+    closeTutorialOverlay();
+    localStorage.setItem('tutorialCompleted', 'true');
+    showNotification('Tutorial completed!', 'You\'re ready to explore the platform', 'success');
+}
+
+// Settings Functionality
+function initSettings() {
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+    const exportSettings = document.getElementById('exportSettings');
+    const importSettings = document.getElementById('importSettings');
+    const resetSettings = document.getElementById('resetSettings');
+    
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', openSettings);
+    }
+    
+    if (closeSettings) {
+        closeSettings.addEventListener('click', closeSettingsModal);
+    }
+    
+    if (exportSettings) {
+        exportSettings.addEventListener('click', exportUserSettings);
+    }
+    
+    if (importSettings) {
+        importSettings.addEventListener('click', importUserSettings);
+    }
+    
+    if (resetSettings) {
+        resetSettings.addEventListener('click', resetUserSettings);
+    }
+    
+    // Close settings when clicking outside
+    if (settingsModal) {
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                closeSettingsModal();
+            }
+        });
+    }
+}
+
+function openSettings() {
+    document.getElementById('settingsModal').style.display = 'flex';
+    loadSettingsValues();
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
+
+function loadSettingsValues() {
+    const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+    
+    if (settings.theme) {
+        document.getElementById('themeSelect').value = settings.theme;
+    }
+    
+    if (settings.fontSize) {
+        document.getElementById('fontSize').value = settings.fontSize;
+    }
+    
+    document.getElementById('progressNotifications').checked = settings.progressNotifications !== false;
+    document.getElementById('challengeReminders').checked = settings.challengeReminders !== false;
+}
+
+function exportUserSettings() {
+    const settings = {
+        theme: document.getElementById('themeSelect').value,
+        fontSize: document.getElementById('fontSize').value,
+        progressNotifications: document.getElementById('progressNotifications').checked,
+        challengeReminders: document.getElementById('challengeReminders').checked
+    };
+    
+    const dataStr = JSON.stringify(settings, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'learning-platform-settings.json';
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    showNotification('Settings exported', 'Your settings have been saved to a file', 'success');
+}
+
+function importUserSettings() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    localStorage.setItem('userSettings', JSON.stringify(settings));
+                    loadUserSettings();
+                    showNotification('Settings imported', 'Your settings have been loaded', 'success');
+                } catch (error) {
+                    showNotification('Import failed', 'Invalid settings file', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
+    
+    input.click();
+}
+
+function resetUserSettings() {
+    if (confirm('Are you sure you want to reset all settings to default?')) {
+        localStorage.removeItem('userSettings');
+        loadUserSettings();
+        showNotification('Settings reset', 'All settings have been reset to default', 'info');
+    }
+}
+
+// Breadcrumbs Functionality
+function initBreadcrumbs() {
+    updateBreadcrumbs('home');
+}
+
+function updateBreadcrumbs(pageId) {
+    const breadcrumbs = document.getElementById('breadcrumbs');
+    const pageNames = {
+        'home': 'Home',
+        'programming-languages': 'Programming Languages',
+        'coding-schemes': 'Coding Schemes',
+        'number-system': 'Number System',
+        'compiler': 'Compiler',
+        'challenges': 'Challenges',
+        'progress': 'Progress',
+        'ai-bot': 'AI Bot'
+    };
+    
+    breadcrumbs.innerHTML = `
+        <span class="breadcrumb-item" onclick="navigateToPage('home')">Home</span>
+        ${pageId !== 'home' ? `
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">${pageNames[pageId] || pageId}</span>
+        ` : ''}
+    `;
+}
+
+function navigateToPage(pageId) {
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+        targetPage.style.display = 'block';
+        
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.querySelector(`[href="#${pageId}"]`).classList.add('active');
+        
+        updateBreadcrumbs(pageId);
+    }
+}
+
+// Notification System
+function initNotifications() {
+    // Initialize notification container if it doesn't exist
+    if (!document.getElementById('notificationContainer')) {
+        const container = document.createElement('div');
+        container.id = 'notificationContainer';
+        container.className = 'notification-container';
+        document.body.appendChild(container);
+    }
+}
+
+function showNotification(title, message, type = 'info', duration = 5000) {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    
+    const icons = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        warning: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+    };
+    
+    notification.innerHTML = `
+        <i class="notification-icon ${icons[type]}"></i>
+        <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    container.appendChild(notification);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, duration);
+}
+
+// Keyboard Shortcuts
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', handleKeyboardShortcuts);
+}
+
+function handleKeyboardShortcuts(e) {
+    // Ctrl+D: Toggle dark mode
+    if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        toggleDarkMode();
+    }
+    
+    // Ctrl+T: Start tutorial
+    if (e.ctrlKey && e.key === 't') {
+        e.preventDefault();
+        startTutorial();
+    }
+    
+    // Ctrl+,: Open settings
+    if (e.ctrlKey && e.key === ',') {
+        e.preventDefault();
+        openSettings();
+    }
+    
+    // Ctrl+F: Focus search
+    if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+    }
+    
+    // Escape: Close modals
+    if (e.key === 'Escape') {
+        const tutorialOverlay = document.getElementById('tutorialOverlay');
+        const settingsModal = document.getElementById('settingsModal');
+        
+        if (tutorialOverlay && tutorialOverlay.style.display === 'flex') {
+            closeTutorialOverlay();
+        }
+        
+        if (settingsModal && settingsModal.style.display === 'flex') {
+            closeSettingsModal();
+        }
+    }
+}
+
+// User Settings Management
+function loadUserSettings() {
+    const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+    
+    // Apply theme
+    if (settings.theme) {
+        applyTheme(settings.theme);
+    }
+    
+    // Apply font size
+    if (settings.fontSize) {
+        document.documentElement.style.fontSize = {
+            'small': '14px',
+            'medium': '16px',
+            'large': '18px'
+        }[settings.fontSize] || '16px';
+    }
+    
+    // Update settings form
+    if (document.getElementById('themeSelect')) {
+        document.getElementById('themeSelect').value = settings.theme || 'auto';
+    }
+    
+    if (document.getElementById('fontSize')) {
+        document.getElementById('fontSize').value = settings.fontSize || 'medium';
+    }
+}
+
+// Save settings when changed
+function saveUserSettings() {
+    const settings = {
+        theme: document.getElementById('themeSelect').value,
+        fontSize: document.getElementById('fontSize').value,
+        progressNotifications: document.getElementById('progressNotifications').checked,
+        challengeReminders: document.getElementById('challengeReminders').checked
+    };
+    
+    localStorage.setItem('userSettings', JSON.stringify(settings));
+}
+
+// Enhanced Navigation with Breadcrumbs
+function initEnhancedNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+            
+            // Show target page
+            const targetPage = document.getElementById(targetId);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+            
+            // Update active nav link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update breadcrumbs
+            updateBreadcrumbs(targetId);
+            
+            // Show welcome notification for first visit
+            if (targetId !== 'home' && !localStorage.getItem(`visited_${targetId}`)) {
+                localStorage.setItem(`visited_${targetId}`, 'true');
+                showNotification('Welcome!', `You're now exploring ${targetId.replace('-', ' ')}`, 'info');
+            }
+        });
+    });
+}
+
+// Enhanced AI Bot Features
+function analyzeCodeSnippet() {
+    document.getElementById('codeInputSection').style.display = 'block';
+    document.getElementById('codeInput').placeholder = 'Paste your code here for analysis...';
+    document.getElementById('codeInput').focus();
+}
+
+function optimizeCode() {
+    document.getElementById('codeInputSection').style.display = 'block';
+    document.getElementById('codeInput').placeholder = 'Paste your code here for optimization...';
+    document.getElementById('codeInput').focus();
+}
+
+function debugCode() {
+    document.getElementById('codeInputSection').style.display = 'block';
+    document.getElementById('codeInput').placeholder = 'Paste your code here for debugging...';
+    document.getElementById('codeInput').focus();
+}
+
+function submitCodeForAnalysis() {
+    const code = document.getElementById('codeInput').value.trim();
+    if (!code) {
+        showNotification('Please enter some code to analyze', 'error');
+        return;
+    }
+    
+    // Simulate code analysis
+    const analysis = performCodeAnalysis(code);
+    addMessage('AI Tutor', analysis, 'bot');
+    closeCodeInput();
+}
+
+function performCodeAnalysis(code) {
+    const lines = code.split('\n').length;
+    const chars = code.length;
+    const words = code.split(/\s+/).filter(word => word.length > 0).length;
+    
+    let analysis = `📊 **Code Analysis Results:**\n\n`;
+    analysis += `**Basic Metrics:**\n`;
+    analysis += `• Lines of Code: ${lines}\n`;
+    analysis += `• Characters: ${chars}\n`;
+    analysis += `• Words: ${words}\n\n`;
+    
+    // Language detection
+    const language = detectLanguage(code);
+    analysis += `**Language Detected:** ${language}\n\n`;
+    
+    // Code quality analysis
+    const quality = analyzeCodeQuality(code);
+    analysis += `**Code Quality:**\n`;
+    analysis += `• Complexity: ${quality.complexity}\n`;
+    analysis += `• Readability: ${quality.readability}\n`;
+    analysis += `• Best Practices: ${quality.bestPractices}\n\n`;
+    
+    // Suggestions
+    analysis += `**Suggestions:**\n`;
+    analysis += `• Consider adding comments for complex logic\n`;
+    analysis += `• Break down large functions into smaller ones\n`;
+    analysis += `• Use meaningful variable names\n`;
+    analysis += `• Add error handling where appropriate\n`;
+    
+    return analysis;
+}
+
+function detectLanguage(code) {
+    if (code.includes('function') && code.includes('var') || code.includes('const') || code.includes('let')) return 'JavaScript';
+    if (code.includes('def ') || code.includes('import ') || code.includes('print(')) return 'Python';
+    if (code.includes('public class') || code.includes('public static void')) return 'Java';
+    if (code.includes('#include') || code.includes('int main()')) return 'C/C++';
+    if (code.includes('<?php') || code.includes('$')) return 'PHP';
+    if (code.includes('class ') && code.includes('def ')) return 'Ruby';
+    return 'Unknown';
+}
+
+function analyzeCodeQuality(code) {
+    const complexity = code.split('if').length + code.split('for').length + code.split('while').length;
+    const readability = code.length < 1000 ? 'Good' : code.length < 3000 ? 'Moderate' : 'Needs Improvement';
+    const bestPractices = code.includes('//') || code.includes('/*') ? 'Good' : 'Could be better';
+    
+    return {
+        complexity: complexity < 5 ? 'Low' : complexity < 10 ? 'Medium' : 'High',
+        readability,
+        bestPractices
+    };
+}
+
+function closeCodeInput() {
+    document.getElementById('codeInputSection').style.display = 'none';
+    document.getElementById('codeInput').value = '';
+}
+
+// Learning Paths
+function generateLearningPath(level) {
+    const paths = {
+        beginner: {
+            title: 'Beginner Programming Path',
+            steps: [
+                {
+                    title: 'Learn Basic Syntax',
+                    description: 'Start with variables, data types, and basic operations in your chosen language.',
+                    resources: ['Tutorials', 'Practice Exercises', 'Documentation']
+                },
+                {
+                    title: 'Control Structures',
+                    description: 'Master if/else statements, loops, and conditional logic.',
+                    resources: ['Interactive Lessons', 'Code Examples', 'Quizzes']
+                },
+                {
+                    title: 'Functions and Methods',
+                    description: 'Learn to create reusable code blocks and organize your programs.',
+                    resources: ['Function Tutorials', 'Practice Projects', 'Code Reviews']
+                },
+                {
+                    title: 'Data Structures',
+                    description: 'Understand arrays, lists, and basic data organization.',
+                    resources: ['Data Structure Guides', 'Visual Learning', 'Hands-on Practice']
+                },
+                {
+                    title: 'Simple Projects',
+                    description: 'Build small applications to apply your knowledge.',
+                    resources: ['Project Ideas', 'Step-by-step Guides', 'Community Support']
+                }
+            ]
+        },
+        intermediate: {
+            title: 'Intermediate Programming Path',
+            steps: [
+                {
+                    title: 'Object-Oriented Programming',
+                    description: 'Learn classes, objects, inheritance, and polymorphism.',
+                    resources: ['OOP Concepts', 'Design Patterns', 'Real-world Examples']
+                },
+                {
+                    title: 'Advanced Data Structures',
+                    description: 'Master trees, graphs, hash tables, and complex algorithms.',
+                    resources: ['Algorithm Books', 'Visualization Tools', 'Competitive Programming']
+                },
+                {
+                    title: 'Error Handling and Debugging',
+                    description: 'Learn to write robust code and troubleshoot effectively.',
+                    resources: ['Debugging Tools', 'Error Handling Patterns', 'Testing Frameworks']
+                },
+                {
+                    title: 'File I/O and APIs',
+                    description: 'Work with external data sources and web services.',
+                    resources: ['API Documentation', 'HTTP Tutorials', 'JSON/XML Handling']
+                },
+                {
+                    title: 'Database Integration',
+                    description: 'Learn to store and retrieve data from databases.',
+                    resources: ['SQL Tutorials', 'ORM Frameworks', 'Database Design']
+                }
+            ]
+        },
+        advanced: {
+            title: 'Advanced Programming Path',
+            steps: [
+                {
+                    title: 'System Design',
+                    description: 'Learn to design scalable and maintainable systems.',
+                    resources: ['Architecture Patterns', 'System Design Books', 'Case Studies']
+                },
+                {
+                    title: 'Concurrency and Parallelism',
+                    description: 'Master multi-threading, async programming, and distributed systems.',
+                    resources: ['Concurrency Models', 'Threading Libraries', 'Performance Optimization']
+                },
+                {
+                    title: 'Security Best Practices',
+                    description: 'Learn to write secure code and protect against vulnerabilities.',
+                    resources: ['Security Guidelines', 'Penetration Testing', 'Secure Coding Standards']
+                },
+                {
+                    title: 'Performance Optimization',
+                    description: 'Optimize code for speed, memory usage, and efficiency.',
+                    resources: ['Profiling Tools', 'Optimization Techniques', 'Benchmarking']
+                },
+                {
+                    title: 'Contributing to Open Source',
+                    description: 'Join the developer community and contribute to real projects.',
+                    resources: ['Git Workflow', 'Code Review Process', 'Community Guidelines']
+                }
+            ]
+        }
+    };
+    
+    const path = paths[level];
+    document.getElementById('learningPathTitle').textContent = path.title;
+    
+    const content = document.getElementById('learningPathContent');
+    content.innerHTML = `
+        <div class="learning-path">
+            ${path.steps.map((step, index) => `
+                <div class="path-step">
+                    <div class="step-number">${index + 1}</div>
+                    <div class="step-content">
+                        <h5>${step.title}</h5>
+                        <p>${step.description}</p>
+                        <div class="step-resources">
+                            ${step.resources.map(resource => `<span class="resource-tag">${resource}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    document.getElementById('learningPathModal').style.display = 'flex';
+}
+
+function closeLearningPathModal() {
+    document.getElementById('learningPathModal').style.display = 'none';
+}
+
+// Code Generator
+function openCodeGenerator() {
+    document.getElementById('codeGeneratorModal').style.display = 'flex';
+}
+
+function closeCodeGeneratorModal() {
+    document.getElementById('codeGeneratorModal').style.display = 'none';
+    document.getElementById('generatedCode').innerHTML = '';
+}
+
+function generateCode() {
+    const type = document.getElementById('generatorType').value;
+    const language = document.getElementById('generatorLanguage').value;
+    const description = document.getElementById('generatorDescription').value;
+    
+    if (!description.trim()) {
+        showNotification('Please provide a description for code generation', 'error');
+        return;
+    }
+    
+    const generatedCode = generateCodeByType(type, language, description);
+    document.getElementById('generatedCode').innerHTML = `<pre><code>${generatedCode}</code></pre>`;
+}
+
+function generateCodeByType(type, language, description) {
+    const templates = {
+        function: {
+            javascript: `/**
+ * ${description}
+ * @param {any} params - Description of parameters
+ * @returns {any} Description of return value
+ */
+function ${description.toLowerCase().replace(/\s+/g, '_')}(params) {
+    // TODO: Implement function logic
+    try {
+        // Your code here
+        return result;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+// Example usage
+const result = ${description.toLowerCase().replace(/\s+/g, '_')}('example');
+console.log(result);`,
+            
+            python: `def ${description.toLowerCase().replace(/\s+/g, '_')}(params):
+    """
+    ${description}
+    
+    Args:
+        params: Description of parameters
+        
+    Returns:
+        Description of return value
+    """
+    try:
+        # Your code here
+        result = None
+        return result
+    except Exception as e:
+        print(f"Error: {e}")
+        raise e
+
+# Example usage
+result = ${description.toLowerCase().replace(/\s+/g, '_')}('example')
+print(result)`,
+            
+            java: `/**
+ * ${description}
+ * @param params Description of parameters
+ * @return Description of return value
+ */
+public static Object ${description.toLowerCase().replace(/\s+/g, '_')}(Object params) {
+    try {
+        // Your code here
+        Object result = null;
+        return result;
+    } catch (Exception e) {
+        System.err.println("Error: " + e.getMessage());
+        throw e;
+    }
+}
+
+// Example usage
+Object result = ${description.toLowerCase().replace(/\s+/g, '_')}("example");
+System.out.println(result);`
+        },
+        
+        class: {
+            javascript: `/**
+ * ${description}
+ */
+class ${description.replace(/\s+/g, '')} {
+    constructor(params) {
+        this.params = params;
+        // Initialize properties
+    }
+    
+    /**
+     * Method description
+     * @param {any} param - Parameter description
+     * @returns {any} Return description
+     */
+    method(param) {
+        try {
+            // Method implementation
+            return result;
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Getter method
+     * @returns {any} Property value
+     */
+    get property() {
+        return this._property;
+    }
+    
+    /**
+     * Setter method
+     * @param {any} value - New value
+     */
+    set property(value) {
+        this._property = value;
+    }
+}
+
+// Example usage
+const instance = new ${description.replace(/\s+/g, '')}('example');
+const result = instance.method('test');`,
+            
+            python: `class ${description.replace(/\s+/g, '')}:
+    """
+    ${description}
+    """
+    
+    def __init__(self, params):
+        """
+        Initialize the class
+        
+        Args:
+            params: Description of parameters
+        """
+        self.params = params
+        # Initialize properties
+    
+    def method(self, param):
+        """
+        Method description
+        
+        Args:
+            param: Parameter description
+            
+        Returns:
+            Description of return value
+        """
+        try:
+            # Method implementation
+            result = None
+            return result
+        except Exception as e:
+            print(f"Error: {e}")
+            raise e
+    
+    @property
+    def property(self):
+        """Getter method"""
+        return self._property
+    
+    @property.setter
+    def property(self, value):
+        """Setter method"""
+        self._property = value
+
+# Example usage
+instance = ${description.replace(/\s+/g, '')}('example')
+result = instance.method('test')`,
+            
+            java: `/**
+ * ${description}
+ */
+public class ${description.replace(/\s+/g, '')} {
+    private Object params;
+    
+    /**
+     * Constructor
+     * @param params Description of parameters
+     */
+    public ${description.replace(/\s+/g, '')}(Object params) {
+        this.params = params;
+        // Initialize properties
+    }
+    
+    /**
+     * Method description
+     * @param param Parameter description
+     * @return Description of return value
+     */
+    public Object method(Object param) {
+        try {
+            // Method implementation
+            Object result = null;
+            return result;
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            throw e;
+        }
+    }
+    
+    /**
+     * Getter method
+     * @return Property value
+     */
+    public Object getProperty() {
+        return this.property;
+    }
+    
+    /**
+     * Setter method
+     * @param value New value
+     */
+    public void setProperty(Object value) {
+        this.property = value;
+    }
+}
+
+// Example usage
+${description.replace(/\s+/g, '')} instance = new ${description.replace(/\s+/g, '')}("example");
+Object result = instance.method("test");`
+        }
+    };
+    
+    return templates[type]?.[language] || `// ${description}\n// Code generation for ${type} in ${language} is not available yet.`;
+}
+
+// Algorithm Visualizer
+function openAlgorithmVisualizer() {
+    document.getElementById('algorithmModal').style.display = 'flex';
+}
+
+function closeAlgorithmModal() {
+    document.getElementById('algorithmModal').style.display = 'none';
+    document.getElementById('algorithmVisualization').innerHTML = '';
+}
+
+function visualizeAlgorithm() {
+    const algorithm = document.getElementById('algorithmType').value;
+    const input = document.getElementById('algorithmInput').value;
+    
+    if (!input.trim()) {
+        showNotification('Please provide input data for visualization', 'error');
+        return;
+    }
+    
+    const numbers = input.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+    if (numbers.length === 0) {
+        showNotification('Please provide valid numbers separated by commas', 'error');
+        return;
+    }
+    
+    const visualization = createAlgorithmVisualization(algorithm, numbers);
+    document.getElementById('algorithmVisualization').innerHTML = visualization;
+}
+
+function createAlgorithmVisualization(algorithm, numbers) {
+    switch (algorithm) {
+        case 'bubble-sort':
+            return visualizeBubbleSort(numbers);
+        case 'quick-sort':
+            return visualizeQuickSort(numbers);
+        case 'binary-search':
+            return visualizeBinarySearch(numbers);
+        default:
+            return `<div class="algorithm-step">Visualization for ${algorithm} is not available yet.</div>`;
+    }
+}
+
+function visualizeBubbleSort(numbers) {
+    let html = '<h4>Bubble Sort Visualization</h4>';
+    html += '<div class="array-visualization">';
+    numbers.forEach(num => {
+        html += `<div class="array-element">${num}</div>`;
+    });
+    html += '</div>';
+    
+    html += '<div class="algorithm-steps">';
+    html += '<div class="algorithm-step current">';
+    html += '<strong>Step 1:</strong> Compare adjacent elements and swap if needed';
+    html += '</div>';
+    
+    // Simulate sorting steps
+    const sorted = [...numbers].sort((a, b) => a - b);
+    html += '<div class="algorithm-step completed">';
+    html += '<strong>Step 2:</strong> Array after sorting: [' + sorted.join(', ') + ']';
+    html += '</div>';
+    html += '</div>';
+    
+    return html;
+}
+
+function visualizeQuickSort(numbers) {
+    let html = '<h4>Quick Sort Visualization</h4>';
+    html += '<div class="array-visualization">';
+    numbers.forEach(num => {
+        html += `<div class="array-element">${num}</div>`;
+    });
+    html += '</div>';
+    
+    html += '<div class="algorithm-steps">';
+    html += '<div class="algorithm-step current">';
+    html += '<strong>Step 1:</strong> Choose pivot element (first element)';
+    html += '</div>';
+    
+    html += '<div class="algorithm-step">';
+    html += '<strong>Step 2:</strong> Partition array around pivot';
+    html += '</div>';
+    
+    const sorted = [...numbers].sort((a, b) => a - b);
+    html += '<div class="algorithm-step completed">';
+    html += '<strong>Step 3:</strong> Sorted array: [' + sorted.join(', ') + ']';
+    html += '</div>';
+    html += '</div>';
+    
+    return html;
+}
+
+function visualizeBinarySearch(numbers) {
+    const sorted = [...numbers].sort((a, b) => a - b);
+    const target = sorted[Math.floor(sorted.length / 2)];
+    
+    let html = '<h4>Binary Search Visualization</h4>';
+    html += '<div class="array-visualization">';
+    sorted.forEach(num => {
+        const isTarget = num === target;
+        html += `<div class="array-element ${isTarget ? 'comparing' : ''}">${num}</div>`;
+    });
+    html += '</div>';
+    
+    html += '<div class="algorithm-steps">';
+    html += '<div class="algorithm-step current">';
+    html += `<strong>Step 1:</strong> Searching for target value: ${target}`;
+    html += '</div>';
+    
+    html += '<div class="algorithm-step">';
+    html += '<strong>Step 2:</strong> Compare with middle element';
+    html += '</div>';
+    
+    html += '<div class="algorithm-step completed">';
+    html += `<strong>Step 3:</strong> Target ${target} found at position ${sorted.indexOf(target) + 1}`;
+    html += '</div>';
+    html += '</div>';
+    
+    return html;
+}
+
+// Regex Tester
+function openRegexTester() {
+    document.getElementById('regexModal').style.display = 'flex';
+}
+
+function closeRegexModal() {
+    document.getElementById('regexModal').style.display = 'none';
+    document.getElementById('regexResults').innerHTML = '';
+}
+
+function testRegex() {
+    const pattern = document.getElementById('regexPattern').value;
+    const testText = document.getElementById('regexTestText').value;
+    
+    if (!pattern.trim()) {
+        showNotification('Please enter a regex pattern', 'error');
+        return;
+    }
+    
+    if (!testText.trim()) {
+        showNotification('Please enter test text', 'error');
+        return;
+    }
+    
+    const results = performRegexTest(pattern, testText);
+    document.getElementById('regexResults').innerHTML = results;
+}
+
+function performRegexTest(pattern, testText) {
+    try {
+        const regex = new RegExp(pattern, 'g');
+        const matches = [...testText.matchAll(regex)];
+        
+        if (matches.length === 0) {
+            return '<div class="regex-no-match">No matches found</div>';
+        }
+        
+        let html = '<h4>Regex Matches:</h4>';
+        matches.forEach((match, index) => {
+            html += '<div class="regex-match">';
+            html += `<div class="match-text">Match ${index + 1}: "${match[0]}"</div>`;
+            html += `<div class="match-position">Position: ${match.index}</div>`;
+            if (match.groups) {
+                html += '<div class="match-groups">Groups: ' + JSON.stringify(match.groups) + '</div>';
+            }
+            html += '</div>';
+        });
+        
+        return html;
+    } catch (error) {
+        return `<div class="regex-no-match">Invalid regex pattern: ${error.message}</div>`;
+    }
+}
+
+// Enhanced AI Responses with more detailed content
+function initEnhancedAIResponses() {
+    window.aiResponses = {
+        'recursion': {
+            title: 'Understanding Recursion',
+            content: `
+                <h3>What is Recursion?</h3>
+                <p>Recursion is a programming concept where a function calls itself to solve a problem by breaking it down into smaller, similar subproblems.</p>
+                
+                <h3>Key Concepts:</h3>
+                <ul>
+                    <li><strong>Base Case:</strong> The stopping condition that prevents infinite recursion</li>
+                    <li><strong>Recursive Case:</strong> The part where the function calls itself</li>
+                    <li><strong>Call Stack:</strong> How recursive calls are managed in memory</li>
+                </ul>
+                
+                <h3>Example: Factorial Function</h3>
+                <div class="code-block">
+function factorial(n) {
+    // Base case
+    if (n <= 1) return 1;
+    
+    // Recursive case
+    return n * factorial(n - 1);
+}
+
+console.log(factorial(5)); // Output: 120
+                </div>
+                
+                <h3>Visual Representation:</h3>
+                <p>factorial(5) → 5 × factorial(4) → 5 × 4 × factorial(3) → 5 × 4 × 3 × factorial(2) → 5 × 4 × 3 × 2 × factorial(1) → 5 × 4 × 3 × 2 × 1 = 120</p>
+                
+                <h3>When to Use Recursion:</h3>
+                <ul>
+                    <li>Tree/graph traversal</li>
+                    <li>Divide and conquer algorithms</li>
+                    <li>Mathematical calculations</li>
+                    <li>File system navigation</li>
+                </ul>
+            `,
+            image: 'https://via.placeholder.com/400x200/667eea/ffffff?text=Recursion+Visualization'
+        },
+        
+        'oop': {
+            title: 'Object-Oriented Programming',
+            content: `
+                <h3>OOP Fundamentals</h3>
+                <p>Object-Oriented Programming is a programming paradigm based on the concept of "objects" that contain data and code.</p>
+                
+                <h3>Four Pillars of OOP:</h3>
+                
+                <h4>1. Encapsulation</h4>
+                <p>Bundling data and methods that operate on that data within a single unit (class).</p>
+                <div class="code-block">
+class BankAccount {
+    constructor(balance) {
+        this._balance = balance; // Private variable
+    }
+    
+    getBalance() {
+        return this._balance;
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this._balance += amount;
+        }
+    }
+}
+                </div>
+                
+                <h4>2. Inheritance</h4>
+                <p>Creating new classes that are built upon existing classes.</p>
+                <div class="code-block">
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        console.log('Some sound');
+    }
+}
+
+class Dog extends Animal {
+    speak() {
+        console.log('Woof!');
+    }
+}
+                </div>
+                
+                <h4>3. Polymorphism</h4>
+                <p>The ability to present the same interface for different underlying forms (data types or classes).</p>
+                
+                <h4>4. Abstraction</h4>
+                <p>Hiding complex implementation details and showing only necessary features.</p>
+            `,
+            image: 'https://via.placeholder.com/400x200/764ba2/ffffff?text=OOP+Concepts'
+        }
+    };
+}
+
+// Initialize enhanced AI responses
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    
+    // Initialize enhanced AI responses
+    initEnhancedAIResponses();
+});
+
+// Advanced AI Bot Features
+let voiceRecognition = null;
+let isListening = false;
+let collaborationSession = null;
+
+// Voice Commands
+function toggleVoiceCommands() {
+    const voiceInterface = document.getElementById('voiceInterface');
+    const isVisible = voiceInterface.style.display !== 'none';
+    
+    if (isVisible) {
+        voiceInterface.style.display = 'none';
+        if (isListening) {
+            stopVoiceRecognition();
+        }
+    } else {
+        voiceInterface.style.display = 'block';
+        showNotification('Voice commands activated! Click "Start Listening" to begin.', 'info');
+    }
+}
+
+function startVoiceRecognition() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        showNotification('Speech recognition is not supported in this browser.', 'error');
+        return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    voiceRecognition = new SpeechRecognition();
+    
+    voiceRecognition.continuous = true;
+    voiceRecognition.interimResults = true;
+    voiceRecognition.lang = 'en-US';
+    
+    voiceRecognition.onstart = () => {
+        isListening = true;
+        updateVoiceUI(true);
+        showNotification('Listening... Speak now!', 'info');
+    };
+    
+    voiceRecognition.onresult = (event) => {
+        const transcript = Array.from(event.results)
+            .map(result => result[0])
+            .map(result => result.transcript)
+            .join('');
+        
+        document.getElementById('voiceTranscript').textContent = transcript;
+        
+        if (event.results[event.results.length - 1].isFinal) {
+            processVoiceCommand(transcript);
+        }
+    };
+    
+    voiceRecognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        showNotification('Voice recognition error: ' + event.error, 'error');
+        stopVoiceRecognition();
+    };
+    
+    voiceRecognition.onend = () => {
+        stopVoiceRecognition();
+    };
+    
+    voiceRecognition.start();
+}
+
+function stopVoiceRecognition() {
+    if (voiceRecognition) {
+        voiceRecognition.stop();
+    }
+    isListening = false;
+    updateVoiceUI(false);
+}
+
+function updateVoiceUI(listening) {
+    const startBtn = document.getElementById('startVoiceBtn');
+    const stopBtn = document.getElementById('stopVoiceBtn');
+    const status = document.getElementById('voiceStatus');
+    
+    if (listening) {
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+        startBtn.classList.add('listening');
+        status.textContent = 'Listening...';
+    } else {
+        startBtn.style.display = 'block';
+        stopBtn.style.display = 'none';
+        startBtn.classList.remove('listening');
+        status.textContent = 'Click to start listening';
+    }
+}
+
+function processVoiceCommand(transcript) {
+    const command = transcript.toLowerCase();
+    
+    if (command.includes('analyze') && command.includes('code')) {
+        analyzeCodeSnippet();
+        showNotification('Opening code analysis...', 'info');
+    } else if (command.includes('generate') && command.includes('function')) {
+        openCodeGenerator();
+        showNotification('Opening code generator...', 'info');
+    } else if (command.includes('explain') && command.includes('recursion')) {
+        askQuestion('What is recursion and how does it work?');
+        showNotification('Generating explanation for recursion...', 'info');
+    } else if (command.includes('debug') && command.includes('code')) {
+        debugCode();
+        showNotification('Opening code debugger...', 'info');
+    } else if (command.includes('show') && command.includes('example')) {
+        askQuestion('Show me code examples for ' + command.split('example of')[1]?.trim() || 'programming');
+        showNotification('Generating code examples...', 'info');
+    } else {
+        // Default: treat as a general question
+        askQuestion(transcript);
+        showNotification('Processing your question...', 'info');
+    }
+}
+
+// AI Code Review
+function startCodeReview() {
+    document.getElementById('codeInputSection').style.display = 'block';
+    document.getElementById('codeInput').placeholder = 'Paste your code here for AI code review...';
+    document.getElementById('codeInput').focus();
+    
+    showNotification('AI Code Review activated! Paste your code and click Analyze.', 'info');
+}
+
+// Auto Documentation
+function generateDocumentation() {
+    document.getElementById('codeInputSection').style.display = 'block';
+    document.getElementById('codeInput').placeholder = 'Paste your code here to generate documentation...';
+    document.getElementById('codeInput').focus();
+    
+    showNotification('Documentation generator activated! Paste your code and click Analyze.', 'info');
+}
+
+// Collaboration Features
+function createCodeSession() {
+    const sessionId = generateSessionId();
+    collaborationSession = {
+        id: sessionId,
+        participants: ['You'],
+        code: '',
+        createdAt: new Date()
+    };
+    
+    document.getElementById('sessionId').value = sessionId;
+    document.getElementById('collaborationModal').style.display = 'block';
+    
+    showNotification('Live code session created! Share the session ID with others.', 'success');
+}
+
+function generateSessionId() {
+    return 'session_' + Math.random().toString(36).substr(2, 9);
+}
+
+function copySessionId() {
+    const sessionId = document.getElementById('sessionId');
+    sessionId.select();
+    document.execCommand('copy');
+    showNotification('Session ID copied to clipboard!', 'success');
+}
+
+function inviteParticipant() {
+    const email = prompt('Enter participant email:');
+    if (email) {
+        if (collaborationSession) {
+            collaborationSession.participants.push(email);
+            updateParticipantsList();
+            showNotification('Invitation sent to ' + email, 'success');
+        }
+    }
+}
+
+function updateParticipantsList() {
+    if (collaborationSession) {
+        const participantsList = document.getElementById('participantsList');
+        participantsList.innerHTML = collaborationSession.participants.join(', ');
+    }
+}
+
+function startScreenShare() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices.getDisplayMedia({ video: true })
+            .then(stream => {
+                showNotification('Screen sharing started!', 'success');
+            })
+            .catch(err => {
+                showNotification('Screen sharing failed: ' + err.message, 'error');
+            });
+    } else {
+        showNotification('Screen sharing not supported in this browser.', 'error');
+    }
+}
+
+function recordSession() {
+    showNotification('Session recording started!', 'success');
+}
+
+function saveSharedCode() {
+    const sharedCode = document.getElementById('sharedCode').value;
+    if (collaborationSession) {
+        collaborationSession.code = sharedCode;
+        localStorage.setItem('sharedCode_' + collaborationSession.id, sharedCode);
+        showNotification('Code saved successfully!', 'success');
+    }
+}
+
+function exportSharedCode() {
+    const sharedCode = document.getElementById('sharedCode').value;
+    const blob = new Blob([sharedCode], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shared_code.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+    showNotification('Code exported successfully!', 'success');
+}
+
+function shareCode() {
+    const code = document.getElementById('codeInput')?.value || 'No code to share';
+    const shareData = {
+        title: 'Shared Code from Learning Platform',
+        text: 'Check out this code!',
+        url: window.location.href
+    };
+    
+    if (navigator.share) {
+        navigator.share(shareData);
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(code).then(() => {
+            showNotification('Code copied to clipboard!', 'success');
+        });
+    }
+}
+
+function exportToGitHub() {
+    showNotification('GitHub export feature coming soon!', 'info');
+}
+
+// Analytics Features
+function showCodeMetrics() {
+    document.getElementById('analyticsModal').style.display = 'block';
+    updateAnalyticsMetrics();
+}
+
+function updateAnalyticsMetrics() {
+    // Simulate real-time metrics
+    const metrics = {
+        quality: Math.floor(Math.random() * 20) + 80,
+        performance: Math.floor(Math.random() * 15) + 85,
+        security: Math.floor(Math.random() * 25) + 70,
+        maintainability: Math.floor(Math.random() * 20) + 80
+    };
+    
+    document.getElementById('qualityScore').textContent = metrics.quality + '%';
+    document.getElementById('performanceScore').textContent = metrics.performance + '%';
+    document.getElementById('securityScore').textContent = metrics.security + '%';
+    document.getElementById('maintainabilityScore').textContent = metrics.maintainability + '%';
+    
+    // Update progress bars
+    document.querySelectorAll('.metric-fill').forEach((fill, index) => {
+        const values = [metrics.quality, metrics.performance, metrics.security, metrics.maintainability];
+        fill.style.width = values[index] + '%';
+    });
+}
+
+function performanceAnalysis() {
+    showNotification('Performance analysis started...', 'info');
+    
+    // Simulate performance analysis
+    setTimeout(() => {
+        const analysis = {
+            'Execution Time': '2.3ms',
+            'Memory Usage': '1.2MB',
+            'CPU Usage': '15%',
+            'Network Requests': '3',
+            'Bundle Size': '45KB'
+        };
+        
+        let result = 'Performance Analysis Results:\n\n';
+        Object.entries(analysis).forEach(([key, value]) => {
+            result += `${key}: ${value}\n`;
+        });
+        
+        addMessage('user', 'Run performance analysis');
+        addMessage('bot', result);
+        showNotification('Performance analysis completed!', 'success');
+    }, 2000);
+}
+
+function securityScan() {
+    showNotification('Security scan started...', 'info');
+    
+    // Simulate security scan
+    setTimeout(() => {
+        const securityIssues = [
+            { level: 'Low', issue: 'Unused variable detected', line: 15 },
+            { level: 'Medium', issue: 'Potential SQL injection vulnerability', line: 42 },
+            { level: 'High', issue: 'Hardcoded API key found', line: 8 }
+        ];
+        
+        let result = 'Security Scan Results:\n\n';
+        securityIssues.forEach(issue => {
+            result += `[${issue.level.toUpperCase()}] Line ${issue.line}: ${issue.issue}\n`;
+        });
+        
+        addMessage('user', 'Run security scan');
+        addMessage('bot', result);
+        showNotification('Security scan completed!', 'success');
+    }, 3000);
+}
+
+// Modal Management
+function closeCollaborationModal() {
+    document.getElementById('collaborationModal').style.display = 'none';
+}
+
+function closeAnalyticsModal() {
+    document.getElementById('analyticsModal').style.display = 'none';
+}
+
+// Enhanced Code Analysis
+function submitCodeForAnalysis() {
+    const code = document.getElementById('codeInput').value;
+    if (!code.trim()) {
+        showNotification('Please paste some code first!', 'error');
+        return;
+    }
+    
+    showNotification('Analyzing code...', 'info');
+    
+    // Simulate analysis
+    setTimeout(() => {
+        const analysis = performAdvancedCodeAnalysis(code);
+        addMessage('user', 'Analyze this code: ' + code.substring(0, 100) + '...');
+        addMessage('bot', analysis);
+        closeCodeInput();
+        showNotification('Code analysis completed!', 'success');
+    }, 2000);
+}
+
+function performAdvancedCodeAnalysis(code) {
+    const lines = code.split('\n').length;
+    const chars = code.length;
+    const words = code.split(/\s+/).length;
+    
+    // Detect language
+    const language = detectLanguage(code);
+    
+    // Calculate complexity
+    const complexity = calculateComplexity(code);
+    
+    // Find potential issues
+    const issues = findCodeIssues(code);
+    
+    let analysis = `📊 **Code Analysis Results**\n\n`;
+    analysis += `**Language Detected:** ${language}\n`;
+    analysis += `**Lines of Code:** ${lines}\n`;
+    analysis += `**Characters:** ${chars}\n`;
+    analysis += `**Words:** ${words}\n`;
+    analysis += `**Complexity:** ${complexity}\n\n`;
+    
+    if (issues.length > 0) {
+        analysis += `**Potential Issues:**\n`;
+        issues.forEach(issue => {
+            analysis += `• ${issue}\n`;
+        });
+    } else {
+        analysis += `**No major issues detected!** ✅\n`;
+    }
+    
+    analysis += `\n**Recommendations:**\n`;
+    analysis += `• Consider adding comments for complex logic\n`;
+    analysis += `• Break down large functions into smaller ones\n`;
+    analysis += `• Add error handling where appropriate\n`;
+    
+    return analysis;
+}
+
+function detectLanguage(code) {
+    if (code.includes('function') && code.includes('var') || code.includes('const')) return 'JavaScript';
+    if (code.includes('def ') && code.includes('import ')) return 'Python';
+    if (code.includes('public class') && code.includes('public static')) return 'Java';
+    if (code.includes('#include') && code.includes('int main')) return 'C/C++';
+    if (code.includes('<?php')) return 'PHP';
+    if (code.includes('SELECT') && code.includes('FROM')) return 'SQL';
+    return 'Unknown';
+}
+
+function calculateComplexity(code) {
+    const complexity = code.split(/\b(if|for|while|switch|case|catch)\b/).length;
+    if (complexity < 5) return 'Low';
+    if (complexity < 10) return 'Medium';
+    return 'High';
+}
+
+function findCodeIssues(code) {
+    const issues = [];
+    
+    if (code.includes('TODO') || code.includes('FIXME')) {
+        issues.push('Contains TODO/FIXME comments');
+    }
+    
+    if (code.includes('console.log') && !code.includes('// debug')) {
+        issues.push('Contains console.log statements (consider removing for production)');
+    }
+    
+    if (code.includes('password') && code.includes('=')) {
+        issues.push('Potential hardcoded password detected');
+    }
+    
+    if (code.includes('eval(')) {
+        issues.push('Use of eval() detected (security risk)');
+    }
+    
+    return issues;
+}
+
+// Initialize advanced features
+function initAdvancedFeatures() {
+    // Check for speech recognition support
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        const voiceBtn = document.getElementById('voiceBtn');
+        if (voiceBtn) {
+            voiceBtn.disabled = true;
+            voiceBtn.title = 'Speech recognition not supported';
+        }
+    }
+    
+    // Load saved collaboration sessions
+    loadCollaborationSessions();
+}
+
+function loadCollaborationSessions() {
+    const savedSessions = Object.keys(localStorage).filter(key => key.startsWith('sharedCode_'));
+    if (savedSessions.length > 0) {
+        console.log('Found saved collaboration sessions:', savedSessions.length);
+    }
+}
+
+// Enhanced AI Responses with new features
+function initEnhancedAIResponses() {
+    // Add new AI response patterns
+    window.aiResponses = {
+        ...window.aiResponses,
+        'voice': {
+            'analyze': 'I\'ll analyze your code for you. Please paste the code you\'d like me to review.',
+            'generate': 'I\'ll help you generate code. What type of function or code would you like me to create?',
+            'explain': 'I\'d be happy to explain that concept. Let me provide a detailed explanation with examples.',
+            'debug': 'I\'ll help you debug your code. Please share the code and any error messages you\'re seeing.',
+            'example': 'Here are some practical examples to help you understand this concept better.'
+        },
+        'collaboration': {
+            'session': 'I\'ve created a live coding session for you. Share the session ID with your team members to start collaborating!',
+            'share': 'Your code has been shared successfully. Others can now view and edit the code in real-time.',
+            'export': 'Code exported successfully! You can now import it into your preferred development environment.'
+        },
+        'analytics': {
+            'metrics': 'Here are the detailed metrics for your code. I\'ve analyzed quality, performance, security, and maintainability.',
+            'performance': 'Performance analysis complete! Here are the key metrics and optimization suggestions.',
+            'security': 'Security scan finished! I\'ve identified potential vulnerabilities and provided recommendations.'
+        }
+    };
+}
+
+// Advanced Features - Interactive Playground
+function initPlayground() {
+    const runCodeBtn = document.getElementById('runCode');
+    const debugCodeBtn = document.getElementById('debugCode');
+    const savePlaygroundBtn = document.getElementById('savePlayground');
+    const loadTemplateBtn = document.getElementById('loadTemplate');
+    const playgroundCode = document.getElementById('playgroundCode');
+    const playgroundOutput = document.getElementById('playgroundOutput');
+    const playgroundLanguage = document.getElementById('playgroundLanguage');
+    
+    if (runCodeBtn) runCodeBtn.addEventListener('click', executePlaygroundCode);
+    if (debugCodeBtn) debugCodeBtn.addEventListener('click', debugPlaygroundCode);
+    if (savePlaygroundBtn) savePlaygroundBtn.addEventListener('click', savePlaygroundCode);
+    if (loadTemplateBtn) loadTemplateBtn.addEventListener('click', showTemplateLibrary);
+    if (playgroundLanguage) playgroundLanguage.addEventListener('change', changePlaygroundLanguage);
+    
+    // Load saved code
+    const savedCode = localStorage.getItem('playgroundCode');
+    if (savedCode && playgroundCode) {
+        playgroundCode.value = savedCode;
+    }
+    
+    // Auto-save code
+    if (playgroundCode) {
+        playgroundCode.addEventListener('input', () => {
+            localStorage.setItem('playgroundCode', playgroundCode.value);
+        });
+    }
+}
+
+function executePlaygroundCode() {
+    const code = document.getElementById('playgroundCode').value;
+    const language = document.getElementById('playgroundLanguage').value;
+    const output = document.getElementById('playgroundOutput');
+    
+    if (!code.trim()) {
+        output.innerHTML = '<span style="color: #ff6b6b;">Please enter some code to execute.</span>';
+        return;
+    }
+    
+    output.innerHTML = '<span style="color: #4ecdc4;">Executing code...</span>';
+    
+    try {
+        let result = '';
+        
+        switch (language) {
+            case 'javascript':
+                result = executeJavaScriptCode(code);
+                break;
+            case 'html':
+                result = executeHTMLCode(code);
+                break;
+            case 'css':
+                result = executeCSSCode(code);
+                break;
+            case 'python':
+                result = simulatePythonExecution(code);
+                break;
+            case 'java':
+                result = simulateJavaExecution(code);
+                break;
+            case 'cpp':
+                result = simulateCppExecution(code);
+                break;
+            default:
+                result = 'Language not supported in playground.';
+        }
+        
+        output.innerHTML = `<span style="color: #51cf66;">✓ Execution successful!</span><br><br>${result}`;
+    } catch (error) {
+        output.innerHTML = `<span style="color: #ff6b6b;">✗ Error: ${error.message}</span>`;
+    }
+}
+
+function executeJavaScriptCode(code) {
+    const originalConsoleLog = console.log;
+    const logs = [];
+    
+    console.log = (...args) => {
+        logs.push(args.join(' '));
+    };
+    
+    try {
+        const result = eval(code);
+        console.log = originalConsoleLog;
+        
+        let output = '';
+        if (logs.length > 0) {
+            output += `<strong>Console Output:</strong><br>${logs.join('<br>')}<br><br>`;
+        }
+        if (result !== undefined) {
+            output += `<strong>Return Value:</strong> ${result}`;
+        }
+        
+        return output || 'Code executed successfully (no output)';
+    } catch (error) {
+        console.log = originalConsoleLog;
+        throw error;
+    }
+}
+
+function executeHTMLCode(code) {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '300px';
+    iframe.style.border = '1px solid #ddd';
+    iframe.style.borderRadius = '4px';
+    
+    const output = document.getElementById('playgroundOutput');
+    output.innerHTML = '';
+    output.appendChild(iframe);
+    
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(code);
+    doc.close();
+    
+    return 'HTML rendered in preview above';
+}
+
+function executeCSSCode(code) {
+    const style = document.createElement('style');
+    style.textContent = code;
+    document.head.appendChild(style);
+    
+    setTimeout(() => {
+        document.head.removeChild(style);
+    }, 5000);
+    
+    return 'CSS applied to page (will be removed in 5 seconds)';
+}
+
+function simulatePythonExecution(code) {
+    // Simple Python-like simulation
+    const pythonKeywords = ['print', 'def', 'if', 'else', 'for', 'while', 'import', 'class'];
+    const lines = code.split('\n');
+    let output = '';
+    
+    for (let line of lines) {
+        line = line.trim();
+        if (line.startsWith('print(') && line.endsWith(')')) {
+            const content = line.slice(6, -1);
+            output += `${content}<br>`;
+        }
+    }
+    
+    return output || 'Python code simulated (print statements only)';
+}
+
+function simulateJavaExecution(code) {
+    return 'Java execution simulated. In a real environment, this would compile and run Java bytecode.';
+}
+
+function simulateCppExecution(code) {
+    return 'C++ execution simulated. In a real environment, this would compile and run native code.';
+}
+
+function debugPlaygroundCode() {
+    const debugPanel = document.getElementById('debugPanel');
+    const debugOutput = document.getElementById('debugOutput');
+    
+    debugPanel.style.display = 'block';
+    debugOutput.innerHTML = `
+        <strong>Debug Session Started</strong><br>
+        <span style="color: #4ecdc4;">✓ Code analysis complete</span><br>
+        <span style="color: #4ecdc4;">✓ Breakpoints set</span><br>
+        <span style="color: #4ecdc4;">✓ Variable inspection ready</span><br><br>
+        <strong>Debug Controls:</strong><br>
+        • Step Over: Execute current line<br>
+        • Step Into: Enter function calls<br>
+        • Step Out: Exit current function<br>
+        • Continue: Resume execution
+    `;
+}
+
+function savePlaygroundCode() {
+    const code = document.getElementById('playgroundCode').value;
+    const language = document.getElementById('playgroundLanguage').value;
+    const timestamp = new Date().toISOString();
+    
+    const savedCode = {
+        code: code,
+        language: language,
+        timestamp: timestamp,
+        name: `Playground_${new Date().toLocaleDateString()}`
+    };
+    
+    const savedCodes = JSON.parse(localStorage.getItem('savedPlaygroundCodes') || '[]');
+    savedCodes.push(savedCode);
+    localStorage.setItem('savedPlaygroundCodes', JSON.stringify(savedCodes));
+    
+    showNotification('Code saved successfully!', 'success');
+}
+
+function showTemplateLibrary() {
+    const templateLibrary = document.getElementById('templateLibrary');
+    const templateList = document.getElementById('templateList');
+    
+    templateLibrary.style.display = 'block';
+    loadTemplates('basics');
+    
+    // Add event listeners for template categories
+    document.querySelectorAll('.template-category').forEach(category => {
+        category.addEventListener('click', (e) => {
+            document.querySelectorAll('.template-category').forEach(c => c.classList.remove('active'));
+            e.target.classList.add('active');
+            loadTemplates(e.target.dataset.category);
+        });
+    });
+}
+
+function loadTemplates(category) {
+    const templateList = document.getElementById('templateList');
+    const templates = getTemplatesByCategory(category);
+    
+    templateList.innerHTML = templates.map(template => `
+        <div class="template-item" onclick="loadTemplate('${template.id}')">
+            <h4>${template.name}</h4>
+            <p>${template.description}</p>
+            <small>${template.language}</small>
+        </div>
+    `).join('');
+}
+
+function getTemplatesByCategory(category) {
+    const templates = {
+        basics: [
+            { id: 'hello-world', name: 'Hello World', description: 'Basic output program', language: 'JavaScript' },
+            { id: 'variables', name: 'Variables', description: 'Variable declaration and usage', language: 'JavaScript' },
+            { id: 'functions', name: 'Functions', description: 'Function definition and calling', language: 'JavaScript' }
+        ],
+        algorithms: [
+            { id: 'bubble-sort', name: 'Bubble Sort', description: 'Simple sorting algorithm', language: 'JavaScript' },
+            { id: 'binary-search', name: 'Binary Search', description: 'Efficient search algorithm', language: 'JavaScript' },
+            { id: 'fibonacci', name: 'Fibonacci', description: 'Recursive sequence', language: 'JavaScript' }
+        ],
+        data-structures: [
+            { id: 'linked-list', name: 'Linked List', description: 'Basic linked list implementation', language: 'JavaScript' },
+            { id: 'stack', name: 'Stack', description: 'LIFO data structure', language: 'JavaScript' },
+            { id: 'queue', name: 'Queue', description: 'FIFO data structure', language: 'JavaScript' }
+        ],
+        web: [
+            { id: 'html-basic', name: 'Basic HTML', description: 'Simple HTML structure', language: 'HTML' },
+            { id: 'css-styling', name: 'CSS Styling', description: 'Basic CSS styling', language: 'CSS' },
+            { id: 'js-dom', name: 'DOM Manipulation', description: 'JavaScript DOM operations', language: 'JavaScript' }
+        ],
+        games: [
+            { id: 'number-guess', name: 'Number Guessing', description: 'Simple number guessing game', language: 'JavaScript' },
+            { id: 'tic-tac-toe', name: 'Tic Tac Toe', description: 'Classic game implementation', language: 'JavaScript' },
+            { id: 'snake-game', name: 'Snake Game', description: 'Simple snake game', language: 'JavaScript' }
+        ]
+    };
+    
+    return templates[category] || [];
+}
+
+function loadTemplate(templateId) {
+    const templates = {
+        'hello-world': 'console.log("Hello, World!");',
+        'variables': 'let name = "John";\nlet age = 25;\nconsole.log(`Name: ${name}, Age: ${age}`);',
+        'functions': 'function greet(name) {\n    return `Hello, ${name}!`;\n}\n\nconsole.log(greet("World"));',
+        'bubble-sort': 'function bubbleSort(arr) {\n    for (let i = 0; i < arr.length; i++) {\n        for (let j = 0; j < arr.length - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n            }\n        }\n    }\n    return arr;\n}\n\nconst numbers = [64, 34, 25, 12, 22, 11, 90];\nconsole.log(bubbleSort(numbers));',
+        'html-basic': '<!DOCTYPE html>\n<html>\n<head>\n    <title>My Page</title>\n</head>\n<body>\n    <h1>Hello World</h1>\n    <p>This is a paragraph.</p>\n</body>\n</html>',
+        'css-styling': 'body {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    padding: 20px;\n    background-color: #f0f0f0;\n}\n\nh1 {\n    color: #333;\n    text-align: center;\n}\n\np {\n    color: #666;\n    line-height: 1.6;\n}'
+    };
+    
+    const code = templates[templateId];
+    if (code) {
+        document.getElementById('playgroundCode').value = code;
+        document.getElementById('templateLibrary').style.display = 'none';
+        showNotification('Template loaded successfully!', 'success');
+    }
+}
+
+function changePlaygroundLanguage() {
+    const language = document.getElementById('playgroundLanguage').value;
+    const code = document.getElementById('playgroundCode');
+    
+    // Clear code when changing language
+    if (confirm('Changing language will clear your current code. Continue?')) {
+        code.value = '';
+        localStorage.removeItem('playgroundCode');
+    }
+}
+
+// Projects Section
+function initProjects() {
+    loadProjects('beginner');
+    
+    document.querySelectorAll('.project-category').forEach(category => {
+        category.addEventListener('click', (e) => {
+            document.querySelectorAll('.project-category').forEach(c => c.classList.remove('active'));
+            e.target.classList.add('active');
+            loadProjects(e.target.dataset.category);
+        });
+    });
+    
+    // Portfolio controls
+    const createPortfolioBtn = document.getElementById('createPortfolio');
+    const exportPortfolioBtn = document.getElementById('exportPortfolio');
+    const sharePortfolioBtn = document.getElementById('sharePortfolio');
+    
+    if (createPortfolioBtn) createPortfolioBtn.addEventListener('click', createPortfolio);
+    if (exportPortfolioBtn) exportPortfolioBtn.addEventListener('click', exportPortfolio);
+    if (sharePortfolioBtn) sharePortfolioBtn.addEventListener('click', sharePortfolio);
+}
+
+function loadProjects(category) {
+    const projectsGrid = document.getElementById('projectsGrid');
+    const projects = getProjectsByCategory(category);
+    
+    projectsGrid.innerHTML = projects.map(project => `
+        <div class="project-card">
+            <div class="project-header">
+                <h3 class="project-title">${project.title}</h3>
+                <span class="project-difficulty difficulty-${project.difficulty}">${project.difficulty}</span>
+            </div>
+            <p class="project-description">${project.description}</p>
+            <div class="project-tech">
+                ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+            </div>
+            <div class="project-stats">
+                <span>⏱️ ${project.duration}</span>
+                <span>👥 ${project.collaborators}</span>
+                <span>⭐ ${project.rating}</span>
+            </div>
+            <div class="project-actions">
+                <button class="btn btn-primary" onclick="startProject('${project.id}')">Start Project</button>
+                <button class="btn btn-secondary" onclick="viewProjectDetails('${project.id}')">Details</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getProjectsByCategory(category) {
+    const projects = {
+        beginner: [
+            {
+                id: 'todo-app',
+                title: 'Todo Application',
+                description: 'Build a simple todo app with add, edit, and delete functionality.',
+                difficulty: 'beginner',
+                technologies: ['HTML', 'CSS', 'JavaScript'],
+                duration: '2-3 hours',
+                collaborators: '1-2',
+                rating: '4.5'
+            },
+            {
+                id: 'calculator',
+                title: 'Calculator',
+                description: 'Create a basic calculator with arithmetic operations.',
+                difficulty: 'beginner',
+                technologies: ['HTML', 'CSS', 'JavaScript'],
+                duration: '1-2 hours',
+                collaborators: '1',
+                rating: '4.2'
+            },
+            {
+                id: 'weather-app',
+                title: 'Weather App',
+                description: 'Display weather information using a public API.',
+                difficulty: 'beginner',
+                technologies: ['HTML', 'CSS', 'JavaScript', 'API'],
+                duration: '3-4 hours',
+                collaborators: '1-2',
+                rating: '4.3'
+            }
+        ],
+        intermediate: [
+            {
+                id: 'ecommerce-site',
+                title: 'E-commerce Site',
+                description: 'Build a full-featured online store with cart and checkout.',
+                difficulty: 'intermediate',
+                technologies: ['React', 'Node.js', 'MongoDB'],
+                duration: '1-2 weeks',
+                collaborators: '2-3',
+                rating: '4.7'
+            },
+            {
+                id: 'chat-app',
+                title: 'Real-time Chat App',
+                description: 'Create a chat application with real-time messaging.',
+                difficulty: 'intermediate',
+                technologies: ['Socket.io', 'Express', 'React'],
+                duration: '1 week',
+                collaborators: '2-4',
+                rating: '4.6'
+            }
+        ],
+        advanced: [
+            {
+                id: 'ai-chatbot',
+                title: 'AI Chatbot',
+                description: 'Build an intelligent chatbot using machine learning.',
+                difficulty: 'advanced',
+                technologies: ['Python', 'TensorFlow', 'Flask'],
+                duration: '2-3 weeks',
+                collaborators: '3-5',
+                rating: '4.8'
+            },
+            {
+                id: 'blockchain-app',
+                title: 'Blockchain Application',
+                description: 'Create a decentralized application using blockchain technology.',
+                difficulty: 'advanced',
+                technologies: ['Solidity', 'Web3.js', 'React'],
+                duration: '3-4 weeks',
+                collaborators: '4-6',
+                rating: '4.9'
+            }
+        ],
+        expert: [
+            {
+                id: 'ai-platform',
+                title: 'AI Learning Platform',
+                description: 'Build a comprehensive AI-powered learning management system.',
+                difficulty: 'expert',
+                technologies: ['Python', 'TensorFlow', 'Django', 'React'],
+                duration: '2-3 months',
+                collaborators: '5-8',
+                rating: '5.0'
+            }
+        ]
+    };
+    
+    return projects[category] || [];
+}
+
+function startProject(projectId) {
+    showNotification(`Starting project: ${projectId}`, 'info');
+    // In a real implementation, this would redirect to a project workspace
+}
+
+function viewProjectDetails(projectId) {
+    showNotification(`Viewing details for: ${projectId}`, 'info');
+    // In a real implementation, this would show a detailed modal
+}
+
+function createPortfolio() {
+    const portfolioProjects = document.getElementById('portfolioProjects');
+    const completedProjects = JSON.parse(localStorage.getItem('completedProjects') || '[]');
+    
+    if (completedProjects.length === 0) {
+        portfolioProjects.innerHTML = '<p>No completed projects yet. Start building!</p>';
+        return;
+    }
+    
+    portfolioProjects.innerHTML = completedProjects.map(project => `
+        <div class="project-card">
+            <h4>${project.title}</h4>
+            <p>${project.description}</p>
+            <small>Completed: ${project.completedDate}</small>
+        </div>
+    `).join('');
+}
+
+function exportPortfolio() {
+    const portfolioData = {
+        projects: JSON.parse(localStorage.getItem('completedProjects') || '[]'),
+        skills: JSON.parse(localStorage.getItem('userSkills') || '[]'),
+        achievements: JSON.parse(localStorage.getItem('userAchievements') || '[]')
+    };
+    
+    const dataStr = JSON.stringify(portfolioData, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = 'portfolio.json';
+    link.click();
+    
+    showNotification('Portfolio exported successfully!', 'success');
+}
+
+function sharePortfolio() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Programming Portfolio',
+            text: 'Check out my programming projects and achievements!',
+            url: window.location.href
+        });
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(window.location.href);
+        showNotification('Portfolio link copied to clipboard!', 'success');
+    }
+}
+
+// Gamification Section
+function initGamification() {
+    updateUserStats();
+    loadAchievements();
+    loadLeaderboard('weekly');
+    generateSkillTree();
+    
+    // Leaderboard tabs
+    document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            document.querySelectorAll('.leaderboard-tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            loadLeaderboard(e.target.dataset.period);
+        });
+    });
+}
+
+function updateUserStats() {
+    const userProgress = JSON.parse(localStorage.getItem('userProgress') || '{}');
+    const completedChallenges = Object.values(userProgress).filter(p => p.completed).length;
+    const totalXP = completedChallenges * 100;
+    const level = Math.floor(totalXP / 1000) + 1;
+    const streak = calculateStreak();
+    const badges = countBadges();
+    
+    document.getElementById('userLevel').textContent = `Level ${level}`;
+    document.getElementById('userStreak').textContent = `${streak} Days`;
+    document.getElementById('userXP').textContent = `${totalXP} XP`;
+    document.getElementById('userBadges').textContent = badges;
+}
+
+function calculateStreak() {
+    const lastActivity = localStorage.getItem('lastActivity');
+    if (!lastActivity) return 0;
+    
+    const today = new Date().toDateString();
+    const lastDate = new Date(lastActivity).toDateString();
+    const diffTime = Math.abs(new Date(today) - new Date(lastDate));
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays <= 1 ? 7 : 0; // Simplified streak calculation
+}
+
+function countBadges() {
+    const achievements = JSON.parse(localStorage.getItem('userAchievements') || '[]');
+    return achievements.length;
+}
+
+function loadAchievements() {
+    const achievementsGrid = document.getElementById('achievementsGrid');
+    const achievements = getAllAchievements();
+    const userAchievements = JSON.parse(localStorage.getItem('userAchievements') || '[]');
+    
+    achievementsGrid.innerHTML = achievements.map(achievement => {
+        const isUnlocked = userAchievements.includes(achievement.id);
+        return `
+            <div class="achievement-card ${isUnlocked ? '' : 'locked'}" onclick="viewAchievement('${achievement.id}')">
+                <div class="achievement-icon">
+                    <i class="${achievement.icon}"></i>
+                </div>
+                <div class="achievement-title">${achievement.title}</div>
+                <div class="achievement-desc">${achievement.description}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getAllAchievements() {
+    return [
+        { id: 'first-challenge', title: 'First Steps', description: 'Complete your first challenge', icon: 'fas fa-star' },
+        { id: 'streak-7', title: 'Week Warrior', description: 'Maintain a 7-day learning streak', icon: 'fas fa-fire' },
+        { id: 'challenges-10', title: 'Decade', description: 'Complete 10 challenges', icon: 'fas fa-trophy' },
+        { id: 'perfect-score', title: 'Perfect Score', description: 'Get a perfect score on any challenge', icon: 'fas fa-medal' },
+        { id: 'all-languages', title: 'Polyglot', description: 'Try all programming languages', icon: 'fas fa-language' },
+        { id: 'help-others', title: 'Helper', description: 'Help 5 other learners', icon: 'fas fa-hands-helping' },
+        { id: 'project-complete', title: 'Project Master', description: 'Complete a full project', icon: 'fas fa-rocket' },
+        { id: 'ai-expert', title: 'AI Expert', description: 'Use all AI features', icon: 'fas fa-robot' }
+    ];
+}
+
+function viewAchievement(achievementId) {
+    const achievement = getAllAchievements().find(a => a.id === achievementId);
+    if (achievement) {
+        showNotification(`Achievement: ${achievement.title} - ${achievement.description}`, 'info');
+    }
+}
+
+function loadLeaderboard(period) {
+    const leaderboardList = document.getElementById('leaderboardList');
+    const leaderboard = generateLeaderboard(period);
+    
+    leaderboardList.innerHTML = leaderboard.map((user, index) => `
+        <div class="leaderboard-item">
+            <div class="leaderboard-rank rank-${index < 3 ? index + 1 : 'other'}">${index + 1}</div>
+            <div class="leaderboard-user">
+                <div class="leaderboard-name">${user.name}</div>
+                <div class="leaderboard-level">Level ${user.level}</div>
+            </div>
+            <div class="leaderboard-xp">${user.xp} XP</div>
+        </div>
+    `).join('');
+}
+
+function generateLeaderboard(period) {
+    // Mock leaderboard data
+    const users = [
+        { name: 'Alice Johnson', level: 15, xp: 15000 },
+        { name: 'Bob Smith', level: 12, xp: 12000 },
+        { name: 'Carol Davis', level: 10, xp: 10000 },
+        { name: 'David Wilson', level: 8, xp: 8000 },
+        { name: 'Eva Brown', level: 7, xp: 7000 }
+    ];
+    
+    return users.sort((a, b) => b.xp - a.xp);
+}
+
+function generateSkillTree() {
+    const skillTree = document.getElementById('skillTree');
+    const skills = getSkillTreeData();
+    
+    skillTree.innerHTML = skills.map(skill => `
+        <div class="skill-node ${skill.unlocked ? 'unlocked' : ''}" 
+             style="left: ${skill.x}px; top: ${skill.y}px;"
+             onclick="toggleSkill('${skill.id}')">
+            ${skill.name}
+        </div>
+    `).join('');
+    
+    // Add connections
+    skills.forEach(skill => {
+        if (skill.connections) {
+            skill.connections.forEach(connection => {
+                const connectionEl = document.createElement('div');
+                connectionEl.className = `skill-connection ${skill.unlocked ? 'unlocked' : ''}`;
+                connectionEl.style.left = `${skill.x + 40}px`;
+                connectionEl.style.top = `${skill.y + 40}px`;
+                connectionEl.style.width = '100px';
+                skillTree.appendChild(connectionEl);
+            });
+        }
+    });
+}
+
+function getSkillTreeData() {
+    return [
+        { id: 'basics', name: 'Basics', x: 50, y: 50, unlocked: true },
+        { id: 'variables', name: 'Variables', x: 200, y: 50, unlocked: true, connections: ['basics'] },
+        { id: 'functions', name: 'Functions', x: 350, y: 50, unlocked: true, connections: ['variables'] },
+        { id: 'oop', name: 'OOP', x: 500, y: 50, unlocked: false, connections: ['functions'] },
+        { id: 'algorithms', name: 'Algorithms', x: 125, y: 150, unlocked: false, connections: ['basics'] },
+        { id: 'data-structures', name: 'Data Structures', x: 275, y: 150, unlocked: false, connections: ['algorithms'] },
+        { id: 'web-dev', name: 'Web Dev', x: 425, y: 150, unlocked: false, connections: ['functions'] },
+        { id: 'ai-ml', name: 'AI/ML', x: 575, y: 150, unlocked: false, connections: ['algorithms', 'web-dev'] }
+    ];
+}
+
+function toggleSkill(skillId) {
+    const skillNode = document.querySelector(`[onclick="toggleSkill('${skillId}')"]`);
+    if (skillNode.classList.contains('unlocked')) {
+        showNotification('Skill already unlocked!', 'info');
+    } else {
+        skillNode.classList.add('unlocked');
+        showNotification(`Skill "${skillId}" unlocked!`, 'success');
+    }
+}
+
+// AI Tutor Section
+function initAITutor() {
+    const sendBtn = document.getElementById('sendTutorMessage');
+    const tutorInput = document.getElementById('tutorInput');
+    const clearChatBtn = document.getElementById('clearTutorChat');
+    const exportChatBtn = document.getElementById('exportTutorChat');
+    
+    if (sendBtn) sendBtn.addEventListener('click', sendTutorMessage);
+    if (tutorInput) tutorInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendTutorMessage();
+        }
+    });
+    if (clearChatBtn) clearChatBtn.addEventListener('click', clearTutorChat);
+    if (exportChatBtn) exportChatBtn.addEventListener('click', exportTutorChat);
+    
+    // Quick actions
+    document.querySelectorAll('.quick-action').forEach(action => {
+        action.addEventListener('click', (e) => {
+            const actionType = e.currentTarget.dataset.action;
+            handleQuickAction(actionType);
+        });
+    });
+    
+    // Topic tags
+    document.querySelectorAll('.topic-tag').forEach(tag => {
+        tag.addEventListener('click', (e) => {
+            const topic = e.target.textContent;
+            askTutorAboutTopic(topic);
+        });
+    });
+}
+
+function sendTutorMessage() {
+    const input = document.getElementById('tutorInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // Add user message
+    addTutorMessage(message, 'user');
+    input.value = '';
+    
+    // Generate AI response
+    setTimeout(() => {
+        const response = generateTutorResponse(message);
+        addTutorMessage(response, 'tutor');
+    }, 1000);
+}
+
+function addTutorMessage(content, sender) {
+    const messagesContainer = document.getElementById('tutorMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `tutor-message ${sender === 'user' ? 'user-message' : ''}`;
+    
+    const avatar = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+    const avatarClass = sender === 'user' ? 'message-avatar' : 'message-avatar tutor-avatar';
+    
+    messageDiv.innerHTML = `
+        <div class="${avatarClass}">
+            ${avatar}
+        </div>
+        <div class="message-content">
+            <p>${content}</p>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function generateTutorResponse(message) {
+    const responses = {
+        'hello': 'Hello! I\'m here to help you with your programming journey. What would you like to learn today?',
+        'help': 'I can help you with:\n• Explaining programming concepts\n• Code review and debugging\n• Problem-solving strategies\n• Learning path recommendations\n• Creating visualizations\n\nWhat specific topic would you like to explore?',
+        'algorithm': 'Algorithms are step-by-step procedures for solving problems. They\'re fundamental to programming and computer science. Would you like me to explain a specific algorithm or show you how to implement one?',
+        'data structure': 'Data structures are ways of organizing and storing data for efficient access and modification. Common ones include arrays, linked lists, trees, and graphs. Which data structure interests you?',
+        'oop': 'Object-Oriented Programming (OOP) is a programming paradigm based on objects. Key concepts include:\n• Encapsulation\n• Inheritance\n• Polymorphism\n• Abstraction\n\nWould you like me to explain any of these concepts in detail?'
+    };
+    
+    const lowerMessage = message.toLowerCase();
+    
+    for (const [key, response] of Object.entries(responses)) {
+        if (lowerMessage.includes(key)) {
+            return response;
+        }
+    }
+    
+    return 'That\'s an interesting question! I\'d be happy to help you understand this concept. Could you provide more details about what specifically you\'d like to learn?';
+}
+
+function handleQuickAction(actionType) {
+    const actions = {
+        'explain-concept': () => askTutorAboutTopic('programming concepts'),
+        'code-review': () => showCodeReviewPrompt(),
+        'problem-solving': () => askTutorAboutTopic('problem-solving strategies'),
+        'visualization': () => createVisualization(),
+        'learning-path': () => generateLearningPath()
+    };
+    
+    if (actions[actionType]) {
+        actions[actionType]();
+    }
+}
+
+function askTutorAboutTopic(topic) {
+    const message = `Can you explain ${topic}?`;
+    addTutorMessage(message, 'user');
+    
+    setTimeout(() => {
+        const response = generateTutorResponse(topic);
+        addTutorMessage(response, 'tutor');
+    }, 1000);
+}
+
+function showCodeReviewPrompt() {
+    addTutorMessage('I\'d be happy to review your code! Please paste your code in the playground and I\'ll analyze it for you.', 'tutor');
+}
+
+function createVisualization() {
+    const visualization = document.getElementById('tutorVisualization');
+    const content = document.getElementById('visualizationContent');
+    
+    content.innerHTML = `
+        <h4>Algorithm Visualization: Bubble Sort</h4>
+        <div style="text-align: center; margin: 20px 0;">
+            <canvas id="sortCanvas" width="400" height="200" style="border: 1px solid #ddd;"></canvas>
+        </div>
+        <p>This visualization shows how bubble sort works by comparing adjacent elements and swapping them if they're in the wrong order.</p>
+    `;
+    
+    visualization.style.display = 'block';
+    
+    // Simple animation
+    const canvas = document.getElementById('sortCanvas');
+    const ctx = canvas.getContext('2d');
+    animateBubbleSort(ctx);
+}
+
+function animateBubbleSort(ctx) {
+    const bars = [64, 34, 25, 12, 22, 11, 90];
+    let i = 0, j = 0;
+    
+    function drawBars() {
+        ctx.clearRect(0, 0, 400, 200);
+        const barWidth = 50;
+        const maxHeight = 180;
+        const maxValue = Math.max(...bars);
+        
+        bars.forEach((value, index) => {
+            const height = (value / maxValue) * maxHeight;
+            const x = index * barWidth + 10;
+            const y = 200 - height - 10;
+            
+            ctx.fillStyle = index === j ? '#ff6b6b' : '#4ecdc4';
+            ctx.fillRect(x, y, barWidth - 5, height);
+            
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(value, x + barWidth/2 - 2.5, 195);
+        });
+    }
+    
+    function sort() {
+        if (i < bars.length - 1) {
+            if (j < bars.length - i - 1) {
+                if (bars[j] > bars[j + 1]) {
+                    [bars[j], bars[j + 1]] = [bars[j + 1], bars[j]];
+                }
+                j++;
+            } else {
+                i++;
+                j = 0;
+            }
+            drawBars();
+            setTimeout(sort, 500);
+        }
+    }
+    
+    drawBars();
+    sort();
+}
+
+function generateLearningPath() {
+    addTutorMessage('Based on your current progress, here\'s a personalized learning path:\n\n1. **Week 1-2**: Master basic syntax and control structures\n2. **Week 3-4**: Learn functions and data structures\n3. **Week 5-6**: Explore object-oriented programming\n4. **Week 7-8**: Build real-world projects\n5. **Week 9-10**: Advanced algorithms and optimization\n\nWould you like me to elaborate on any of these phases?', 'tutor');
+}
+
+function clearTutorChat() {
+    const messagesContainer = document.getElementById('tutorMessages');
+    messagesContainer.innerHTML = `
+        <div class="tutor-message">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                <p>Hello! I'm your AI Tutor. I can help you with:</p>
+                <ul>
+                    <li>Step-by-step explanations of complex concepts</li>
+                    <li>Personalized learning recommendations</li>
+                    <li>Code review and improvement suggestions</li>
+                    <li>Problem-solving strategies</li>
+                    <li>Concept visualization and diagrams</li>
+                </ul>
+                <p>What would you like to learn today?</p>
+            </div>
+        </div>
+    `;
+}
+
+function exportTutorChat() {
+    const messages = document.querySelectorAll('.tutor-message');
+    let chatText = 'AI Tutor Conversation\n\n';
+    
+    messages.forEach(message => {
+        const isUser = message.classList.contains('user-message');
+        const content = message.querySelector('.message-content p').textContent;
+        chatText += `${isUser ? 'You' : 'AI Tutor'}: ${content}\n\n`;
+    });
+    
+    const blob = new Blob([chatText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tutor-chat.txt';
+    a.click();
+    
+    showNotification('Chat exported successfully!', 'success');
+}
+
+// Initialize all advanced features
+function initAdvancedFeatures() {
+    initPlayground();
+    initProjects();
+    initGamification();
+    initAITutor();
+    
+    // Close buttons for modals
+    document.getElementById('closeDebug')?.addEventListener('click', () => {
+        document.getElementById('debugPanel').style.display = 'none';
+    });
+    
+    document.getElementById('closeTemplates')?.addEventListener('click', () => {
+        document.getElementById('templateLibrary').style.display = 'none';
+    });
+    
+    document.getElementById('closeVisualization')?.addEventListener('click', () => {
+        document.getElementById('tutorVisualization').style.display = 'none';
+    });
+}
+
+// Add to DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    
+    initAdvancedFeatures();
+});
