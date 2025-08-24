@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize enhanced navigation
     initEnhancedNavigation();
     
+    // Initialize horizontal navigation
+    initHorizontalNavigation();
+    
     // Initialize real-time collaboration
     initCollaboration();
     
@@ -589,4 +592,199 @@ function displayExternalResources(topic) {
     });
 }
 
-// ... existing code ...
+// Navigation Functions
+function initNavigation() {
+    console.log('Initializing navigation...');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            if (pageId) {
+                navigateToPage(pageId);
+            }
+        });
+    });
+    
+    // Set home as active by default
+    const homeLink = document.querySelector('[data-page="home"]');
+    if (homeLink) {
+        homeLink.classList.add('active');
+    }
+}
+
+function initEnhancedNavigation() {
+    console.log('Initializing enhanced navigation...');
+    // Enhanced navigation features
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+}
+
+function initHorizontalNavigation() {
+    console.log('Initializing horizontal navigation...');
+    const horizontalNav = document.querySelector('.horizontal-nav');
+    if (!horizontalNav) return;
+    
+    const scrollContainer = document.querySelector('.horizontal-nav-scroll');
+    if (!scrollContainer) return;
+    
+    // Add scroll buttons functionality
+    const prevBtn = document.getElementById('scrollLeft');
+    const nextBtn = document.getElementById('scrollRight');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+    }
+    
+    // Sync with main navigation
+    const navLinks = horizontalNav.querySelectorAll('.horizontal-nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            if (pageId) {
+                navigateToPage(pageId);
+                scrollToActiveLink();
+            }
+        });
+    });
+}
+
+function scrollToActiveLink() {
+    const horizontalNav = document.querySelector('.horizontal-nav');
+    if (!horizontalNav) return;
+    
+    const activeLink = horizontalNav.querySelector('.horizontal-nav-link.active');
+    if (activeLink) {
+        const scrollContainer = document.querySelector('.horizontal-nav-scroll');
+        if (scrollContainer) {
+            const linkRect = activeLink.getBoundingClientRect();
+            const containerRect = scrollContainer.getBoundingClientRect();
+            
+            if (linkRect.left < containerRect.left || linkRect.right > containerRect.right) {
+                activeLink.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        }
+    }
+}
+
+function navigateToPage(pageId) {
+    console.log('Navigating to page:', pageId);
+    
+    // Hide all pages
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show target page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        console.log('Page activated:', pageId);
+    } else {
+        console.log('Page not found:', pageId);
+    }
+    
+    // Update navigation links
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+    if (activeLink) {
+        activeLink.classList.add('active');
+        console.log('Navigation link activated for:', pageId);
+    }
+    
+    // Update horizontal navigation
+    const horizontalNavLinks = document.querySelectorAll('.horizontal-nav .horizontal-nav-link');
+    horizontalNavLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    const horizontalActiveLink = document.querySelector(`.horizontal-nav .horizontal-nav-link[data-page="${pageId}"]`);
+    if (horizontalActiveLink) {
+        horizontalActiveLink.classList.add('active');
+    }
+    
+    // Scroll to active link in horizontal navigation
+    setTimeout(() => {
+        scrollToActiveLink();
+    }, 100);
+}
+
+// Mobile Navigation
+function initMobileNavigation() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    }
+}
+
+function closeMobileMenu() {
+    const navMenu = document.querySelector('.nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (navMenu) {
+        navMenu.classList.remove('active');
+    }
+    if (hamburger) {
+        hamburger.classList.remove('active');
+    }
+}
+
+// Initialize mobile navigation
+document.addEventListener('DOMContentLoaded', function() {
+    initMobileNavigation();
+});
+
+// Missing initialization functions
+function initNumberSystems() {
+    console.log('Initializing number systems...');
+    // Number systems functionality will be added here
+}
+
+function initCompiler() {
+    console.log('Initializing compiler...');
+    // Compiler functionality will be added here
+}
+
+function initChallenges() {
+    console.log('Initializing challenges...');
+    // Challenges functionality will be added here
+}
+
+function initProgress() {
+    console.log('Initializing progress...');
+    // Progress functionality will be added here
+}
+
+function initAIResponses() {
+    console.log('Initializing AI responses...');
+    // AI responses functionality will be added here
+}
