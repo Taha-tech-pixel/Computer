@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octal Number System (Base-8) - Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html#number-system" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Number Systems
+            </a>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="number-system-detail-page">
+            <div class="page-header">
+                <div class="system-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h1>Octal Number System (Base-8)</h1>
+                <p class="system-subtitle">The base-8 system using digits 0-7, historically important in computing</p>
+                <div class="system-tags">
+                    <span class="tag">Base-8</span>
+                    <span class="tag">Historical</span>
+                    <span class="tag">Unix Permissions</span>
+                    <span class="tag">Digital Systems</span>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>What is Octal?</h3>
+                        <p>Octal is a base-8 number system that uses eight digits: 0, 1, 2, 3, 4, 5, 6, and 7. It was historically popular in computing because early computers often used word sizes that were multiples of 3 bits, making octal a natural fit for representing binary data.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Historical Significance</h3>
+                        <p>Octal was widely used in early computing systems, particularly with PDP and other minicomputers. While less common today, it still appears in Unix file permissions, some programming contexts, and digital electronics.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Modern Usage</h3>
+                        <p>Today, octal is primarily used in Unix/Linux file permissions (chmod), some assembly languages, and specialized applications where base-8 representation is advantageous for grouping binary digits.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Octal Fundamentals -->
+            <div class="section-card">
+                <h2><i class="fas fa-cogs"></i> Octal Fundamentals</h2>
+                
+                <div class="subsection">
+                    <h3>Octal Digits and Binary Relationship</h3>
+                    <div class="code-example">
+                        <pre><code>Decimal | Octal | Binary
+   0    |   0   |  000
+   1    |   1   |  001
+   2    |   2   |  010
+   3    |   3   |  011
+   4    |   4   |  100
+   5    |   5   |  101
+   6    |   6   |  110
+   7    |   7   |  111
+
+Each octal digit represents exactly 3 binary bits</code></pre>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Place Value System</h3>
+                    <div class="code-example">
+                        <pre><code>Position:  4    3    2    1    0
+Power of 8: 8⁴   8³   8²   8¹   8⁰
+Value:     4096  512   64    8    1
+
+Example: 1234₈
+= 1×512 + 2×64 + 3×8 + 4×1
+= 512 + 128 + 24 + 4
+= 668₁₀</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unix File Permissions -->
+            <div class="section-card">
+                <h2><i class="fas fa-shield-alt"></i> Unix File Permissions</h2>
+                
+                <div class="permissions-section">
+                    <div class="permissions-explanation">
+                        <h3>Permission Structure</h3>
+                        <div class="code-example">
+                            <pre><code>Permission Bits:
+r w x | r w x | r w x
+4 2 1 | 4 2 1 | 4 2 1
+Owner | Group | Others
+
+Example: chmod 755 file
+7 = 4+2+1 = rwx (owner: read, write, execute)
+5 = 4+0+1 = r-x (group: read, execute)
+5 = 4+0+1 = r-x (others: read, execute)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="common-permissions">
+                        <h3>Common Permission Combinations</h3>
+                        <div class="permissions-grid">
+                            <div class="permission-item">
+                                <h4>755 (rwxr-xr-x)</h4>
+                                <p>Executable files, scripts</p>
+                            </div>
+                            <div class="permission-item">
+                                <h4>644 (rw-r--r--)</h4>
+                                <p>Regular files, documents</p>
+                            </div>
+                            <div class="permission-item">
+                                <h4>600 (rw-------)</h4>
+                                <p>Private files (owner only)</p>
+                            </div>
+                            <div class="permission-item">
+                                <h4>777 (rwxrwxrwx)</h4>
+                                <p>Full permissions (rarely used)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Implementation -->
+            <div class="section-card">
+                <h2><i class="fas fa-code"></i> Programming with Octal</h2>
+                
+                <div class="code-examples-grid">
+                    <div class="code-example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// Convert decimal to octal
+function decimalToOctal(num) {
+    return num.toString(8);
+}
+
+// Convert octal to decimal
+function octalToDecimal(octalStr) {
+    return parseInt(octalStr, 8);
+}
+
+// File permission decoder
+function decodePermissions(octal) {
+    const permissions = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx'];
+    const digits = octal.toString().split('');
+    
+    return digits.map(digit => permissions[parseInt(digit)]).join(' ');
+}
+
+// Examples
+console.log(decimalToOctal(64));           // "100"
+console.log(octalToDecimal("100"));        // 64
+console.log(decodePermissions(755));       // "rwx r-x r-x"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code># Convert decimal to octal
+def decimal_to_octal(num):
+    return oct(num)[2:]  # Remove '0o' prefix
+
+# Convert octal to decimal
+def octal_to_decimal(octal_str):
+    return int(octal_str, 8)
+
+# File permission utilities
+def permission_to_string(mode):
+    """Convert octal permission to string format"""
+    permissions = {
+        '0': '---', '1': '--x', '2': '-w-', '3': '-wx',
+        '4': 'r--', '5': 'r-x', '6': 'rw-', '7': 'rwx'
+    }
+    
+    return ''.join(permissions[digit] for digit in str(mode))
+
+# Examples
+print(decimal_to_octal(255))           # "377"
+print(octal_to_decimal("377"))         # 255
+print(permission_to_string("755"))     # "rwxr-xr-x"</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Tools -->
+            <div class="section-card">
+                <h2><i class="fas fa-tools"></i> Interactive Octal Tools</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>Decimal ↔ Octal Converter</h3>
+                        <div class="tool-interface">
+                            <input type="number" id="dec-oct-input" placeholder="Enter decimal number" min="0">
+                            <button onclick="convertDecOct()">Convert to Octal</button>
+                            <div id="oct-conversion-result" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>Unix Permission Calculator</h3>
+                        <div class="tool-interface">
+                            <div class="permission-checkboxes">
+                                <div class="permission-group">
+                                    <label>Owner:</label>
+                                    <label><input type="checkbox" id="owner-r" checked> Read</label>
+                                    <label><input type="checkbox" id="owner-w" checked> Write</label>
+                                    <label><input type="checkbox" id="owner-x" checked> Execute</label>
+                                </div>
+                                <div class="permission-group">
+                                    <label>Group:</label>
+                                    <label><input type="checkbox" id="group-r" checked> Read</label>
+                                    <label><input type="checkbox" id="group-w"> Write</label>
+                                    <label><input type="checkbox" id="group-x" checked> Execute</label>
+                                </div>
+                                <div class="permission-group">
+                                    <label>Others:</label>
+                                    <label><input type="checkbox" id="others-r" checked> Read</label>
+                                    <label><input type="checkbox" id="others-w"> Write</label>
+                                    <label><input type="checkbox" id="others-x" checked> Execute</label>
+                                </div>
+                            </div>
+                            <button onclick="calculatePermissions()">Calculate</button>
+                            <div id="permission-result" class="tool-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function convertDecOct() {
+            const input = document.getElementById('dec-oct-input').value;
+            const result = document.getElementById('oct-conversion-result');
+            
+            if (input === '') {
+                result.textContent = 'Please enter a decimal number';
+                return;
+            }
+            
+            const decimal = parseInt(input);
+            const octal = decimal.toString(8);
+            result.innerHTML = `<strong>${decimal}₁₀ = ${octal}₈</strong>`;
+        }
+
+        function calculatePermissions() {
+            const result = document.getElementById('permission-result');
+            
+            // Calculate owner permissions
+            let owner = 0;
+            if (document.getElementById('owner-r').checked) owner += 4;
+            if (document.getElementById('owner-w').checked) owner += 2;
+            if (document.getElementById('owner-x').checked) owner += 1;
+            
+            // Calculate group permissions
+            let group = 0;
+            if (document.getElementById('group-r').checked) group += 4;
+            if (document.getElementById('group-w').checked) group += 2;
+            if (document.getElementById('group-x').checked) group += 1;
+            
+            // Calculate others permissions
+            let others = 0;
+            if (document.getElementById('others-r').checked) others += 4;
+            if (document.getElementById('others-w').checked) others += 2;
+            if (document.getElementById('others-x').checked) others += 1;
+            
+            const octalMode = `${owner}${group}${others}`;
+            const permissions = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx'];
+            const readable = `${permissions[owner]} ${permissions[group]} ${permissions[others]}`;
+            
+            result.innerHTML = `
+                <strong>Octal: ${octalMode}</strong><br>
+                <strong>Symbolic: ${readable}</strong><br>
+                <strong>Command: chmod ${octalMode} filename</strong>
+            `;
+        }
+
+        // Initialize permission calculator
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.permission-checkboxes input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', calculatePermissions);
+            });
+            calculatePermissions();
+        });
+    </script>
+</body>
+</html>

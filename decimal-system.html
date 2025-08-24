@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimal Number System (Base-10) - Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html#number-system" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Number Systems
+            </a>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="number-system-detail-page">
+            <div class="page-header">
+                <div class="system-icon">
+                    <i class="fas fa-sort-numeric-up"></i>
+                </div>
+                <h1>Decimal Number System (Base-10)</h1>
+                <p class="system-subtitle">The standard number system used in everyday mathematics and commerce</p>
+                <div class="system-tags">
+                    <span class="tag">Base-10</span>
+                    <span class="tag">Hindu-Arabic</span>
+                    <span class="tag">Standard</span>
+                    <span class="tag">Positional</span>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>What is Decimal?</h3>
+                        <p>The decimal number system is a base-10 positional numeral system that uses ten digits: 0, 1, 2, 3, 4, 5, 6, 7, 8, and 9. It's the most widely used number system in the world for daily arithmetic and mathematical calculations.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Why Base-10?</h3>
+                        <p>The choice of base-10 likely stems from humans having ten fingers, making it natural to count in groups of ten. This system has been refined over thousands of years and is now universally accepted.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Historical Development</h3>
+                        <p>The modern decimal system evolved from the Hindu-Arabic numeral system, developed in India around the 6th century and later transmitted to the Islamic world and Europe. The key innovation was the concept of zero and positional notation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decimal Fundamentals -->
+            <div class="section-card">
+                <h2><i class="fas fa-cogs"></i> Decimal Fundamentals</h2>
+                
+                <div class="subsection">
+                    <h3>Place Value System</h3>
+                    <p>In decimal, each position represents a power of 10:</p>
+                    <div class="code-example">
+                        <pre><code>Position:    6     5     4     3     2     1     0
+Power of 10: 10⁶   10⁵   10⁴   10³   10²   10¹   10⁰
+Value:    1000000 100000 10000  1000   100    10     1
+Name:     Millions HundredK TenK Thousands Hundreds Tens Ones
+
+Example: 1,234,567
+= 1×1000000 + 2×100000 + 3×10000 + 4×1000 + 5×100 + 6×10 + 7×1
+= 1000000 + 200000 + 30000 + 4000 + 500 + 60 + 7
+= 1,234,567</code></pre>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Fractional Place Values</h3>
+                    <div class="code-example">
+                        <pre><code>Position:     0    -1    -2    -3    -4    -5
+Power of 10:  10⁰  10⁻¹  10⁻²  10⁻³  10⁻⁴  10⁻⁵
+Value:         1   0.1   0.01  0.001 0.0001 0.00001
+Name:        Ones Tenths Hundredths Thousandths Ten-thousandths
+
+Example: 123.456
+= 1×100 + 2×10 + 3×1 + 4×0.1 + 5×0.01 + 6×0.001
+= 100 + 20 + 3 + 0.4 + 0.05 + 0.006
+= 123.456</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Implementation -->
+            <div class="section-card">
+                <h2><i class="fas fa-code"></i> Programming with Decimals</h2>
+                
+                <div class="code-examples-grid">
+                    <div class="code-example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// Decimal precision handling
+function roundToDecimals(num, decimals) {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+}
+
+// Format number with commas
+function formatWithCommas(num) {
+    return num.toLocaleString();
+}
+
+// Convert to scientific notation
+function toScientific(num, precision = 2) {
+    return num.toExponential(precision);
+}
+
+// Examples
+console.log(roundToDecimals(3.14159, 2));    // 3.14
+console.log(formatWithCommas(1234567.89));   // "1,234,567.89"
+console.log(toScientific(1234567.89));       // "1.23e+6"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>from decimal import Decimal, getcontext
+import math
+
+# Set precision for decimal calculations
+getcontext().prec = 28
+
+# High-precision decimal arithmetic
+def precise_decimal_calc():
+    a = Decimal('0.1')
+    b = Decimal('0.2')
+    result = a + b
+    print(f"Precise: {result}")  # 0.3 exactly
+    
+    # Compare with float
+    float_result = 0.1 + 0.2
+    print(f"Float: {float_result}")  # 0.30000000000000004
+
+# Mathematical operations
+def math_operations_demo():
+    x = 123.456
+    print(f"Ceiling: {math.ceil(x)}")    # 124
+    print(f"Floor: {math.floor(x)}")     # 123
+    print(f"Round: {round(x, 1)}")       # 123.5</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Tools -->
+            <div class="section-card">
+                <h2><i class="fas fa-tools"></i> Interactive Decimal Tools</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>Basic Calculator</h3>
+                        <div class="tool-interface">
+                            <input type="number" id="calc-a" placeholder="First number" step="any">
+                            <select id="calc-operation">
+                                <option value="add">+</option>
+                                <option value="subtract">-</option>
+                                <option value="multiply">×</option>
+                                <option value="divide">÷</option>
+                            </select>
+                            <input type="number" id="calc-b" placeholder="Second number" step="any">
+                            <button onclick="calculateDecimal()">Calculate</button>
+                            <div id="calc-result" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>Number Formatter</h3>
+                        <div class="tool-interface">
+                            <input type="number" id="format-input" placeholder="Enter number" step="any">
+                            <select id="format-type">
+                                <option value="comma">Add Commas</option>
+                                <option value="currency">Currency</option>
+                                <option value="scientific">Scientific</option>
+                                <option value="percentage">Percentage</option>
+                            </select>
+                            <button onclick="formatNumber()">Format</button>
+                            <div id="format-result" class="tool-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Interactive tool functions
+        function calculateDecimal() {
+            const a = parseFloat(document.getElementById('calc-a').value);
+            const b = parseFloat(document.getElementById('calc-b').value);
+            const operation = document.getElementById('calc-operation').value;
+            const result = document.getElementById('calc-result');
+            
+            if (isNaN(a) || isNaN(b)) {
+                result.textContent = 'Please enter valid numbers';
+                return;
+            }
+            
+            let resultValue;
+            let symbol;
+            
+            switch(operation) {
+                case 'add':
+                    resultValue = a + b;
+                    symbol = '+';
+                    break;
+                case 'subtract':
+                    resultValue = a - b;
+                    symbol = '-';
+                    break;
+                case 'multiply':
+                    resultValue = a * b;
+                    symbol = '×';
+                    break;
+                case 'divide':
+                    if (b === 0) {
+                        result.textContent = 'Cannot divide by zero';
+                        return;
+                    }
+                    resultValue = a / b;
+                    symbol = '÷';
+                    break;
+            }
+            
+            result.innerHTML = `<strong>${a} ${symbol} ${b} = ${resultValue}</strong>`;
+        }
+
+        function formatNumber() {
+            const input = parseFloat(document.getElementById('format-input').value);
+            const formatType = document.getElementById('format-type').value;
+            const result = document.getElementById('format-result');
+            
+            if (isNaN(input)) {
+                result.textContent = 'Please enter a valid number';
+                return;
+            }
+            
+            let formatted;
+            
+            switch(formatType) {
+                case 'comma':
+                    formatted = input.toLocaleString();
+                    break;
+                case 'currency':
+                    formatted = '$' + input.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    break;
+                case 'scientific':
+                    formatted = input.toExponential(2);
+                    break;
+                case 'percentage':
+                    formatted = (input * 100).toFixed(2) + '%';
+                    break;
+            }
+            
+            result.innerHTML = `<strong>Formatted: ${formatted}</strong>`;
+        }
+    </script>
+</body>
+</html>

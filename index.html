@@ -595,46 +595,7 @@
                 </div>
             </div>
 
-            <!-- Design Patterns -->
-            <div class="scheme-section">
-                <h2>🏗️ Design Patterns</h2>
-                <div class="pattern-grid">
-                    <div class="pattern-card">
-                        <h3>Singleton Pattern</h3>
-                        <p>Ensures a class has only one instance and provides global access to it.</p>
-                        <div class="code-example">
-                            <pre><code>class Singleton {
-    private static instance: Singleton;
-    private constructor() {}
-    
-    public static getInstance(): Singleton {
-        if (!Singleton.instance) {
-            Singleton.instance = new Singleton();
-        }
-        return Singleton.instance;
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                    <div class="pattern-card">
-                        <h3>Factory Pattern</h3>
-                        <p>Creates objects without specifying their exact classes.</p>
-                        <div class="code-example">
-                            <pre><code>interface Animal {
-    makeSound(): void;
-}
 
-class Dog implements Animal {
-    makeSound() { console.log('Woof!'); }
-}
-
-class Cat implements Animal {
-    makeSound() { console.log('Meow!'); }
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Number System Page -->
@@ -646,29 +607,70 @@ class Cat implements Animal {
             <div class="number-systems-container">
                 <div class="system-card">
                     <h3>Binary (Base-2)</h3>
-                    <p>Uses only 0 and 1. Fundamental to computer operations.</p>
+                    <p>Uses only 0 and 1. Fundamental to computer operations and digital logic systems.</p>
+                    <div class="system-features">
+                        <span class="feature-tag">Digital Logic</span>
+                        <span class="feature-tag">Bit Operations</span>
+                        <span class="feature-tag">Computer Foundation</span>
+                    </div>
                     <div class="converter">
                         <input type="number" id="decimal-input" placeholder="Enter decimal number">
                         <button onclick="convertToBinary()">Convert to Binary</button>
                         <div id="binary-result" class="result"></div>
                     </div>
+                    <div class="system-actions">
+                        <a href="binary-system.html" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="system-card">
+                    <h3>Decimal (Base-10)</h3>
+                    <p>The standard number system used in everyday mathematics and commerce worldwide.</p>
+                    <div class="system-features">
+                        <span class="feature-tag">Standard</span>
+                        <span class="feature-tag">Mathematics</span>
+                        <span class="feature-tag">Commerce</span>
+                    </div>
+                    <div class="converter">
+                        <input type="number" id="decimal-calc-input" placeholder="Enter number" step="any">
+                        <button onclick="formatDecimal()">Format Number</button>
+                        <div id="decimal-result" class="result"></div>
+                    </div>
+                    <div class="system-actions">
+                        <a href="decimal-system.html" class="btn btn-primary">Learn More</a>
+                    </div>
                 </div>
                 <div class="system-card">
                     <h3>Hexadecimal (Base-16)</h3>
-                    <p>Uses 0-9 and A-F. Common in programming and memory addresses.</p>
+                    <p>Uses 0-9 and A-F. Common in programming, memory addresses, and color codes.</p>
+                    <div class="system-features">
+                        <span class="feature-tag">Programming</span>
+                        <span class="feature-tag">Memory Addresses</span>
+                        <span class="feature-tag">Color Codes</span>
+                    </div>
                     <div class="converter">
                         <input type="text" id="hex-input" placeholder="Enter hex number">
                         <button onclick="convertFromHex()">Convert to Decimal</button>
                         <div id="hex-result" class="result"></div>
                     </div>
+                    <div class="system-actions">
+                        <a href="hexadecimal-system.html" class="btn btn-primary">Learn More</a>
+                    </div>
                 </div>
                 <div class="system-card">
                     <h3>Octal (Base-8)</h3>
-                    <p>Uses digits 0-7. Historical significance in computing.</p>
+                    <p>Uses digits 0-7. Historical significance in computing and Unix file permissions.</p>
+                    <div class="system-features">
+                        <span class="feature-tag">Unix Permissions</span>
+                        <span class="feature-tag">Historical</span>
+                        <span class="feature-tag">Digital Systems</span>
+                    </div>
                     <div class="converter">
                         <input type="number" id="octal-input" placeholder="Enter octal number">
                         <button onclick="convertFromOctal()">Convert to Decimal</button>
                         <div id="octal-result" class="result"></div>
+                    </div>
+                    <div class="system-actions">
+                        <a href="octal-system.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -677,8 +679,8 @@ class Cat implements Animal {
         <!-- Compiler Page -->
         <div id="compiler" class="page">
             <div class="page-header">
-                <h1>Compiler</h1>
-                <p>Learn about compilers and build a simple one</p>
+                <h1>Multi-Language Compiler</h1>
+                <p>Compile and run code in all supported programming languages</p>
             </div>
             <div class="compiler-container">
                 <div class="compiler-section">
@@ -706,12 +708,98 @@ class Cat implements Animal {
                         </div>
                     </div>
                 </div>
+                
                 <div class="compiler-section">
-                    <h2>Simple Compiler Demo</h2>
+                    <h2>Multi-Language Code Editor</h2>
                     <div class="compiler-demo">
-                        <textarea id="source-code" placeholder="Enter simple arithmetic expression (e.g., 2 + 3 * 4)"></textarea>
-                        <button onclick="compileCode()">Compile</button>
-                        <div id="compilation-result" class="result"></div>
+                        <div class="language-selector">
+                            <label for="language-select">Select Language:</label>
+                            <select id="language-select" onchange="changeLanguage()">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                                <option value="csharp">C#</option>
+                                <option value="php">PHP</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="go">Go</option>
+                                <option value="rust">Rust</option>
+                                <option value="kotlin">Kotlin</option>
+                                <option value="swift">Swift</option>
+                                <option value="typescript">TypeScript</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="sql">SQL</option>
+                                <option value="bash">Bash</option>
+                                <option value="perl">Perl</option>
+                                <option value="r">R</option>
+                                <option value="scala">Scala</option>
+                                <option value="clojure">Clojure</option>
+                                <option value="fortran">Fortran</option>
+                                <option value="vbnet">VB.NET</option>
+                            </select>
+                        </div>
+                        
+                        <div class="code-editor-container">
+                            <div class="editor-header">
+                                <span id="current-language">JavaScript</span>
+                                <div class="editor-controls">
+                                    <button onclick="loadTemplate()" class="btn btn-secondary">Load Template</button>
+                                    <button onclick="clearCode()" class="btn btn-secondary">Clear</button>
+                                </div>
+                            </div>
+                            <textarea id="source-code" placeholder="Enter your code here..."></textarea>
+                            <div class="compiler-actions">
+                                <button onclick="compileCode()" class="btn btn-primary">
+                                    <i class="fas fa-play"></i> Run Code
+                                </button>
+                                <button onclick="analyzeCode()" class="btn btn-secondary">
+                                    <i class="fas fa-search"></i> Analyze
+                                </button>
+                                <button onclick="formatCode()" class="btn btn-secondary">
+                                    <i class="fas fa-magic"></i> Format
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-container">
+                            <div class="output-tabs">
+                                <button class="tab-btn active" onclick="showTab('output')">Output</button>
+                                <button class="tab-btn" onclick="showTab('errors')">Errors</button>
+                                <button class="tab-btn" onclick="showTab('analysis')">Analysis</button>
+                            </div>
+                            <div id="output-panel" class="output-panel active">
+                                <div id="compilation-result" class="result"></div>
+                            </div>
+                            <div id="errors-panel" class="output-panel">
+                                <div id="error-result" class="result"></div>
+                            </div>
+                            <div id="analysis-panel" class="output-panel">
+                                <div id="analysis-result" class="result"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="compiler-section">
+                    <h2>Language-Specific Features</h2>
+                    <div class="language-features-grid">
+                        <div class="feature-card">
+                            <h3><i class="fas fa-code"></i> Syntax Highlighting</h3>
+                            <p>Automatic syntax highlighting for all supported languages</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3><i class="fas fa-bug"></i> Error Detection</h3>
+                            <p>Real-time error detection and detailed error messages</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3><i class="fas fa-rocket"></i> Code Execution</h3>
+                            <p>Execute code directly in the browser for supported languages</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3><i class="fas fa-chart-bar"></i> Code Analysis</h3>
+                            <p>Analyze code complexity, performance, and best practices</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -720,33 +808,351 @@ class Cat implements Animal {
         <!-- Challenges Page -->
         <div id="challenges" class="page">
             <div class="page-header">
-                <h1>Coding Challenges</h1>
-                <p>Test your skills with various programming challenges</p>
+                <h1>Programming Language Challenges</h1>
+                <p>Test your skills with language-specific coding challenges</p>
             </div>
+            
+            <!-- Challenge Categories -->
+            <div class="challenge-categories">
+                <button class="category-btn active" onclick="filterChallenges('all')">All Challenges</button>
+                <button class="category-btn" onclick="filterChallenges('web')">Web Development</button>
+                <button class="category-btn" onclick="filterChallenges('general')">General Purpose</button>
+                <button class="category-btn" onclick="filterChallenges('scripting')">Scripting</button>
+                <button class="category-btn" onclick="filterChallenges('data')">Data Science</button>
+                <button class="category-btn" onclick="filterChallenges('functional')">Functional</button>
+                <button class="category-btn" onclick="filterChallenges('legacy')">Legacy</button>
+            </div>
+
             <div class="challenges-container">
-                <div class="challenge-card">
+                <!-- Web Development Challenges -->
+                <div class="challenge-card" data-category="web">
                     <div class="challenge-header">
-                        <h3>Easy: FizzBuzz</h3>
+                        <h3>HTML: Responsive Layout</h3>
                         <span class="difficulty easy">Easy</span>
                     </div>
-                    <p>Print numbers from 1 to n, but for multiples of 3 print "Fizz" and for multiples of 5 print "Buzz".</p>
-                    <button onclick="startChallenge('fizzbuzz')" class="btn btn-primary">Start Challenge</button>
+                    <p>Create a responsive webpage layout using HTML5 semantic elements and CSS Grid/Flexbox.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">HTML</span>
+                        <span class="language-tag">CSS</span>
+                        <span class="topic-tag">Responsive Design</span>
+                    </div>
+                    <button onclick="startChallenge('html-responsive')" class="btn btn-primary">Start Challenge</button>
                 </div>
-                <div class="challenge-card">
+
+                <div class="challenge-card" data-category="web">
                     <div class="challenge-header">
-                        <h3>Medium: Palindrome Checker</h3>
+                        <h3>JavaScript: DOM Manipulation</h3>
                         <span class="difficulty medium">Medium</span>
                     </div>
-                    <p>Check if a given string is a palindrome (reads the same forwards and backwards).</p>
-                    <button onclick="startChallenge('palindrome')" class="btn btn-primary">Start Challenge</button>
+                    <p>Build an interactive todo list with add, delete, and edit functionality using vanilla JavaScript.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">JavaScript</span>
+                        <span class="topic-tag">DOM</span>
+                        <span class="topic-tag">Event Handling</span>
+                    </div>
+                    <button onclick="startChallenge('js-dom')" class="btn btn-primary">Start Challenge</button>
                 </div>
-                <div class="challenge-card">
+
+                <div class="challenge-card" data-category="web">
                     <div class="challenge-header">
-                        <h3>Hard: Binary Tree Traversal</h3>
+                        <h3>TypeScript: Type-Safe API</h3>
                         <span class="difficulty hard">Hard</span>
                     </div>
-                    <p>Implement in-order, pre-order, and post-order traversal of a binary tree.</p>
-                    <button onclick="startChallenge('binary-tree')" class="btn btn-primary">Start Challenge</button>
+                    <p>Create a type-safe REST API client with TypeScript interfaces and error handling.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">TypeScript</span>
+                        <span class="topic-tag">API</span>
+                        <span class="topic-tag">Type Safety</span>
+                    </div>
+                    <button onclick="startChallenge('ts-api')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="web">
+                    <div class="challenge-header">
+                        <h3>PHP: User Authentication</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Implement secure user registration and login system with password hashing and session management.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">PHP</span>
+                        <span class="topic-tag">Security</span>
+                        <span class="topic-tag">Sessions</span>
+                    </div>
+                    <button onclick="startChallenge('php-auth')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="web">
+                    <div class="challenge-header">
+                        <h3>Node.js: REST API</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Build a complete REST API with Express.js, MongoDB integration, and JWT authentication.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Node.js</span>
+                        <span class="language-tag">Express</span>
+                        <span class="topic-tag">REST API</span>
+                    </div>
+                    <button onclick="startChallenge('node-api')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- General Purpose Challenges -->
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>Python: Data Structures</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Implement custom data structures: Stack, Queue, Linked List, and Binary Search Tree.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Python</span>
+                        <span class="topic-tag">Data Structures</span>
+                        <span class="topic-tag">OOP</span>
+                    </div>
+                    <button onclick="startChallenge('python-ds')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>Java: Multi-threading</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Create a thread-safe producer-consumer pattern with proper synchronization and deadlock prevention.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Java</span>
+                        <span class="topic-tag">Concurrency</span>
+                        <span class="topic-tag">Threading</span>
+                    </div>
+                    <button onclick="startChallenge('java-threads')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>C: Memory Management</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Implement a custom memory allocator with malloc, free, and memory leak detection.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">C</span>
+                        <span class="topic-tag">Memory</span>
+                        <span class="topic-tag">System Programming</span>
+                    </div>
+                    <button onclick="startChallenge('c-memory')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>C++: STL Algorithms</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Create custom STL-compatible algorithms and containers with iterators and allocators.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">C++</span>
+                        <span class="topic-tag">STL</span>
+                        <span class="topic-tag">Templates</span>
+                    </div>
+                    <button onclick="startChallenge('cpp-stl')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>C#: LINQ Implementation</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Build custom LINQ-like extension methods for data querying and manipulation.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">C#</span>
+                        <span class="topic-tag">LINQ</span>
+                        <span class="topic-tag">Extension Methods</span>
+                    </div>
+                    <button onclick="startChallenge('csharp-linq')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>Kotlin: Coroutines</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Implement asynchronous programming patterns using Kotlin coroutines and flow.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Kotlin</span>
+                        <span class="topic-tag">Coroutines</span>
+                        <span class="topic-tag">Async</span>
+                    </div>
+                    <button onclick="startChallenge('kotlin-coroutines')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>Go: Concurrent Web Crawler</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Build a concurrent web crawler using goroutines, channels, and worker pools.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Go</span>
+                        <span class="topic-tag">Concurrency</span>
+                        <span class="topic-tag">Goroutines</span>
+                    </div>
+                    <button onclick="startChallenge('go-crawler')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="general">
+                    <div class="challenge-header">
+                        <h3>Rust: Safe Memory Management</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Implement a custom smart pointer with reference counting and memory safety guarantees.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Rust</span>
+                        <span class="topic-tag">Memory Safety</span>
+                        <span class="topic-tag">Ownership</span>
+                    </div>
+                    <button onclick="startChallenge('rust-memory')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- Scripting Challenges -->
+                <div class="challenge-card" data-category="scripting">
+                    <div class="challenge-header">
+                        <h3>Bash: System Administration</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Create a system monitoring script that tracks CPU, memory, and disk usage with automated alerts.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Bash</span>
+                        <span class="topic-tag">System Admin</span>
+                        <span class="topic-tag">Monitoring</span>
+                    </div>
+                    <button onclick="startChallenge('bash-monitor')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="scripting">
+                    <div class="challenge-header">
+                        <h3>Perl: Text Processing</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Build a log file analyzer with regex patterns, statistical analysis, and report generation.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Perl</span>
+                        <span class="topic-tag">Regex</span>
+                        <span class="topic-tag">Text Processing</span>
+                    </div>
+                    <button onclick="startChallenge('perl-logs')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="scripting">
+                    <div class="challenge-header">
+                        <h3>Ruby: Metaprogramming</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Create a DSL (Domain Specific Language) using Ruby metaprogramming techniques.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Ruby</span>
+                        <span class="topic-tag">Metaprogramming</span>
+                        <span class="topic-tag">DSL</span>
+                    </div>
+                    <button onclick="startChallenge('ruby-dsl')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- Data Science Challenges -->
+                <div class="challenge-card" data-category="data">
+                    <div class="challenge-header">
+                        <h3>R: Statistical Analysis</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Perform comprehensive statistical analysis on a dataset with visualization and hypothesis testing.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">R</span>
+                        <span class="topic-tag">Statistics</span>
+                        <span class="topic-tag">Visualization</span>
+                    </div>
+                    <button onclick="startChallenge('r-stats')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- Functional Programming Challenges -->
+                <div class="challenge-card" data-category="functional">
+                    <div class="challenge-header">
+                        <h3>Scala: Functional Data Processing</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Implement MapReduce-like data processing pipeline using Scala's functional programming features.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Scala</span>
+                        <span class="topic-tag">Functional</span>
+                        <span class="topic-tag">Big Data</span>
+                    </div>
+                    <button onclick="startChallenge('scala-mapreduce')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="functional">
+                    <div class="challenge-header">
+                        <h3>Clojure: Lisp Macros</h3>
+                        <span class="difficulty hard">Hard</span>
+                    </div>
+                    <p>Create advanced Lisp macros for code generation and domain-specific abstractions.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Clojure</span>
+                        <span class="topic-tag">Lisp</span>
+                        <span class="topic-tag">Macros</span>
+                    </div>
+                    <button onclick="startChallenge('clojure-macros')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- Legacy Challenges -->
+                <div class="challenge-card" data-category="legacy">
+                    <div class="challenge-header">
+                        <h3>Fortran: Scientific Computing</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Implement numerical algorithms for solving differential equations using Fortran's array operations.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">Fortran</span>
+                        <span class="topic-tag">Scientific</span>
+                        <span class="topic-tag">Numerical</span>
+                    </div>
+                    <button onclick="startChallenge('fortran-numerical')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <div class="challenge-card" data-category="legacy">
+                    <div class="challenge-header">
+                        <h3>VB.NET: Windows Forms</h3>
+                        <span class="difficulty easy">Easy</span>
+                    </div>
+                    <p>Create a Windows desktop application with database connectivity and user interface controls.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">VB.NET</span>
+                        <span class="topic-tag">Windows Forms</span>
+                        <span class="topic-tag">Database</span>
+                    </div>
+                    <button onclick="startChallenge('vbnet-forms')" class="btn btn-primary">Start Challenge</button>
+                </div>
+
+                <!-- Query/DSL Challenges -->
+                <div class="challenge-card" data-category="query">
+                    <div class="challenge-header">
+                        <h3>SQL: Complex Queries</h3>
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                    <p>Write complex SQL queries with joins, subqueries, window functions, and optimization techniques.</p>
+                    <div class="challenge-details">
+                        <span class="language-tag">SQL</span>
+                        <span class="topic-tag">Database</span>
+                        <span class="topic-tag">Query Optimization</span>
+                    </div>
+                    <button onclick="startChallenge('sql-complex')" class="btn btn-primary">Start Challenge</button>
+                </div>
+            </div>
+
+            <!-- Challenge Statistics -->
+            <div class="challenge-stats">
+                <div class="stat-card">
+                    <h4>Total Challenges</h4>
+                    <span class="stat-number">20</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Completed</h4>
+                    <span class="stat-number">0</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Success Rate</h4>
+                    <span class="stat-number">0%</span>
                 </div>
             </div>
         </div>
@@ -754,42 +1160,236 @@ class Cat implements Animal {
         <!-- Progress Page -->
         <div id="progress" class="page">
             <div class="page-header">
-                <h1>Your Progress</h1>
-                <p>Track your learning journey and achievements</p>
+                <h1>Progress Tracking</h1>
+                <p>Monitor your learning journey and achievements</p>
             </div>
             <div class="progress-container">
+                <!-- Progress Overview -->
                 <div class="progress-overview">
                     <div class="progress-card">
                         <h3>Overall Progress</h3>
                         <div class="progress-circle">
-                            <svg width="120" height="120">
-                                <circle cx="60" cy="60" r="50" fill="none" stroke="#e0e0e0" stroke-width="8"/>
-                                <circle cx="60" cy="60" r="50" fill="none" stroke="#4CAF50" stroke-width="8" 
-                                        stroke-dasharray="314" stroke-dashoffset="125.6" transform="rotate(-90 60 60)"/>
-                            </svg>
-                            <div class="progress-text">60%</div>
+                            <div class="progress-percentage" id="overall-progress">0%</div>
                         </div>
+                        <p>Complete challenges to track your progress</p>
                     </div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <h4>Challenges Completed</h4>
-                            <span class="stat-number">12</span>
+                    <div class="progress-card">
+                        <h3>Challenges Completed</h3>
+                        <div class="progress-number" id="completed-count">0</div>
+                        <p>out of <span id="total-challenges">22</span> total challenges</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Success Rate</h3>
+                        <div class="progress-number" id="success-rate">0%</div>
+                        <p>of completed challenges</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Current Streak</h3>
+                        <div class="progress-number" id="current-streak">0</div>
+                        <p>days of consistent practice</p>
+                    </div>
+                </div>
+
+                <!-- Progress by Category -->
+                <div class="progress-section">
+                    <h2>Progress by Category</h2>
+                    <div class="category-progress-grid">
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>🌐 Web Development</h3>
+                                <span class="category-count" id="web-count">0/5</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="web-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="web-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="web-last">None</span></span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <h4>Languages Learned</h4>
-                            <span class="stat-number">3</span>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>⚙️ General Purpose</h3>
+                                <span class="category-count" id="general-count">0/8</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="general-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="general-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="general-last">None</span></span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <h4>Streak Days</h4>
-                            <span class="stat-number">7</span>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>🔧 Scripting</h3>
+                                <span class="category-count" id="scripting-count">0/3</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="scripting-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="scripting-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="scripting-last">None</span></span>
+                            </div>
+                        </div>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>📊 Data Science</h3>
+                                <span class="category-count" id="data-count">0/1</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="data-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="data-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="data-last">None</span></span>
+                            </div>
+                        </div>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>🔄 Functional</h3>
+                                <span class="category-count" id="functional-count">0/2</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="functional-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="functional-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="functional-last">None</span></span>
+                            </div>
+                        </div>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>🏛️ Legacy</h3>
+                                <span class="category-count" id="legacy-count">0/2</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="legacy-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="legacy-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="legacy-last">None</span></span>
+                            </div>
+                        </div>
+
+                        <div class="category-progress-card">
+                            <div class="category-header">
+                                <h3>🗄️ Query/DSL</h3>
+                                <span class="category-count" id="query-count">0/1</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="query-progress" style="width: 0%"></div>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat">Success Rate: <span id="query-success">0%</span></span>
+                                <span class="stat">Last Completed: <span id="query-last">None</span></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="progress-chart">
-                    <h3>Weekly Activity</h3>
-                    <div class="chart-container">
-                        <canvas id="progressChart" width="400" height="200"></canvas>
+
+                <!-- Recent Activity -->
+                <div class="progress-section">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-timeline" id="activity-timeline">
+                        <div class="activity-item empty-state">
+                            <div class="activity-icon">📝</div>
+                            <div class="activity-content">
+                                <h4>No activity yet</h4>
+                                <p>Start completing challenges to see your activity here</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="progress-section">
+                    <h2>Achievements</h2>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">🎯</div>
+                            <h4>First Steps</h4>
+                            <p>Complete your first challenge</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/1</span>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">🔥</div>
+                            <h4>On Fire</h4>
+                            <p>Complete 5 challenges in a row</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/5</span>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">🌐</div>
+                            <h4>Web Master</h4>
+                            <p>Complete all Web Development challenges</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/5</span>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">⚙️</div>
+                            <h4>Generalist</h4>
+                            <p>Complete all General Purpose challenges</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/8</span>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">🏆</div>
+                            <h4>Champion</h4>
+                            <p>Complete all challenges</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/22</span>
+                            </div>
+                        </div>
+
+                        <div class="achievement-card locked">
+                            <div class="achievement-icon">💯</div>
+                            <h4>Perfect Score</h4>
+                            <p>Achieve 100% success rate on 10 challenges</p>
+                            <div class="achievement-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span>0/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Actions -->
+                <div class="progress-actions">
+                    <button onclick="resetProgress()" class="btn btn-secondary">Reset Progress</button>
+                    <button onclick="exportProgress()" class="btn btn-primary">Export Progress</button>
                 </div>
             </div>
         </div>
@@ -798,29 +1398,58 @@ class Cat implements Animal {
         <div id="ai-bot" class="page">
             <div class="page-header">
                 <h1>AI Learning Assistant</h1>
-                <p>Get help and explanations from our AI tutor</p>
+                <p>Get detailed explanations and visual aids for any programming concept</p>
             </div>
             <div class="ai-chat-container">
+                <div class="chat-header">
+                    <div class="chat-info">
+                        <h3>🤖 AI Tutor</h3>
+                        <span class="status">Online</span>
+                    </div>
+                    <div class="chat-actions">
+                        <button onclick="clearChat()" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i> Clear Chat
+                        </button>
+                    </div>
+                </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message bot-message">
                         <div class="message-avatar">🤖</div>
                         <div class="message-content">
-                            <p>Hello! I'm your AI learning assistant. How can I help you today?</p>
+                            <div class="message-header">
+                                <span class="sender-name">AI Tutor</span>
+                                <span class="message-time">Just now</span>
+                            </div>
+                            <p>Hello! I'm your AI learning assistant. I can help you with:</p>
+                            <ul>
+                                <li>📚 Programming concepts and theory</li>
+                                <li>💻 Code examples and explanations</li>
+                                <li>🔧 Debugging and problem-solving</li>
+                                <li>📊 Data structures and algorithms</li>
+                                <li>🌐 Web development topics</li>
+                                <li>🎯 Best practices and design patterns</li>
+                            </ul>
+                            <p>Ask me anything about programming, and I'll provide detailed explanations with visual aids!</p>
                         </div>
                     </div>
                 </div>
                 <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Ask me anything about programming...">
-                    <button onclick="sendMessage()" class="send-btn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                    <div class="input-wrapper">
+                        <input type="text" id="chat-input" placeholder="Ask me anything about programming..." onkeypress="handleKeyPress(event)">
+                        <button onclick="sendMessage()" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="quick-questions">
-                    <h4>Quick Questions:</h4>
+                    <h4>💡 Quick Questions:</h4>
                     <div class="question-buttons">
-                        <button onclick="askQuestion('What is recursion?')" class="question-btn">What is recursion?</button>
-                        <button onclick="askQuestion('Explain OOP concepts')" class="question-btn">Explain OOP concepts</button>
-                        <button onclick="askQuestion('How do arrays work?')" class="question-btn">How do arrays work?</button>
+                        <button onclick="askQuestion('What is recursion and how does it work?')" class="question-btn">What is recursion?</button>
+                        <button onclick="askQuestion('Explain Object-Oriented Programming concepts with examples')" class="question-btn">OOP Concepts</button>
+                        <button onclick="askQuestion('How do data structures like arrays and linked lists work?')" class="question-btn">Data Structures</button>
+                        <button onclick="askQuestion('What are design patterns and when to use them?')" class="question-btn">Design Patterns</button>
+                        <button onclick="askQuestion('Explain the difference between synchronous and asynchronous programming')" class="question-btn">Async Programming</button>
+                        <button onclick="askQuestion('How does memory management work in programming?')" class="question-btn">Memory Management</button>
                     </div>
                 </div>
             </div>

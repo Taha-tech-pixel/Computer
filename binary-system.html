@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Number System (Base-2) - Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html#number-system" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Number Systems
+            </a>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="number-system-detail-page">
+            <div class="page-header">
+                <div class="system-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h1>Binary Number System (Base-2)</h1>
+                <p class="system-subtitle">The fundamental language of computers using only 0s and 1s</p>
+                <div class="system-tags">
+                    <span class="tag">Base-2</span>
+                    <span class="tag">Digital Logic</span>
+                    <span class="tag">Computer Foundation</span>
+                    <span class="tag">Boolean</span>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>What is Binary?</h3>
+                        <p>Binary is a base-2 number system that uses only two digits: 0 and 1. It's the fundamental language of all digital computers and electronic systems. Every piece of data in a computer is ultimately represented as a sequence of binary digits (bits).</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Why Binary?</h3>
+                        <p>Computers use binary because it maps perfectly to electronic switches - ON (1) and OFF (0). This makes it reliable, fast, and easy to implement in digital circuits using transistors.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Historical Context</h3>
+                        <p>While binary concepts date back to ancient civilizations, modern binary was formalized by Gottfried Leibniz in the 17th century and later applied to computing by George Boole and Claude Shannon.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Binary Fundamentals -->
+            <div class="section-card">
+                <h2><i class="fas fa-cogs"></i> Binary Fundamentals</h2>
+                
+                <div class="subsection">
+                    <h3>Place Values</h3>
+                    <p>In binary, each position represents a power of 2:</p>
+                    <div class="code-example">
+                        <pre><code>Position:  7    6    5    4    3    2    1    0
+Power of 2: 2⁷   2⁶   2⁵   2⁴   2³   2²   2¹   2⁰
+Value:     128   64   32   16    8    4    2    1
+
+Example: 11010110₂
+= 1×128 + 1×64 + 0×32 + 1×16 + 0×8 + 1×4 + 1×2 + 0×1
+= 128 + 64 + 16 + 4 + 2
+= 214₁₀</code></pre>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Binary Digits (Bits)</h3>
+                    <ul>
+                        <li><strong>Bit:</strong> Single binary digit (0 or 1)</li>
+                        <li><strong>Nibble:</strong> 4 bits (e.g., 1010)</li>
+                        <li><strong>Byte:</strong> 8 bits (e.g., 11010110)</li>
+                        <li><strong>Word:</strong> Usually 16, 32, or 64 bits depending on architecture</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conversion Methods -->
+            <div class="section-card">
+                <h2><i class="fas fa-exchange-alt"></i> Conversion Methods</h2>
+                
+                <div class="conversion-grid">
+                    <div class="conversion-method">
+                        <h3>Decimal to Binary</h3>
+                        <p><strong>Division Method:</strong> Repeatedly divide by 2, collect remainders</p>
+                        <div class="code-example">
+                            <pre><code>Convert 45₁₀ to binary:
+45 ÷ 2 = 22 remainder 1
+22 ÷ 2 = 11 remainder 0  
+11 ÷ 2 = 5  remainder 1
+5  ÷ 2 = 2  remainder 1
+2  ÷ 2 = 1  remainder 0
+1  ÷ 2 = 0  remainder 1
+
+Reading remainders upward: 101101₂</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="conversion-method">
+                        <h3>Binary to Decimal</h3>
+                        <p><strong>Positional Method:</strong> Multiply each digit by its place value</p>
+                        <div class="code-example">
+                            <pre><code>Convert 101101₂ to decimal:
+1×2⁵ + 0×2⁴ + 1×2³ + 1×2² + 0×2¹ + 1×2⁰
+= 1×32 + 0×16 + 1×8 + 1×4 + 0×2 + 1×1
+= 32 + 8 + 4 + 1
+= 45₁₀</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Binary Arithmetic -->
+            <div class="section-card">
+                <h2><i class="fas fa-calculator"></i> Binary Arithmetic</h2>
+                
+                <div class="arithmetic-grid">
+                    <div class="arithmetic-operation">
+                        <h3>Binary Addition</h3>
+                        <div class="code-example">
+                            <pre><code>Rules:
+0 + 0 = 0
+0 + 1 = 1
+1 + 0 = 1
+1 + 1 = 10 (0 with carry 1)
+
+Example:
+   1011₂  (11₁₀)
+ + 1101₂  (13₁₀)
+ ------
+  11000₂  (24₁₀)
+
+Step by step:
+1 + 1 = 10 (write 0, carry 1)
+1 + 0 + 1(carry) = 10 (write 0, carry 1)
+0 + 1 + 1(carry) = 10 (write 0, carry 1)
+1 + 1 + 1(carry) = 11 (write 1, carry 1)
+0 + 0 + 1(carry) = 1</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="arithmetic-operation">
+                        <h3>Binary Subtraction</h3>
+                        <div class="code-example">
+                            <pre><code>Rules:
+0 - 0 = 0
+1 - 0 = 1
+1 - 1 = 0
+0 - 1 = 1 (with borrow)
+
+Example:
+  1101₂  (13₁₀)
+- 1011₂  (11₁₀)
+------
+  0010₂  (2₁₀)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="arithmetic-operation">
+                        <h3>Binary Multiplication</h3>
+                        <div class="code-example">
+                            <pre><code>Rules:
+0 × 0 = 0
+0 × 1 = 0
+1 × 0 = 0
+1 × 1 = 1
+
+Example:
+    1011₂  (11₁₀)
+  ×  101₂  (5₁₀)
+  ------
+    1011
+   0000
+  1011
+  ------
+  110111₂  (55₁₀)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Examples -->
+            <div class="section-card">
+                <h2><i class="fas fa-code"></i> Programming Implementation</h2>
+                
+                <div class="code-examples-grid">
+                    <div class="code-example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// Convert decimal to binary
+function decimalToBinary(num) {
+    return num.toString(2);
+}
+
+// Convert binary to decimal
+function binaryToDecimal(binaryStr) {
+    return parseInt(binaryStr, 2);
+}
+
+// Count set bits (1s)
+function countSetBits(num) {
+    let count = 0;
+    while (num) {
+        count += num & 1;
+        num >>= 1;
+    }
+    return count;
+}
+
+// Check if number is power of 2
+function isPowerOfTwo(num) {
+    return num > 0 && (num & (num - 1)) === 0;
+}
+
+// Examples
+console.log(decimalToBinary(45));    // "101101"
+console.log(binaryToDecimal("101101")); // 45
+console.log(countSetBits(45));       // 4
+console.log(isPowerOfTwo(16));       // true</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code># Convert decimal to binary
+def decimal_to_binary(num):
+    return bin(num)[2:]  # Remove '0b' prefix
+
+# Convert binary to decimal
+def binary_to_decimal(binary_str):
+    return int(binary_str, 2)
+
+# Bitwise operations examples
+def bitwise_operations_demo():
+    a, b = 12, 10  # 1100₂ and 1010₂
+    
+    print(f"a = {a:04b}, b = {b:04b}")
+    print(f"a & b = {a & b:04b} ({a & b})")
+    print(f"a | b = {a | b:04b} ({a | b})")
+    print(f"a ^ b = {a ^ b:04b} ({a ^ b})")
+    print(f"~a = {~a & 0xF:04b} ({~a & 0xF})")
+
+# Binary string manipulation
+def binary_string_operations(binary_str):
+    # Pad with zeros
+    padded = binary_str.zfill(8)
+    
+    # Reverse bits
+    reversed_bits = binary_str[::-1]
+    
+    # Count ones and zeros
+    ones = binary_str.count('1')
+    zeros = binary_str.count('0')
+    
+    return padded, reversed_bits, ones, zeros</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-world Applications -->
+            <div class="section-card">
+                <h2><i class="fas fa-globe"></i> Real-world Applications</h2>
+                
+                <div class="applications-grid">
+                    <div class="application-card">
+                        <h3><i class="fas fa-microchip"></i> Computer Architecture</h3>
+                        <ul>
+                            <li>CPU instruction sets</li>
+                            <li>Memory addressing</li>
+                            <li>Register operations</li>
+                            <li>Cache management</li>
+                        </ul>
+                    </div>
+
+                    <div class="application-card">
+                        <h3><i class="fas fa-network-wired"></i> Networking</h3>
+                        <ul>
+                            <li>IP address subnetting</li>
+                            <li>Packet headers</li>
+                            <li>Error detection codes</li>
+                            <li>Protocol flags</li>
+                        </ul>
+                    </div>
+
+                    <div class="application-card">
+                        <h3><i class="fas fa-shield-alt"></i> Cryptography</h3>
+                        <ul>
+                            <li>Encryption algorithms</li>
+                            <li>Hash functions</li>
+                            <li>Random number generation</li>
+                            <li>Digital signatures</li>
+                        </ul>
+                    </div>
+
+                    <div class="application-card">
+                        <h3><i class="fas fa-gamepad"></i> Graphics & Gaming</h3>
+                        <ul>
+                            <li>Color representation (RGB)</li>
+                            <li>Image compression</li>
+                            <li>Collision detection</li>
+                            <li>Game state management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Tools -->
+            <div class="section-card">
+                <h2><i class="fas fa-tools"></i> Interactive Binary Tools</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>Decimal to Binary Converter</h3>
+                        <div class="tool-interface">
+                            <input type="number" id="dec-to-bin-input" placeholder="Enter decimal number" min="0">
+                            <button onclick="convertDecToBin()">Convert</button>
+                            <div id="dec-to-bin-result" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>Binary to Decimal Converter</h3>
+                        <div class="tool-interface">
+                            <input type="text" id="bin-to-dec-input" placeholder="Enter binary number" pattern="[01]+">
+                            <button onclick="convertBinToDec()">Convert</button>
+                            <div id="bin-to-dec-result" class="tool-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Interactive tool functions
+        function convertDecToBin() {
+            const input = document.getElementById('dec-to-bin-input').value;
+            const result = document.getElementById('dec-to-bin-result');
+            
+            if (input === '') {
+                result.textContent = 'Please enter a number';
+                return;
+            }
+            
+            const decimal = parseInt(input);
+            const binary = decimal.toString(2);
+            result.innerHTML = `<strong>${decimal}₁₀ = ${binary}₂</strong>`;
+        }
+
+        function convertBinToDec() {
+            const input = document.getElementById('bin-to-dec-input').value;
+            const result = document.getElementById('bin-to-dec-result');
+            
+            if (!/^[01]+$/.test(input)) {
+                result.textContent = 'Please enter a valid binary number (only 0s and 1s)';
+                return;
+            }
+            
+            const decimal = parseInt(input, 2);
+            result.innerHTML = `<strong>${input}₂ = ${decimal}₁₀</strong>`;
+        }
+    </script>
+</body>
+</html>

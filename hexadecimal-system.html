@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexadecimal Number System (Base-16) - Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html#number-system" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Number Systems
+            </a>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="number-system-detail-page">
+            <div class="page-header">
+                <div class="system-icon">
+                    <i class="fas fa-hashtag"></i>
+                </div>
+                <h1>Hexadecimal Number System (Base-16)</h1>
+                <p class="system-subtitle">The compact base-16 system using digits 0-9 and letters A-F</p>
+                <div class="system-tags">
+                    <span class="tag">Base-16</span>
+                    <span class="tag">Hex</span>
+                    <span class="tag">Programming</span>
+                    <span class="tag">Memory Addresses</span>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2><i class="fas fa-info-circle"></i> Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>What is Hexadecimal?</h3>
+                        <p>Hexadecimal is a base-16 number system that uses sixteen symbols: digits 0-9 and letters A-F. It's widely used in computing because it provides a more compact way to represent binary data, with each hexadecimal digit representing exactly four binary bits.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Why Hexadecimal?</h3>
+                        <p>Hex is popular in programming because it's much more readable than binary while maintaining a direct relationship with binary values. One hex digit = 4 bits, making conversion straightforward and hex numbers much shorter than their binary equivalents.</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Common Uses</h3>
+                        <p>Hexadecimal is extensively used for memory addresses, color codes in web design, assembly language programming, debugging, and representing binary data in a human-readable format.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hexadecimal Fundamentals -->
+            <div class="section-card">
+                <h2><i class="fas fa-cogs"></i> Hexadecimal Fundamentals</h2>
+                
+                <div class="subsection">
+                    <h3>Hexadecimal Digits</h3>
+                    <div class="code-example">
+                        <pre><code>Decimal | Hex | Binary
+   0    |  0  |  0000
+   1    |  1  |  0001
+   2    |  2  |  0010
+   3    |  3  |  0011
+   4    |  4  |  0100
+   5    |  5  |  0101
+   6    |  6  |  0110
+   7    |  7  |  0111
+   8    |  8  |  1000
+   9    |  9  |  1001
+  10    |  A  |  1010
+  11    |  B  |  1011
+  12    |  C  |  1100
+  13    |  D  |  1101
+  14    |  E  |  1110
+  15    |  F  |  1111</code></pre>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Place Values</h3>
+                    <div class="code-example">
+                        <pre><code>Position:   4     3     2     1     0
+Power of 16: 16⁴   16³   16²   16¹   16⁰
+Value:     65536  4096   256    16     1
+
+Example: 2A3F₁₆
+= 2×4096 + A×256 + 3×16 + F×1
+= 2×4096 + 10×256 + 3×16 + 15×1
+= 8192 + 2560 + 48 + 15
+= 10815₁₀</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Implementation -->
+            <div class="section-card">
+                <h2><i class="fas fa-code"></i> Programming with Hexadecimal</h2>
+                
+                <div class="code-examples-grid">
+                    <div class="code-example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// Convert decimal to hexadecimal
+function decimalToHex(num) {
+    return num.toString(16).toUpperCase();
+}
+
+// Convert hexadecimal to decimal
+function hexToDecimal(hexStr) {
+    return parseInt(hexStr, 16);
+}
+
+// RGB to hex color
+function rgbToHex(r, g, b) {
+    return "#" + 
+           r.toString(16).padStart(2, '0') +
+           g.toString(16).padStart(2, '0') +
+           b.toString(16).padStart(2, '0');
+}
+
+// Examples
+console.log(decimalToHex(255));        // "FF"
+console.log(hexToDecimal("FF"));       // 255
+console.log(rgbToHex(255, 0, 0));      // "#ff0000"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code># Convert decimal to hexadecimal
+def decimal_to_hex(num):
+    return hex(num)[2:].upper()  # Remove '0x' prefix
+
+# Convert hexadecimal to decimal
+def hex_to_decimal(hex_str):
+    return int(hex_str, 16)
+
+# Color manipulation
+def lighten_color(hex_color, factor=0.1):
+    hex_color = hex_color.lstrip('#')
+    
+    # Convert to RGB
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+    
+    # Lighten each component
+    r = min(255, int(r + (255 - r) * factor))
+    g = min(255, int(g + (255 - g) * factor))
+    b = min(255, int(b + (255 - b) * factor))
+    
+    return f"#{r:02X}{g:02X}{b:02X}"</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Tools -->
+            <div class="section-card">
+                <h2><i class="fas fa-tools"></i> Interactive Hexadecimal Tools</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>Decimal ↔ Hex Converter</h3>
+                        <div class="tool-interface">
+                            <input type="number" id="dec-hex-input" placeholder="Enter decimal number" min="0">
+                            <button onclick="convertDecHex()">Convert to Hex</button>
+                            <div id="conversion-result" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>Color Code Converter</h3>
+                        <div class="tool-interface">
+                            <input type="color" id="color-picker" value="#ff0000">
+                            <button onclick="convertColor()">Get Hex Code</button>
+                            <div id="color-result" class="tool-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function convertDecHex() {
+            const input = document.getElementById('dec-hex-input').value;
+            const result = document.getElementById('conversion-result');
+            
+            if (input === '') {
+                result.textContent = 'Please enter a decimal number';
+                return;
+            }
+            
+            const decimal = parseInt(input);
+            const hex = decimal.toString(16).toUpperCase();
+            result.innerHTML = `<strong>${decimal}₁₀ = ${hex}₁₆ (0x${hex})</strong>`;
+        }
+
+        function convertColor() {
+            const colorPicker = document.getElementById('color-picker');
+            const result = document.getElementById('color-result');
+            
+            const hexColor = colorPicker.value;
+            const r = parseInt(hexColor.substr(1, 2), 16);
+            const g = parseInt(hexColor.substr(3, 2), 16);
+            const b = parseInt(hexColor.substr(5, 2), 16);
+            
+            result.innerHTML = `
+                <strong>Hex: ${hexColor.toUpperCase()}</strong><br>
+                <strong>RGB: (${r}, ${g}, ${b})</strong>
+            `;
+        }
+
+        // Initialize
+        convertColor();
+    </script>
+</body>
+</html>
