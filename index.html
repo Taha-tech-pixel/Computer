@@ -55,9 +55,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#oop" class="nav-link" data-page="oop">
-                    <i class="fas fa-cube"></i> OOP
-                </a>
+
             </li>
         </ul>
         <div class="hamburger">
@@ -72,7 +70,7 @@
         <div id="home" class="page active">
             <div class="hero-section">
                 <h1>Welcome to Your Learning Journey</h1>
-                <p>Master programming concepts across 9 comprehensive pages: Programming Languages, Coding Schemes, Number System, Compiler, Challenges, Progress, AI Bot, and OOP</p>
+                <p>Master programming concepts across 8 comprehensive pages: Programming Languages, Coding Schemes, Number System, Compiler, Challenges, Progress, and AI Bot</p>
                 <div class="hero-buttons">
                     <button class="btn btn-primary">Get Started</button>
                     <button class="btn btn-secondary">Learn More</button>
@@ -150,16 +148,7 @@
                         <span class="detail-tag">Programming Help</span>
                     </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-cube"></i>
-                    <h3>OOP</h3>
-                    <p>Master Object-Oriented Programming fundamentals: Encapsulation, Inheritance, and Polymorphism. Learn with practical code examples and real-world applications.</p>
-                    <div class="feature-details">
-                        <span class="detail-tag">Encapsulation</span>
-                        <span class="detail-tag">Inheritance</span>
-                        <span class="detail-tag">Polymorphism</span>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -1455,88 +1444,7 @@
             </div>
         </div>
 
-        <!-- OOP Page -->
-        <div id="oop" class="page">
-            <div class="page-header">
-                <h1>Object-Oriented Programming</h1>
-                <p>Master the fundamentals of OOP</p>
-            </div>
-            <div class="oop-container">
-                <div class="oop-concepts">
-                    <div class="concept-card">
-                        <h3>Encapsulation</h3>
-                        <p>Bundling data and methods that operate on that data within a single unit.</p>
-                        <div class="code-example">
-                            <pre><code>class BankAccount {
-    private balance: number;
-    
-    constructor(initialBalance: number) {
-        this.balance = initialBalance;
-    }
-    
-    public getBalance(): number {
-        return this.balance;
-    }
-    
-    public deposit(amount: number): void {
-        if (amount > 0) {
-            this.balance += amount;
-        }
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                    <div class="concept-card">
-                        <h3>Inheritance</h3>
-                        <p>Creating new classes that are built upon existing classes.</p>
-                        <div class="code-example">
-                            <pre><code>class Animal {
-    protected name: string;
-    
-    constructor(name: string) {
-        this.name = name;
-    }
-    
-    public makeSound(): void {
-        console.log('Some sound');
-    }
-}
 
-class Dog extends Animal {
-    public makeSound(): void {
-        console.log('Woof!');
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                    <div class="concept-card">
-                        <h3>Polymorphism</h3>
-                        <p>Ability to present the same interface for different underlying forms.</p>
-                        <div class="code-example">
-                            <pre><code>interface Shape {
-    calculateArea(): number;
-}
-
-class Circle implements Shape {
-    constructor(private radius: number) {}
-    
-    calculateArea(): number {
-        return Math.PI * this.radius ** 2;
-    }
-}
-
-class Rectangle implements Shape {
-    constructor(private width: number, private height: number) {}
-    
-    calculateArea(): number {
-        return this.width * this.height;
-    }
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
     <script src="script.js"></script>
