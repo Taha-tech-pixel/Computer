@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initEnhancedFeatures();
     initEnhancedNavigation();
     
+    // Show home page by default
+    const homePage = document.getElementById('home');
+    if (homePage) {
+        homePage.classList.add('active');
+    }
+    
     // Show welcome popup for first-time users
     if (!localStorage.getItem('firstVisit')) {
         localStorage.setItem('firstVisit', 'true');
@@ -49,22 +55,63 @@ function initNavigation() {
             const targetId = this.getAttribute('href').substring(1);
             
             // Hide all pages
-            pages.forEach(page => page.style.display = 'none');
+            pages.forEach(page => page.classList.remove('active'));
             
             // Show target page
             const targetPage = document.getElementById(targetId);
             if (targetPage) {
-                targetPage.style.display = 'block';
+                targetPage.classList.add('active');
             }
             
             // Update active nav link
-            navLinks.forEach(navLink => navLink.classList.remove('active'));
-            this.classList.add('active');
-        });
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Update horizontal navigation
+        const horizontalNavLinks = document.querySelectorAll('.horizontal-nav-link');
+        horizontalNavLinks.forEach(link => link.classList.remove('active'));
+        const horizontalLink = document.querySelector(`.horizontal-nav-link[data-page="${targetPage}"]`);
+        if (horizontalLink) {
+            horizontalLink.classList.add('active');
+            scrollToActiveLink();
+        }
+        
+        // Close mobile menu if open
+        closeMobileMenu();
     });
+});
     
     // Initialize language links
     initLanguageLinks();
+    
+    // Initialize mobile navigation
+    initMobileNavigation();
+    
+    // Initialize horizontal scrolling navigation
+    initHorizontalNavigation();
+}
+
+// Mobile Navigation
+function initMobileNavigation() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+}
+
+function closeMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
 }
 
 // Initialize language page links
@@ -1948,17 +1995,26 @@ function initEnhancedNavigation() {
             const targetId = this.getAttribute('href').substring(1);
             
             // Hide all pages
-            document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             
             // Show target page
             const targetPage = document.getElementById(targetId);
             if (targetPage) {
-                targetPage.style.display = 'block';
+                targetPage.classList.add('active');
             }
             
             // Update active nav link
             navLinks.forEach(navLink => navLink.classList.remove('active'));
             this.classList.add('active');
+            
+            // Update horizontal navigation
+            const horizontalNavLinks = document.querySelectorAll('.horizontal-nav-link');
+            horizontalNavLinks.forEach(link => link.classList.remove('active'));
+            const horizontalLink = document.querySelector(`.horizontal-nav-link[data-page="${targetId}"]`);
+            if (horizontalLink) {
+                horizontalLink.classList.add('active');
+                scrollToActiveLink();
+            }
             
             // Update breadcrumbs
             updateBreadcrumbs(targetId);
@@ -3175,6 +3231,146 @@ function initEnhancedAIResponses() {
             'security': 'Security scan finished! I\'ve identified potential vulnerabilities and provided recommendations.'
         }
     };
+}
+
+// Horizontal Scrolling Navigation
+function initHorizontalNavigation() {
+    const horizontalNav = document.getElementById('horizontalNav');
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
+    const scrollContainer = document.querySelector('.horizontal-nav-scroll');
+    
+    if (!horizontalNav || !scrollLeftBtn || !scrollRightBtn || !scrollContainer) {
+        return;
+    }
+    
+    // Add click event listeners to horizontal nav links
+    const horizontalNavLinks = horizontalNav.querySelectorAll('.horizontal-nav-link');
+    horizontalNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            horizontalNavLinks.forEach(l => l.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Navigate to the page
+            const targetPage = this.getAttribute('data-page');
+            navigateToPage(targetPage);
+            
+            // Update breadcrumbs
+            updateBreadcrumbs(targetPage);
+        });
+    });
+    
+    // Scroll left button
+    scrollLeftBtn.addEventListener('click', function() {
+        scrollContainer.scrollBy({
+            left: -200,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Scroll right button
+    scrollRightBtn.addEventListener('click', function() {
+        scrollContainer.scrollBy({
+            left: 200,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Update scroll button states based on scroll position
+    scrollContainer.addEventListener('scroll', function() {
+        updateScrollButtonStates();
+    });
+    
+    // Initial button state update
+    updateScrollButtonStates();
+    
+    // Auto-scroll to active link
+    scrollToActiveLink();
+}
+
+function updateScrollButtonStates() {
+    const scrollContainer = document.querySelector('.horizontal-nav-scroll');
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
+    
+    if (!scrollContainer || !scrollLeftBtn || !scrollRightBtn) {
+        return;
+    }
+    
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+    
+    // Enable/disable left button
+    scrollLeftBtn.disabled = scrollLeft <= 0;
+    
+    // Enable/disable right button
+    scrollRightBtn.disabled = scrollLeft >= scrollWidth - clientWidth - 1;
+}
+
+function scrollToActiveLink() {
+    const activeLink = document.querySelector('.horizontal-nav-link.active');
+    const scrollContainer = document.querySelector('.horizontal-nav-scroll');
+    
+    if (activeLink && scrollContainer) {
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const linkRect = activeLink.getBoundingClientRect();
+        
+        const scrollLeft = activeLink.offsetLeft - (containerRect.width / 2) + (linkRect.width / 2);
+        
+        scrollContainer.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth'
+        });
+    }
+}
+
+function navigateToPage(pageName) {
+    // Hide all pages
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show target page
+    const targetPage = document.getElementById(pageName);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Close mobile menu if open
+    closeMobileMenu();
+}
+
+function updateBreadcrumbs(pageName) {
+    const breadcrumbs = document.getElementById('breadcrumbs');
+    if (!breadcrumbs) return;
+    
+    const pageTitles = {
+        'home': 'Home',
+        'programming-languages': 'Programming Languages',
+        'coding-schemes': 'Coding Schemes',
+        'number-systems': 'Number Systems',
+        'compiler': 'Compiler',
+        'challenges': 'Challenges',
+        'progress': 'Progress',
+        'gamification': 'Achievements',
+        'ai-tutor': 'AI Tutor',
+        'ai-bot': 'AI Bot',
+        'playground': 'Interactive Playground',
+        'projects': 'Projects'
+    };
+    
+    const title = pageTitles[pageName] || pageName;
+    
+    breadcrumbs.innerHTML = `
+        <span class="breadcrumb-item">Home</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">${title}</span>
+    `;
 }
 
 

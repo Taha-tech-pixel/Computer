@@ -238,6 +238,164 @@ body::before {
     transform: translateY(-2px);
 }
 
+/* Horizontal Scrolling Navigation */
+.horizontal-nav-container {
+    position: relative;
+    margin: 1rem 2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.horizontal-nav-scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+}
+
+.horizontal-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.horizontal-nav {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    min-width: max-content;
+}
+
+.horizontal-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+}
+
+.horizontal-nav-link:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    color: #667eea;
+}
+
+.horizontal-nav-link.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: #667eea;
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.horizontal-nav-link i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.horizontal-nav-link:hover i {
+    transform: scale(1.1);
+}
+
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.scroll-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: translateY(-50%) scale(1);
+}
+
+.scroll-left {
+    left: 10px;
+}
+
+.scroll-right {
+    right: 10px;
+}
+
+/* Responsive Horizontal Navigation */
+@media (max-width: 768px) {
+    .horizontal-nav-container {
+        margin: 0.5rem 1rem;
+    }
+    
+    .horizontal-nav {
+        gap: 0.25rem;
+        padding: 0.75rem;
+    }
+    
+    .horizontal-nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .horizontal-nav-link i {
+        font-size: 0.9rem;
+    }
+    
+    .scroll-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .scroll-btn i {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .horizontal-nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .horizontal-nav-link i {
+        font-size: 0.8rem;
+    }
+    
+    .scroll-btn {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .scroll-btn i {
+        font-size: 0.7rem;
+    }
+}
+
 /* Breadcrumbs */
 .breadcrumbs {
     background: #f8f9fa;
@@ -1935,6 +2093,7 @@ body::before {
     flex: 1;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     border: 1px solid #e0e0e0;
+    color: #333;
 }
 
 .user-message .message-content {
@@ -1953,7 +2112,7 @@ body::before {
 
 .sender-name {
     font-weight: 600;
-    color: #667eea;
+    color: #333;
 }
 
 .user-message .sender-name {
@@ -1961,7 +2120,7 @@ body::before {
 }
 
 .message-time {
-    color: #999;
+    color: #666;
     font-size: 0.8rem;
 }
 
@@ -1972,6 +2131,7 @@ body::before {
 .message-content p {
     margin: 0 0 15px 0;
     line-height: 1.6;
+    color: #333;
 }
 
 .message-content ul {
@@ -1982,6 +2142,7 @@ body::before {
 .message-content li {
     margin-bottom: 8px;
     line-height: 1.5;
+    color: #333;
 }
 
 .message-content code {
