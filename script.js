@@ -1,5 +1,7 @@
 // Learning Platform - Main JavaScript File
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Starting initialization...');
+    
     // Initialize authentication
     initAuthentication();
     
@@ -24,10 +26,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize accessibility features
     initAccessibility();
     
+    // Initialize advanced enhancements
+    if (typeof initAdvancedEnhancementsOnReady === 'function') {
+        initAdvancedEnhancementsOnReady();
+    }
+    
     // Show home page by default
     const homePage = document.getElementById('home');
     if (homePage) {
         homePage.classList.add('active');
+        console.log('Home page activated');
+    } else {
+        console.error('Home page element not found!');
     }
     
     // Show welcome popup for first-time users
@@ -37,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
             showWelcomePopup();
         }, 1000);
     }
+    
+    console.log('Initialization complete');
 });
 
 // User Authentication System
@@ -686,13 +698,16 @@ function scrollToActiveLink() {
     }
 }
 
-function navigateToPage(pageId) {
+// Global navigation function
+window.navigateToPage = function(pageId) {
     console.log('Navigating to page:', pageId);
     
     // Hide all pages
     const pages = document.querySelectorAll('.page');
+    console.log('Found', pages.length, 'pages');
     pages.forEach(page => {
         page.classList.remove('active');
+        console.log('Removed active from:', page.id);
     });
     
     // Show target page
@@ -700,8 +715,11 @@ function navigateToPage(pageId) {
     if (targetPage) {
         targetPage.classList.add('active');
         console.log('Page activated:', pageId);
+        
+        // Force a reflow to ensure the page is visible
+        targetPage.offsetHeight;
     } else {
-        console.log('Page not found:', pageId);
+        console.error('Page not found:', pageId);
     }
     
     // Update navigation links
@@ -731,6 +749,11 @@ function navigateToPage(pageId) {
     setTimeout(() => {
         scrollToActiveLink();
     }, 100);
+};
+
+// Local function that calls the global one
+function navigateToPage(pageId) {
+    window.navigateToPage(pageId);
 }
 
 // Mobile Navigation
@@ -787,4 +810,95 @@ function initProgress() {
 function initAIResponses() {
     console.log('Initializing AI responses...');
     // AI responses functionality will be added here
+}
+
+// Missing essential functions
+let userProgress = {
+    completedChallenges: {},
+    achievements: [],
+    streak: 0,
+    lastActivity: null
+};
+
+function showWelcomePopup() {
+    const welcomePopup = document.getElementById('welcomePopup');
+    if (welcomePopup) {
+        welcomePopup.style.display = 'flex';
+        setTimeout(() => {
+            welcomePopup.style.display = 'none';
+        }, 5000);
+    }
+}
+
+function showNotification(message, type = 'info', duration = 5000) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 300);
+    }, duration);
+}
+
+function updateProgressDisplay() {
+    const progressContainer = document.getElementById('progressContainer');
+    if (!progressContainer) return;
+    
+    const totalChallenges = Object.keys(userProgress.completedChallenges).length;
+    const totalAchievements = userProgress.achievements.length;
+    
+    progressContainer.innerHTML = `
+        <div class="progress-stats">
+            <div class="stat-card">
+                <h3>${totalChallenges}</h3>
+                <p>Challenges Completed</p>
+            </div>
+            <div class="stat-card">
+                <h3>${totalAchievements}</h3>
+                <p>Achievements Earned</p>
+            </div>
+            <div class="stat-card">
+                <h3>${userProgress.streak}</h3>
+                <p>Day Streak</p>
+            </div>
+        </div>
+    `;
+}
+
+// Close AI feedback modal
+function closeAIFeedbackModal() {
+    const feedbackModal = document.getElementById('aiFeedbackModal');
+    if (feedbackModal) {
+        feedbackModal.style.display = 'none';
+    }
+}
+
+// Close collaboration modal
+function closeCollaborationModal() {
+    const collaborationModal = document.getElementById('collaborationModal');
+    if (collaborationModal) {
+        collaborationModal.style.display = 'none';
+    }
 }

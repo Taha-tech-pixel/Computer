@@ -299,13 +299,15 @@ function initAdvancedAnimations() {
     });
 }
 
-// Helper function for navigation
+// Helper function for navigation (fallback only)
 function navigateToPage(pageId) {
-    // Try to use existing navigation function if available
+    // Only use this if the main navigation function is not available
     if (typeof window.navigateToPage === 'function') {
         window.navigateToPage(pageId);
         return;
     }
+    
+    console.log('Using fallback navigation for:', pageId);
     
     // Fallback navigation
     const pages = document.querySelectorAll('.page');
@@ -328,8 +330,8 @@ function navigateToPage(pageId) {
     }
 }
 
-// Load saved theme on page load
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize advanced enhancements when main script is ready
+function initAdvancedEnhancementsOnReady() {
     const savedTheme = localStorage.getItem('currentTheme');
     if (savedTheme) {
         applyTheme(savedTheme);
@@ -337,4 +339,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize advanced enhancements
     initAdvancedEnhancements();
-});
+}
