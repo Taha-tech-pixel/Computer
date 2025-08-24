@@ -410,35 +410,1072 @@ help(package = "ggplot2")</code></pre>
                 </div>
             </div>
 
+            <!-- Complete R Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>📊 Complete R Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"R for Data Science" by Hadley Wickham</li>
-                            <li>"The Art of R Programming" by Norman Matloff</li>
-                            <li>"R Cookbook" by Paul Teetor</li>
-                        </ul>
+                        <h4>Advanced Data Analysis & Statistics</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced statistical analysis in R
+library(tidyverse)
+library(broom)
+library(modelr)
+
+# Complex statistical modeling
+perform_advanced_analysis <- function(data) {
+  # Multiple regression with interaction terms
+  model1 <- lm(mpg ~ wt * hp + qsec + factor(cyl), data = mtcars)
+  
+  # Model diagnostics
+  model_summary <- tidy(model1)
+  model_stats <- glance(model1)
+  residuals_data <- augment(model1)
+  
+  # ANOVA
+  anova_results <- anova(model1)
+  
+  # Polynomial regression
+  poly_model <- lm(mpg ~ poly(wt, 3) + hp, data = mtcars)
+  
+  # Logistic regression
+  mtcars$high_mpg <- ifelse(mtcars$mpg > median(mtcars$mpg), 1, 0)
+  logit_model <- glm(high_mpg ~ wt + hp + qsec, 
+                     data = mtcars, family = binomial)
+  
+  # Model comparison
+  model_comparison <- AIC(model1, poly_model, logit_model)
+  
+  return(list(
+    linear_model = model_summary,
+    model_stats = model_stats,
+    residuals = residuals_data,
+    anova = anova_results,
+    polynomial = tidy(poly_model),
+    logistic = tidy(logit_model),
+    comparison = model_comparison
+  ))
+}
+
+# Bayesian analysis with rstanarm
+library(rstanarm)
+library(bayesplot)
+
+bayesian_analysis <- function(data) {
+  # Bayesian linear regression
+  bayes_model <- stan_glm(mpg ~ wt + hp + qsec, 
+                          data = mtcars,
+                          prior = normal(0, 1),
+                          chains = 4, iter = 2000)
+  
+  # Posterior analysis
+  posterior <- as.matrix(bayes_model)
+  mcmc_areas(posterior, pars = c("wt", "hp", "qsec"))
+  
+  # Posterior predictive checks
+  pp_check(bayes_model, nreps = 100)
+  
+  return(bayes_model)
+}
+
+# Time series analysis
+library(forecast)
+library(tseries)
+
+time_series_analysis <- function(ts_data) {
+  # Decomposition
+  decomp <- decompose(ts_data)
+  
+  # Stationarity tests
+  adf_test <- adf.test(ts_data)
+  kpss_test <- kpss.test(ts_data)
+  
+  # ARIMA modeling
+  auto_arima <- auto.arima(ts_data)
+  arima_forecast <- forecast(auto_arima, h = 12)
+  
+  # Exponential smoothing
+  ets_model <- ets(ts_data)
+  ets_forecast <- forecast(ets_model, h = 12)
+  
+  # Seasonal decomposition
+  stl_decomp <- stl(ts_data, s.window = "periodic")
+  
+  return(list(
+    decomposition = decomp,
+    stationarity = list(adf = adf_test, kpss = kpss_test),
+    arima = auto_arima,
+    arima_forecast = arima_forecast,
+    ets = ets_model,
+    ets_forecast = ets_forecast,
+    stl = stl_decomp
+  ))
+}
+
+# Survival analysis
+library(survival)
+library(survminer)
+
+survival_analysis <- function(data) {
+  # Kaplan-Meier survival curves
+  km_fit <- survfit(Surv(time, status) ~ group, data = data)
+  
+  # Cox proportional hazards model
+  cox_model <- coxph(Surv(time, status) ~ age + sex + group, data = data)
+  
+  # Test proportional hazards assumption
+  ph_test <- cox.zph(cox_model)
+  
+  # Parametric survival models
+  weibull_model <- survreg(Surv(time, status) ~ age + sex + group, 
+                          data = data, dist = "weibull")
+  
+  return(list(
+    kaplan_meier = km_fit,
+    cox_model = cox_model,
+    ph_assumption = ph_test,
+    weibull = weibull_model
+  ))
+}</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://cran.r-project.org" target="_blank">CRAN - The Comprehensive R Archive Network</a></li>
-                            <li><a href="https://www.r-project.org" target="_blank">The R Project for Statistical Computing</a></li>
-                            <li><a href="https://rstudio.com" target="_blank">RStudio IDE</a></li>
-                        </ul>
+                        <h4>Data Manipulation & Tidyverse</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced data manipulation with tidyverse
+library(tidyverse)
+library(lubridate)
+library(stringr)
+
+# Complex data transformations
+advanced_data_processing <- function() {
+  # Create sample dataset
+  sales_data <- tibble(
+    date = seq(as.Date("2020-01-01"), as.Date("2023-12-31"), by = "day"),
+    product = sample(c("A", "B", "C", "D"), length(date), replace = TRUE),
+    region = sample(c("North", "South", "East", "West"), length(date), replace = TRUE),
+    sales = rnorm(length(date), mean = 1000, sd = 200),
+    units = rpois(length(date), lambda = 50)
+  ) %>%
+    mutate(
+      year = year(date),
+      month = month(date, label = TRUE),
+      quarter = quarter(date),
+      weekday = wday(date, label = TRUE),
+      revenue = sales * units
+    )
+  
+  # Advanced grouping and summarization
+  monthly_summary <- sales_data %>%
+    group_by(year, month, product, region) %>%
+    summarise(
+      total_revenue = sum(revenue),
+      avg_daily_sales = mean(sales),
+      total_units = sum(units),
+      days_with_sales = n(),
+      .groups = "drop"
+    ) %>%
+    # Calculate rolling averages
+    arrange(year, month) %>%
+    group_by(product, region) %>%
+    mutate(
+      rolling_3m_revenue = slider::slide_dbl(total_revenue, mean, .before = 2),
+      revenue_growth = (total_revenue - lag(total_revenue)) / lag(total_revenue) * 100,
+      cumulative_revenue = cumsum(total_revenue)
+    ) %>%
+    ungroup()
+  
+  # Pivot operations
+  revenue_matrix <- monthly_summary %>%
+    select(year, month, product, region, total_revenue) %>%
+    pivot_wider(names_from = c(product, region), 
+                values_from = total_revenue,
+                names_sep = "_",
+                values_fill = 0)
+  
+  # Complex joins and window functions
+  product_performance <- sales_data %>%
+    group_by(product) %>%
+    summarise(
+      total_revenue = sum(revenue),
+      avg_revenue = mean(revenue),
+      revenue_std = sd(revenue),
+      .groups = "drop"
+    ) %>%
+    mutate(
+      revenue_rank = row_number(desc(total_revenue)),
+      revenue_percentile = percent_rank(total_revenue),
+      z_score = (total_revenue - mean(total_revenue)) / sd(total_revenue)
+    )
+  
+  # Advanced string operations
+  text_analysis <- tibble(
+    text = c("Product A sales increased", "Product B declined", "Product C stable")
+  ) %>%
+    mutate(
+      words = str_split(text, "\\s+"),
+      word_count = map_int(words, length),
+      has_increase = str_detect(text, "increase|up|grow"),
+      has_decrease = str_detect(text, "decline|down|fall"),
+      sentiment = case_when(
+        has_increase ~ "positive",
+        has_decrease ~ "negative",
+        TRUE ~ "neutral"
+      )
+    )
+  
+  return(list(
+    raw_data = sales_data,
+    monthly_summary = monthly_summary,
+    revenue_matrix = revenue_matrix,
+    product_performance = product_performance,
+    text_analysis = text_analysis
+  ))
+}
+
+# Functional programming with purrr
+library(purrr)
+
+functional_programming_examples <- function() {
+  # Map functions with different outputs
+  numbers <- list(1:5, 6:10, 11:15)
+  
+  # Apply functions to lists
+  sums <- map_dbl(numbers, sum)
+  means <- map_dbl(numbers, mean)
+  ranges <- map(numbers, range)
+  
+  # Nested mapping
+  nested_data <- list(
+    group1 = list(a = 1:5, b = 6:10),
+    group2 = list(c = 11:15, d = 16:20)
+  )
+  
+  nested_means <- map(nested_data, ~ map_dbl(.x, mean))
+  
+  # Advanced iteration patterns
+  models <- mtcars %>%
+    split(.$cyl) %>%
+    map(~ lm(mpg ~ wt + hp, data = .x)) %>%
+    map(tidy)
+  
+  # Cross products and combinations
+  params <- cross_df(list(
+    method = c("lm", "glm"),
+    formula = c("mpg ~ wt", "mpg ~ wt + hp"),
+    data = list(mtcars)
+  ))
+  
+  # Safely handle errors
+  safe_log <- safely(log)
+  results <- map(c(1, -1, "a"), safe_log)
+  
+  return(list(
+    simple_maps = list(sums = sums, means = means, ranges = ranges),
+    nested_maps = nested_means,
+    models = models,
+    parameters = params,
+    safe_results = results
+  ))
+}</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>R-bloggers</li>
-                            <li>Stack Overflow R tag</li>
-                            <li>Reddit r/rstats</li>
-                        </ul>
+                        <h4>Machine Learning & Modeling</h4>
+                        <div class="code-example">
+                            <pre><code># Machine learning in R
+library(caret)
+library(randomForest)
+library(xgboost)
+library(e1071)
+
+# Comprehensive ML pipeline
+ml_pipeline <- function(data, target_var) {
+  # Data preprocessing
+  preprocess_data <- function(data) {
+    # Handle missing values
+    numeric_vars <- select_if(data, is.numeric)
+    factor_vars <- select_if(data, is.factor)
+    
+    # Impute missing values
+    numeric_imputed <- mice::mice(numeric_vars, method = 'pmm', printFlag = FALSE)
+    numeric_complete <- mice::complete(numeric_imputed)
+    
+    # Feature engineering
+    engineered_features <- numeric_complete %>%
+      mutate(
+        # Polynomial features
+        across(where(is.numeric), list(sq = ~ .x^2), .names = "{.col}_{.fn}"),
+        # Interaction terms
+        wt_hp_interaction = wt * hp,
+        # Binned features
+        wt_binned = cut(wt, breaks = 5, labels = c("very_light", "light", "medium", "heavy", "very_heavy"))
+      )
+    
+    return(engineered_features)
+  }
+  
+  # Split data
+  set.seed(123)
+  train_index <- createDataPartition(data[[target_var]], p = 0.8, list = FALSE)
+  train_data <- data[train_index, ]
+  test_data <- data[-train_index, ]
+  
+  # Preprocess
+  train_processed <- preprocess_data(train_data)
+  test_processed <- preprocess_data(test_data)
+  
+  # Cross-validation setup
+  ctrl <- trainControl(
+    method = "cv",
+    number = 10,
+    summaryFunction = defaultSummary,
+    classProbs = TRUE,
+    savePredictions = TRUE
+  )
+  
+  # Train multiple models
+  models <- list()
+  
+  # Random Forest
+  models$rf <- train(
+    as.formula(paste(target_var, "~ .")),
+    data = train_processed,
+    method = "rf",
+    trControl = ctrl,
+    tuneLength = 5,
+    importance = TRUE
+  )
+  
+  # XGBoost
+  models$xgb <- train(
+    as.formula(paste(target_var, "~ .")),
+    data = train_processed,
+    method = "xgbTree",
+    trControl = ctrl,
+    tuneLength = 3
+  )
+  
+  # SVM
+  models$svm <- train(
+    as.formula(paste(target_var, "~ .")),
+    data = train_processed,
+    method = "svmRadial",
+    trControl = ctrl,
+    tuneLength = 5
+  )
+  
+  # Ensemble model
+  ensemble_predictions <- data.frame(
+    rf = predict(models$rf, test_processed),
+    xgb = predict(models$xgb, test_processed),
+    svm = predict(models$svm, test_processed)
+  )
+  
+  # Simple ensemble (average)
+  ensemble_predictions$ensemble <- rowMeans(ensemble_predictions)
+  
+  # Model evaluation
+  evaluate_model <- function(predictions, actual) {
+    list(
+      rmse = sqrt(mean((predictions - actual)^2)),
+      mae = mean(abs(predictions - actual)),
+      r_squared = cor(predictions, actual)^2
+    )
+  }
+  
+  evaluations <- map(ensemble_predictions, ~ evaluate_model(.x, test_data[[target_var]]))
+  
+  return(list(
+    models = models,
+    predictions = ensemble_predictions,
+    evaluations = evaluations,
+    train_data = train_processed,
+    test_data = test_processed
+  ))
+}
+
+# Deep learning with torch
+library(torch)
+library(luz)
+
+neural_network_example <- function() {
+  # Define neural network
+  net <- nn_module(
+    "SimpleNet",
+    initialize = function(input_size, hidden_size, output_size) {
+      self$fc1 <- nn_linear(input_size, hidden_size)
+      self$fc2 <- nn_linear(hidden_size, hidden_size)
+      self$fc3 <- nn_linear(hidden_size, output_size)
+      self$dropout <- nn_dropout(0.2)
+    },
+    forward = function(x) {
+      x %>%
+        self$fc1() %>%
+        nnf_relu() %>%
+        self$dropout() %>%
+        self$fc2() %>%
+        nnf_relu() %>%
+        self$dropout() %>%
+        self$fc3()
+    }
+  )
+  
+  # Prepare data
+  x <- torch_randn(1000, 10)
+  y <- torch_randn(1000, 1)
+  
+  # Create dataset
+  dataset <- dataset(
+    initialize = function() {
+      self$x <- x
+      self$y <- y
+    },
+    .getitem = function(i) {
+      list(x = self$x[i, ], y = self$y[i, ])
+    },
+    .length = function() {
+      self$x$size(1)
+    }
+  )
+  
+  # Train model
+  fitted <- net %>%
+    setup(
+      loss = nn_mse_loss(),
+      optimizer = optim_adam,
+      metrics = list(luz_metric_mae())
+    ) %>%
+    set_hparams(input_size = 10, hidden_size = 64, output_size = 1) %>%
+    fit(dataset(), epochs = 100, verbose = FALSE)
+  
+  return(fitted)
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Data Visualization & Reporting</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced data visualization with ggplot2
+library(ggplot2)
+library(plotly)
+library(gganimate)
+library(patchwork)
+
+# Complex visualization functions
+advanced_visualizations <- function(data) {
+  
+  # Multi-panel dashboard
+  create_dashboard <- function(data) {
+    # Time series plot
+    p1 <- data %>%
+      ggplot(aes(x = date, y = revenue, color = product)) +
+      geom_line(size = 1.2) +
+      geom_smooth(method = "loess", se = FALSE, alpha = 0.7) +
+      scale_x_date(date_labels = "%Y-%m") +
+      scale_y_continuous(labels = scales::dollar_format()) +
+      labs(title = "Revenue Trends by Product", x = "Date", y = "Revenue") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    
+    # Distribution plot
+    p2 <- data %>%
+      ggplot(aes(x = product, y = revenue, fill = product)) +
+      geom_violin(alpha = 0.7) +
+      geom_boxplot(width = 0.2, alpha = 0.8) +
+      stat_summary(fun = mean, geom = "point", size = 3, color = "red") +
+      scale_y_continuous(labels = scales::dollar_format()) +
+      labs(title = "Revenue Distribution by Product", x = "Product", y = "Revenue") +
+      theme_minimal() +
+      theme(legend.position = "none")
+    
+    # Correlation heatmap
+    cor_data <- data %>%
+      select_if(is.numeric) %>%
+      cor(use = "complete.obs") %>%
+      as.data.frame() %>%
+      rownames_to_column("var1") %>%
+      pivot_longer(-var1, names_to = "var2", values_to = "correlation")
+    
+    p3 <- cor_data %>%
+      ggplot(aes(x = var1, y = var2, fill = correlation)) +
+      geom_tile() +
+      scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+      labs(title = "Correlation Matrix", x = "", y = "") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    
+    # Geographic plot (if applicable)
+    p4 <- data %>%
+      group_by(region) %>%
+      summarise(total_revenue = sum(revenue), .groups = "drop") %>%
+      ggplot(aes(x = reorder(region, total_revenue), y = total_revenue, fill = region)) +
+      geom_col() +
+      coord_flip() +
+      scale_y_continuous(labels = scales::dollar_format()) +
+      labs(title = "Revenue by Region", x = "Region", y = "Total Revenue") +
+      theme_minimal() +
+      theme(legend.position = "none")
+    
+    # Combine plots
+    dashboard <- (p1 + p2) / (p3 + p4)
+    return(dashboard)
+  }
+  
+  # Interactive plots with plotly
+  create_interactive_plot <- function(data) {
+    p <- data %>%
+      ggplot(aes(x = date, y = revenue, color = product, 
+                 text = paste("Date:", date, "<br>Revenue:", scales::dollar(revenue), 
+                             "<br>Product:", product))) +
+      geom_line() +
+      geom_point() +
+      labs(title = "Interactive Revenue Plot", x = "Date", y = "Revenue") +
+      theme_minimal()
+    
+    ggplotly(p, tooltip = "text")
+  }
+  
+  # Animated plot
+  create_animated_plot <- function(data) {
+    data %>%
+      group_by(year, product) %>%
+      summarise(total_revenue = sum(revenue), .groups = "drop") %>%
+      ggplot(aes(x = product, y = total_revenue, fill = product)) +
+      geom_col() +
+      scale_y_continuous(labels = scales::dollar_format()) +
+      labs(title = "Revenue by Product: {closest_state}", 
+           x = "Product", y = "Total Revenue") +
+      theme_minimal() +
+      theme(legend.position = "none") +
+      transition_states(year, transition_length = 2, state_length = 1) +
+      ease_aes("sine-in-out")
+  }
+  
+  return(list(
+    dashboard = create_dashboard(data),
+    interactive = create_interactive_plot(data),
+    animated = create_animated_plot(data)
+  ))
+}
+
+# R Markdown and reporting
+create_automated_report <- function(data, output_file = "analysis_report.html") {
+  # Dynamic report generation
+  report_template <- '
+---
+title: "Automated Data Analysis Report"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(DT)
+library(plotly)
+```
+
+# Executive Summary
+
+This report provides an automated analysis of the dataset containing `r nrow(data)` observations.
+
+## Key Metrics
+
+```{r}
+summary_stats <- data %>%
+  summarise(
+    total_revenue = sum(revenue, na.rm = TRUE),
+    avg_revenue = mean(revenue, na.rm = TRUE),
+    revenue_std = sd(revenue, na.rm = TRUE),
+    unique_products = n_distinct(product),
+    date_range = paste(min(date), "to", max(date))
+  )
+
+knitr::kable(summary_stats, format.args = list(big.mark = ","))
+```
+
+## Revenue Analysis
+
+```{r}
+revenue_plot <- data %>%
+  group_by(date, product) %>%
+  summarise(daily_revenue = sum(revenue), .groups = "drop") %>%
+  ggplot(aes(x = date, y = daily_revenue, color = product)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(title = "Daily Revenue Trends", x = "Date", y = "Revenue") +
+  theme_minimal()
+
+ggplotly(revenue_plot)
+```
+
+## Data Table
+
+```{r}
+data %>%
+  head(100) %>%
+  datatable(options = list(scrollX = TRUE, pageLength = 10))
+```
+  '
+  
+  # Write and render report
+  writeLines(report_template, "temp_report.Rmd")
+  rmarkdown::render("temp_report.Rmd", output_file = output_file)
+  file.remove("temp_report.Rmd")
+  
+  return(paste("Report generated:", output_file))
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Package Development & Advanced R</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced R programming and package development
+library(devtools)
+library(roxygen2)
+library(testthat)
+
+# S4 Object-Oriented Programming
+setClass("DataAnalyzer",
+  slots = list(
+    data = "data.frame",
+    results = "list",
+    metadata = "list"
+  ),
+  prototype = list(
+    data = data.frame(),
+    results = list(),
+    metadata = list(created = Sys.time())
+  )
+)
+
+# S4 Methods
+setMethod("initialize", "DataAnalyzer",
+  function(.Object, data = data.frame(), ...) {
+    .Object@data <- data
+    .Object@metadata <- list(
+      created = Sys.time(),
+      rows = nrow(data),
+      cols = ncol(data),
+      ...
+    )
+    .Object
+  }
+)
+
+setGeneric("analyze", function(object, ...) standardGeneric("analyze"))
+
+setMethod("analyze", "DataAnalyzer",
+  function(object, methods = c("summary", "correlation")) {
+    results <- list()
+    
+    if ("summary" %in% methods) {
+      results$summary <- summary(object@data)
+    }
+    
+    if ("correlation" %in% methods) {
+      numeric_data <- select_if(object@data, is.numeric)
+      if (ncol(numeric_data) > 1) {
+        results$correlation <- cor(numeric_data, use = "complete.obs")
+      }
+    }
+    
+    object@results <- results
+    return(object)
+  }
+)
+
+# Advanced function programming
+create_analysis_pipeline <- function(...) {
+  steps <- list(...)
+  
+  function(data) {
+    result <- data
+    for (step in steps) {
+      result <- step(result)
+    }
+    return(result)
+  }
+}
+
+# Functional operators
+`%>%` <- magrittr::`%>%`
+
+# Custom operators
+`%not_in%` <- function(x, table) {
+  !(x %in% table)
+}
+
+# Metaprogramming with rlang
+library(rlang)
+
+dynamic_filter <- function(data, ...) {
+  conditions <- enquos(...)
+  
+  for (condition in conditions) {
+    data <- filter(data, !!condition)
+  }
+  
+  return(data)
+}
+
+dynamic_summarise <- function(data, group_vars, summary_vars) {
+  group_vars <- syms(group_vars)
+  
+  data %>%
+    group_by(!!!group_vars) %>%
+    summarise(
+      across(all_of(summary_vars), 
+             list(mean = mean, sd = sd, min = min, max = max),
+             na.rm = TRUE),
+      .groups = "drop"
+    )
+}
+
+# Package development structure
+create_package_structure <- function(package_name) {
+  # Create package skeleton
+  create_package(package_name)
+  
+  # Example function with documentation
+  function_template <- paste0('
+#\' Advanced Data Analysis Function
+#\'
+#\' This function performs comprehensive data analysis including
+#\' summary statistics, correlation analysis, and visualization.
+#\'
+#\' @param data A data frame containing the data to analyze
+#\' @param target_var Character string specifying the target variable
+#\' @param methods Character vector of analysis methods to apply
+#\' @return A list containing analysis results
+#\' @export
+#\' @examples
+#\' \\dontrun{
+#\' result <- analyze_data(mtcars, "mpg", c("summary", "correlation"))
+#\' }
+analyze_data <- function(data, target_var = NULL, methods = c("summary")) {
+  results <- list()
+  
+  # Input validation
+  if (!is.data.frame(data)) {
+    stop("Data must be a data frame")
+  }
+  
+  if (nrow(data) == 0) {
+    warning("Data frame is empty")
+    return(results)
+  }
+  
+  # Analysis methods
+  if ("summary" %in% methods) {
+    results$summary <- summary(data)
+  }
+  
+  if ("correlation" %in% methods) {
+    numeric_vars <- select_if(data, is.numeric)
+    if (ncol(numeric_vars) > 1) {
+      results$correlation <- cor(numeric_vars, use = "complete.obs")
+    }
+  }
+  
+  if ("regression" %in% methods && !is.null(target_var)) {
+    if (target_var %in% names(data)) {
+      formula_str <- paste(target_var, "~ .")
+      results$regression <- lm(as.formula(formula_str), data = data)
+    }
+  }
+  
+  class(results) <- "analysis_results"
+  return(results)
+}
+
+#\' Print method for analysis results
+#\' @export
+print.analysis_results <- function(x, ...) {
+  cat("Analysis Results\\n")
+  cat("================\\n")
+  cat("Methods applied:", names(x), "\\n")
+  
+  if ("summary" %in% names(x)) {
+    cat("\\nSummary Statistics:\\n")
+    print(x$summary)
+  }
+  
+  if ("correlation" %in% names(x)) {
+    cat("\\nCorrelation Matrix:\\n")
+    print(round(x$correlation, 3))
+  }
+  
+  if ("regression" %in% names(x)) {
+    cat("\\nRegression Results:\\n")
+    print(summary(x$regression))
+  }
+}
+')
+  
+  # Write function to R/ directory
+  writeLines(function_template, file.path(package_name, "R", "analyze_data.R"))
+  
+  # Create tests
+  test_template <- '
+test_that("analyze_data works correctly", {
+  # Test with mtcars data
+  result <- analyze_data(mtcars, methods = c("summary", "correlation"))
+  
+  expect_is(result, "analysis_results")
+  expect_true("summary" %in% names(result))
+  expect_true("correlation" %in% names(result))
+  
+  # Test error handling
+  expect_error(analyze_data("not_a_dataframe"))
+})
+'
+  
+  dir.create(file.path(package_name, "tests", "testthat"), recursive = TRUE)
+  writeLines(test_template, file.path(package_name, "tests", "testthat", "test-analyze_data.R"))
+  
+  return(paste("Package structure created for:", package_name))
+}
+
+# Performance optimization
+library(microbenchmark)
+library(profvis)
+
+performance_comparison <- function() {
+  # Compare different approaches
+  data <- data.frame(x = rnorm(10000), y = rnorm(10000))
+  
+  benchmark_results <- microbenchmark(
+    base_r = {
+      result <- data$x + data$y
+    },
+    vectorized = {
+      result <- with(data, x + y)
+    },
+    dplyr = {
+      result <- data %>% mutate(result = x + y) %>% pull(result)
+    },
+    times = 100
+  )
+  
+  return(benchmark_results)
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Big Data & Parallel Computing</h4>
+                        <div class="code-example">
+                            <pre><code># Big data processing and parallel computing in R
+library(data.table)
+library(parallel)
+library(foreach)
+library(doParallel)
+library(arrow)
+
+# Data.table for large datasets
+big_data_processing <- function() {
+  # Create large dataset
+  n <- 1e6
+  dt <- data.table(
+    id = 1:n,
+    group = sample(LETTERS[1:10], n, replace = TRUE),
+    value1 = rnorm(n),
+    value2 = rnorm(n),
+    date = sample(seq(as.Date("2020-01-01"), as.Date("2023-12-31"), by = "day"), n, replace = TRUE)
+  )
+  
+  # Fast aggregation
+  result1 <- dt[, .(
+    mean_value1 = mean(value1),
+    sum_value2 = sum(value2),
+    count = .N
+  ), by = .(group, month = month(date))]
+  
+  # Rolling calculations
+  dt[, rolling_mean := frollmean(value1, 30), by = group]
+  
+  # Efficient joins
+  lookup_table <- data.table(
+    group = LETTERS[1:10],
+    group_name = paste("Group", LETTERS[1:10]),
+    multiplier = runif(10, 0.5, 2)
+  )
+  
+  merged_dt <- dt[lookup_table, on = "group", nomatch = 0]
+  
+  # Fast filtering and updates
+  dt[value1 > 0, adjusted_value := value1 * 1.1]
+  dt[value1 <= 0, adjusted_value := value1 * 0.9]
+  
+  return(list(
+    original = dt,
+    aggregated = result1,
+    merged = merged_dt
+  ))
+}
+
+# Parallel processing
+parallel_processing_examples <- function() {
+  # Set up parallel backend
+  cores <- detectCores() - 1
+  cl <- makeCluster(cores)
+  registerDoParallel(cl)
+  
+  # Parallel computation with foreach
+  large_computation <- function(n) {
+    foreach(i = 1:n, .combine = rbind, .packages = c("dplyr")) %dopar% {
+      # Simulate computation
+      data <- data.frame(
+        id = i,
+        result = sum(rnorm(1000)),
+        mean_result = mean(rnorm(1000))
+      )
+      data
+    }
+  }
+  
+  # Parallel apply functions
+  data_list <- split(mtcars, mtcars$cyl)
+  
+  parallel_results <- parLapply(cl, data_list, function(x) {
+    lm(mpg ~ wt + hp, data = x)
+  })
+  
+  # Parallel Monte Carlo simulation
+  monte_carlo_parallel <- function(n_simulations = 10000) {
+    foreach(i = 1:n_simulations, .combine = c) %dopar% {
+      # Simulate random walk
+      steps <- cumsum(sample(c(-1, 1), 100, replace = TRUE))
+      max(steps)
+    }
+  }
+  
+  mc_results <- monte_carlo_parallel(1000)
+  
+  # Clean up
+  stopCluster(cl)
+  
+  return(list(
+    large_computation = large_computation(100),
+    parallel_models = parallel_results,
+    monte_carlo = summary(mc_results)
+  ))
+}
+
+# Apache Arrow for big data
+arrow_processing <- function() {
+  # Write large dataset to Parquet
+  large_data <- data.frame(
+    id = 1:1e6,
+    category = sample(letters[1:5], 1e6, replace = TRUE),
+    value = rnorm(1e6),
+    timestamp = seq(as.POSIXct("2020-01-01"), by = "min", length.out = 1e6)
+  )
+  
+  # Write to Parquet format
+  write_parquet(large_data, "large_dataset.parquet")
+  
+  # Read and process with Arrow
+  dataset <- open_dataset("large_dataset.parquet")
+  
+  # Lazy evaluation with Arrow
+  result <- dataset %>%
+    filter(category %in% c("a", "b", "c")) %>%
+    group_by(category) %>%
+    summarise(
+      mean_value = mean(value),
+      count = n(),
+      .groups = "drop"
+    ) %>%
+    collect()
+  
+  # Streaming processing for very large data
+  process_in_chunks <- function(file_path, chunk_size = 10000) {
+    total_sum <- 0
+    total_count <- 0
+    
+    # Open dataset
+    ds <- open_dataset(file_path)
+    
+    # Process in batches
+    scanner <- Scanner$create(ds)
+    
+    while (TRUE) {
+      batch <- scanner$ToRecordBatch()
+      if (is.null(batch)) break
+      
+      # Process batch
+      chunk_data <- as.data.frame(batch)
+      total_sum <- total_sum + sum(chunk_data$value)
+      total_count <- total_count + nrow(chunk_data)
+    }
+    
+    return(list(
+      total_sum = total_sum,
+      count = total_count,
+      mean = total_sum / total_count
+    ))
+  }
+  
+  return(result)
+}
+
+# Memory-efficient processing
+memory_efficient_processing <- function() {
+  # Use connections for large files
+  process_large_csv <- function(file_path) {
+    con <- file(file_path, "r")
+    on.exit(close(con))
+    
+    # Read header
+    header <- readLines(con, n = 1)
+    col_names <- strsplit(header, ",")[[1]]
+    
+    # Process in chunks
+    chunk_size <- 1000
+    results <- list()
+    
+    while (length(chunk <- readLines(con, n = chunk_size)) > 0) {
+      # Parse chunk
+      chunk_data <- read.csv(textConnection(paste(chunk, collapse = "\n")), 
+                            header = FALSE, col.names = col_names)
+      
+      # Process chunk
+      chunk_result <- chunk_data %>%
+        summarise(across(where(is.numeric), mean, na.rm = TRUE))
+      
+      results <- append(results, list(chunk_result))
+    }
+    
+    # Combine results
+    do.call(rbind, results)
+  }
+  
+  # Memory monitoring
+  memory_usage <- function(expr) {
+    gc_before <- gc(reset = TRUE)
+    result <- eval(expr)
+    gc_after <- gc()
+    
+    memory_used <- sum(gc_after[, "used"]) - sum(gc_before[, "used"])
+    
+    list(
+      result = result,
+      memory_mb = memory_used / 1024^2
+    )
+  }
+  
+  return(list(
+    csv_processor = process_large_csv,
+    memory_monitor = memory_usage
+  ))
+}</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

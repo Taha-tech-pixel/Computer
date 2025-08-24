@@ -297,35 +297,376 @@ sub process_data {
                 </div>
             </div>
 
+            <!-- Complete Perl Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>🐪 Complete Perl Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"Learning Perl" by Randal L. Schwartz</li>
-                            <li>"Programming Perl" by Larry Wall</li>
-                            <li>"Modern Perl" by chromatic</li>
-                        </ul>
+                        <h4>Advanced Text Processing & Regex</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use strict;
+use warnings;
+
+# Named capture groups and advanced regex
+my $text = "Contact: john.doe@example.com (555) 123-4567";
+if ($text =~ /(?<email>[\w.]+@[\w.]+).*(?<phone>\(\d{3}\)\s\d{3}-\d{4})/) {
+    print "Email: $+{email}, Phone: $+{phone}\n";
+}
+
+# Complex text extraction and processing
+my @lines = (
+    "Name: John Doe, Age: 30, City: New York",
+    "Name: Jane Smith, Age: 25, City: Los Angeles"
+);
+
+foreach my $line (@lines) {
+    $line =~ s/Name:\s*(\w+\s+\w+),\s*Age:\s*(\d+),\s*City:\s*(.+)/$1 is $2 years old in $3/;
+    print "$line\n";
+}
+
+# Multi-line regex with structured data
+my $html = '<div><h2>John</h2><p>john@example.com</p></div>';
+while ($html =~ /<div>\s*<h2>(.*?)<\/h2>\s*<p>(.*?)<\/p>\s*<\/div>/gs) {
+    print "User: $1, Email: $2\n";
+}</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://perldoc.perl.org" target="_blank">Perl Documentation</a></li>
-                            <li><a href="https://www.perl.org" target="_blank">Perl.org</a></li>
-                            <li><a href="https://metacpan.org" target="_blank">MetaCPAN</a></li>
-                        </ul>
+                        <h4>Modern Perl OOP & Moose</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use Moose;
+use MooseX::StrictConstructor;
+
+# Modern Perl class with Moose
+package Person {
+    use Moose;
+    
+    has 'first_name' => (is => 'rw', isa => 'Str', required => 1);
+    has 'last_name' => (is => 'rw', isa => 'Str', required => 1);
+    has 'age' => (
+        is => 'rw',
+        isa => 'Int',
+        trigger => sub {
+            my ($self, $new_age) = @_;
+            die "Age cannot be negative" if $new_age < 0;
+        }
+    );
+    
+    has 'email' => (
+        is => 'rw',
+        isa => 'Str',
+        lazy => 1,
+        builder => '_build_email',
+    );
+    
+    sub _build_email {
+        my $self = shift;
+        return lc($self->first_name . '.' . $self->last_name . '@example.com');
+    }
+    
+    sub full_name {
+        my $self = shift;
+        return $self->first_name . ' ' . $self->last_name;
+    }
+    
+    __PACKAGE__->meta->make_immutable;
+}
+
+# Role-based composition
+package Walkable {
+    use Moose::Role;
+    requires 'name';
+    
+    sub walk { $_[0]->name . " is walking" }
+}
+
+# Usage
+my $person = Person->new(first_name => 'John', last_name => 'Doe', age => 30);
+print $person->full_name() . " - " . $person->email() . "\n";</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>Perl Monks</li>
-                            <li>Stack Overflow Perl tag</li>
-                            <li>Reddit r/perl</li>
-                        </ul>
+                        <h4>Data Structures & References</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use strict;
+use warnings;
+
+# Complex nested data structures
+my $company = {
+    name => 'Tech Corp',
+    employees => [
+        {
+            id => 1,
+            name => 'John Doe',
+            skills => ['Perl', 'Python', 'JavaScript'],
+            projects => [
+                { name => 'Project A', status => 'active' },
+                { name => 'Project B', status => 'completed' }
+            ]
+        }
+    ]
+};
+
+# Higher-order functions and closures
+sub create_counter {
+    my $count = shift || 0;
+    return sub { return ++$count; };
+}
+
+my $counter = create_counter(10);
+print "Count: " . $counter->() . "\n";  # 11
+
+# Functional programming patterns
+sub map_transform {
+    my ($array_ref, $transform_sub) = @_;
+    return [map { $transform_sub->($_) } @$array_ref];
+}
+
+my @numbers = (1, 2, 3, 4, 5);
+my $squares = map_transform(\@numbers, sub { $_[0] ** 2 });
+print "Squares: " . join(', ', @$squares) . "\n";
+
+# Matrix operations
+my @matrix = ([1, 2, 3], [4, 5, 6], [7, 8, 9]);
+sub transpose_matrix {
+    my $matrix_ref = shift;
+    my @transposed = ();
+    for my $col (0..$#{$matrix_ref->[0]}) {
+        for my $row (0..$#{$matrix_ref}) {
+            $transposed[$col][$row] = $matrix_ref->[$row][$col];
+        }
+    }
+    return \@transposed;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>File Processing & System Integration</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Find;
+use DBI;
+use JSON;
+
+# Advanced file processing
+sub process_log_files {
+    my ($directory, $pattern) = @_;
+    my %stats = ();
+    
+    find(sub {
+        return unless -f $_ && /$pattern/;
+        
+        open my $fh, '<', $_ or die "Cannot open $_: $!";
+        while (my $line = <$fh>) {
+            if ($line =~ /^(\d{4}-\d{2}-\d{2})\s+.*\[(\w+)\]/) {
+                $stats{$1}{$2}++;
+            }
+        }
+        close $fh;
+    }, $directory);
+    
+    return \%stats;
+}
+
+# Database integration
+sub create_db_connection {
+    my ($dsn, $user, $password) = @_;
+    return DBI->connect($dsn, $user, $password, {
+        RaiseError => 1,
+        AutoCommit => 0,
+    });
+}
+
+# System monitoring
+sub monitor_system {
+    my $stats = {};
+    
+    # Memory usage from /proc/meminfo
+    if (open my $meminfo, '<', '/proc/meminfo') {
+        my %mem = ();
+        while (my $line = <$meminfo>) {
+            if ($line =~ /^(\w+):\s+(\d+)\s+kB$/) {
+                $mem{$1} = $2;
+            }
+        }
+        $stats->{memory_usage} = sprintf("%.2f", 
+            (($mem{MemTotal} - $mem{MemAvailable}) / $mem{MemTotal}) * 100);
+        close $meminfo;
+    }
+    
+    return $stats;
+}
+
+# Configuration file parsing
+sub parse_config {
+    my ($filename) = @_;
+    my %config = ();
+    my $section = 'default';
+    
+    open my $fh, '<', $filename or die "Cannot open $filename: $!";
+    while (my $line = <$fh>) {
+        chomp $line;
+        next if $line =~ /^#/ || $line eq '';
+        
+        if ($line =~ /^\[(.+)\]$/) {
+            $section = $1;
+        } elsif ($line =~ /^(.+?)\s*=\s*(.+)$/) {
+            $config{$section}{$1} = $2;
+        }
+    }
+    close $fh;
+    return \%config;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Web Development & Modern Features</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use Mojolicious::Lite;
+use feature 'signatures';
+
+# Modern web API with Mojolicious
+get '/' => sub {
+    my $c = shift;
+    $c->render(json => { message => 'Perl API' });
+};
+
+get '/users/:id' => sub {
+    my $c = shift;
+    my $id = $c->param('id');
+    $c->render(json => { 
+        id => $id, 
+        name => "User $id",
+        email => "user$id\@example.com"
+    });
+};
+
+post '/users' => sub {
+    my $c = shift;
+    my $data = $c->req->json;
+    
+    unless ($data->{name} && $data->{email}) {
+        return $c->render(json => { 
+            error => 'Name and email required' 
+        }, status => 400);
+    }
+    
+    $c->render(json => {
+        id => int(rand(1000)),
+        %$data,
+        created_at => time()
+    }, status => 201);
+};
+
+# Modern Perl signatures (5.20+)
+no warnings 'experimental::signatures';
+
+sub calculate_total($items, $tax_rate = 0.08) {
+    my $subtotal = 0;
+    $subtotal += $_->{price} for @$items;
+    return $subtotal * (1 + $tax_rate);
+}
+
+# Postmodern object system
+use Object::Pad;
+
+class BankAccount {
+    has $balance :param = 0;
+    has $owner :param :reader;
+    
+    method deposit($amount) {
+        die "Amount must be positive" if $amount <= 0;
+        $balance += $amount;
+        return $balance;
+    }
+    
+    method withdraw($amount) {
+        die "Insufficient funds" if $amount > $balance;
+        $balance -= $amount;
+        return $balance;
+    }
+    
+    method balance() { return $balance }
+}
+
+# Usage
+my $account = BankAccount->new(owner => 'John', balance => 1000);
+$account->deposit(500);
+print "Balance: " . $account->balance() . "\n";</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Testing & Performance</h4>
+                        <div class="code-example">
+                            <pre><code>#!/usr/bin/perl
+use Test::More;
+use Test::Exception;
+use Benchmark qw(cmpthese);
+use Memoize;
+
+# Comprehensive testing
+package Calculator {
+    sub new { bless {}, shift }
+    sub add { $_[1] + $_[2] }
+    sub divide { 
+        die "Division by zero" if $_[2] == 0;
+        return $_[1] / $_[2];
+    }
+}
+
+subtest 'Calculator Tests' => sub {
+    my $calc = Calculator->new();
+    
+    is($calc->add(2, 3), 5, 'Addition works');
+    dies_ok { $calc->divide(10, 0) } 'Division by zero throws error';
+};
+
+# Performance optimization with memoization
+sub fibonacci {
+    my $n = shift;
+    return $n if $n <= 1;
+    return fibonacci($n - 1) + fibonacci($n - 2);
+}
+memoize('fibonacci');
+
+# Benchmarking different approaches
+sub benchmark_strings {
+    my @strings = map { "string_$_" } 1..1000;
+    
+    cmpthese(-3, {
+        'join' => sub { my $result = join('', @strings); },
+        'concat' => sub { 
+            my $result = '';
+            $result .= $_ for @strings;
+        }
+    });
+}
+
+# Memory-efficient processing
+sub process_large_file {
+    my ($filename) = @_;
+    my %word_count = ();
+    
+    open my $fh, '<', $filename or die $!;
+    while (my $line = <$fh>) {
+        my @words = split /\W+/, lc($line);
+        $word_count{$_}++ for grep { length > 2 } @words;
+    }
+    close $fh;
+    
+    # Return top 10 words
+    my @top = sort { $word_count{$b} <=> $word_count{$a} } keys %word_count;
+    return [map { { word => $_, count => $word_count{$_} } } splice(@top, 0, 10)];
+}
+
+done_testing();</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

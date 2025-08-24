@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode - Universal Character Encoding Standard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#number-system" class="nav-link">Numbers</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>🌍 Unicode - Universal Character Encoding Standard</h1>
+            <p>The comprehensive character encoding system supporting virtually all writing systems and languages worldwide</p>
+        </div>
+
+        <div class="content-container">
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2>🔍 Overview</h2>
+                <div class="overview-content">
+                    <p>Unicode is a universal character encoding standard that provides a unique number for every character across different platforms, programs, and languages. It supports over 1.1 million characters and is the foundation for modern text processing and internationalization.</p>
+                    
+                    <div class="key-facts">
+                        <div class="fact-item">
+                            <i class="fas fa-calendar"></i>
+                            <h4>Developed</h4>
+                            <p>1991 (first published)</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-binary"></i>
+                            <h4>Code Points</h4>
+                            <p>1,114,112 total</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-globe"></i>
+                            <h4>Languages</h4>
+                            <p>150+ writing systems</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            <h4>Backward Compatible</h4>
+                            <p>With ASCII</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unicode Planes and Blocks -->
+            <div class="section-card">
+                <h2>📊 Unicode Planes and Blocks</h2>
+                <div class="planes-grid">
+                    <div class="plane-card">
+                        <h3>Basic Multilingual Plane (BMP) - Plane 0</h3>
+                        <p>U+0000 to U+FFFF (65,536 code points)</p>
+                        <div class="code-example">
+                            <pre><code>// Common BMP ranges
+U+0000-U+007F: Basic Latin (ASCII)
+U+0080-U+00FF: Latin-1 Supplement
+U+0100-U+017F: Latin Extended-A
+U+0180-U+024F: Latin Extended-B
+U+0400-U+04FF: Cyrillic
+U+4E00-U+9FFF: CJK Unified Ideographs
+U+1F600-U+1F64F: Emoticons
+U+1F300-U+1F5FF: Miscellaneous Symbols</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="plane-card">
+                        <h3>Supplementary Planes</h3>
+                        <p>Planes 1-16 (1,048,576 code points)</p>
+                        <div class="code-example">
+                            <pre><code>// Supplementary Plane examples
+Plane 1 (SMP): U+10000-U+1FFFF
+- Musical symbols
+- Ancient scripts
+- Mathematical symbols
+
+Plane 2 (SIP): U+20000-U+2FFFF
+- CJK Unified Ideographs Extension B
+
+Plane 14 (SSP): U+E0000-U+EFFFF
+- Special-purpose planes
+- Private use areas</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UTF Encoding Forms -->
+            <div class="section-card">
+                <h2>🔧 UTF Encoding Forms</h2>
+                <div class="utf-grid">
+                    <div class="utf-card">
+                        <h3>UTF-8 (8-bit Unicode Transformation Format)</h3>
+                        <p>Variable-width encoding that uses 1 to 4 bytes per character</p>
+                        <div class="code-example">
+                            <pre><code>// UTF-8 encoding examples
+'A' = 41 (1 byte)      - ASCII compatible
+'ñ' = C3 B1 (2 bytes)  - Latin-1 Supplement
+'中' = E4 B8 AD (3 bytes) - CJK
+'😀' = F0 9F 98 80 (4 bytes) - Emoji
+
+// UTF-8 encoding rules
+0xxxxxxx: 1 byte (ASCII)
+110xxxxx 10xxxxxx: 2 bytes
+1110xxxx 10xxxxxx 10xxxxxx: 3 bytes
+11110xxx 10xxxxxx 10xxxxxx 10xxxxxx: 4 bytes</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="utf-card">
+                        <h3>UTF-16 (16-bit Unicode Transformation Format)</h3>
+                        <p>Variable-width encoding using 16-bit code units</p>
+                        <div class="code-example">
+                            <pre><code>// UTF-16 encoding examples
+'A' = 0041 (1 code unit)
+'ñ' = 00F1 (1 code unit)
+'中' = 4E2D (1 code unit)
+'😀' = D83D DE00 (2 code units - surrogate pair)
+
+// Surrogate pairs for supplementary characters
+High surrogate: D800-DBFF
+Low surrogate: DC00-DFFF
+Code point = (high - D800) × 400 + (low - DC00) + 10000</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="utf-card">
+                        <h3>UTF-32 (32-bit Unicode Transformation Format)</h3>
+                        <p>Fixed-width encoding using 32-bit code units</p>
+                        <div class="code-example">
+                            <pre><code>// UTF-32 encoding examples
+'A' = 00000041 (4 bytes)
+'ñ' = 000000F1 (4 bytes)
+'中' = 00004E2D (4 bytes)
+'😀' = 0001F600 (4 bytes)
+
+// Direct code point representation
+// Each character uses exactly 4 bytes
+// No encoding/decoding complexity</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Implementation Examples -->
+            <div class="section-card">
+                <h2>💻 Implementation Examples</h2>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// Unicode conversion functions
+function charToUnicode(char) {
+    return char.codePointAt(0);
+}
+
+function unicodeToChar(codePoint) {
+    return String.fromCodePoint(codePoint);
+}
+
+// Convert string to Unicode code points
+function stringToUnicode(str) {
+    return Array.from(str).map(char => char.codePointAt(0));
+}
+
+// Convert Unicode code points to string
+function unicodeToString(codePoints) {
+    return String.fromCodePoint(...codePoints);
+}
+
+// UTF-8 encoding
+function encodeUTF8(str) {
+    const encoder = new TextEncoder();
+    return Array.from(encoder.encode(str));
+}
+
+// UTF-8 decoding
+function decodeUTF8(bytes) {
+    const decoder = new TextDecoder();
+    return decoder.decode(new Uint8Array(bytes));
+}
+
+// Example usage
+console.log(charToUnicode('A')); // 65
+console.log(charToUnicode('ñ')); // 241
+console.log(charToUnicode('中')); // 20013
+console.log(charToUnicode('😀')); // 128512</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code># Unicode conversion functions
+def char_to_unicode(char):
+    return ord(char)
+
+def unicode_to_char(code_point):
+    return chr(code_point)
+
+# Convert string to Unicode code points
+def string_to_unicode(text):
+    return [ord(char) for char in text]
+
+# Convert Unicode code points to string
+def unicode_to_string(code_points):
+    return ''.join(chr(cp) for cp in code_points)
+
+# UTF-8 encoding/decoding
+def encode_utf8(text):
+    return text.encode('utf-8')
+
+def decode_utf8(bytes_data):
+    return bytes_data.decode('utf-8')
+
+# Unicode normalization
+import unicodedata
+
+def normalize_unicode(text, form='NFC'):
+    return unicodedata.normalize(form, text)
+
+# Example usage
+print(char_to_unicode('A'))    # 65
+print(char_to_unicode('ñ'))    # 241
+print(char_to_unicode('中'))   # 20013
+print(char_to_unicode('😀'))   # 128512
+
+# Normalization example
+text = 'café'  # e + acute accent
+normalized = normalize_unicode(text, 'NFC')
+print(normalized)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>Java Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
+
+public class UnicodeExamples {
+    
+    // Unicode conversion functions
+    public static int charToUnicode(char c) {
+        return (int) c;
+    }
+    
+    public static int charToUnicode(String str) {
+        return str.codePointAt(0);
+    }
+    
+    public static String unicodeToChar(int codePoint) {
+        return new String(Character.toChars(codePoint));
+    }
+    
+    // Convert string to Unicode code points
+    public static int[] stringToUnicode(String str) {
+        return str.codePoints().toArray();
+    }
+    
+    // Convert Unicode code points to string
+    public static String unicodeToString(int[] codePoints) {
+        return new String(codePoints, 0, codePoints.length);
+    }
+    
+    // UTF-8 encoding/decoding
+    public static byte[] encodeUTF8(String text) {
+        return text.getBytes(StandardCharsets.UTF_8);
+    }
+    
+    public static String decodeUTF8(byte[] bytes) {
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+    
+    // Unicode normalization
+    public static String normalizeUnicode(String text) {
+        return Normalizer.normalize(text, Normalizer.Form.NFC);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(charToUnicode("A"));    // 65
+        System.out.println(charToUnicode("ñ"));    // 241
+        System.out.println(charToUnicode("中"));   // 20013
+        System.out.println(charToUnicode("😀"));   // 128512
+        
+        // UTF-8 example
+        String text = "Hello, 世界! 😀";
+        byte[] utf8Bytes = encodeUTF8(text);
+        String decoded = decodeUTF8(utf8Bytes);
+        System.out.println(decoded);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practical Applications -->
+            <div class="section-card">
+                <h2>🔧 Practical Applications</h2>
+                <div class="applications-grid">
+                    <div class="application-card">
+                        <h3>Internationalization (i18n)</h3>
+                        <div class="code-example">
+                            <pre><code>// Multi-language text processing
+const messages = {
+    'en': 'Hello, World!',
+    'es': '¡Hola, Mundo!',
+    'fr': 'Bonjour, le Monde!',
+    'de': 'Hallo, Welt!',
+    'ja': 'こんにちは、世界！',
+    'zh': '你好，世界！',
+    'ar': 'مرحبا بالعالم!',
+    'ru': 'Привет, мир!'
+};
+
+function getLocalizedMessage(locale, key) {
+    return messages[locale] || messages['en'];
+}
+
+// Unicode-aware string operations
+function getStringLength(str) {
+    return Array.from(str).length; // Correct for multi-byte chars
+}
+
+function reverseString(str) {
+    return Array.from(str).reverse().join('');
+}
+
+// Example
+console.log(getStringLength('Hello, 世界!')); // 9 (not 13)
+console.log(reverseString('Hello, 世界!')); // '!界世 ,olleH'</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="application-card">
+                        <h3>Text Normalization</h3>
+                        <div class="code-example">
+                            <pre><code>// Unicode normalization forms
+function normalizeText(text, form = 'NFC') {
+    return text.normalize(form);
+}
+
+// Different normalization forms
+const text = 'café'; // e + acute accent
+
+console.log(normalizeText(text, 'NFC'));  // Composed form
+console.log(normalizeText(text, 'NFD'));  // Decomposed form
+console.log(normalizeText(text, 'NFKC')); // Compatibility composed
+console.log(normalizeText(text, 'NFKD')); // Compatibility decomposed
+
+// Case-insensitive comparison
+function compareIgnoreCase(str1, str2) {
+    return str1.toLowerCase().normalize() === 
+           str2.toLowerCase().normalize();
+}
+
+// Example
+console.log(compareIgnoreCase('café', 'CAFÉ')); // true</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="application-card">
+                        <h3>Emoji and Symbol Processing</h3>
+                        <div class="code-example">
+                            <pre><code>// Emoji processing
+function extractEmojis(text) {
+    const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+    return text.match(emojiRegex) || [];
+}
+
+function countEmojis(text) {
+    return extractEmojis(text).length;
+}
+
+// Unicode property escapes (ES2018+)
+function isLetter(char) {
+    return /\p{L}/u.test(char);
+}
+
+function isNumber(char) {
+    return /\p{N}/u.test(char);
+}
+
+function isSymbol(char) {
+    return /\p{S}/u.test(char);
+}
+
+// Example
+const text = "Hello 👋 World 🌍! 123";
+console.log(extractEmojis(text)); // ['👋', '🌍']
+console.log(countEmojis(text));   // 2
+console.log(isLetter('ñ'));       // true
+console.log(isNumber('𝟙'));       // true</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unicode Properties and Categories -->
+            <div class="section-card">
+                <h2>📋 Unicode Properties and Categories</h2>
+                <div class="properties-grid">
+                    <div class="property-card">
+                        <h3>General Categories</h3>
+                        <div class="code-example">
+                            <pre><code>// Unicode general categories
+Lu - Letter, uppercase
+Ll - Letter, lowercase
+Lt - Letter, titlecase
+Lm - Letter, modifier
+Lo - Letter, other
+
+Nd - Number, decimal digit
+Nl - Number, letter
+No - Number, other
+
+Pc - Punctuation, connector
+Pd - Punctuation, dash
+Ps - Punctuation, open
+Pe - Punctuation, close
+Pi - Punctuation, initial quote
+Pf - Punctuation, final quote
+Po - Punctuation, other
+
+Sc - Symbol, currency
+Sk - Symbol, modifier
+Sm - Symbol, math
+So - Symbol, other
+
+Zs - Separator, space
+Zl - Separator, line
+Zp - Separator, paragraph
+
+Cc - Other, control
+Cf - Other, format
+Cs - Other, surrogate
+Co - Other, private use
+Cn - Other, not assigned</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h3>Script Properties</h3>
+                        <div class="code-example">
+                            <pre><code>// Unicode script properties
+Latin - Latin script
+Greek - Greek script
+Cyrillic - Cyrillic script
+Han - Chinese characters
+Hiragana - Japanese hiragana
+Katakana - Japanese katakana
+Hangul - Korean hangul
+Arabic - Arabic script
+Devanagari - Devanagari script
+Thai - Thai script
+Hebrew - Hebrew script
+
+// Script detection
+function detectScript(text) {
+    const scripts = {
+        'Latin': /[\u0000-\u007F\u0080-\u00FF\u0100-\u017F]/,
+        'Greek': /[\u0370-\u03FF\u1F00-\u1FFF]/,
+        'Cyrillic': /[\u0400-\u04FF\u0500-\u052F]/,
+        'Han': /[\u4E00-\u9FFF\u3400-\u4DBF]/,
+        'Hiragana': /[\u3040-\u309F]/,
+        'Katakana': /[\u30A0-\u30FF]/,
+        'Hangul': /[\uAC00-\uD7AF\u1100-\u11FF]/,
+        'Arabic': /[\u0600-\u06FF\u0750-\u077F]/,
+        'Devanagari': /[\u0900-\u097F]/,
+        'Thai': /[\u0E00-\u0E7F]/,
+        'Hebrew': /[\u0590-\u05FF]/
+    };
+    
+    const detected = [];
+    for (const [script, regex] of Object.entries(scripts)) {
+        if (regex.test(text)) {
+            detected.push(script);
+        }
+    }
+    return detected;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Practices -->
+            <div class="section-card">
+                <h2>✅ Best Practices</h2>
+                <div class="best-practices-content">
+                    <div class="practice-card">
+                        <h3>String Operations</h3>
+                        <ul>
+                            <li>Use <code>Array.from()</code> or <code>[...str]</code> for character iteration</li>
+                            <li>Avoid <code>str.length</code> for multi-byte characters</li>
+                            <li>Use <code>codePointAt()</code> instead of <code>charCodeAt()</code></li>
+                            <li>Normalize strings before comparison</li>
+                        </ul>
+                    </div>
+                    <div class="practice-card">
+                        <h3>Encoding/Decoding</h3>
+                        <ul>
+                            <li>Always specify encoding when reading/writing files</li>
+                            <li>Use UTF-8 as the default encoding</li>
+                            <li>Handle encoding errors gracefully</li>
+                            <li>Validate input for proper Unicode sequences</li>
+                        </ul>
+                    </div>
+                    <div class="practice-card">
+                        <h3>Database and Storage</h3>
+                        <ul>
+                            <li>Use UTF-8 encoding for database columns</li>
+                            <li>Set proper collation for sorting</li>
+                            <li>Consider normalization for search operations</li>
+                            <li>Validate data before storage</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

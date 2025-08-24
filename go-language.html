@@ -750,29 +750,1483 @@ func main() {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Go Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🔵 Complete Go Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>Go language documentation and tutorials</p>
-                            <a href="https://golang.org/doc/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Advanced Go Features & Concurrency</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "context"
+    "fmt"
+    "sync"
+    "time"
+)
+
+// Advanced Go features and concurrency patterns
+type AdvancedGoFeatures struct{}
+
+// Worker pool pattern
+func workerPoolExample() {
+    const numWorkers = 3
+    const numJobs = 10
+    
+    jobs := make(chan int, numJobs)
+    results := make(chan int, numJobs)
+    
+    // Start workers
+    var wg sync.WaitGroup
+    for i := 0; i < numWorkers; i++ {
+        wg.Add(1)
+        go worker(i, jobs, results, &wg)
+    }
+    
+    // Send jobs
+    go func() {
+        for i := 1; i <= numJobs; i++ {
+            jobs <- i
+        }
+        close(jobs)
+    }()
+    
+    // Collect results
+    go func() {
+        wg.Wait()
+        close(results)
+    }()
+    
+    // Print results
+    for result := range results {
+        fmt.Printf("Result: %d\n", result)
+    }
+}
+
+func worker(id int, jobs <-chan int, results chan<- int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    for job := range jobs {
+        fmt.Printf("Worker %d processing job %d\n", id, job)
+        time.Sleep(time.Millisecond * 500) // Simulate work
+        results <- job * 2
+    }
+}
+
+// Context with cancellation
+func contextExample() {
+    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+    defer cancel()
+    
+    select {
+    case <-time.After(3 * time.Second):
+        fmt.Println("Operation completed")
+    case <-ctx.Done():
+        fmt.Println("Operation cancelled:", ctx.Err())
+    }
+}
+
+// Rate limiting
+type RateLimiter struct {
+    ticker *time.Ticker
+    stop   chan struct{}
+}
+
+func NewRateLimiter(rate time.Duration) *RateLimiter {
+    return &RateLimiter{
+        ticker: time.NewTicker(rate),
+        stop:   make(chan struct{}),
+    }
+}
+
+func (rl *RateLimiter) Wait() {
+    select {
+    case <-rl.ticker.C:
+        return
+    case <-rl.stop:
+        return
+    }
+}
+
+func (rl *RateLimiter) Stop() {
+    rl.ticker.Stop()
+    close(rl.stop)
+}
+
+// Pipeline pattern
+func pipelineExample() {
+    numbers := generateNumbers(1, 10)
+    squares := squareNumbers(numbers)
+    filtered := filterEven(squares)
+    
+    for result := range filtered {
+        fmt.Printf("Pipeline result: %d\n", result)
+    }
+}
+
+func generateNumbers(start, end int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for i := start; i <= end; i++ {
+            out <- i
+        }
+    }()
+    return out
+}
+
+func squareNumbers(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for num := range in {
+            out <- num * num
+        }
+    }()
+    return out
+}
+
+func filterEven(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for num := range in {
+            if num%2 == 0 {
+                out <- num
+            }
+        }
+    }()
+    return out
+}
+
+// Fan-out, fan-in pattern
+func fanOutFanInExample() {
+    numbers := generateNumbers(1, 20)
+    
+    // Fan-out: distribute work across multiple workers
+    workers := make([]<-chan int, 3)
+    for i := 0; i < 3; i++ {
+        workers[i] = processNumbers(numbers, i)
+    }
+    
+    // Fan-in: combine results from multiple workers
+    results := fanIn(workers...)
+    
+    for result := range results {
+        fmt.Printf("Fan-out/fan-in result: %d\n", result)
+    }
+}
+
+func processNumbers(in <-chan int, workerID int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for num := range in {
+            time.Sleep(time.Millisecond * 100) // Simulate work
+            out <- num * workerID
+        }
+    }()
+    return out
+}
+
+func fanIn(inputs ...<-chan int) <-chan int {
+    out := make(chan int)
+    var wg sync.WaitGroup
+    
+    for _, input := range inputs {
+        wg.Add(1)
+        go func(in <-chan int) {
+            defer wg.Done()
+            for num := range in {
+                out <- num
+            }
+        }(input)
+    }
+    
+    go func() {
+        wg.Wait()
+        close(out)
+    }()
+    
+    return out
+}
+
+// Mutex and atomic operations
+type SafeCounter struct {
+    mu    sync.RWMutex
+    count int64
+}
+
+func (sc *SafeCounter) Increment() {
+    sc.mu.Lock()
+    defer sc.mu.Unlock()
+    sc.count++
+}
+
+func (sc *SafeCounter) GetCount() int64 {
+    sc.mu.RLock()
+    defer sc.mu.RUnlock()
+    return sc.count
+}
+
+// Atomic counter
+type AtomicCounter struct {
+    count int64
+}
+
+func (ac *AtomicCounter) Increment() {
+    // atomic.AddInt64(&ac.count, 1)
+}
+
+func (ac *AtomicCounter) GetCount() int64 {
+    // return atomic.LoadInt64(&ac.count)
+    return ac.count
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Go Playground</h4>
-                            <p>Online editor to experiment with Go</p>
-                            <a href="https://play.golang.org/" target="_blank" class="btn btn-secondary">Try Online</a>
+                            <h4>Interfaces & Generics</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+// Advanced interfaces and generics
+type InterfaceExamples struct{}
+
+// Generic interfaces
+type Comparable[T any] interface {
+    Compare(other T) int
+}
+
+type Number interface {
+    ~int | ~float64 | ~float32 | ~int64 | ~int32
+}
+
+// Generic functions
+func Min[T Number](a, b T) T {
+    if a < b {
+        return a
+    }
+    return b
+}
+
+func Max[T Number](a, b T) T {
+    if a > b {
+        return b
+    }
+    return a
+}
+
+// Generic types
+type Stack[T any] struct {
+    items []T
+}
+
+func NewStack[T any]() *Stack[T] {
+    return &Stack[T]{
+        items: make([]T, 0),
+    }
+}
+
+func (s *Stack[T]) Push(item T) {
+    s.items = append(s.items, item)
+}
+
+func (s *Stack[T]) Pop() (T, error) {
+    if len(s.items) == 0 {
+        var zero T
+        return zero, fmt.Errorf("stack is empty")
+    }
+    
+    item := s.items[len(s.items)-1]
+    s.items = s.items[:len(s.items)-1]
+    return item, nil
+}
+
+func (s *Stack[T]) Peek() (T, error) {
+    if len(s.items) == 0 {
+        var zero T
+        return zero, fmt.Errorf("stack is empty")
+    }
+    return s.items[len(s.items)-1], nil
+}
+
+// Generic map operations
+func MapKeys[K comparable, V any](m map[K]V) []K {
+    keys := make([]K, 0, len(m))
+    for k := range m {
+        keys = append(keys, k)
+    }
+    return keys
+}
+
+func MapValues[K comparable, V any](m map[K]V) []V {
+    values := make([]V, 0, len(m))
+    for _, v := range m {
+        values = append(values, v)
+    }
+    return values
+}
+
+// Generic filter function
+func Filter[T any](slice []T, predicate func(T) bool) []T {
+    result := make([]T, 0)
+    for _, item := range slice {
+        if predicate(item) {
+            result = append(result, item)
+        }
+    }
+    return result
+}
+
+// Generic map function
+func Map[T, U any](slice []T, transform func(T) U) []U {
+    result := make([]U, len(slice))
+    for i, item := range slice {
+        result[i] = transform(item)
+    }
+    return result
+}
+
+// Generic reduce function
+func Reduce[T, U any](slice []T, initial U, reducer func(U, T) U) U {
+    result := initial
+    for _, item := range slice {
+        result = reducer(result, item)
+    }
+    return result
+}
+
+// Interface composition
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+
+type Closer interface {
+    Close() error
+}
+
+// Composed interface
+type ReadWriteCloser interface {
+    Reader
+    Writer
+    Closer
+}
+
+// Type constraints
+type Ordered interface {
+    ~int | ~int8 | ~int16 | ~int32 | ~int64 |
+    ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 |
+    ~float32 | ~float64 | ~string
+}
+
+func SortSlice[T Ordered](slice []T) {
+    sort.Slice(slice, func(i, j int) bool {
+        return slice[i] < slice[j]
+    })
+}
+
+// Generic struct with constraints
+type Container[T comparable] struct {
+    items map[T]bool
+}
+
+func NewContainer[T comparable]() *Container[T] {
+    return &Container[T]{
+        items: make(map[T]bool),
+    }
+}
+
+func (c *Container[T]) Add(item T) {
+    c.items[item] = true
+}
+
+func (c *Container[T]) Remove(item T) {
+    delete(c.items, item)
+}
+
+func (c *Container[T]) Contains(item T) bool {
+    return c.items[item]
+}
+
+func (c *Container[T]) Size() int {
+    return len(c.items)
+}
+
+// Generic method with type parameters
+type Processor[T any] struct {
+    transform func(T) T
+}
+
+func NewProcessor[T any](transform func(T) T) *Processor[T] {
+    return &Processor[T]{
+        transform: transform,
+    }
+}
+
+func (p *Processor[T]) Process(item T) T {
+    return p.transform(item)
+}
+
+func (p *Processor[T]) ProcessSlice(items []T) []T {
+    result := make([]T, len(items))
+    for i, item := range items {
+        result[i] = p.Process(item)
+    }
+    return result
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Go by Example</h4>
-                            <p>Hands-on introduction to Go using annotated example programs</p>
-                            <a href="https://gobyexample.com/" target="_blank" class="btn btn-secondary">Learn Examples</a>
+                            <h4>Error Handling & Testing</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "errors"
+    "fmt"
+    "testing"
+    "time"
+)
+
+// Advanced error handling and testing patterns
+type ErrorHandlingExamples struct{}
+
+// Custom error types
+type ValidationError struct {
+    Field   string
+    Message string
+}
+
+func (e ValidationError) Error() string {
+    return fmt.Sprintf("validation error on field %s: %s", e.Field, e.Message)
+}
+
+type BusinessError struct {
+    Code    int
+    Message string
+    Cause   error
+}
+
+func (e BusinessError) Error() string {
+    if e.Cause != nil {
+        return fmt.Sprintf("business error %d: %s (caused by: %v)", e.Code, e.Message, e.Cause)
+    }
+    return fmt.Sprintf("business error %d: %s", e.Code, e.Message)
+}
+
+func (e BusinessError) Unwrap() error {
+    return e.Cause
+}
+
+// Error wrapping and unwrapping
+func processUser(userID string) error {
+    user, err := fetchUser(userID)
+    if err != nil {
+        return fmt.Errorf("failed to fetch user %s: %w", userID, err)
+    }
+    
+    if err := validateUser(user); err != nil {
+        return fmt.Errorf("user validation failed: %w", err)
+    }
+    
+    return nil
+}
+
+func fetchUser(userID string) (*User, error) {
+    // Simulate database error
+    if userID == "invalid" {
+        return nil, errors.New("user not found")
+    }
+    return &User{ID: userID, Name: "John Doe"}, nil
+}
+
+func validateUser(user *User) error {
+    if user.Name == "" {
+        return ValidationError{Field: "name", Message: "name cannot be empty"}
+    }
+    return nil
+}
+
+// Error handling with context
+func processWithRetry(operation func() error, maxRetries int) error {
+    var lastErr error
+    for i := 0; i < maxRetries; i++ {
+        if err := operation(); err != nil {
+            lastErr = err
+            time.Sleep(time.Duration(i+1) * time.Second)
+            continue
+        }
+        return nil
+    }
+    return fmt.Errorf("operation failed after %d retries: %w", maxRetries, lastErr)
+}
+
+// Error handling with timeouts
+func processWithTimeout(operation func() error, timeout time.Duration) error {
+    done := make(chan error, 1)
+    
+    go func() {
+        done <- operation()
+    }()
+    
+    select {
+    case err := <-done:
+        return err
+    case <-time.After(timeout):
+        return errors.New("operation timed out")
+    }
+}
+
+// Testing patterns
+func TestUserValidation(t *testing.T) {
+    tests := []struct {
+        name    string
+        user    User
+        wantErr bool
+    }{
+        {
+            name:    "valid user",
+            user:    User{ID: "1", Name: "John"},
+            wantErr: false,
+        },
+        {
+            name:    "empty name",
+            user:    User{ID: "2", Name: ""},
+            wantErr: true,
+        },
+    }
+    
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            err := validateUser(&tt.user)
+            if (err != nil) != tt.wantErr {
+                t.Errorf("validateUser() error = %v, wantErr %v", err, tt.wantErr)
+            }
+        })
+    }
+}
+
+// Benchmark testing
+func BenchmarkStackPush(b *testing.B) {
+    stack := NewStack[int]()
+    b.ResetTimer()
+    
+    for i := 0; i < b.N; i++ {
+        stack.Push(i)
+    }
+}
+
+func BenchmarkStackPop(b *testing.B) {
+    stack := NewStack[int]()
+    for i := 0; i < b.N; i++ {
+        stack.Push(i)
+    }
+    
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        stack.Pop()
+    }
+}
+
+// Table-driven tests with subtests
+func TestStackOperations(t *testing.T) {
+    t.Run("push and pop", func(t *testing.T) {
+        stack := NewStack[int]()
+        
+        // Test push
+        stack.Push(1)
+        stack.Push(2)
+        stack.Push(3)
+        
+        if stack.Size() != 3 {
+            t.Errorf("Expected stack size 3, got %d", stack.Size())
+        }
+        
+        // Test pop
+        item, err := stack.Pop()
+        if err != nil {
+            t.Errorf("Unexpected error: %v", err)
+        }
+        if item != 3 {
+            t.Errorf("Expected 3, got %d", item)
+        }
+    })
+    
+    t.Run("empty stack", func(t *testing.T) {
+        stack := NewStack[int]()
+        
+        _, err := stack.Pop()
+        if err == nil {
+            t.Error("Expected error when popping from empty stack")
+        }
+    })
+}
+
+// Mock interfaces for testing
+type DataStore interface {
+    Get(key string) (string, error)
+    Set(key, value string) error
+}
+
+type MockDataStore struct {
+    data map[string]string
+}
+
+func NewMockDataStore() *MockDataStore {
+    return &MockDataStore{
+        data: make(map[string]string),
+    }
+}
+
+func (m *MockDataStore) Get(key string) (string, error) {
+    if value, exists := m.data[key]; exists {
+        return value, nil
+    }
+    return "", errors.New("key not found")
+}
+
+func (m *MockDataStore) Set(key, value string) error {
+    m.data[key] = value
+    return nil
+}
+
+// Test with mocks
+func TestDataService(t *testing.T) {
+    mockStore := NewMockDataStore()
+    service := NewDataService(mockStore)
+    
+    // Test setting and getting data
+    err := service.SetData("test-key", "test-value")
+    if err != nil {
+        t.Errorf("Unexpected error: %v", err)
+    }
+    
+    value, err := service.GetData("test-key")
+    if err != nil {
+        t.Errorf("Unexpected error: %v", err)
+    }
+    if value != "test-value" {
+        t.Errorf("Expected 'test-value', got '%s'", value)
+    }
+}
+
+type DataService struct {
+    store DataStore
+}
+
+func NewDataService(store DataStore) *DataService {
+    return &DataService{store: store}
+}
+
+func (ds *DataService) GetData(key string) (string, error) {
+    return ds.store.Get(key)
+}
+
+func (ds *DataService) SetData(key, value string) error {
+    return ds.store.Set(key, value)
+}
+
+type User struct {
+    ID   string
+    Name string
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Go Community</h4>
-                            <p>Stack Overflow, Reddit, and Go forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/go" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Web Development & HTTP</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "strconv"
+    "time"
+)
+
+// Advanced web development patterns
+type WebDevelopmentExamples struct{}
+
+// Middleware pattern
+type Middleware func(http.HandlerFunc) http.HandlerFunc
+
+func Chain(h http.HandlerFunc, middlewares ...Middleware) http.HandlerFunc {
+    for _, middleware := range middlewares {
+        h = middleware(h)
+    }
+    return h
+}
+
+func LoggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        next(w, r)
+        log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
+    }
+}
+
+func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        token := r.Header.Get("Authorization")
+        if token == "" {
+            http.Error(w, "Unauthorized", http.StatusUnauthorized)
+            return
+        }
+        next(w, r)
+    }
+}
+
+func CORSMiddleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        
+        if r.Method == "OPTIONS" {
+            w.WriteHeader(http.StatusOK)
+            return
+        }
+        
+        next(w, r)
+    }
+}
+
+// RESTful API handlers
+type UserHandler struct {
+    users map[int]*User
+    nextID int
+}
+
+func NewUserHandler() *UserHandler {
+    return &UserHandler{
+        users: make(map[int]*User),
+        nextID: 1,
+    }
+}
+
+func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
+    users := make([]*User, 0, len(h.users))
+    for _, user := range h.users {
+        users = append(users, user)
+    }
+    
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(users)
+}
+
+func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+    idStr := r.URL.Query().Get("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        http.Error(w, "Invalid user ID", http.StatusBadRequest)
+        return
+    }
+    
+    user, exists := h.users[id]
+    if !exists {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
+    
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(user)
+}
+
+func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    
+    var user User
+    if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+        http.Error(w, "Invalid request body", http.StatusBadRequest)
+        return
+    }
+    
+    user.ID = h.nextID
+    h.users[user.ID] = &user
+    h.nextID++
+    
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(user)
+}
+
+func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPut {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    
+    idStr := r.URL.Query().Get("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        http.Error(w, "Invalid user ID", http.StatusBadRequest)
+        return
+    }
+    
+    user, exists := h.users[id]
+    if !exists {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
+    
+    var updatedUser User
+    if err := json.NewDecoder(r.Body).Decode(&updatedUser); err != nil {
+        http.Error(w, "Invalid request body", http.StatusBadRequest)
+        return
+    }
+    
+    updatedUser.ID = id
+    h.users[id] = &updatedUser
+    
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(updatedUser)
+}
+
+func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodDelete {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    
+    idStr := r.URL.Query().Get("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        http.Error(w, "Invalid user ID", http.StatusBadRequest)
+        return
+    }
+    
+    if _, exists := h.users[id]; !exists {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
+    
+    delete(h.users, id)
+    w.WriteHeader(http.StatusNoContent)
+}
+
+// Rate limiting middleware
+type RateLimiter struct {
+    requests map[string][]time.Time
+    limit    int
+    window   time.Duration
+    mu       sync.RWMutex
+}
+
+func NewRateLimiter(limit int, window time.Duration) *RateLimiter {
+    return &RateLimiter{
+        requests: make(map[string][]time.Time),
+        limit:    limit,
+        window:   window,
+    }
+}
+
+func (rl *RateLimiter) Middleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        clientIP := r.RemoteAddr
+        
+        rl.mu.Lock()
+        now := time.Now()
+        windowStart := now.Add(-rl.window)
+        
+        // Clean old requests
+        if requests, exists := rl.requests[clientIP]; exists {
+            var validRequests []time.Time
+            for _, reqTime := range requests {
+                if reqTime.After(windowStart) {
+                    validRequests = append(validRequests, reqTime)
+                }
+            }
+            rl.requests[clientIP] = validRequests
+        }
+        
+        // Check rate limit
+        if len(rl.requests[clientIP]) >= rl.limit {
+            rl.mu.Unlock()
+            http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
+            return
+        }
+        
+        // Add current request
+        rl.requests[clientIP] = append(rl.requests[clientIP], now)
+        rl.mu.Unlock()
+        
+        next(w, r)
+    }
+}
+
+// Graceful shutdown
+func gracefulShutdown(server *http.Server, timeout time.Duration) {
+    quit := make(chan os.Signal, 1)
+    signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+    
+    <-quit
+    log.Println("Shutting down server...")
+    
+    ctx, cancel := context.WithTimeout(context.Background(), timeout)
+    defer cancel()
+    
+    if err := server.Shutdown(ctx); err != nil {
+        log.Fatal("Server forced to shutdown:", err)
+    }
+    
+    log.Println("Server exited")
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Database & ORM Patterns</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "context"
+    "database/sql"
+    "fmt"
+    "time"
+)
+
+// Database and ORM patterns
+type DatabaseExamples struct{}
+
+// Repository pattern
+type UserRepository interface {
+    Create(ctx context.Context, user *User) error
+    GetByID(ctx context.Context, id int) (*User, error)
+    Update(ctx context.Context, user *User) error
+    Delete(ctx context.Context, id int) error
+    List(ctx context.Context, limit, offset int) ([]*User, error)
+}
+
+type SQLUserRepository struct {
+    db *sql.DB
+}
+
+func NewSQLUserRepository(db *sql.DB) *SQLUserRepository {
+    return &SQLUserRepository{db: db}
+}
+
+func (r *SQLUserRepository) Create(ctx context.Context, user *User) error {
+    query := `INSERT INTO users (name, email, created_at) VALUES (?, ?, ?)`
+    result, err := r.db.ExecContext(ctx, query, user.Name, user.Email, time.Now())
+    if err != nil {
+        return fmt.Errorf("failed to create user: %w", err)
+    }
+    
+    id, err := result.LastInsertId()
+    if err != nil {
+        return fmt.Errorf("failed to get last insert id: %w", err)
+    }
+    
+    user.ID = int(id)
+    return nil
+}
+
+func (r *SQLUserRepository) GetByID(ctx context.Context, id int) (*User, error) {
+    query := `SELECT id, name, email, created_at FROM users WHERE id = ?`
+    user := &User{}
+    
+    err := r.db.QueryRowContext(ctx, query, id).Scan(
+        &user.ID, &user.Name, &user.Email, &user.CreatedAt,
+    )
+    if err != nil {
+        if err == sql.ErrNoRows {
+            return nil, fmt.Errorf("user not found: %d", id)
+        }
+        return nil, fmt.Errorf("failed to get user: %w", err)
+    }
+    
+    return user, nil
+}
+
+func (r *SQLUserRepository) Update(ctx context.Context, user *User) error {
+    query := `UPDATE users SET name = ?, email = ? WHERE id = ?`
+    result, err := r.db.ExecContext(ctx, query, user.Name, user.Email, user.ID)
+    if err != nil {
+        return fmt.Errorf("failed to update user: %w", err)
+    }
+    
+    rowsAffected, err := result.RowsAffected()
+    if err != nil {
+        return fmt.Errorf("failed to get rows affected: %w", err)
+    }
+    
+    if rowsAffected == 0 {
+        return fmt.Errorf("user not found: %d", user.ID)
+    }
+    
+    return nil
+}
+
+func (r *SQLUserRepository) Delete(ctx context.Context, id int) error {
+    query := `DELETE FROM users WHERE id = ?`
+    result, err := r.db.ExecContext(ctx, query, id)
+    if err != nil {
+        return fmt.Errorf("failed to delete user: %w", err)
+    }
+    
+    rowsAffected, err := result.RowsAffected()
+    if err != nil {
+        return fmt.Errorf("failed to get rows affected: %w", err)
+    }
+    
+    if rowsAffected == 0 {
+        return fmt.Errorf("user not found: %d", id)
+    }
+    
+    return nil
+}
+
+func (r *SQLUserRepository) List(ctx context.Context, limit, offset int) ([]*User, error) {
+    query := `SELECT id, name, email, created_at FROM users ORDER BY created_at DESC LIMIT ? OFFSET ?`
+    rows, err := r.db.QueryContext(ctx, query, limit, offset)
+    if err != nil {
+        return nil, fmt.Errorf("failed to query users: %w", err)
+    }
+    defer rows.Close()
+    
+    var users []*User
+    for rows.Next() {
+        user := &User{}
+        err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.CreatedAt)
+        if err != nil {
+            return nil, fmt.Errorf("failed to scan user: %w", err)
+        }
+        users = append(users, user)
+    }
+    
+    if err = rows.Err(); err != nil {
+        return nil, fmt.Errorf("error iterating rows: %w", err)
+    }
+    
+    return users, nil
+}
+
+// Transaction support
+type TransactionManager interface {
+    WithTransaction(ctx context.Context, fn func(tx *sql.Tx) error) error
+}
+
+type SQLTransactionManager struct {
+    db *sql.DB
+}
+
+func NewSQLTransactionManager(db *sql.DB) *SQLTransactionManager {
+    return &SQLTransactionManager{db: db}
+}
+
+func (tm *SQLTransactionManager) WithTransaction(ctx context.Context, fn func(tx *sql.Tx) error) error {
+    tx, err := tm.db.BeginTx(ctx, nil)
+    if err != nil {
+        return fmt.Errorf("failed to begin transaction: %w", err)
+    }
+    
+    defer func() {
+        if p := recover(); p != nil {
+            tx.Rollback()
+            panic(p)
+        }
+    }()
+    
+    if err := fn(tx); err != nil {
+        if rbErr := tx.Rollback(); rbErr != nil {
+            return fmt.Errorf("tx failed: %v, rollback failed: %v", err, rbErr)
+        }
+        return err
+    }
+    
+    if err := tx.Commit(); err != nil {
+        return fmt.Errorf("failed to commit transaction: %w", err)
+    }
+    
+    return nil
+}
+
+// Connection pooling
+type ConnectionPool struct {
+    db *sql.DB
+}
+
+func NewConnectionPool(dsn string, maxOpen, maxIdle int, maxLifetime time.Duration) (*ConnectionPool, error) {
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        return nil, fmt.Errorf("failed to open database: %w", err)
+    }
+    
+    db.SetMaxOpenConns(maxOpen)
+    db.SetMaxIdleConns(maxIdle)
+    db.SetConnMaxLifetime(maxLifetime)
+    
+    if err := db.Ping(); err != nil {
+        return nil, fmt.Errorf("failed to ping database: %w", err)
+    }
+    
+    return &ConnectionPool{db: db}, nil
+}
+
+func (cp *ConnectionPool) Close() error {
+    return cp.db.Close()
+}
+
+func (cp *ConnectionPool) DB() *sql.DB {
+    return cp.db
+}
+
+// Query builder pattern
+type QueryBuilder struct {
+    table   string
+    fields  []string
+    where   []string
+    args    []interface{}
+    orderBy string
+    limit   int
+    offset  int
+}
+
+func NewQueryBuilder(table string) *QueryBuilder {
+    return &QueryBuilder{
+        table:  table,
+        fields: []string{"*"},
+    }
+}
+
+func (qb *QueryBuilder) Select(fields ...string) *QueryBuilder {
+    qb.fields = fields
+    return qb
+}
+
+func (qb *QueryBuilder) Where(condition string, args ...interface{}) *QueryBuilder {
+    qb.where = append(qb.where, condition)
+    qb.args = append(qb.args, args...)
+    return qb
+}
+
+func (qb *QueryBuilder) OrderBy(orderBy string) *QueryBuilder {
+    qb.orderBy = orderBy
+    return qb
+}
+
+func (qb *QueryBuilder) Limit(limit int) *QueryBuilder {
+    qb.limit = limit
+    return qb
+}
+
+func (qb *QueryBuilder) Offset(offset int) *QueryBuilder {
+    qb.offset = offset
+    return qb
+}
+
+func (qb *QueryBuilder) Build() (string, []interface{}) {
+    query := fmt.Sprintf("SELECT %s FROM %s", joinFields(qb.fields), qb.table)
+    
+    if len(qb.where) > 0 {
+        query += " WHERE " + joinConditions(qb.where)
+    }
+    
+    if qb.orderBy != "" {
+        query += " ORDER BY " + qb.orderBy
+    }
+    
+    if qb.limit > 0 {
+        query += fmt.Sprintf(" LIMIT %d", qb.limit)
+    }
+    
+    if qb.offset > 0 {
+        query += fmt.Sprintf(" OFFSET %d", qb.offset)
+    }
+    
+    return query, qb.args
+}
+
+func joinFields(fields []string) string {
+    // Implementation for joining fields
+    return "*"
+}
+
+func joinConditions(conditions []string) string {
+    // Implementation for joining conditions
+    return ""
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Performance & Optimization</h4>
+                            <div class="code-example">
+                                <pre><code>package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+    "time"
+)
+
+// Performance optimization patterns
+type PerformanceExamples struct{}
+
+// Object pooling
+type ObjectPool[T any] struct {
+    pool sync.Pool
+}
+
+func NewObjectPool[T any](new func() T) *ObjectPool[T] {
+    return &ObjectPool[T]{
+        pool: sync.Pool{
+            New: func() interface{} {
+                return new()
+            },
+        },
+    }
+}
+
+func (p *ObjectPool[T]) Get() T {
+    return p.pool.Get().(T)
+}
+
+func (p *ObjectPool[T]) Put(obj T) {
+    p.pool.Put(obj)
+}
+
+// Memory-efficient string building
+type StringBuilder struct {
+    parts []string
+    size  int
+}
+
+func NewStringBuilder() *StringBuilder {
+    return &StringBuilder{
+        parts: make([]string, 0, 16),
+    }
+}
+
+func (sb *StringBuilder) Append(s string) *StringBuilder {
+    sb.parts = append(sb.parts, s)
+    sb.size += len(s)
+    return sb
+}
+
+func (sb *StringBuilder) String() string {
+    if len(sb.parts) == 0 {
+        return ""
+    }
+    
+    if len(sb.parts) == 1 {
+        return sb.parts[0]
+    }
+    
+    result := make([]byte, 0, sb.size)
+    for _, part := range sb.parts {
+        result = append(result, part...)
+    }
+    
+    return string(result)
+}
+
+// Efficient slice operations
+func efficientSliceOperations() {
+    // Pre-allocate slices with known capacity
+    items := make([]int, 0, 1000)
+    for i := 0; i < 1000; i++ {
+        items = append(items, i)
+    }
+    
+    // Use copy for slice operations
+    original := []int{1, 2, 3, 4, 5}
+    copy := make([]int, len(original))
+    copy(copy, original)
+    
+    // Efficient filtering
+    filtered := make([]int, 0, len(items))
+    for _, item := range items {
+        if item%2 == 0 {
+            filtered = append(filtered, item)
+        }
+    }
+}
+
+// Memory profiling
+func memoryProfiling() {
+    var m runtime.MemStats
+    runtime.ReadMemStats(&m)
+    
+    fmt.Printf("Alloc = %v MiB", bToMb(m.Alloc))
+    fmt.Printf("\tTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
+    fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
+    fmt.Printf("\tNumGC = %v\n", m.NumGC)
+}
+
+func bToMb(b uint64) uint64 {
+    return b / 1024 / 1024
+}
+
+// CPU profiling
+func cpuIntensiveTask() {
+    start := time.Now()
+    
+    // Simulate CPU-intensive work
+    for i := 0; i < 1000000; i++ {
+        _ = i * i
+    }
+    
+    duration := time.Since(start)
+    fmt.Printf("CPU task completed in %v\n", duration)
+}
+
+// Goroutine leak prevention
+func safeGoroutineExample() {
+    done := make(chan bool)
+    
+    go func() {
+        defer close(done)
+        // Do work
+        time.Sleep(time.Second)
+    }()
+    
+    select {
+    case <-done:
+        fmt.Println("Work completed")
+    case <-time.After(5 * time.Second):
+        fmt.Println("Work timed out")
+    }
+}
+
+// Efficient map operations
+func efficientMapOperations() {
+    // Pre-allocate maps with known size
+    data := make(map[string]int, 1000)
+    for i := 0; i < 1000; i++ {
+        data[fmt.Sprintf("key%d", i)] = i
+    }
+    
+    // Efficient iteration
+    for key, value := range data {
+        _ = key
+        _ = value
+    }
+    
+    // Efficient deletion
+    for key := range data {
+        delete(data, key)
+    }
+}
+
+// Connection pooling for HTTP clients
+type HTTPClientPool struct {
+    clients chan *http.Client
+    factory func() *http.Client
+}
+
+func NewHTTPClientPool(size int, factory func() *http.Client) *HTTPClientPool {
+    pool := &HTTPClientPool{
+        clients: make(chan *http.Client, size),
+        factory: factory,
+    }
+    
+    for i := 0; i < size; i++ {
+        pool.clients <- factory()
+    }
+    
+    return pool
+}
+
+func (p *HTTPClientPool) Get() *http.Client {
+    select {
+    case client := <-p.clients:
+        return client
+    default:
+        return p.factory()
+    }
+}
+
+func (p *HTTPClientPool) Put(client *http.Client) {
+    select {
+    case p.clients <- client:
+    default:
+        // Pool is full, discard client
+    }
+}
+
+// Efficient JSON handling
+func efficientJSONHandling() {
+    // Use json.RawMessage for large JSON objects
+    type LargeObject struct {
+        ID   int             `json:"id"`
+        Data json.RawMessage `json:"data"`
+    }
+    
+    // Use streaming for large JSON arrays
+    decoder := json.NewDecoder(strings.NewReader(`[1,2,3,4,5]`))
+    _, err := decoder.Token() // Read '['
+    if err != nil {
+        return
+    }
+    
+    for decoder.More() {
+        var num int
+        if err := decoder.Decode(&num); err != nil {
+            break
+        }
+        // Process num
+    }
+}
+
+// Efficient file operations
+func efficientFileOperations() {
+    // Use buffered I/O
+    file, err := os.Open("large_file.txt")
+    if err != nil {
+        return
+    }
+    defer file.Close()
+    
+    reader := bufio.NewReader(file)
+    buffer := make([]byte, 4096)
+    
+    for {
+        n, err := reader.Read(buffer)
+        if n > 0 {
+            // Process buffer[:n]
+        }
+        if err == io.EOF {
+            break
+        }
+        if err != nil {
+            return
+        }
+    }
+}
+
+// Efficient string operations
+func efficientStringOperations() {
+    // Use strings.Builder for concatenation
+    var builder strings.Builder
+    for i := 0; i < 1000; i++ {
+        builder.WriteString(fmt.Sprintf("item%d,", i))
+    }
+    result := builder.String()
+    
+    // Use strings.Split for parsing
+    parts := strings.Split(result, ",")
+    
+    // Use strings.Contains for substring search
+    if strings.Contains(result, "item500") {
+        // Found
+    }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

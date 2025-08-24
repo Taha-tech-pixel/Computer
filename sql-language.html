@@ -207,29 +207,1006 @@ FROM users;</code></pre>
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete SQL Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🗃️ Complete SQL Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>SQL Tutorial</h4>
-                            <p>W3Schools SQL tutorial and reference</p>
-                            <a href="https://www.w3schools.com/sql/" target="_blank" class="btn btn-secondary">Learn SQL</a>
+                            <h4>Advanced Query Patterns & CTEs</h4>
+                            <div class="code-example">
+                                <pre><code>-- Common Table Expressions (CTEs)
+WITH user_stats AS (
+    SELECT 
+        user_id,
+        COUNT(*) as post_count,
+        AVG(rating) as avg_rating,
+        MAX(created_at) as last_post
+    FROM posts 
+    WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    GROUP BY user_id
+),
+active_users AS (
+    SELECT user_id, username, email
+    FROM users u
+    INNER JOIN user_stats us ON u.id = us.user_id
+    WHERE us.post_count >= 5
+)
+SELECT 
+    au.username,
+    au.email,
+    us.post_count,
+    ROUND(us.avg_rating, 2) as avg_rating,
+    us.last_post
+FROM active_users au
+JOIN user_stats us ON au.user_id = us.user_id
+ORDER BY us.post_count DESC;
+
+-- Recursive CTEs for hierarchical data
+WITH RECURSIVE category_tree AS (
+    -- Base case: root categories
+    SELECT id, name, parent_id, 0 as level, CAST(name AS CHAR(1000)) as path
+    FROM categories 
+    WHERE parent_id IS NULL
+    
+    UNION ALL
+    
+    -- Recursive case: child categories
+    SELECT 
+        c.id, 
+        c.name, 
+        c.parent_id, 
+        ct.level + 1,
+        CONCAT(ct.path, ' > ', c.name) as path
+    FROM categories c
+    JOIN category_tree ct ON c.parent_id = ct.id
+    WHERE ct.level < 5  -- Prevent infinite recursion
+)
+SELECT 
+    LPAD('', level * 2, ' ') || name as tree_display,
+    path,
+    level
+FROM category_tree
+ORDER BY path;
+
+-- Window Functions for Analytics
+SELECT 
+    product_name,
+    category,
+    price,
+    ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC) as price_rank,
+    RANK() OVER (PARTITION BY category ORDER BY price DESC) as price_rank_with_ties,
+    DENSE_RANK() OVER (PARTITION BY category ORDER BY price DESC) as dense_rank,
+    LAG(price, 1) OVER (PARTITION BY category ORDER BY price) as prev_price,
+    LEAD(price, 1) OVER (PARTITION BY category ORDER BY price) as next_price,
+    FIRST_VALUE(price) OVER (PARTITION BY category ORDER BY price DESC) as highest_price,
+    LAST_VALUE(price) OVER (PARTITION BY category ORDER BY price DESC 
+                           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as lowest_price,
+    NTILE(4) OVER (PARTITION BY category ORDER BY price) as price_quartile
+FROM products;
+
+-- Pivot Tables using CASE statements
+SELECT 
+    category,
+    SUM(CASE WHEN year = 2020 THEN sales END) as sales_2020,
+    SUM(CASE WHEN year = 2021 THEN sales END) as sales_2021,
+    SUM(CASE WHEN year = 2022 THEN sales END) as sales_2022,
+    SUM(CASE WHEN year = 2023 THEN sales END) as sales_2023,
+    SUM(sales) as total_sales
+FROM sales_data
+GROUP BY category
+ORDER BY total_sales DESC;
+
+-- Advanced Aggregation with ROLLUP and CUBE
+SELECT 
+    COALESCE(category, 'All Categories') as category,
+    COALESCE(region, 'All Regions') as region,
+    COUNT(*) as order_count,
+    SUM(amount) as total_amount,
+    AVG(amount) as avg_amount
+FROM orders
+GROUP BY ROLLUP(category, region)
+ORDER BY category, region;
+
+-- CUBE for all possible combinations
+SELECT 
+    COALESCE(category, 'All Categories') as category,
+    COALESCE(region, 'All Regions') as region,
+    COALESCE(quarter, 'All Quarters') as quarter,
+    SUM(amount) as total_amount
+FROM sales
+GROUP BY CUBE(category, region, quarter)
+ORDER BY category, region, quarter;</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>SQLite Documentation</h4>
-                            <p>Lightweight database with excellent SQL support</p>
-                            <a href="https://www.sqlite.org/docs.html" target="_blank" class="btn btn-secondary">Read Docs</a>
+                            <h4>Database Design & Normalization</h4>
+                            <div class="code-example">
+                                <pre><code>-- Third Normal Form (3NF) Database Design
+-- Users table (1NF, 2NF, 3NF)
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    date_of_birth DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_username (username),
+    INDEX idx_email (email),
+    INDEX idx_created_at (created_at)
+);
+
+-- User roles (Many-to-Many relationship)
+CREATE TABLE roles (
+    role_id INT PRIMARY KEY AUTO_INCREMENT,
+    role_name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_roles (
+    user_id INT NOT NULL,
+    role_id INT NOT NULL,
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    assigned_by INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
+    FOREIGN KEY (assigned_by) REFERENCES users(user_id) ON DELETE SET NULL
+);
+
+-- Categories with self-referencing foreign key
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    parent_id INT NULL,
+    level INT DEFAULT 0,
+    path VARCHAR(500),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (parent_id) REFERENCES categories(category_id) ON DELETE CASCADE,
+    INDEX idx_parent_id (parent_id),
+    INDEX idx_path (path),
+    INDEX idx_level (level)
+);
+
+-- Products with proper relationships
+CREATE TABLE products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    sku VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    category_id INT NOT NULL,
+    brand_id INT,
+    price DECIMAL(10,2) NOT NULL,
+    cost_price DECIMAL(10,2),
+    weight DECIMAL(8,3),
+    dimensions VARCHAR(50),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id),
+    FOREIGN KEY (brand_id) REFERENCES brands(brand_id),
+    INDEX idx_sku (sku),
+    INDEX idx_category_id (category_id),
+    INDEX idx_brand_id (brand_id),
+    INDEX idx_price (price),
+    FULLTEXT idx_search (name, description)
+);
+
+-- Inventory tracking
+CREATE TABLE inventory (
+    inventory_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    warehouse_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    reserved_quantity INT NOT NULL DEFAULT 0,
+    reorder_level INT DEFAULT 10,
+    reorder_quantity INT DEFAULT 50,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(warehouse_id),
+    UNIQUE KEY unique_product_warehouse (product_id, warehouse_id),
+    INDEX idx_product_id (product_id),
+    INDEX idx_warehouse_id (warehouse_id)
+);
+
+-- Audit trail for data changes
+CREATE TABLE audit_log (
+    audit_id INT PRIMARY KEY AUTO_INCREMENT,
+    table_name VARCHAR(100) NOT NULL,
+    record_id INT NOT NULL,
+    action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    old_values JSON,
+    new_values JSON,
+    changed_by INT,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_table_record (table_name, record_id),
+    INDEX idx_action (action),
+    INDEX idx_changed_at (changed_at)
+);
+
+-- Triggers for audit trail
+DELIMITER //
+CREATE TRIGGER users_audit_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO audit_log (table_name, record_id, action, new_values, changed_by)
+    VALUES ('users', NEW.user_id, 'INSERT', JSON_OBJECT(
+        'username', NEW.username,
+        'email', NEW.email,
+        'first_name', NEW.first_name,
+        'last_name', NEW.last_name
+    ), @current_user_id);
+END//
+
+CREATE TRIGGER users_audit_update
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO audit_log (table_name, record_id, action, old_values, new_values, changed_by)
+    VALUES ('users', NEW.user_id, 'UPDATE', 
+        JSON_OBJECT(
+            'username', OLD.username,
+            'email', OLD.email,
+            'first_name', OLD.first_name,
+            'last_name', OLD.last_name
+        ),
+        JSON_OBJECT(
+            'username', NEW.username,
+            'email', NEW.email,
+            'first_name', NEW.first_name,
+            'last_name', NEW.last_name
+        ),
+        @current_user_id
+    );
+END//
+DELIMITER ;</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>MySQL Documentation</h4>
-                            <p>Popular open-source database system</p>
-                            <a href="https://dev.mysql.com/doc/" target="_blank" class="btn btn-secondary">View Docs</a>
+                            <h4>Performance Optimization & Indexing</h4>
+                            <div class="code-example">
+                                <pre><code>-- Composite Indexes for Complex Queries
+-- Index for user search queries
+CREATE INDEX idx_users_search ON users (is_active, created_at, username);
+
+-- Index for product filtering
+CREATE INDEX idx_products_filter ON products (category_id, is_active, price, brand_id);
+
+-- Index for date range queries
+CREATE INDEX idx_orders_date_range ON orders (order_date, status, customer_id);
+
+-- Partial Indexes (PostgreSQL)
+CREATE INDEX idx_active_products ON products (category_id, price) 
+WHERE is_active = TRUE;
+
+-- Functional Indexes
+CREATE INDEX idx_users_email_domain ON users (SUBSTRING_INDEX(email, '@', -1));
+
+-- Covering Indexes (include all needed columns)
+CREATE INDEX idx_orders_covering ON orders (customer_id, order_date) 
+INCLUDE (total_amount, status);
+
+-- Partitioning for Large Tables
+-- Range partitioning by date
+CREATE TABLE orders_partitioned (
+    order_id INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL
+) PARTITION BY RANGE (YEAR(order_date)) (
+    PARTITION p2020 VALUES LESS THAN (2021),
+    PARTITION p2021 VALUES LESS THAN (2022),
+    PARTITION p2022 VALUES LESS THAN (2023),
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p_future VALUES LESS THAN MAXVALUE
+);
+
+-- Hash partitioning for even distribution
+CREATE TABLE user_sessions (
+    session_id VARCHAR(100) PRIMARY KEY,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL
+) PARTITION BY HASH(user_id) PARTITIONS 8;
+
+-- Query Optimization Techniques
+-- Use EXISTS instead of IN for large datasets
+SELECT u.username, u.email
+FROM users u
+WHERE EXISTS (
+    SELECT 1 FROM orders o 
+    WHERE o.customer_id = u.user_id 
+    AND o.order_date >= '2023-01-01'
+);
+
+-- Use LIMIT with ORDER BY for pagination
+SELECT product_id, name, price
+FROM products
+WHERE category_id = 5 AND is_active = TRUE
+ORDER BY price DESC
+LIMIT 20 OFFSET 40;
+
+-- Use UNION ALL instead of UNION when duplicates aren't possible
+SELECT product_id, name, 'active' as status
+FROM products 
+WHERE is_active = TRUE
+UNION ALL
+SELECT product_id, name, 'inactive' as status
+FROM products 
+WHERE is_active = FALSE;
+
+-- Optimize JOINs with proper indexing
+SELECT p.name, c.name as category, b.name as brand
+FROM products p
+FORCE INDEX (idx_category_id)
+INNER JOIN categories c ON p.category_id = c.category_id
+LEFT JOIN brands b ON p.brand_id = b.brand_id
+WHERE p.is_active = TRUE
+ORDER BY p.price DESC;
+
+-- Use STRAIGHT_JOIN to force join order (MySQL)
+SELECT STRAIGHT_JOIN p.name, o.order_date
+FROM products p
+INNER JOIN order_items oi ON p.product_id = oi.product_id
+INNER JOIN orders o ON oi.order_id = o.order_id
+WHERE p.category_id = 5;
+
+-- Materialized Views (PostgreSQL)
+CREATE MATERIALIZED VIEW product_sales_summary AS
+SELECT 
+    p.product_id,
+    p.name,
+    p.category_id,
+    COUNT(oi.order_item_id) as total_orders,
+    SUM(oi.quantity) as total_quantity,
+    SUM(oi.quantity * oi.unit_price) as total_revenue,
+    AVG(oi.unit_price) as avg_price
+FROM products p
+LEFT JOIN order_items oi ON p.product_id = oi.product_id
+LEFT JOIN orders o ON oi.order_id = o.order_id
+WHERE o.order_date >= CURRENT_DATE - INTERVAL 30 DAY
+GROUP BY p.product_id, p.name, p.category_id;
+
+-- Refresh materialized view
+REFRESH MATERIALIZED VIEW product_sales_summary;
+
+-- Query Analysis and Optimization
+EXPLAIN ANALYZE
+SELECT p.name, COUNT(oi.order_item_id) as order_count
+FROM products p
+INNER JOIN order_items oi ON p.product_id = oi.product_id
+INNER JOIN orders o ON oi.order_id = o.order_id
+WHERE o.order_date >= '2023-01-01'
+  AND p.category_id IN (1, 2, 3)
+GROUP BY p.product_id, p.name
+HAVING COUNT(oi.order_item_id) > 5
+ORDER BY order_count DESC
+LIMIT 10;</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>SQL Community</h4>
-                            <p>Stack Overflow, Reddit, and SQL forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/sql" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Advanced Analytics & Reporting</h4>
+                            <div class="code-example">
+                                <pre><code>-- Time Series Analysis
+-- Monthly sales trends with year-over-year comparison
+WITH monthly_sales AS (
+    SELECT 
+        YEAR(order_date) as year,
+        MONTH(order_date) as month,
+        SUM(total_amount) as monthly_revenue,
+        COUNT(*) as order_count
+    FROM orders
+    WHERE order_date >= '2022-01-01'
+    GROUP BY YEAR(order_date), MONTH(order_date)
+),
+yearly_totals AS (
+    SELECT 
+        year,
+        SUM(monthly_revenue) as yearly_revenue
+    FROM monthly_sales
+    GROUP BY year
+)
+SELECT 
+    ms.year,
+    ms.month,
+    ms.monthly_revenue,
+    ms.order_count,
+    ROUND(ms.monthly_revenue / yt.yearly_revenue * 100, 2) as revenue_percentage,
+    LAG(ms.monthly_revenue, 12) OVER (ORDER BY ms.year, ms.month) as prev_year_revenue,
+    ROUND((ms.monthly_revenue - LAG(ms.monthly_revenue, 12) OVER (ORDER BY ms.year, ms.month)) / 
+          LAG(ms.monthly_revenue, 12) OVER (ORDER BY ms.year, ms.month) * 100, 2) as yoy_growth
+FROM monthly_sales ms
+JOIN yearly_totals yt ON ms.year = yt.year
+ORDER BY ms.year, ms.month;
+
+-- Customer Segmentation Analysis
+WITH customer_metrics AS (
+    SELECT 
+        c.customer_id,
+        c.first_name,
+        c.last_name,
+        COUNT(o.order_id) as total_orders,
+        SUM(o.total_amount) as total_spent,
+        AVG(o.total_amount) as avg_order_value,
+        MAX(o.order_date) as last_order_date,
+        MIN(o.order_date) as first_order_date,
+        DATEDIFF(CURRENT_DATE, MAX(o.order_date)) as days_since_last_order
+    FROM customers c
+    LEFT JOIN orders o ON c.customer_id = o.customer_id
+    GROUP BY c.customer_id, c.first_name, c.last_name
+),
+customer_segments AS (
+    SELECT 
+        *,
+        CASE 
+            WHEN total_spent >= 1000 AND days_since_last_order <= 30 THEN 'High Value Active'
+            WHEN total_spent >= 1000 AND days_since_last_order > 30 THEN 'High Value At Risk'
+            WHEN total_spent >= 500 AND days_since_last_order <= 60 THEN 'Medium Value Active'
+            WHEN total_spent >= 500 AND days_since_last_order > 60 THEN 'Medium Value At Risk'
+            WHEN total_spent >= 100 THEN 'Low Value'
+            ELSE 'Inactive'
+        END as segment
+    FROM customer_metrics
+)
+SELECT 
+    segment,
+    COUNT(*) as customer_count,
+    ROUND(AVG(total_spent), 2) as avg_total_spent,
+    ROUND(AVG(avg_order_value), 2) as avg_order_value,
+    ROUND(AVG(days_since_last_order), 0) as avg_days_since_last_order
+FROM customer_segments
+GROUP BY segment
+ORDER BY avg_total_spent DESC;
+
+-- Product Performance Analysis
+WITH product_performance AS (
+    SELECT 
+        p.product_id,
+        p.name,
+        p.category_id,
+        c.name as category_name,
+        COUNT(oi.order_item_id) as times_ordered,
+        SUM(oi.quantity) as total_quantity_sold,
+        SUM(oi.quantity * oi.unit_price) as total_revenue,
+        AVG(oi.unit_price) as avg_selling_price,
+        p.price as list_price,
+        ROUND((AVG(oi.unit_price) - p.cost_price) / AVG(oi.unit_price) * 100, 2) as profit_margin
+    FROM products p
+    LEFT JOIN order_items oi ON p.product_id = oi.product_id
+    LEFT JOIN categories c ON p.category_id = c.category_id
+    WHERE oi.order_item_id IS NOT NULL
+    GROUP BY p.product_id, p.name, p.category_id, c.name, p.price, p.cost_price
+),
+product_rankings AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY total_revenue DESC) as revenue_rank,
+        ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY profit_margin DESC) as margin_rank,
+        ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY times_ordered DESC) as popularity_rank
+    FROM product_performance
+)
+SELECT 
+    name,
+    category_name,
+    times_ordered,
+    total_quantity_sold,
+    total_revenue,
+    profit_margin,
+    revenue_rank,
+    margin_rank,
+    popularity_rank,
+    CASE 
+        WHEN revenue_rank <= 3 AND margin_rank <= 3 THEN 'Star Product'
+        WHEN revenue_rank <= 3 THEN 'High Revenue'
+        WHEN margin_rank <= 3 THEN 'High Margin'
+        WHEN popularity_rank <= 3 THEN 'Popular'
+        ELSE 'Regular'
+    END as product_type
+FROM product_rankings
+WHERE revenue_rank <= 10 OR margin_rank <= 10 OR popularity_rank <= 10
+ORDER BY category_name, revenue_rank;
+
+-- Inventory Optimization Analysis
+WITH inventory_analysis AS (
+    SELECT 
+        p.product_id,
+        p.name,
+        p.sku,
+        i.quantity as current_stock,
+        i.reserved_quantity,
+        i.reorder_level,
+        i.reorder_quantity,
+        COALESCE(SUM(oi.quantity), 0) as demand_last_30_days,
+        COALESCE(AVG(oi.quantity), 0) as avg_daily_demand,
+        CASE 
+            WHEN i.quantity <= i.reorder_level THEN 'Reorder Needed'
+            WHEN i.quantity <= i.reorder_level * 1.5 THEN 'Low Stock'
+            WHEN i.quantity >= i.reorder_level * 3 THEN 'Overstocked'
+            ELSE 'Optimal'
+        END as stock_status
+    FROM products p
+    LEFT JOIN inventory i ON p.product_id = i.product_id
+    LEFT JOIN order_items oi ON p.product_id = oi.product_id
+    LEFT JOIN orders o ON oi.order_id = o.order_id
+    WHERE o.order_date >= CURRENT_DATE - INTERVAL 30 DAY OR o.order_date IS NULL
+    GROUP BY p.product_id, p.name, p.sku, i.quantity, i.reserved_quantity, i.reorder_level, i.reorder_quantity
+)
+SELECT 
+    name,
+    sku,
+    current_stock,
+    demand_last_30_days,
+    avg_daily_demand,
+    stock_status,
+    CASE 
+        WHEN stock_status = 'Reorder Needed' THEN reorder_quantity
+        WHEN stock_status = 'Low Stock' THEN CEIL(reorder_quantity * 0.5)
+        ELSE 0
+    END as suggested_order_quantity
+FROM inventory_analysis
+WHERE stock_status IN ('Reorder Needed', 'Low Stock')
+ORDER BY demand_last_30_days DESC;</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Data Warehousing & ETL</h4>
+                            <div class="code-example">
+                                <pre><code>-- Data Warehouse Schema Design
+-- Fact table for sales transactions
+CREATE TABLE fact_sales (
+    sale_id BIGINT PRIMARY KEY,
+    date_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    store_id INT NOT NULL,
+    employee_id INT,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    discount_amount DECIMAL(10,2) DEFAULT 0,
+    tax_amount DECIMAL(10,2) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_date_id (date_id),
+    INDEX idx_customer_id (customer_id),
+    INDEX idx_product_id (product_id),
+    INDEX idx_store_id (store_id),
+    INDEX idx_created_at (created_at)
+);
+
+-- Dimension table for dates
+CREATE TABLE dim_date (
+    date_id INT PRIMARY KEY,
+    full_date DATE NOT NULL,
+    year INT NOT NULL,
+    quarter INT NOT NULL,
+    month INT NOT NULL,
+    month_name VARCHAR(20) NOT NULL,
+    week_of_year INT NOT NULL,
+    day_of_week INT NOT NULL,
+    day_name VARCHAR(20) NOT NULL,
+    is_weekend BOOLEAN NOT NULL,
+    is_holiday BOOLEAN DEFAULT FALSE,
+    holiday_name VARCHAR(50),
+    UNIQUE KEY unique_date (full_date)
+);
+
+-- Dimension table for customers
+CREATE TABLE dim_customer (
+    customer_id INT PRIMARY KEY,
+    customer_key VARCHAR(50) UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    birth_date DATE,
+    gender ENUM('M', 'F', 'Other'),
+    income_level VARCHAR(20),
+    education_level VARCHAR(50),
+    marital_status VARCHAR(20),
+    address_line1 VARCHAR(100),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    postal_code VARCHAR(20),
+    country VARCHAR(50),
+    customer_segment VARCHAR(50),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_customer_key (customer_key),
+    INDEX idx_email (email),
+    INDEX idx_city (city),
+    INDEX idx_customer_segment (customer_segment)
+);
+
+-- ETL Process for Loading Fact Table
+-- Staging table for raw data
+CREATE TABLE staging_sales (
+    sale_id BIGINT,
+    sale_date DATE,
+    customer_email VARCHAR(100),
+    product_sku VARCHAR(50),
+    store_code VARCHAR(20),
+    employee_email VARCHAR(100),
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    discount_amount DECIMAL(10,2),
+    tax_amount DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ETL Procedure for loading fact_sales
+DELIMITER //
+CREATE PROCEDURE LoadFactSales()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+    
+    START TRANSACTION;
+    
+    -- Insert new sales records
+    INSERT INTO fact_sales (
+        sale_id, date_id, customer_id, product_id, store_id, 
+        employee_id, quantity, unit_price, total_amount, 
+        discount_amount, tax_amount
+    )
+    SELECT 
+        ss.sale_id,
+        dd.date_id,
+        dc.customer_id,
+        dp.product_id,
+        ds.store_id,
+        de.employee_id,
+        ss.quantity,
+        ss.unit_price,
+        (ss.quantity * ss.unit_price) - ss.discount_amount + ss.tax_amount as total_amount,
+        ss.discount_amount,
+        ss.tax_amount
+    FROM staging_sales ss
+    INNER JOIN dim_date dd ON ss.sale_date = dd.full_date
+    INNER JOIN dim_customer dc ON ss.customer_email = dc.email
+    INNER JOIN dim_product dp ON ss.product_sku = dp.product_sku
+    INNER JOIN dim_store ds ON ss.store_code = ds.store_code
+    LEFT JOIN dim_employee de ON ss.employee_email = de.email
+    WHERE ss.sale_id NOT IN (SELECT sale_id FROM fact_sales);
+    
+    -- Update existing records (if needed)
+    UPDATE fact_sales fs
+    INNER JOIN staging_sales ss ON fs.sale_id = ss.sale_id
+    INNER JOIN dim_date dd ON ss.sale_date = dd.full_date
+    INNER JOIN dim_customer dc ON ss.customer_email = dc.email
+    INNER JOIN dim_product dp ON ss.product_sku = dp.product_sku
+    INNER JOIN dim_store ds ON ss.store_code = ds.store_code
+    LEFT JOIN dim_employee de ON ss.employee_email = de.email
+    SET 
+        fs.date_id = dd.date_id,
+        fs.customer_id = dc.customer_id,
+        fs.product_id = dp.product_id,
+        fs.store_id = ds.store_id,
+        fs.employee_id = de.employee_id,
+        fs.quantity = ss.quantity,
+        fs.unit_price = ss.unit_price,
+        fs.total_amount = (ss.quantity * ss.unit_price) - ss.discount_amount + ss.tax_amount,
+        fs.discount_amount = ss.discount_amount,
+        fs.tax_amount = ss.tax_amount
+    WHERE fs.updated_at < ss.created_at;
+    
+    -- Clean up staging table
+    DELETE FROM staging_sales;
+    
+    COMMIT;
+END//
+DELIMITER ;
+
+-- Data Mart for Sales Analysis
+CREATE VIEW sales_analysis_mart AS
+SELECT 
+    dd.year,
+    dd.quarter,
+    dd.month,
+    dd.month_name,
+    dc.customer_segment,
+    dp.category_name,
+    dp.brand_name,
+    ds.store_name,
+    ds.region,
+    COUNT(fs.sale_id) as total_transactions,
+    SUM(fs.quantity) as total_quantity,
+    SUM(fs.total_amount) as total_revenue,
+    AVG(fs.total_amount) as avg_transaction_value,
+    SUM(fs.discount_amount) as total_discounts,
+    SUM(fs.tax_amount) as total_taxes
+FROM fact_sales fs
+INNER JOIN dim_date dd ON fs.date_id = dd.date_id
+INNER JOIN dim_customer dc ON fs.customer_id = dc.customer_id
+INNER JOIN dim_product dp ON fs.product_id = dp.product_id
+INNER JOIN dim_store ds ON fs.store_id = ds.store_id
+GROUP BY 
+    dd.year, dd.quarter, dd.month, dd.month_name,
+    dc.customer_segment, dp.category_name, dp.brand_name,
+    ds.store_name, ds.region;
+
+-- Incremental Load Strategy
+CREATE TABLE etl_control (
+    table_name VARCHAR(100) PRIMARY KEY,
+    last_load_date TIMESTAMP,
+    last_load_id BIGINT,
+    records_processed INT DEFAULT 0,
+    load_status ENUM('SUCCESS', 'FAILED', 'IN_PROGRESS') DEFAULT 'SUCCESS',
+    error_message TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Procedure for incremental load
+DELIMITER //
+CREATE PROCEDURE IncrementalLoadSales()
+BEGIN
+    DECLARE last_load_date TIMESTAMP;
+    DECLARE last_load_id BIGINT;
+    
+    -- Get last load information
+    SELECT COALESCE(last_load_date, '1970-01-01'), COALESCE(last_load_id, 0)
+    INTO last_load_date, last_load_id
+    FROM etl_control 
+    WHERE table_name = 'fact_sales';
+    
+    -- Update control table
+    UPDATE etl_control 
+    SET load_status = 'IN_PROGRESS', updated_at = CURRENT_TIMESTAMP
+    WHERE table_name = 'fact_sales';
+    
+    -- Load only new/updated records
+    INSERT INTO fact_sales (
+        sale_id, date_id, customer_id, product_id, store_id,
+        employee_id, quantity, unit_price, total_amount,
+        discount_amount, tax_amount
+    )
+    SELECT 
+        ss.sale_id,
+        dd.date_id,
+        dc.customer_id,
+        dp.product_id,
+        ds.store_id,
+        de.employee_id,
+        ss.quantity,
+        ss.unit_price,
+        (ss.quantity * ss.unit_price) - ss.discount_amount + ss.tax_amount,
+        ss.discount_amount,
+        ss.tax_amount
+    FROM staging_sales ss
+    INNER JOIN dim_date dd ON ss.sale_date = dd.full_date
+    INNER JOIN dim_customer dc ON ss.customer_email = dc.email
+    INNER JOIN dim_product dp ON ss.product_sku = dp.product_sku
+    INNER JOIN dim_store ds ON ss.store_code = ds.store_code
+    LEFT JOIN dim_employee de ON ss.employee_email = de.email
+    WHERE ss.sale_id > last_load_id 
+       OR ss.created_at > last_load_date;
+    
+    -- Update control table
+    UPDATE etl_control 
+    SET 
+        last_load_date = CURRENT_TIMESTAMP,
+        last_load_id = (SELECT MAX(sale_id) FROM fact_sales),
+        records_processed = ROW_COUNT(),
+        load_status = 'SUCCESS',
+        updated_at = CURRENT_TIMESTAMP
+    WHERE table_name = 'fact_sales';
+END//
+DELIMITER ;</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Advanced SQL Features & Functions</h4>
+                            <div class="code-example">
+                                <pre><code>-- JSON Functions (MySQL 5.7+)
+-- Store and query JSON data
+CREATE TABLE product_attributes (
+    product_id INT PRIMARY KEY,
+    attributes JSON NOT NULL,
+    metadata JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_attributes ((CAST(attributes->'$.category' AS CHAR(50)))),
+    INDEX idx_metadata ((CAST(metadata->'$.tags' AS CHAR(100))))
+);
+
+-- Insert JSON data
+INSERT INTO product_attributes (product_id, attributes, metadata) VALUES
+(1, '{"category": "electronics", "brand": "Apple", "model": "iPhone 13", "specs": {"storage": "128GB", "color": "blue"}}', 
+ '{"tags": ["smartphone", "5G", "camera"], "rating": 4.5}'),
+(2, '{"category": "books", "author": "John Doe", "genre": "fiction", "pages": 300}', 
+ '{"tags": ["bestseller", "award-winning"], "rating": 4.8}');
+
+-- Query JSON data
+SELECT 
+    product_id,
+    JSON_EXTRACT(attributes, '$.category') as category,
+    JSON_EXTRACT(attributes, '$.brand') as brand,
+    JSON_EXTRACT(attributes, '$.specs.storage') as storage,
+    JSON_EXTRACT(metadata, '$.rating') as rating
+FROM product_attributes
+WHERE JSON_EXTRACT(attributes, '$.category') = 'electronics'
+  AND JSON_EXTRACT(metadata, '$.rating') > 4.0;
+
+-- Update JSON data
+UPDATE product_attributes
+SET attributes = JSON_SET(attributes, '$.specs.storage', '256GB')
+WHERE product_id = 1;
+
+-- Array functions (PostgreSQL)
+-- Array aggregation
+SELECT 
+    category_id,
+    array_agg(product_name ORDER BY price DESC) as products_by_price,
+    array_agg(DISTINCT brand_name) as brands
+FROM products
+GROUP BY category_id;
+
+-- Array operations
+SELECT 
+    product_id,
+    name,
+    string_to_array(tags, ',') as tag_array,
+    array_length(string_to_array(tags, ','), 1) as tag_count
+FROM products
+WHERE 'electronics' = ANY(string_to_array(tags, ','));
+
+-- Window Functions with Advanced Features
+-- Running totals and moving averages
+SELECT 
+    order_date,
+    daily_revenue,
+    SUM(daily_revenue) OVER (ORDER BY order_date) as running_total,
+    AVG(daily_revenue) OVER (ORDER BY order_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as moving_avg_7d,
+    LAG(daily_revenue, 1) OVER (ORDER BY order_date) as prev_day_revenue,
+    LEAD(daily_revenue, 1) OVER (ORDER BY order_date) as next_day_revenue,
+    FIRST_VALUE(daily_revenue) OVER (ORDER BY order_date) as first_day_revenue,
+    LAST_VALUE(daily_revenue) OVER (ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as last_day_revenue
+FROM (
+    SELECT 
+        DATE(order_date) as order_date,
+        SUM(total_amount) as daily_revenue
+    FROM orders
+    WHERE order_date >= '2023-01-01'
+    GROUP BY DATE(order_date)
+) daily_sales;
+
+-- Percentile calculations
+SELECT 
+    product_name,
+    price,
+    PERCENT_RANK() OVER (ORDER BY price) as price_percentile,
+    NTILE(4) OVER (ORDER BY price) as price_quartile,
+    CUME_DIST() OVER (ORDER BY price) as cumulative_distribution
+FROM products
+WHERE category_id = 1;
+
+-- Advanced String Functions
+-- Pattern matching and extraction
+SELECT 
+    email,
+    SUBSTRING_INDEX(email, '@', 1) as username,
+    SUBSTRING_INDEX(email, '@', -1) as domain,
+    REGEXP_SUBSTR(email, '^[A-Za-z0-9._%+-]+') as extracted_username,
+    REGEXP_SUBSTR(email, '@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$') as extracted_domain
+FROM users
+WHERE email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$';
+
+-- Text search and replacement
+SELECT 
+    product_name,
+    REPLACE(product_name, 'Old', 'New') as updated_name,
+    REGEXP_REPLACE(product_name, '\\b(\\w+)\\b', 'UPPER(\\1)') as upper_case_name,
+    LENGTH(product_name) as name_length,
+    CHAR_LENGTH(product_name) as char_count
+FROM products;
+
+-- Date and Time Functions
+-- Complex date calculations
+SELECT 
+    order_date,
+    DATE_FORMAT(order_date, '%Y-%m-%d') as formatted_date,
+    YEAR(order_date) as year,
+    QUARTER(order_date) as quarter,
+    MONTH(order_date) as month,
+    WEEK(order_date) as week_of_year,
+    DAYOFWEEK(order_date) as day_of_week,
+    DAYNAME(order_date) as day_name,
+    DATEDIFF(CURRENT_DATE, order_date) as days_ago,
+    DATE_ADD(order_date, INTERVAL 30 DAY) as date_plus_30_days,
+    LAST_DAY(order_date) as last_day_of_month,
+    DATE_SUB(LAST_DAY(order_date), INTERVAL DAY(LAST_DAY(order_date))-1 DAY) as first_day_of_month
+FROM orders
+WHERE order_date >= '2023-01-01'
+LIMIT 10;
+
+-- Business day calculations
+WITH RECURSIVE business_days AS (
+    SELECT '2023-01-01' as date
+    UNION ALL
+    SELECT DATE_ADD(date, INTERVAL 1 DAY)
+    FROM business_days
+    WHERE date < '2023-12-31'
+      AND DAYOFWEEK(DATE_ADD(date, INTERVAL 1 DAY)) NOT IN (1, 7) -- Exclude weekends
+)
+SELECT 
+    date,
+    DAYNAME(date) as day_name,
+    ROW_NUMBER() OVER (ORDER BY date) as business_day_number
+FROM business_days
+LIMIT 20;
+
+-- Conditional Logic and CASE Statements
+-- Complex business rules
+SELECT 
+    customer_id,
+    total_orders,
+    total_spent,
+    CASE 
+        WHEN total_spent >= 1000 AND total_orders >= 10 THEN 'VIP'
+        WHEN total_spent >= 500 AND total_orders >= 5 THEN 'Regular'
+        WHEN total_spent >= 100 AND total_orders >= 1 THEN 'Occasional'
+        ELSE 'New'
+    END as customer_tier,
+    CASE 
+        WHEN total_spent >= 1000 THEN 0.15
+        WHEN total_spent >= 500 THEN 0.10
+        WHEN total_spent >= 100 THEN 0.05
+        ELSE 0.00
+    END as discount_rate,
+    total_spent * CASE 
+        WHEN total_spent >= 1000 THEN 0.15
+        WHEN total_spent >= 500 THEN 0.10
+        WHEN total_spent >= 100 THEN 0.05
+        ELSE 0.00
+    END as discount_amount
+FROM (
+    SELECT 
+        customer_id,
+        COUNT(*) as total_orders,
+        SUM(total_amount) as total_spent
+    FROM orders
+    GROUP BY customer_id
+) customer_summary;
+
+-- Pivot tables with dynamic columns
+SET @sql = (
+    SELECT GROUP_CONCAT(
+        DISTINCT CONCAT(
+            'SUM(CASE WHEN category = ''', category, ''' THEN total_amount ELSE 0 END) AS ', 
+            category, '_sales'
+        )
+    )
+    FROM (
+        SELECT DISTINCT category FROM products
+    ) categories
+);
+
+SET @sql = CONCAT('
+    SELECT 
+        YEAR(order_date) as year,
+        MONTH(order_date) as month,
+        ', @sql, '
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    WHERE order_date >= ''2023-01-01''
+    GROUP BY YEAR(order_date), MONTH(order_date)
+    ORDER BY year, month
+');
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

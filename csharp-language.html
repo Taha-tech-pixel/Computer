@@ -531,29 +531,853 @@ class AsyncExample
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete C# Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🟣 Complete C# Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>Microsoft C# documentation and tutorials</p>
-                            <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Advanced C# Features & LINQ</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+// Advanced LINQ examples
+class AdvancedLinqExamples
+{
+    static void Main()
+    {
+        var people = new List&lt;Person&gt;
+        {
+            new Person { Name = "Alice", Age = 25, City = "New York" },
+            new Person { Name = "Bob", Age = 30, City = "Los Angeles" },
+            new Person { Name = "Charlie", Age = 35, City = "New York" },
+            new Person { Name = "Diana", Age = 28, City = "Chicago" },
+            new Person { Name = "Eve", Age = 32, City = "Los Angeles" }
+        };
+
+        // Complex grouping and aggregation
+        var cityStats = people
+            .GroupBy(p => p.City)
+            .Select(g => new
+            {
+                City = g.Key,
+                Count = g.Count(),
+                AverageAge = g.Average(p => p.Age),
+                Oldest = g.Max(p => p.Age),
+                Youngest = g.Min(p => p.Age)
+            });
+
+        foreach (var stat in cityStats)
+        {
+            Console.WriteLine($"{stat.City}: {stat.Count} people, Avg Age: {stat.AverageAge:F1}");
+        }
+
+        // Partitioning and pagination
+        var pageSize = 2;
+        var pageNumber = 1;
+        var pagedPeople = people
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+
+        // Custom aggregation
+        var ageDistribution = people
+            .GroupBy(p => p.Age / 10 * 10) // Group by decade
+            .OrderBy(g => g.Key)
+            .Select(g => new
+            {
+                Decade = $"{g.Key}s",
+                Count = g.Count(),
+                Names = string.Join(", ", g.Select(p => p.Name))
+            });
+
+        // Join operations
+        var cities = new List&lt;City&gt;
+        {
+            new City { Name = "New York", Population = 8400000 },
+            new City { Name = "Los Angeles", Population = 4000000 },
+            new City { Name = "Chicago", Population = 2700000 }
+        };
+
+        var peopleWithCityInfo = people
+            .Join(cities,
+                person => person.City,
+                city => city.Name,
+                (person, city) => new
+                {
+                    person.Name,
+                    person.Age,
+                    City = city.Name,
+                    CityPopulation = city.Population
+                });
+
+        // Set operations
+        var set1 = new[] { 1, 2, 3, 4, 5 };
+        var set2 = new[] { 4, 5, 6, 7, 8 };
+
+        var union = set1.Union(set2);
+        var intersection = set1.Intersect(set2);
+        var difference = set1.Except(set2);
+        var symmetricDifference = set1.Union(set2).Except(set1.Intersect(set2));
+    }
+}
+
+// Extension methods
+public static class StringExtensions
+{
+    public static string Reverse(this string str)
+    {
+        return new string(str.Reverse().ToArray());
+    }
+
+    public static bool IsPalindrome(this string str)
+    {
+        var clean = str.ToLower().Where(char.IsLetterOrDigit).ToArray();
+        return clean.SequenceEqual(clean.Reverse());
+    }
+
+    public static string ToTitleCase(this string str)
+    {
+        return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>C# Programming Guide</h4>
-                            <p>Comprehensive language reference and examples</p>
-                            <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/" target="_blank" class="btn btn-secondary">Read Guide</a>
+                            <h4>Async Programming & Tasks</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Linq;
+
+// Advanced async patterns
+class AsyncProgrammingExamples
+{
+    private static readonly HttpClient httpClient = new HttpClient();
+
+    // Async factory pattern
+    public static async Task&lt;DataProcessor&gt; CreateAsync(string connectionString)
+    {
+        var processor = new DataProcessor();
+        await processor.InitializeAsync(connectionString);
+        return processor;
+    }
+
+    // Parallel processing with cancellation
+    public static async Task&lt;List&lt;Result&gt;&gt; ProcessDataParallelAsync(
+        IEnumerable&lt;string&gt; urls, 
+        CancellationToken cancellationToken = default)
+    {
+        var tasks = urls.Select(url => ProcessUrlAsync(url, cancellationToken));
+        var results = await Task.WhenAll(tasks);
+        return results.ToList();
+    }
+
+    // Async stream processing
+    public static async IAsyncEnumerable&lt;string&gt; ProcessStreamAsync(
+        IAsyncEnumerable&lt;string&gt; stream)
+    {
+        await foreach (var item in stream)
+        {
+            var processed = await ProcessItemAsync(item);
+            yield return processed;
+        }
+    }
+
+    // Retry pattern with exponential backoff
+    public static async Task&lt;T&gt; RetryWithBackoffAsync&lt;T&gt;(
+        Func&lt;Task&lt;T&gt;&gt; operation,
+        int maxRetries = 3,
+        TimeSpan? initialDelay = null)
+    {
+        var delay = initialDelay ?? TimeSpan.FromSeconds(1);
+        var lastException = default(Exception);
+
+        for (int i = 0; i <= maxRetries; i++)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch (Exception ex) when (i < maxRetries)
+            {
+                lastException = ex;
+                await Task.Delay(delay);
+                delay = TimeSpan.FromTicks(delay.Ticks * 2); // Exponential backoff
+            }
+        }
+
+        throw lastException ?? new InvalidOperationException("Operation failed");
+    }
+
+    // Async event handling
+    public class AsyncEvent&lt;T&gt;
+    {
+        private readonly List&lt;Func&lt;T, Task&gt;&gt; handlers = new();
+
+        public void Subscribe(Func&lt;T, Task&gt; handler)
+        {
+            lock (handlers)
+            {
+                handlers.Add(handler);
+            }
+        }
+
+        public async Task RaiseAsync(T args)
+        {
+            List&lt;Func&lt;T, Task&gt;&gt; currentHandlers;
+            lock (handlers)
+            {
+                currentHandlers = new List&lt;Func&lt;T, Task&gt;&gt;(handlers);
+            }
+
+            var tasks = currentHandlers.Select(handler => handler(args));
+            await Task.WhenAll(tasks);
+        }
+    }
+
+    // Async resource management
+    public class AsyncResourceManager : IAsyncDisposable
+    {
+        private bool disposed = false;
+
+        public async ValueTask DisposeAsync()
+        {
+            if (!disposed)
+            {
+                await CleanupAsync();
+                disposed = true;
+            }
+        }
+
+        private async Task CleanupAsync()
+        {
+            // Async cleanup logic
+            await Task.Delay(100);
+        }
+    }
+
+    // Async pipeline processing
+    public static async Task&lt;T&gt; PipelineAsync&lt;T&gt;(
+        T input,
+        params Func&lt;T, Task&lt;T&gt;&gt;[] steps)
+    {
+        var result = input;
+        foreach (var step in steps)
+        {
+            result = await step(result);
+        }
+        return result;
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>.NET Documentation</h4>
-                            <p>Framework and runtime documentation</p>
-                            <a href="https://docs.microsoft.com/en-us/dotnet/" target="_blank" class="btn btn-secondary">Learn .NET</a>
+                            <h4>Reflection & Dynamic Programming</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Reflection;
+using System.Dynamic;
+using System.Linq;
+
+// Advanced reflection examples
+class ReflectionExamples
+{
+    // Dynamic object creation
+    public static T CreateInstance&lt;T&gt;(params object[] args)
+    {
+        var type = typeof(T);
+        return (T)Activator.CreateInstance(type, args);
+    }
+
+    // Property mapping with reflection
+    public static T MapProperties&lt;T&gt;(object source) where T : new()
+    {
+        var target = new T();
+        var sourceType = source.GetType();
+        var targetType = typeof(T);
+
+        var sourceProperties = sourceType.GetProperties();
+        var targetProperties = targetType.GetProperties();
+
+        foreach (var sourceProp in sourceProperties)
+        {
+            var targetProp = targetProperties.FirstOrDefault(p => 
+                p.Name == sourceProp.Name && 
+                p.PropertyType == sourceProp.PropertyType);
+
+            if (targetProp != null && targetProp.CanWrite)
+            {
+                var value = sourceProp.GetValue(source);
+                targetProp.SetValue(target, value);
+            }
+        }
+
+        return target;
+    }
+
+    // Method invocation with reflection
+    public static object InvokeMethod(object instance, string methodName, params object[] args)
+    {
+        var method = instance.GetType().GetMethod(methodName);
+        if (method == null)
+            throw new ArgumentException($"Method {methodName} not found");
+
+        return method.Invoke(instance, args);
+    }
+
+    // Attribute discovery
+    public static IEnumerable&lt;T&gt; GetAttributes&lt;T&gt;(Type type) where T : Attribute
+    {
+        return type.GetCustomAttributes(typeof(T), true).Cast&lt;T&gt;();
+    }
+
+    // Dynamic object implementation
+    public class DynamicDictionary : DynamicObject
+    {
+        private readonly Dictionary&lt;string, object&gt; dictionary = new();
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return dictionary.TryGetValue(binder.Name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            dictionary[binder.Name] = value;
+            return true;
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            if (binder.Name == "Count")
+            {
+                result = dictionary.Count;
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+    }
+
+    // Expression trees for dynamic queries
+    public static IQueryable&lt;T&gt; DynamicWhere&lt;T&gt;(
+        IQueryable&lt;T&gt; source, 
+        string propertyName, 
+        object value)
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(parameter, propertyName);
+        var constant = Expression.Constant(value);
+        var comparison = Expression.Equal(property, constant);
+        var lambda = Expression.Lambda&lt;Func&lt;T, bool&gt;&gt;(comparison, parameter);
+
+        return source.Where(lambda);
+    }
+
+    // Code generation with reflection
+    public static Delegate CreateDelegate(Type delegateType, object target, string methodName)
+    {
+        var method = target.GetType().GetMethod(methodName);
+        return Delegate.CreateDelegate(delegateType, target, method);
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>C# Community</h4>
-                            <p>Stack Overflow, Reddit, and C# forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/c%23" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Memory Management & Performance</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Buffers;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
+
+// Memory management and performance optimization
+class PerformanceExamples
+{
+    // Object pooling
+    public class ObjectPool&lt;T&gt; where T : class, new()
+    {
+        private readonly Stack&lt;T&gt; pool = new();
+        private readonly object lockObject = new();
+
+        public T Rent()
+        {
+            lock (lockObject)
+            {
+                return pool.Count > 0 ? pool.Pop() : new T();
+            }
+        }
+
+        public void Return(T item)
+        {
+            lock (lockObject)
+            {
+                pool.Push(item);
+            }
+        }
+    }
+
+    // Array pool usage
+    public static void ProcessWithArrayPool(byte[] data)
+    {
+        var buffer = ArrayPool&lt;byte&gt;.Shared.Rent(data.Length);
+        try
+        {
+            Array.Copy(data, buffer, data.Length);
+            ProcessBuffer(buffer, data.Length);
+        }
+        finally
+        {
+            ArrayPool&lt;byte&gt;.Shared.Return(buffer);
+        }
+    }
+
+    // Memory-efficient string building
+    public static string BuildLargeString(IEnumerable&lt;string&gt; parts)
+    {
+        var builder = new System.Text.StringBuilder();
+        foreach (var part in parts)
+        {
+            builder.Append(part);
+        }
+        return builder.ToString();
+    }
+
+    // Struct for performance
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Point3D
+    {
+        public float X, Y, Z;
+
+        public Point3D(float x, float y, float z)
+        {
+            X = x; Y = y; Z = z;
+        }
+
+        public float DistanceTo(Point3D other)
+        {
+            var dx = X - other.X;
+            var dy = Y - other.Y;
+            var dz = Z - other.Z;
+            return (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
+    }
+
+    // Span and Memory for zero-copy operations
+    public static int FindPattern(ReadOnlySpan&lt;byte&gt; data, ReadOnlySpan&lt;byte&gt; pattern)
+    {
+        for (int i = 0; i <= data.Length - pattern.Length; i++)
+        {
+            if (data.Slice(i, pattern.Length).SequenceEqual(pattern))
+                return i;
+        }
+        return -1;
+    }
+
+    // ValueTask for performance
+    public static async ValueTask&lt;int&gt; ComputeAsync(int input)
+    {
+        if (input < 1000)
+        {
+            return input * 2; // Synchronous completion
+        }
+
+        await Task.Delay(100); // Async operation
+        return input * 2;
+    }
+
+    // Interlocked operations
+    public class ThreadSafeCounter
+    {
+        private long count = 0;
+
+        public void Increment()
+        {
+            Interlocked.Increment(ref count);
+        }
+
+        public long GetCount()
+        {
+            return Interlocked.Read(ref count);
+        }
+
+        public void Add(long value)
+        {
+            Interlocked.Add(ref count, value);
+        }
+    }
+
+    // Memory-mapped files
+    public static void ProcessLargeFile(string filePath)
+    {
+        using var mmf = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile(filePath);
+        using var accessor = mmf.CreateViewAccessor();
+        
+        var length = accessor.Capacity;
+        var buffer = new byte[4096];
+        
+        for (long offset = 0; offset < length; offset += buffer.Length)
+        {
+            var bytesToRead = Math.Min(buffer.Length, length - offset);
+            accessor.ReadArray(offset, buffer, 0, (int)bytesToRead);
+            ProcessBuffer(buffer, (int)bytesToRead);
+        }
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Advanced C# Patterns & Design</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+// Advanced design patterns and C# features
+class AdvancedPatterns
+{
+    // Record types (C# 9.0+)
+    public record Person(string Name, int Age, string City)
+    {
+        public string FullInfo => $"{Name} ({Age}) from {City}";
+    }
+
+    // Pattern matching
+    public static string GetDisplayName(object obj) => obj switch
+    {
+        Person p => p.FullInfo,
+        string s => s,
+        int i => $"Number: {i}",
+        _ => "Unknown"
+    };
+
+    // Deconstruction
+    public static (string name, int age) DeconstructPerson(Person person)
+    {
+        return (person.Name, person.Age);
+    }
+
+    // Null-coalescing and null-conditional operators
+    public static string SafeGetName(Person person)
+    {
+        return person?.Name ?? "Unknown";
+    }
+
+    // Switch expressions
+    public static string GetStatus(int code) => code switch
+    {
+        200 => "OK",
+        404 => "Not Found",
+        500 => "Internal Server Error",
+        _ => "Unknown"
+    };
+
+    // Property patterns
+    public static bool IsAdult(Person person) => person switch
+    {
+        { Age: >= 18 } => true,
+        _ => false
+    };
+
+    // Tuple patterns
+    public static string GetDirection(int x, int y) => (x, y) switch
+    {
+        (0, 0) => "Origin",
+        (_, 0) => "X-axis",
+        (0, _) => "Y-axis",
+        (var a, var b) when a > 0 && b > 0 => "First quadrant",
+        (var a, var b) when a < 0 && b > 0 => "Second quadrant",
+        (var a, var b) when a < 0 && b < 0 => "Third quadrant",
+        _ => "Fourth quadrant"
+    };
+
+    // Builder pattern
+    public class PersonBuilder
+    {
+        private string name = "";
+        private int age = 0;
+        private string city = "";
+
+        public PersonBuilder WithName(string name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public PersonBuilder WithAge(int age)
+        {
+            this.age = age;
+            return this;
+        }
+
+        public PersonBuilder WithCity(string city)
+        {
+            this.city = city;
+            return this;
+        }
+
+        public Person Build() => new Person(name, age, city);
+    }
+
+    // Factory pattern with generics
+    public interface IProcessor&lt;T&gt;
+    {
+        T Process(T input);
+    }
+
+    public class ProcessorFactory
+    {
+        private readonly Dictionary&lt;Type, object&gt; processors = new();
+
+        public void Register&lt;T&gt;(IProcessor&lt;T&gt; processor)
+        {
+            processors[typeof(T)] = processor;
+        }
+
+        public IProcessor&lt;T&gt; Get&lt;T&gt;()
+        {
+            return (IProcessor&lt;T&gt;)processors[typeof(T)];
+        }
+    }
+
+    // Observer pattern with events
+    public class Observable&lt;T&gt;
+    {
+        private readonly List&lt;IObserver&lt;T&gt;&gt; observers = new();
+
+        public void Subscribe(IObserver&lt;T&gt; observer)
+        {
+            observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver&lt;T&gt; observer)
+        {
+            observers.Remove(observer);
+        }
+
+        public void Notify(T value)
+        {
+            foreach (var observer in observers)
+            {
+                observer.OnNext(value);
+            }
+        }
+    }
+
+    // Strategy pattern
+    public interface ISortStrategy&lt;T&gt;
+    {
+        IEnumerable&lt;T&gt; Sort(IEnumerable&lt;T&gt; items);
+    }
+
+    public class QuickSortStrategy&lt;T&gt; : ISortStrategy&lt;T&gt;
+    {
+        public IEnumerable&lt;T&gt; Sort(IEnumerable&lt;T&gt; items)
+        {
+            return items.OrderBy(x => x);
+        }
+    }
+
+    public class Sorter&lt;T&gt;
+    {
+        private ISortStrategy&lt;T&gt; strategy;
+
+        public void SetStrategy(ISortStrategy&lt;T&gt; strategy)
+        {
+            this.strategy = strategy;
+        }
+
+        public IEnumerable&lt;T&gt; Sort(IEnumerable&lt;T&gt; items)
+        {
+            return strategy.Sort(items);
+        }
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Concurrency & Threading</h4>
+                            <div class="code-example">
+                                <pre><code>using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+// Advanced concurrency patterns
+class ConcurrencyExamples
+{
+    // Thread-safe collections
+    private readonly ConcurrentDictionary&lt;string, int&gt; cache = new();
+    private readonly ConcurrentQueue&lt;string&gt; messageQueue = new();
+    private readonly ConcurrentStack&lt;int&gt; numberStack = new();
+
+    // Async semaphore for resource limiting
+    public class AsyncResourcePool&lt;T&gt;
+    {
+        private readonly SemaphoreSlim semaphore;
+        private readonly ConcurrentQueue&lt;T&gt; resources;
+
+        public AsyncResourcePool(IEnumerable&lt;T&gt; initialResources, int maxConcurrency)
+        {
+            semaphore = new SemaphoreSlim(maxConcurrency);
+            resources = new ConcurrentQueue&lt;T&gt;(initialResources);
+        }
+
+        public async Task&lt;T&gt; RentAsync()
+        {
+            await semaphore.WaitAsync();
+            
+            if (resources.TryDequeue(out T resource))
+            {
+                return resource;
+            }
+
+            throw new InvalidOperationException("No resources available");
+        }
+
+        public void Return(T resource)
+        {
+            resources.Enqueue(resource);
+            semaphore.Release();
+        }
+    }
+
+    // Producer-consumer pattern
+    public class ProducerConsumer&lt;T&gt;
+    {
+        private readonly BlockingCollection&lt;T&gt; queue;
+        private readonly CancellationToken cancellationToken;
+
+        public ProducerConsumer(int capacity, CancellationToken cancellationToken)
+        {
+            queue = new BlockingCollection&lt;T&gt;(capacity);
+            this.cancellationToken = cancellationToken;
+        }
+
+        public void Produce(T item)
+        {
+            queue.Add(item, cancellationToken);
+        }
+
+        public async Task ConsumeAsync(Func&lt;T, Task&gt; processor)
+        {
+            await foreach (var item in queue.GetConsumingEnumerable(cancellationToken))
+            {
+                await processor(item);
+            }
+        }
+
+        public void CompleteAdding()
+        {
+            queue.CompleteAdding();
+        }
+    }
+
+    // Async lock implementation
+    public class AsyncLock
+    {
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        private readonly Task&lt;IDisposable&gt; releaser;
+
+        public AsyncLock()
+        {
+            releaser = Task.FromResult&lt;IDisposable&gt;(new Releaser(this));
+        }
+
+        public Task&lt;IDisposable&gt; LockAsync()
+        {
+            var wait = semaphore.WaitAsync();
+            return wait.IsCompleted ? releaser : wait.ContinueWith(_, releaser.Result, 
+                CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+        }
+
+        private class Releaser : IDisposable
+        {
+            private readonly AsyncLock toRelease;
+            internal Releaser(AsyncLock toRelease) { this.toRelease = toRelease; }
+            public void Dispose() { toRelease.semaphore.Release(); }
+        }
+    }
+
+    // Parallel processing with cancellation
+    public static async Task&lt;List&lt;T&gt;&gt; ProcessParallelAsync&lt;T&gt;(
+        IEnumerable&lt;T&gt; items,
+        Func&lt;T, CancellationToken, Task&lt;T&gt;&gt; processor,
+        int maxDegreeOfParallelism,
+        CancellationToken cancellationToken = default)
+    {
+        var results = new ConcurrentBag&lt;T&gt;();
+        var semaphore = new SemaphoreSlim(maxDegreeOfParallelism);
+
+        var tasks = items.Select(async item =>
+        {
+            await semaphore.WaitAsync(cancellationToken);
+            try
+            {
+                var result = await processor(item, cancellationToken);
+                results.Add(result);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+        });
+
+        await Task.WhenAll(tasks);
+        return results.ToList();
+    }
+
+    // Thread-safe lazy initialization
+    public class ThreadSafeLazy&lt;T&gt;
+    {
+        private readonly Lazy&lt;T&gt; lazy;
+
+        public ThreadSafeLazy(Func&lt;T&gt; factory)
+        {
+            lazy = new Lazy&lt;T&gt;(factory, LazyThreadSafetyMode.ExecutionAndPublication);
+        }
+
+        public T Value => lazy.Value;
+    }
+
+    // Async coordination primitives
+    public class AsyncBarrier
+    {
+        private readonly int participantCount;
+        private int remainingParticipants;
+        private TaskCompletionSource&lt;object&gt; tcs;
+
+        public AsyncBarrier(int participantCount)
+        {
+            this.participantCount = participantCount;
+            this.remainingParticipants = participantCount;
+            this.tcs = new TaskCompletionSource&lt;object&gt;();
+        }
+
+        public async Task SignalAndWaitAsync()
+        {
+            var currentTcs = tcs;
+            if (Interlocked.Decrement(ref remainingParticipants) == 0)
+            {
+                currentTcs.SetResult(null);
+                remainingParticipants = participantCount;
+                tcs = new TaskCompletionSource&lt;object&gt;();
+            }
+            else
+            {
+                await currentTcs.Task;
+            }
+        }
+    }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII - American Standard Code for Information Interchange</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-code"></i>
+            <span>Learning Platform</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#programming-languages" class="nav-link">Languages</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#coding-schemes" class="nav-link">Schemes</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html#number-system" class="nav-link">Numbers</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>📝 ASCII - American Standard Code for Information Interchange</h1>
+            <p>The foundation of modern text encoding and character representation in computing</p>
+        </div>
+
+        <div class="content-container">
+            <!-- Overview Section -->
+            <div class="section-card">
+                <h2>🔍 Overview</h2>
+                <div class="overview-content">
+                    <p>ASCII (American Standard Code for Information Interchange) is a 7-bit character encoding scheme that represents 128 characters. It was developed in the 1960s by the American Standards Association and became the foundation for modern text encoding systems.</p>
+                    
+                    <div class="key-facts">
+                        <div class="fact-item">
+                            <i class="fas fa-calendar"></i>
+                            <h4>Developed</h4>
+                            <p>1963 (first published)</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-binary"></i>
+                            <h4>Bit Length</h4>
+                            <p>7 bits (0-127)</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-font"></i>
+                            <h4>Characters</h4>
+                            <p>128 total</p>
+                        </div>
+                        <div class="fact-item">
+                            <i class="fas fa-language"></i>
+                            <h4>Language Support</h4>
+                            <p>English only</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Character Categories -->
+            <div class="section-card">
+                <h2>📊 Character Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <h3>Control Characters (0-31)</h3>
+                        <p>Non-printable characters used for device control and formatting</p>
+                        <div class="code-example">
+                            <pre><code>// Common Control Characters
+NUL = 0    (00000000) - Null character
+BEL = 7    (00000111) - Bell (alert)
+BS  = 8    (00001000) - Backspace
+HT  = 9    (00001001) - Horizontal Tab
+LF  = 10   (00001010) - Line Feed
+CR  = 13   (00001101) - Carriage Return
+ESC = 27   (00011011) - Escape
+DEL = 127  (11111111) - Delete</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <h3>Printable Characters (32-126)</h3>
+                        <p>Visible characters including letters, digits, and symbols</p>
+                        <div class="code-example">
+                            <pre><code>// Character Ranges
+Space = 32     (00100000)
+Digits = 48-57 (00110000-00111001) - '0' to '9'
+Uppercase = 65-90  (01000001-01011010) - 'A' to 'Z'
+Lowercase = 97-122 (01100001-01111010) - 'a' to 'z'
+Symbols = 33-47, 58-64, 91-96, 123-126</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Implementation Examples -->
+            <div class="section-card">
+                <h2>💻 Implementation Examples</h2>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h3>JavaScript Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>// ASCII conversion functions
+function charToAscii(char) {
+    return char.charCodeAt(0);
+}
+
+function asciiToChar(code) {
+    return String.fromCharCode(code);
+}
+
+// Convert string to ASCII codes
+function stringToAscii(str) {
+    return Array.from(str).map(char => char.charCodeAt(0));
+}
+
+// Convert ASCII codes to string
+function asciiToString(codes) {
+    return String.fromCharCode(...codes);
+}
+
+// Example usage
+console.log(charToAscii('A')); // 65
+console.log(asciiToChar(65));  // 'A'
+console.log(stringToAscii('Hello')); // [72, 101, 108, 108, 111]</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>Python Implementation</h3>
+                        <div class="code-example">
+                            <pre><code># ASCII conversion functions
+def char_to_ascii(char):
+    return ord(char)
+
+def ascii_to_char(code):
+    return chr(code)
+
+# Convert string to ASCII codes
+def string_to_ascii(text):
+    return [ord(char) for char in text]
+
+# Convert ASCII codes to string
+def ascii_to_string(codes):
+    return ''.join(chr(code) for code in codes)
+
+# Example usage
+print(char_to_ascii('A'))  # 65
+print(ascii_to_char(65))   # 'A'
+print(string_to_ascii('Hello'))  # [72, 101, 108, 108, 111]
+
+# ASCII table generation
+def print_ascii_table():
+    print("Dec | Hex | Char | Binary")
+    print("-" * 30)
+    for i in range(32, 127):
+        print(f"{i:3d} | {i:02X}  | {chr(i):4s} | {i:08b}")</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-card">
+                        <h3>C Implementation</h3>
+                        <div class="code-example">
+                            <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+// ASCII conversion functions
+int char_to_ascii(char c) {
+    return (int)c;
+}
+
+char ascii_to_char(int code) {
+    return (char)code;
+}
+
+// Convert string to ASCII codes
+void string_to_ascii(const char* str, int* codes) {
+    int i = 0;
+    while (str[i] != '\0') {
+        codes[i] = (int)str[i];
+        i++;
+    }
+}
+
+// Print ASCII table
+void print_ascii_table() {
+    printf("Dec | Hex | Char | Binary\n");
+    printf("------------------------\n");
+    for (int i = 32; i < 127; i++) {
+        printf("%3d | %02X  | %4c | %08d\n", 
+               i, i, i, i);
+    }
+}
+
+int main() {
+    char c = 'A';
+    printf("ASCII code of '%c': %d\n", c, char_to_ascii(c));
+    
+    int code = 65;
+    printf("Character for code %d: %c\n", code, ascii_to_char(code));
+    
+    print_ascii_table();
+    return 0;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practical Applications -->
+            <div class="section-card">
+                <h2>🔧 Practical Applications</h2>
+                <div class="applications-grid">
+                    <div class="application-card">
+                        <h3>Text Processing</h3>
+                        <div class="code-example">
+                            <pre><code>// Case conversion using ASCII
+function toUpperCase(str) {
+    return str.split('').map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 97 && code <= 122) {
+            return String.fromCharCode(code - 32);
+        }
+        return char;
+    }).join('');
+}
+
+function toLowerCase(str) {
+    return str.split('').map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 65 && code <= 90) {
+            return String.fromCharCode(code + 32);
+        }
+        return char;
+    }).join('');
+}
+
+// Example
+console.log(toUpperCase('hello')); // HELLO
+console.log(toLowerCase('WORLD')); // world</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="application-card">
+                        <h3>Data Validation</h3>
+                        <div class="code-example">
+                            <pre><code>// ASCII-based validation functions
+function isAlphabetic(char) {
+    const code = char.charCodeAt(0);
+    return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+}
+
+function isNumeric(char) {
+    const code = char.charCodeAt(0);
+    return code >= 48 && code <= 57;
+}
+
+function isAlphanumeric(char) {
+    return isAlphabetic(char) || isNumeric(char);
+}
+
+function isPrintable(char) {
+    const code = char.charCodeAt(0);
+    return code >= 32 && code <= 126;
+}
+
+// Example usage
+console.log(isAlphabetic('A')); // true
+console.log(isNumeric('5'));    // true
+console.log(isAlphanumeric('@')); // false</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="application-card">
+                        <h3>Encoding/Decoding</h3>
+                        <div class="code-example">
+                            <pre><code>// Simple ASCII-based encoding
+function encodeAscii(text) {
+    return text.split('').map(char => {
+        const code = char.charCodeAt(0);
+        return code.toString(16).padStart(2, '0');
+    }).join(' ');
+}
+
+function decodeAscii(encoded) {
+    return encoded.split(' ').map(hex => {
+        const code = parseInt(hex, 16);
+        return String.fromCharCode(code);
+    }).join('');
+}
+
+// Example
+const encoded = encodeAscii('Hello');
+console.log(encoded); // 48 65 6c 6c 6f
+console.log(decodeAscii(encoded)); // Hello</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical Context -->
+            <div class="section-card">
+                <h2>📚 Historical Context</h2>
+                <div class="history-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="year">1960</div>
+                            <div class="description">
+                                <h4>Development Begins</h4>
+                                <p>Work begins on standardizing character encoding for teletype machines and early computers.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="year">1963</div>
+                            <div class="description">
+                                <h4>First Publication</h4>
+                                <p>ASCII is first published as ASA X3.4-1963 by the American Standards Association.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="year">1967</div>
+                            <div class="description">
+                                <h4>ISO Standard</h4>
+                                <p>ASCII becomes ISO 646, an international standard for character encoding.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="year">1986</div>
+                            <div class="description">
+                                <h4>Extended ASCII</h4>
+                                <p>8-bit extensions of ASCII are developed to support additional characters and symbols.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Limitations and Evolution -->
+            <div class="section-card">
+                <h2>⚠️ Limitations and Evolution</h2>
+                <div class="limitations-content">
+                    <div class="limitation-card">
+                        <h3>Language Limitations</h3>
+                        <ul>
+                            <li>Only supports English alphabet</li>
+                            <li>No support for accented characters</li>
+                            <li>Cannot represent non-Latin scripts</li>
+                            <li>Limited symbol repertoire</li>
+                        </ul>
+                    </div>
+                    <div class="limitation-card">
+                        <h3>Technical Limitations</h3>
+                        <ul>
+                            <li>7-bit encoding limits character set</li>
+                            <li>No support for modern symbols and emojis</li>
+                            <li>Incompatible with international standards</li>
+                            <li>Limited extensibility</li>
+                        </ul>
+                    </div>
+                    <div class="evolution-card">
+                        <h3>Evolution to Unicode</h3>
+                        <p>ASCII's limitations led to the development of Unicode, which provides a universal character encoding standard supporting virtually all writing systems and languages in the world.</p>
+                        <div class="code-example">
+                            <pre><code>// ASCII vs Unicode comparison
+// ASCII: Limited to 128 characters
+'A' = 65 (7 bits)
+
+// Unicode: Supports over 1.1 million characters
+'A' = U+0041 (16 bits)
+'ñ' = U+00F1 (Latin Small Letter N with Tilde)
+'中' = U+4E2D (Chinese Character)
+'😀' = U+1F600 (Grinning Face)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

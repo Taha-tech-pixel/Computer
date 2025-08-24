@@ -548,29 +548,966 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Kotlin Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🟠 Complete Kotlin Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Documentation</h4>
-                            <p>Kotlin language documentation and tutorials</p>
-                            <a href="https://kotlinlang.org/docs/home.html" target="_blank" class="btn btn-secondary">Visit Docs</a>
+                            <h4>Advanced Kotlin Features & DSLs</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlinx.coroutines.*
+import kotlin.reflect.KProperty
+
+// Advanced Kotlin features and DSLs
+class AdvancedKotlinFeatures {
+    
+    // Type-safe builders (DSL)
+    class HTMLBuilder {
+        private val content = StringBuilder()
+        
+        fun html(init: HTMLBuilder.() -> Unit): HTMLBuilder {
+            content.append("&lt;html&gt;")
+            init()
+            content.append("&lt;/html&gt;")
+            return this
+        }
+        
+        fun head(init: HeadBuilder.() -> Unit) {
+            content.append("&lt;head&gt;")
+            HeadBuilder().apply(init)
+            content.append("&lt;/head&gt;")
+        }
+        
+        fun body(init: BodyBuilder.() -> Unit) {
+            content.append("&lt;body&gt;")
+            BodyBuilder().apply(init)
+            content.append("&lt;/body&gt;")
+        }
+        
+        override fun toString() = content.toString()
+    }
+    
+    class HeadBuilder {
+        fun title(text: String) = println("&lt;title&gt;$text&lt;/title&gt;")
+    }
+    
+    class BodyBuilder {
+        fun h1(text: String) = println("&lt;h1&gt;$text&lt;/h1&gt;")
+        fun p(text: String) = println("&lt;p&gt;$text&lt;/p&gt;")
+    }
+    
+    // Infix functions
+    infix fun Int.times(str: String) = str.repeat(this)
+    
+    // Operator overloading
+    data class Point(val x: Int, val y: Int) {
+        operator fun plus(other: Point) = Point(x + other.x, y + other.y)
+        operator fun minus(other: Point) = Point(x - other.x, y - other.y)
+        operator fun times(factor: Int) = Point(x * factor, y * factor)
+    }
+    
+    // Delegated properties
+    class LazyProperty {
+        val lazyValue: String by lazy {
+            println("Computed!")
+            "Hello"
+        }
+    }
+    
+    // Custom delegate
+    class Delegate {
+        private var value: String = ""
+        
+        operator fun getValue(thisRef: Any?, property: KProperty&lt;*&gt;): String {
+            return value
+        }
+        
+        operator fun setValue(thisRef: Any?, property: KProperty&lt;*&gt;, newValue: String) {
+            value = newValue
+        }
+    }
+    
+    // Sealed classes for state management
+    sealed class Result&lt;out T&gt; {
+        data class Success&lt;T&gt;(val data: T) : Result&lt;T&gt;()
+        data class Error(val message: String) : Result&lt;Nothing&gt;()
+        object Loading : Result&lt;Nothing&gt;()
+    }
+    
+    // Inline functions and reified types
+    inline fun &lt;reified T&gt; createInstance(): T {
+        return T::class.java.getDeclaredConstructor().newInstance()
+    }
+    
+    // Higher-order functions with receivers
+    fun buildString(builderAction: StringBuilder.() -> Unit): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.builderAction()
+        return stringBuilder.toString()
+    }
+    
+    // Extension functions for collections
+    fun &lt;T&gt; List&lt;T&gt;.customFilter(predicate: (T) -> Boolean): List&lt;T&gt; {
+        val result = mutableListOf&lt;T&gt;()
+        for (item in this) {
+            if (predicate(item)) {
+                result.add(item)
+            }
+        }
+        return result
+    }
+    
+    // Smart casts and when expressions
+    fun describe(obj: Any): String = when (obj) {
+        1 -> "One"
+        "Hello" -> "Greeting"
+        is Long -> "Long"
+        !is String -> "Not a string"
+        else -> "Unknown"
+    }
+    
+    // Destructuring declarations
+    data class User(val name: String, val age: Int, val email: String)
+    
+    fun processUser(user: User) {
+        val (name, age, email) = user
+        println("$name is $age years old with email $email")
+    }
+    
+    // Local functions
+    fun factorial(n: Int): Int {
+        fun factorialHelper(n: Int, acc: Int): Int {
+            return if (n <= 1) acc else factorialHelper(n - 1, n * acc)
+        }
+        return factorialHelper(n, 1)
+    }
+    
+    // Tail recursive functions
+    tailrec fun fibonacci(n: Int, a: Int = 0, b: Int = 1): Int {
+        return when (n) {
+            0 -> a
+            1 -> b
+            else -> fibonacci(n - 1, b, a + b)
+        }
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Kotlin Playground</h4>
-                            <p>Online editor to experiment with Kotlin</p>
-                            <a href="https://play.kotlinlang.org/" target="_blank" class="btn btn-secondary">Try Online</a>
+                            <h4>Coroutines & Async Programming</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
+
+// Advanced coroutines and async programming
+class CoroutinesExamples {
+    
+    // Structured concurrency
+    suspend fun fetchUserData(userId: Int): User {
+        return withContext(Dispatchers.IO) {
+            delay(1000) // Simulate network call
+            User("User$userId", 25, "user$userId@example.com")
+        }
+    }
+    
+    // Parallel execution
+    suspend fun fetchMultipleUsers(userIds: List&lt;Int&gt;): List&lt;User&gt; {
+        return coroutineScope {
+            userIds.map { async { fetchUserData(it) } }
+                .awaitAll()
+        }
+    }
+    
+    // Timeout handling
+    suspend fun fetchWithTimeout(userId: Int): User? {
+        return withTimeoutOrNull(5000) {
+            fetchUserData(userId)
+        }
+    }
+    
+    // Exception handling in coroutines
+    suspend fun fetchUserSafely(userId: Int): Result&lt;User&gt; {
+        return try {
+            val user = fetchUserData(userId)
+            Result.success(user)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    // Coroutine context and dispatchers
+    suspend fun performHeavyComputation(): Int {
+        return withContext(Dispatchers.Default) {
+            var result = 0
+            repeat(1000000) { result += it }
+            result
+        }
+    }
+    
+    // Custom dispatcher
+    val customDispatcher = Dispatchers.IO.limitedParallelism(2)
+    
+    // Flow for reactive streams
+    fun getUserFlow(userIds: List&lt;Int&gt;): Flow&lt;User&gt; = flow {
+        for (userId in userIds) {
+            emit(fetchUserData(userId))
+            delay(100) // Backpressure
+        }
+    }
+    
+    // StateFlow for state management
+    class UserRepository {
+        private val _users = MutableStateFlow&lt;List&lt;User&gt;&gt;(emptyList())
+        val users: StateFlow&lt;List&lt;User&gt;&gt; = _users.asStateFlow()
+        
+        suspend fun loadUsers() {
+            val userList = fetchMultipleUsers(listOf(1, 2, 3, 4, 5))
+            _users.value = userList
+        }
+    }
+    
+    // Channel for communication between coroutines
+    suspend fun producerConsumer() {
+        val channel = Channel&lt;Int&gt;()
+        
+        // Producer
+        launch {
+            for (i in 1..5) {
+                channel.send(i)
+                delay(100)
+            }
+            channel.close()
+        }
+        
+        // Consumer
+        launch {
+            for (value in channel) {
+                println("Received: $value")
+            }
+        }
+    }
+    
+    // SharedFlow for multiple subscribers
+    class EventBus {
+        private val _events = MutableSharedFlow&lt;String&gt;()
+        val events: SharedFlow&lt;String&gt; = _events.asSharedFlow()
+        
+        suspend fun emitEvent(event: String) {
+            _events.emit(event)
+        }
+    }
+    
+    // Coroutine scope with lifecycle
+    class LifecycleAwareComponent {
+        private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        
+        fun startWork() {
+            scope.launch {
+                try {
+                    val result = performHeavyComputation()
+                    println("Result: $result")
+                } catch (e: Exception) {
+                    println("Error: ${e.message}")
+                }
+            }
+        }
+        
+        fun cleanup() {
+            scope.cancel()
+        }
+    }
+    
+    // Async/await pattern
+    suspend fun asyncExample() {
+        val time = measureTimeMillis {
+            val user1 = async { fetchUserData(1) }
+            val user2 = async { fetchUserData(2) }
+            
+            val result1 = user1.await()
+            val result2 = user2.await()
+            
+            println("${result1.name} and ${result2.name}")
+        }
+        println("Completed in $time ms")
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Android Kotlin Guide</h4>
-                            <p>Official Android development with Kotlin guide</p>
-                            <a href="https://developer.android.com/kotlin" target="_blank" class="btn btn-secondary">Learn Android</a>
+                            <h4>Functional Programming & Collections</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlin.collections.*
+
+// Advanced functional programming and collections
+class FunctionalProgrammingExamples {
+    
+    // Higher-order functions
+    fun &lt;T, R&gt; List&lt;T&gt;.customMap(transform: (T) -> R): List&lt;R&gt; {
+        val result = mutableListOf&lt;R&gt;()
+        for (item in this) {
+            result.add(transform(item))
+        }
+        return result
+    }
+    
+    fun &lt;T&gt; List&lt;T&gt;.customFilter(predicate: (T) -> Boolean): List&lt;T&gt; {
+        val result = mutableListOf&lt;T&gt;()
+        for (item in this) {
+            if (predicate(item)) {
+                result.add(item)
+            }
+        }
+        return result
+    }
+    
+    fun &lt;T, R&gt; List&lt;T&gt;.customFold(initial: R, operation: (R, T) -> R): R {
+        var accumulator = initial
+        for (item in this) {
+            accumulator = operation(accumulator, item)
+        }
+        return accumulator
+    }
+    
+    // Function composition
+    fun &lt;A, B, C&gt; ((A) -> B).compose(other: (B) -> C): (A) -> C {
+        return { a -> other(this(a)) }
+    }
+    
+    // Partial application
+    fun &lt;A, B, C&gt; ((A, B) -> C).partial(a: A): (B) -> C {
+        return { b -> this(a, b) }
+    }
+    
+    // Currying
+    fun &lt;A, B, C&gt; ((A, B) -> C).curry(): (A) -> (B) -> C {
+        return { a -> { b -> this(a, b) } }
+    }
+    
+    // Advanced collection operations
+    fun collectionExamples() {
+        val numbers = (1..100).toList()
+        
+        // Grouping and partitioning
+        val groupedByDigit = numbers.groupBy { it.toString().length }
+        val (even, odd) = numbers.partition { it % 2 == 0 }
+        
+        // Zipping and chunking
+        val names = listOf("Alice", "Bob", "Charlie")
+        val ages = listOf(25, 30, 35)
+        val nameAgePairs = names.zip(ages)
+        
+        val chunks = numbers.chunked(10)
+        val windowed = numbers.windowed(3, 1, true)
+        
+        // Flattening and flatMapping
+        val nestedLists = listOf(listOf(1, 2), listOf(3, 4), listOf(5, 6))
+        val flattened = nestedLists.flatten()
+        val flatMapped = nestedLists.flatMap { it.map { num -> num * 2 } }
+        
+        // Reducing and scanning
+        val sum = numbers.reduce { acc, num -> acc + num }
+        val runningSum = numbers.runningReduce { acc, num -> acc + num }
+        
+        // Distinct and distinctBy
+        val duplicates = listOf(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+        val distinct = duplicates.distinct()
+        val distinctByLength = listOf("a", "bb", "ccc", "dddd").distinctBy { it.length }
+    }
+    
+    // Sequence operations for lazy evaluation
+    fun sequenceExamples() {
+        val sequence = sequence {
+            yield(1)
+            yieldAll(listOf(2, 3, 4))
+            yield(5)
+        }
+        
+        val infiniteSequence = sequence {
+            var i = 0
+            while (true) {
+                yield(i++)
+            }
+        }
+        
+        val result = infiniteSequence
+            .take(10)
+            .filter { it % 2 == 0 }
+            .map { it * it }
+            .toList()
+    }
+    
+    // Custom collection implementations
+    class CustomList&lt;T&gt;(private val elements: List&lt;T&gt;) : List&lt;T&gt; by elements {
+        fun customFilter(predicate: (T) -> Boolean): CustomList&lt;T&gt; {
+            return CustomList(elements.filter(predicate))
+        }
+        
+        override fun toString(): String {
+            return "CustomList(${elements.joinToString()})"
+        }
+    }
+    
+    // Algebraic data types with sealed classes
+    sealed class Tree&lt;out T&gt; {
+        object Empty : Tree&lt;Nothing&gt;()
+        data class Node&lt;T&gt;(val value: T, val left: Tree&lt;T&gt;, val right: Tree&lt;T&gt;) : Tree&lt;T&gt;()
+    }
+    
+    fun &lt;T&gt; Tree&lt;T&gt;.size(): Int = when (this) {
+        is Tree.Empty -> 0
+        is Tree.Node -> 1 + left.size() + right.size()
+    }
+    
+    fun &lt;T&gt; Tree&lt;T&gt;.depth(): Int = when (this) {
+        is Tree.Empty -> 0
+        is Tree.Node -> 1 + maxOf(left.depth(), right.depth())
+    }
+    
+    // Monad-like operations
+    sealed class Maybe&lt;out T&gt; {
+        object Nothing : Maybe&lt;Nothing&gt;()
+        data class Just&lt;T&gt;(val value: T) : Maybe&lt;T&gt;()
+        
+        fun &lt;R&gt; map(transform: (T) -> R): Maybe&lt;R&gt; = when (this) {
+            is Nothing -> Nothing
+            is Just -> Just(transform(value))
+        }
+        
+        fun &lt;R&gt; flatMap(transform: (T) -> Maybe&lt;R&gt;): Maybe&lt;R&gt; = when (this) {
+            is Nothing -> Nothing
+            is Just -> transform(value)
+        }
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Kotlin Community</h4>
-                            <p>Stack Overflow, Reddit, and Kotlin forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/kotlin" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Object-Oriented Patterns & Design</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlin.reflect.KClass
+
+// Advanced OOP patterns and design in Kotlin
+class OOPPatternsExamples {
+    
+    // Singleton pattern
+    object Singleton {
+        private var instance: Singleton? = null
+        
+        fun getInstance(): Singleton {
+            return instance ?: Singleton.also { instance = it }
+        }
+        
+        fun doSomething() = println("Singleton operation")
+    }
+    
+    // Factory pattern
+    interface Animal {
+        fun makeSound(): String
+    }
+    
+    class Dog : Animal {
+        override fun makeSound() = "Woof!"
+    }
+    
+    class Cat : Animal {
+        override fun makeSound() = "Meow!"
+    }
+    
+    object AnimalFactory {
+        fun createAnimal(type: String): Animal = when (type.lowercase()) {
+            "dog" -> Dog()
+            "cat" -> Cat()
+            else -> throw IllegalArgumentException("Unknown animal type: $type")
+        }
+    }
+    
+    // Builder pattern with DSL
+    class Person private constructor(
+        val name: String,
+        val age: Int,
+        val email: String,
+        val phone: String?
+    ) {
+        class Builder {
+            private var name: String = ""
+            private var age: Int = 0
+            private var email: String = ""
+            private var phone: String? = null
+            
+            fun name(name: String) = apply { this.name = name }
+            fun age(age: Int) = apply { this.age = age }
+            fun email(email: String) = apply { this.email = email }
+            fun phone(phone: String?) = apply { this.phone = phone }
+            
+            fun build() = Person(name, age, email, phone)
+        }
+        
+        companion object {
+            fun builder() = Builder()
+        }
+    }
+    
+    // Observer pattern
+    interface Observer {
+        fun update(data: String)
+    }
+    
+    class Subject {
+        private val observers = mutableListOf&lt;Observer&gt;()
+        
+        fun attach(observer: Observer) {
+            observers.add(observer)
+        }
+        
+        fun detach(observer: Observer) {
+            observers.remove(observer)
+        }
+        
+        fun notify(data: String) {
+            observers.forEach { it.update(data) }
+        }
+    }
+    
+    // Strategy pattern
+    interface SortStrategy {
+        fun sort(list: List&lt;Int&gt;): List&lt;Int&gt;
+    }
+    
+    class BubbleSort : SortStrategy {
+        override fun sort(list: List&lt;Int&gt;): List&lt;Int&gt; {
+            return list.sorted()
+        }
+    }
+    
+    class QuickSort : SortStrategy {
+        override fun sort(list: List&lt;Int&gt;): List&lt;Int&gt; {
+            return list.sorted()
+        }
+    }
+    
+    class Sorter(private var strategy: SortStrategy) {
+        fun setStrategy(strategy: SortStrategy) {
+            this.strategy = strategy
+        }
+        
+        fun sort(list: List&lt;Int&gt;): List&lt;Int&gt; {
+            return strategy.sort(list)
+        }
+    }
+    
+    // Command pattern
+    interface Command {
+        fun execute()
+        fun undo()
+    }
+    
+    class Light {
+        fun turnOn() = println("Light is on")
+        fun turnOff() = println("Light is off")
+    }
+    
+    class LightOnCommand(private val light: Light) : Command {
+        override fun execute() = light.turnOn()
+        override fun undo() = light.turnOff()
+    }
+    
+    class LightOffCommand(private val light: Light) : Command {
+        override fun execute() = light.turnOff()
+        override fun undo() = light.turnOn()
+    }
+    
+    class RemoteControl {
+        private val commands = mutableMapOf&lt;Int, Command&gt;()
+        
+        fun setCommand(slot: Int, command: Command) {
+            commands[slot] = command
+        }
+        
+        fun pressButton(slot: Int) {
+            commands[slot]?.execute()
+        }
+    }
+    
+    // Template method pattern
+    abstract class DataProcessor {
+        fun process() {
+            val data = loadData()
+            val processedData = processData(data)
+            saveData(processedData)
+        }
+        
+        abstract fun loadData(): String
+        abstract fun processData(data: String): String
+        abstract fun saveData(data: String)
+    }
+    
+    class TextProcessor : DataProcessor() {
+        override fun loadData() = "Sample text data"
+        override fun processData(data: String) = data.uppercase()
+        override fun saveData(data: String) = println("Saving: $data")
+    }
+    
+    // Decorator pattern
+    interface Coffee {
+        fun cost(): Double
+        fun description(): String
+    }
+    
+    class SimpleCoffee : Coffee {
+        override fun cost() = 1.0
+        override fun description() = "Simple coffee"
+    }
+    
+    abstract class CoffeeDecorator(private val coffee: Coffee) : Coffee {
+        override fun cost() = coffee.cost()
+        override fun description() = coffee.description()
+    }
+    
+    class MilkDecorator(coffee: Coffee) : CoffeeDecorator(coffee) {
+        override fun cost() = super.cost() + 0.5
+        override fun description() = super.description() + ", milk"
+    }
+    
+    class SugarDecorator(coffee: Coffee) : CoffeeDecorator(coffee) {
+        override fun cost() = super.cost() + 0.2
+        override fun description() = super.description() + ", sugar"
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Reflection & Metaprogramming</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlin.reflect.*
+import kotlin.reflect.full.*
+
+// Reflection and metaprogramming in Kotlin
+class ReflectionExamples {
+    
+    // Class reflection
+    fun classReflection() {
+        val personClass = Person::class
+        
+        // Get properties
+        val properties = personClass.memberProperties
+        properties.forEach { prop ->
+            println("Property: ${prop.name} of type ${prop.returnType}")
+        }
+        
+        // Get functions
+        val functions = personClass.memberFunctions
+        functions.forEach { func ->
+            println("Function: ${func.name} with ${func.parameters.size} parameters")
+        }
+        
+        // Get annotations
+        val annotations = personClass.annotations
+        annotations.forEach { annotation ->
+            println("Annotation: ${annotation.annotationClass.simpleName}")
+        }
+    }
+    
+    // Property reflection
+    fun propertyReflection() {
+        val person = Person("Alice", 25, "alice@example.com", null)
+        
+        Person::class.memberProperties.forEach { prop ->
+            val value = prop.get(person)
+            println("${prop.name} = $value")
+        }
+    }
+    
+    // Function reflection
+    fun functionReflection() {
+        val person = Person("Bob", 30, "bob@example.com", null)
+        
+        Person::class.memberFunctions.forEach { func ->
+            if (func.parameters.size == 1) { // Instance methods only
+                try {
+                    val result = func.call(person)
+                    println("${func.name}() = $result")
+                } catch (e: Exception) {
+                    println("Error calling ${func.name}: ${e.message}")
+                }
+            }
+        }
+    }
+    
+    // Dynamic property access
+    fun dynamicPropertyAccess() {
+        val person = Person("Charlie", 35, "charlie@example.com", null)
+        
+        val nameProperty = Person::class.memberProperties.find { it.name == "name" }
+        nameProperty?.let { prop ->
+            val value = prop.get(person)
+            println("Dynamic name access: $value")
+        }
+    }
+    
+    // Creating instances dynamically
+    fun createInstanceDynamically() {
+        val personClass = Person::class
+        
+        try {
+            val constructor = personClass.primaryConstructor
+            val instance = constructor?.call("Dynamic", 40, "dynamic@example.com", null)
+            println("Created instance: $instance")
+        } catch (e: Exception) {
+            println("Error creating instance: ${e.message}")
+        }
+    }
+    
+    // KClass and type checking
+    fun typeChecking() {
+        val objects = listOf("String", 42, 3.14, Person("Test", 0, "test@test.com", null))
+        
+        objects.forEach { obj ->
+            when (obj::class) {
+                String::class -> println("$obj is a String")
+                Int::class -> println("$obj is an Int")
+                Double::class -> println("$obj is a Double")
+                Person::class -> println("$obj is a Person")
+                else -> println("$obj is of unknown type")
+            }
+        }
+    }
+    
+    // Annotation processing
+    @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+    annotation class Serializable
+    
+    @Serializable
+    data class User(
+        @Serializable val name: String,
+        @Serializable val age: Int
+    )
+    
+    fun processAnnotations() {
+        val userClass = User::class
+        
+        if (userClass.hasAnnotation&lt;Serializable&gt;()) {
+            println("User class is serializable")
+        }
+        
+        userClass.memberProperties.forEach { prop ->
+            if (prop.hasAnnotation&lt;Serializable&gt;()) {
+                println("Property ${prop.name} is serializable")
+            }
+        }
+    }
+    
+    // Callable references
+    fun callableReferences() {
+        val names = listOf("Alice", "Bob", "Charlie")
+        
+        // Function reference
+        val lengthFunction: (String) -> Int = String::length
+        val lengths = names.map(lengthFunction)
+        
+        // Property reference
+        val nameProperty: (Person) -> String = Person::name
+        val people = listOf(
+            Person("Alice", 25, "alice@example.com", null),
+            Person("Bob", 30, "bob@example.com", null)
+        )
+        val namesFromPeople = people.map(nameProperty)
+        
+        // Constructor reference
+        val personConstructor: (String, Int, String, String?) -> Person = ::Person
+        val newPerson = personConstructor("David", 45, "david@example.com", null)
+    }
+    
+    // KType and generic reflection
+    fun genericReflection() {
+        val listClass = List::class
+        val stringListClass = List::class.createType(listOf(String::class.createType()))
+        
+        println("List class: $listClass")
+        println("String list type: $stringListClass")
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Performance & Optimization</h4>
+                            <div class="code-example">
+                                <pre><code>import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.*
+
+// Performance optimization and benchmarking
+class PerformanceExamples {
+    
+    // Benchmarking functions
+    fun benchmark() {
+        val iterations = 1000000
+        
+        val listTime = measureTimeMillis {
+            val list = (1..iterations).toList()
+            list.filter { it % 2 == 0 }.map { it * 2 }.sum()
+        }
+        
+        val sequenceTime = measureTimeMillis {
+            val sequence = (1..iterations).asSequence()
+            sequence.filter { it % 2 == 0 }.map { it * 2 }.sum()
+        }
+        
+        println("List time: ${listTime}ms")
+        println("Sequence time: ${sequenceTime}ms")
+    }
+    
+    // Memory-efficient operations
+    fun memoryEfficientOperations() {
+        // Use sequences for large collections
+        val largeRange = (1..10000000).asSequence()
+        val result = largeRange
+            .filter { it % 2 == 0 }
+            .take(1000)
+            .toList()
+        
+        // Use lazy evaluation
+        val lazyValue by lazy {
+            println("Computing expensive value...")
+            expensiveComputation()
+        }
+        
+        // Use object pooling for frequently created objects
+        val pool = ObjectPool&lt;ExpensiveObject&gt;()
+        val obj = pool.obtain()
+        // Use obj
+        pool.release(obj)
+    }
+    
+    // Inline functions for performance
+    inline fun measureTime(block: () -> Unit): Long {
+        val start = System.currentTimeMillis()
+        block()
+        return System.currentTimeMillis() - start
+    }
+    
+    // Reified inline functions
+    inline fun &lt;reified T&gt; createArray(size: Int): Array&lt;T?&gt; {
+        return Array(size) { null }
+    }
+    
+    // Noinline and crossinline
+    inline fun inlineFunction(
+        noinline nonInlined: () -> Unit,
+        crossinline crossInlined: () -> Unit
+    ) {
+        // nonInlined can be stored
+        val stored = nonInlined
+        
+        // crossInlined can be called from other contexts
+        runBlocking {
+            crossInlined()
+        }
+    }
+    
+    // Object pooling
+    class ObjectPool&lt;T&gt;(private val factory: () -> T) {
+        private val pool = mutableListOf&lt;T&gt;()
+        
+        fun obtain(): T {
+            return if (pool.isNotEmpty()) {
+                pool.removeAt(pool.size - 1)
+            } else {
+                factory()
+            }
+        }
+        
+        fun release(obj: T) {
+            pool.add(obj)
+        }
+    }
+    
+    // Efficient string operations
+    fun efficientStringOperations() {
+        // Use StringBuilder for multiple concatenations
+        val builder = StringBuilder()
+        repeat(1000) { i ->
+            builder.append("Item $i, ")
+        }
+        val result = builder.toString()
+        
+        // Use string templates efficiently
+        val name = "Alice"
+        val age = 25
+        val message = "$name is $age years old" // More efficient than concatenation
+    }
+    
+    // Collection performance
+    fun collectionPerformance() {
+        // Choose appropriate collection types
+        val set = mutableSetOf&lt;Int&gt;() // O(1) contains
+        val list = mutableListOf&lt;Int&gt;() // O(n) contains
+        
+        // Use appropriate initial capacity
+        val largeList = ArrayList&lt;Int&gt;(10000)
+        
+        // Use appropriate iteration methods
+        val numbers = (1..1000000).toList()
+        
+        // Fastest: direct indexing
+        for (i in numbers.indices) {
+            val num = numbers[i]
+        }
+        
+        // Fast: for-in loop
+        for (num in numbers) {
+            // Process num
+        }
+        
+        // Slower: forEach
+        numbers.forEach { num ->
+            // Process num
+        }
+    }
+    
+    // Coroutine performance
+    suspend fun coroutinePerformance() {
+        // Use appropriate dispatchers
+        withContext(Dispatchers.IO) {
+            // I/O operations
+        }
+        
+        withContext(Dispatchers.Default) {
+            // CPU-intensive operations
+        }
+        
+        withContext(Dispatchers.Main) {
+            // UI operations
+        }
+        
+        // Use structured concurrency
+        coroutineScope {
+            val deferred1 = async { expensiveOperation1() }
+            val deferred2 = async { expensiveOperation2() }
+            
+            val result1 = deferred1.await()
+            val result2 = deferred2.await()
+        }
+    }
+    
+    private fun expensiveComputation(): Int {
+        Thread.sleep(1000)
+        return 42
+    }
+    
+    private suspend fun expensiveOperation1(): Int {
+        delay(1000)
+        return 1
+    }
+    
+    private suspend fun expensiveOperation2(): Int {
+        delay(1000)
+        return 2
+    }
+    
+    class ExpensiveObject {
+        val data = ByteArray(1024 * 1024) // 1MB
+    }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

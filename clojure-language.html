@@ -418,35 +418,904 @@ nil         ; Null</code></pre>
                 </div>
             </div>
 
+            <!-- Complete Clojure Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>🌿 Complete Clojure Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"Clojure Programming" by Chas Emerick</li>
-                            <li>"Programming Clojure" by Stuart Halloway</li>
-                            <li>"The Joy of Clojure" by Michael Fogus</li>
-                        </ul>
+                        <h4>Functional Programming & Immutability</h4>
+                        <div class="code-example">
+                            <pre><code>;; Immutable data structures and functional programming
+(ns functional-examples)
+
+;; Working with immutable collections
+(def numbers [1 2 3 4 5])
+(def updated-numbers (conj numbers 6)) ; [1 2 3 4 5 6]
+(def filtered-numbers (filter even? numbers)) ; (2 4)
+
+;; Higher-order functions
+(defn apply-operation [op coll]
+  (map op coll))
+
+(apply-operation #(* % %) [1 2 3 4]) ; (1 4 9 16)
+
+;; Function composition
+(def process-data
+  (comp
+    (partial filter pos?)
+    (partial map #(* % %))
+    (partial take 10)))
+
+(process-data [-2 -1 0 1 2 3 4]) ; (1 4 9 16)
+
+;; Transducers for efficient data transformation
+(def xf
+  (comp
+    (filter even?)
+    (map #(* % %))
+    (take 5)))
+
+(transduce xf + [1 2 3 4 5 6 7 8 9 10]) ; 220
+
+;; Persistent data structures
+(def original-map {:a 1 :b 2 :c 3})
+(def updated-map (assoc original-map :d 4))
+(def nested-map {:user {:name "John" :age 30}})
+(def updated-nested (assoc-in nested-map [:user :age] 31))
+
+;; Working with sequences
+(defn fibonacci-seq []
+  (map first (iterate (fn [[a b]] [b (+ a b)]) [0 1])))
+
+(take 10 (fibonacci-seq)) ; (0 1 1 2 3 5 8 13 21 34)
+
+;; Lazy sequences
+(defn primes []
+  (letfn [(sieve [s]
+            (cons (first s)
+                  (lazy-seq (sieve (filter #(pos? (mod % (first s)))
+                                          (rest s))))))]
+    (sieve (iterate inc 2))))
+
+(take 10 (primes)) ; (2 3 5 7 11 13 17 19 23 29)
+
+;; Recursive functions with recur
+(defn factorial [n]
+  (loop [acc 1 n n]
+    (if (zero? n)
+      acc
+      (recur (* acc n) (dec n)))))
+
+;; Pattern matching with core.match
+(require '[clojure.core.match :refer [match]])
+
+(defn analyze-data [data]
+  (match data
+    {:type :user :name name :age age} (str "User: " name ", Age: " age)
+    {:type :product :name name :price price} (str "Product: " name ", $" price)
+    {:type :order :items items} (str "Order with " (count items) " items")
+    :else "Unknown data type"))
+
+;; Multimethods for polymorphism
+(defmulti area :shape)
+
+(defmethod area :circle [shape]
+  (* Math/PI (:radius shape) (:radius shape)))
+
+(defmethod area :rectangle [shape]
+  (* (:width shape) (:height shape)))
+
+(defmethod area :triangle [shape]
+  (/ (* (:base shape) (:height shape)) 2))</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://clojure.org" target="_blank">Clojure.org</a></li>
-                            <li><a href="https://clojuredocs.org" target="_blank">ClojureDocs</a></li>
-                            <li><a href="https://clojureverse.org" target="_blank">ClojureVerse</a></li>
-                        </ul>
+                        <h4>Macros & Metaprogramming</h4>
+                        <div class="code-example">
+                            <pre><code>;; Advanced macro programming
+(ns macro-examples)
+
+;; Simple macro
+(defmacro unless [condition & body]
+  `(if (not ~condition)
+     (do ~@body)))
+
+(unless false (println "This will print"))
+
+;; Macro with syntax-quote and unquote
+(defmacro debug [expr]
+  `(let [result# ~expr]
+     (println "Debug:" '~expr "=" result#)
+     result#))
+
+(debug (+ 1 2 3)) ; Prints: Debug: (+ 1 2 3) = 6
+
+;; Creating a DSL with macros
+(defmacro defapi [name & routes]
+  `(defn ~name []
+     {:routes ~(vec routes)}))
+
+(defmacro GET [path handler]
+  `{:method :get :path ~path :handler ~handler})
+
+(defmacro POST [path handler]
+  `{:method :post :path ~path :handler ~handler})
+
+(defapi my-api
+  (GET "/users" get-users)
+  (POST "/users" create-user))
+
+;; Macro for creating fluent interfaces
+(defmacro -> [x & forms]
+  (reduce (fn [acc form]
+            (if (seq? form)
+              `(~(first form) ~acc ~@(rest form))
+              `(~form ~acc)))
+          x forms))
+
+;; Advanced macro with validation
+(defmacro defvalidated [name args & body]
+  (let [validations (take-while map? body)
+        real-body (drop-while map? body)]
+    `(defn ~name ~args
+       (let [validation-results# ~(mapv (fn [v] `(~(:validator v) ~@args)) validations)]
+         (when-not (every? true? validation-results#)
+           (throw (ex-info "Validation failed" {:args ~args}))))
+       ~@real-body)))
+
+;; Code generation with macros
+(defmacro defgetters [record-name & fields]
+  `(do
+     ~@(map (fn [field]
+              `(defn ~(symbol (str "get-" (name field))) [record#]
+                 (~field record#)))
+            fields)))
+
+(defrecord Person [name age email])
+(defgetters Person name age email)
+
+;; Macro for creating test cases
+(defmacro deftest-cases [test-name & cases]
+  `(do
+     ~@(map-indexed
+        (fn [idx [input expected]]
+          `(deftest ~(symbol (str test-name "-" idx))
+             (is (= ~expected (~test-name ~input)))))
+        (partition 2 cases))))
+
+;; Reader macros and tagged literals
+(defn uuid-reader [s]
+  (java.util.UUID/fromString s))
+
+;; Custom data readers
+(def data-readers {'uuid uuid-reader})
+
+;; Compile-time computation
+(defmacro compile-time-calc [expr]
+  (eval expr))
+
+;; Macro for creating state machines
+(defmacro defstate-machine [name initial-state & transitions]
+  (let [states (into #{} (concat [initial-state] 
+                                (map first transitions) 
+                                (map (comp first second) transitions)))]
+    `(defn ~name []
+       (let [state# (atom ~initial-state)]
+         {:current-state (fn [] @state#)
+          :transition! (fn [event#]
+                        (case [@state# event#]
+                          ~@(mapcat (fn [[from [event to]]]
+                                     `[[~from ~event] (reset! state# ~to)])
+                                   transitions)
+                          (throw (ex-info "Invalid transition" 
+                                         {:from @state# :event event#}))))
+          :valid-states ~states}))))
+
+(defstate-machine traffic-light :red
+  [:red [:go :green]]
+  [:green [:caution :yellow]]
+  [:yellow [:stop :red]])</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>Clojure Slack</li>
-                            <li>Stack Overflow Clojure tag</li>
-                            <li>Reddit r/Clojure</li>
-                        </ul>
+                        <h4>Concurrency & Async Programming</h4>
+                        <div class="code-example">
+                            <pre><code>;; Concurrency and asynchronous programming
+(ns concurrency-examples
+  (:require [clojure.core.async :as async :refer [go chan >! <! >!! <!!]]
+            [clojure.java.io :as io]))
+
+;; Atoms for shared state
+(def counter (atom 0))
+(def user-data (atom {:users {} :next-id 1}))
+
+(defn add-user [name email]
+  (swap! user-data
+         (fn [data]
+           (let [id (:next-id data)]
+             (-> data
+                 (assoc-in [:users id] {:name name :email email})
+                 (update :next-id inc))))))
+
+;; Refs and STM (Software Transactional Memory)
+(def account-a (ref 1000))
+(def account-b (ref 500))
+
+(defn transfer [from to amount]
+  (dosync
+    (when (>= @from amount)
+      (alter from - amount)
+      (alter to + amount))))
+
+;; Agents for asynchronous updates
+(def log-agent (agent []))
+
+(defn log-message [log msg]
+  (conj log {:timestamp (java.util.Date.) :message msg}))
+
+(send log-agent log-message "Application started")
+
+;; Core.async for CSP-style concurrency
+(defn async-pipeline []
+  (let [input-ch (chan 10)
+        output-ch (chan 10)]
+    
+    ;; Producer
+    (go
+      (doseq [i (range 100)]
+        (>! input-ch i))
+      (async/close! input-ch))
+    
+    ;; Processor
+    (go
+      (loop []
+        (when-let [value (<! input-ch)]
+          (>! output-ch (* value value))
+          (recur)))
+      (async/close! output-ch))
+    
+    ;; Consumer
+    (go
+      (loop [results []]
+        (if-let [value (<! output-ch)]
+          (recur (conj results value))
+          results)))))
+
+;; Parallel processing with pmap
+(defn parallel-computation [data]
+  (->> data
+       (pmap #(* % %))
+       (filter even?)
+       (take 10)
+       doall))
+
+;; Futures for background computation
+(defn expensive-computation [n]
+  (Thread/sleep 1000)
+  (* n n))
+
+(defn async-computations [numbers]
+  (let [futures (map #(future (expensive-computation %)) numbers)]
+    (map deref futures)))
+
+;; Promises for coordination
+(defn coordinate-tasks []
+  (let [result-promise (promise)]
+    
+    ;; Background task
+    (future
+      (Thread/sleep 2000)
+      (deliver result-promise "Task completed!"))
+    
+    ;; Wait for result
+    @result-promise))
+
+;; Channel patterns with core.async
+(defn fan-out [input-ch output-chs]
+  (go
+    (loop []
+      (when-let [value (<! input-ch)]
+        (doseq [ch output-chs]
+          (>! ch value))
+        (recur)))
+    (doseq [ch output-chs]
+      (async/close! ch))))
+
+(defn fan-in [input-chs output-ch]
+  (go
+    (loop [channels input-chs]
+      (when (seq channels)
+        (let [[value ch] (async/alts! channels)]
+          (if value
+            (do
+              (>! output-ch value)
+              (recur channels))
+            (recur (remove #{ch} channels))))))
+    (async/close! output-ch)))
+
+;; Rate limiting with core.async
+(defn rate-limited-processor [rate-ms]
+  (let [input-ch (chan 100)
+        output-ch (chan 100)
+        rate-ch (async/timeout rate-ms)]
+    
+    (go
+      (loop []
+        (when-let [value (<! input-ch)]
+          (<! rate-ch)
+          (>! output-ch (str "Processed: " value))
+          (recur)))
+      (async/close! output-ch))
+    
+    {:input input-ch :output output-ch}))
+
+;; Error handling in async code
+(defn safe-async-operation [operation]
+  (go
+    (try
+      (let [result (<! (go (operation)))]
+        {:success true :result result})
+      (catch Exception e
+        {:success false :error (.getMessage e)}))))
+
+;; Timeout patterns
+(defn with-timeout [operation timeout-ms]
+  (go
+    (let [result-ch (go (operation))
+          timeout-ch (async/timeout timeout-ms)
+          [value ch] (async/alts! [result-ch timeout-ch])]
+      (if (= ch timeout-ch)
+        {:timeout true}
+        {:result value}))))
+
+;; Backpressure handling
+(defn backpressure-processor [buffer-size]
+  (let [input-ch (chan buffer-size)
+        output-ch (chan buffer-size)]
+    
+    (go
+      (loop []
+        (when-let [value (<! input-ch)]
+          (if (async/offer! output-ch (str "Processed: " value))
+            (recur)
+            (do
+              (println "Backpressure detected, dropping message:" value)
+              (recur))))))
+    
+    {:input input-ch :output output-ch}))</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Web Development & Ring/Compojure</h4>
+                        <div class="code-example">
+                            <pre><code>;; Web development with Ring and Compojure
+(ns web-examples
+  (:require [ring.adapter.jetty :as jetty]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.util.response :refer [response status content-type]]
+            [compojure.core :refer [defroutes GET POST PUT DELETE]]
+            [compojure.route :as route]
+            [cheshire.core :as json]
+            [hiccup.core :refer [html]]
+            [hiccup.page :refer [html5]]))
+
+;; Data store (in-memory for example)
+(def users (atom {}))
+(def next-id (atom 1))
+
+;; Utility functions
+(defn create-user [user-data]
+  (let [id (swap! next-id inc)
+        user (assoc user-data :id id :created-at (java.util.Date.))]
+    (swap! users assoc id user)
+    user))
+
+(defn get-user [id]
+  (get @users id))
+
+(defn update-user [id user-data]
+  (when (get @users id)
+    (swap! users update id merge user-data)
+    (get @users id)))
+
+(defn delete-user [id]
+  (let [user (get @users id)]
+    (swap! users dissoc id)
+    user))
+
+;; HTTP handlers
+(defn list-users-handler [request]
+  (-> (vals @users)
+      response
+      (content-type "application/json")))
+
+(defn get-user-handler [request]
+  (let [id (Integer/parseInt (get-in request [:params :id]))]
+    (if-let [user (get-user id)]
+      (-> user response (content-type "application/json"))
+      (-> {:error "User not found"} response (status 404)))))
+
+(defn create-user-handler [request]
+  (let [user-data (:body request)
+        user (create-user user-data)]
+    (-> user response (status 201) (content-type "application/json"))))
+
+(defn update-user-handler [request]
+  (let [id (Integer/parseInt (get-in request [:params :id]))
+        user-data (:body request)]
+    (if-let [user (update-user id user-data)]
+      (-> user response (content-type "application/json"))
+      (-> {:error "User not found"} response (status 404)))))
+
+(defn delete-user-handler [request]
+  (let [id (Integer/parseInt (get-in request [:params :id]))]
+    (if-let [user (delete-user id)]
+      (-> user response (content-type "application/json"))
+      (-> {:error "User not found"} response (status 404)))))
+
+;; HTML rendering with Hiccup
+(defn render-user-list []
+  (html5
+    [:head
+     [:title "User List"]
+     [:style "body { font-family: Arial, sans-serif; margin: 40px; }"]]
+    [:body
+     [:h1 "Users"]
+     [:div
+      (for [user (vals @users)]
+        [:div.user
+         [:h3 (:name user)]
+         [:p "Email: " (:email user)]
+         [:p "Created: " (str (:created-at user))]])]
+     [:form {:method "post" :action "/users"}
+      [:div
+       [:label "Name: "]
+       [:input {:type "text" :name "name" :required true}]]
+      [:div
+       [:label "Email: "]
+       [:input {:type "email" :name "email" :required true}]]
+      [:button {:type "submit"} "Add User"]]]))
+
+(defn user-list-page-handler [request]
+  (-> (render-user-list)
+      response
+      (content-type "text/html")))
+
+;; Middleware
+(defn logging-middleware [handler]
+  (fn [request]
+    (let [start-time (System/currentTimeMillis)
+          response (handler request)
+          duration (- (System/currentTimeMillis) start-time)]
+      (println (format "%s %s - %d (%dms)"
+                      (:request-method request)
+                      (:uri request)
+                      (:status response)
+                      duration))
+      response)))
+
+(defn error-handling-middleware [handler]
+  (fn [request]
+    (try
+      (handler request)
+      (catch Exception e
+        (println "Error:" (.getMessage e))
+        (-> {:error "Internal server error"}
+            response
+            (status 500)
+            (content-type "application/json"))))))
+
+(defn cors-middleware [handler]
+  (fn [request]
+    (let [response (handler request)]
+      (-> response
+          (assoc-in [:headers "Access-Control-Allow-Origin"] "*")
+          (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,POST,PUT,DELETE")
+          (assoc-in [:headers "Access-Control-Allow-Headers"] "Content-Type")))))
+
+;; Routes
+(defroutes app-routes
+  (GET "/" [] "Welcome to Clojure Web API")
+  (GET "/users" [] list-users-handler)
+  (GET "/users/:id" [] get-user-handler)
+  (POST "/users" [] create-user-handler)
+  (PUT "/users/:id" [] update-user-handler)
+  (DELETE "/users/:id" [] delete-user-handler)
+  (GET "/users-page" [] user-list-page-handler)
+  (route/not-found {:error "Not found"}))
+
+;; Application with middleware stack
+(def app
+  (-> app-routes
+      wrap-keyword-params
+      wrap-params
+      (wrap-json-body {:keywords? true})
+      wrap-json-response
+      cors-middleware
+      error-handling-middleware
+      logging-middleware))
+
+;; Server startup
+(defn start-server [port]
+  (jetty/run-jetty app {:port port :join? false}))
+
+;; WebSocket support (with http-kit)
+(require '[org.httpkit.server :as http-kit])
+
+(defn websocket-handler [request]
+  (http-kit/with-channel request channel
+    (http-kit/on-receive channel
+      (fn [data]
+        (let [message (json/parse-string data true)]
+          (println "Received:" message)
+          (http-kit/send! channel (json/generate-string
+                                   {:type "response"
+                                    :data (str "Echo: " (:message message))})))))
+    (http-kit/on-close channel
+      (fn [status]
+        (println "WebSocket closed with status:" status)))))
+
+;; Background job processing
+(defn job-processor []
+  (let [job-queue (atom clojure.lang.PersistentQueue/EMPTY)]
+    {:add-job (fn [job] (swap! job-queue conj job))
+     :start (fn []
+              (future
+                (loop []
+                  (when-let [job (first @job-queue)]
+                    (swap! job-queue pop)
+                    (try
+                      (job)
+                      (catch Exception e
+                        (println "Job failed:" (.getMessage e)))))
+                  (Thread/sleep 1000)
+                  (recur))))}))
+
+;; Example usage
+(comment
+  ;; Start the server
+  (def server (start-server 3000))
+  
+  ;; Stop the server
+  (.stop server))</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Data Processing & Spec</h4>
+                        <div class="code-example">
+                            <pre><code>;; Data processing and validation with clojure.spec
+(ns data-examples
+  (:require [clojure.spec.alpha :as s]
+            [clojure.spec.gen.alpha :as gen]
+            [clojure.spec.test.alpha :as stest]
+            [clojure.walk :as walk]
+            [clojure.set :as set]))
+
+;; Spec definitions
+(s/def ::name string?)
+(s/def ::age (s/and int? #(>= % 0) #(<= % 150)))
+(s/def ::email (s/and string? #(re-matches #".+@.+\..+" %)))
+(s/def ::user (s/keys :req [::name ::age ::email]))
+
+;; Spec for collections
+(s/def ::users (s/coll-of ::user))
+
+;; Nested specs
+(s/def ::address (s/keys :req [::street ::city ::zipcode]))
+(s/def ::street string?)
+(s/def ::city string?)
+(s/def ::zipcode string?)
+(s/def ::user-with-address (s/keys :req [::name ::age ::email ::address]))
+
+;; Function specs
+(s/fdef create-user
+  :args (s/cat :name ::name :age ::age :email ::email)
+  :ret ::user
+  :fn #(= (::name (:ret %)) (first (:args %))))
+
+(defn create-user [name age email]
+  {::name name ::age age ::email email})
+
+;; Data validation
+(defn validate-user [user]
+  (if (s/valid? ::user user)
+    {:valid true :user user}
+    {:valid false :errors (s/explain-data ::user user)}))
+
+;; Data generation for testing
+(defn generate-test-users [n]
+  (gen/sample (s/gen ::user) n))
+
+;; Data transformation pipelines
+(defn process-user-data [users]
+  (->> users
+       (filter #(s/valid? ::user %))
+       (map #(update % ::age inc))
+       (group-by #(if (>= (::age %) 18) :adult :minor))
+       (walk/keywordize-keys)))
+
+;; Complex data transformations
+(defn analyze-users [users]
+  (let [valid-users (filter #(s/valid? ::user %) users)]
+    {:total-count (count users)
+     :valid-count (count valid-users)
+     :invalid-count (- (count users) (count valid-users))
+     :age-stats {:min (apply min (map ::age valid-users))
+                 :max (apply max (map ::age valid-users))
+                 :avg (/ (reduce + (map ::age valid-users)) (count valid-users))}
+     :email-domains (frequencies (map #(second (clojure.string/split (::email %) #"@"))
+                                      valid-users))}))
+
+;; Data denormalization
+(defn denormalize-orders [orders users products]
+  (let [user-lookup (into {} (map (juxt :id identity) users))
+        product-lookup (into {} (map (juxt :id identity) products))]
+    (map (fn [order]
+           (-> order
+               (assoc :user (get user-lookup (:user-id order)))
+               (assoc :products (map #(get product-lookup (:product-id %))
+                                    (:items order)))))
+         orders)))
+
+;; Data aggregation
+(defn aggregate-sales-data [orders]
+  (->> orders
+       (mapcat :items)
+       (group-by :product-id)
+       (map (fn [[product-id items]]
+              {:product-id product-id
+               :total-quantity (reduce + (map :quantity items))
+               :total-revenue (reduce + (map #(* (:quantity %) (:price %)) items))
+               :order-count (count items)}))
+       (sort-by :total-revenue >)))
+
+;; Stream processing simulation
+(defn process-event-stream [events]
+  (reduce
+    (fn [state event]
+      (case (:type event)
+        :user-created (update state :users conj (:data event))
+        :user-updated (update state :users
+                             (fn [users]
+                               (map #(if (= (:id %) (:id (:data event)))
+                                      (merge % (:data event))
+                                      %)
+                                   users)))
+        :user-deleted (update state :users
+                             (fn [users]
+                               (remove #(= (:id %) (:id (:data event))) users)))
+        state))
+    {:users []}
+    events))
+
+;; Data validation with custom predicates
+(s/def ::strong-password
+  (s/and string?
+         #(>= (count %) 8)
+         #(re-find #"[A-Z]" %)
+         #(re-find #"[a-z]" %)
+         #(re-find #"[0-9]" %)
+         #(re-find #"[^A-Za-z0-9]" %)))
+
+(s/def ::secure-user (s/keys :req [::name ::email ::strong-password]))
+
+;; Conforming and unforming data
+(s/def ::csv-line (s/and string? #(clojure.string/includes? % ",")))
+
+(s/def ::parsed-csv
+  (s/conformer
+    (fn [csv-line]
+      (if (string? csv-line)
+        (clojure.string/split csv-line #",")
+        ::s/invalid))
+    (fn [parsed]
+      (clojure.string/join "," parsed))))
+
+;; Multi-spec for polymorphic data
+(defmulti event-type :type)
+(defmethod event-type :user [_] (s/keys :req [:type :user-id :timestamp]))
+(defmethod event-type :order [_] (s/keys :req [:type :order-id :amount :timestamp]))
+(defmethod event-type :product [_] (s/keys :req [:type :product-id :name :timestamp]))
+
+(s/def ::event (s/multi-spec event-type :type))
+
+;; Property-based testing
+(defn user-roundtrip-test []
+  (stest/check `create-user {:clojure.spec.test.check/opts {:num-tests 100}}))
+
+;; Example usage
+(comment
+  ;; Validate data
+  (validate-user {::name "John" ::age 30 ::email "john@example.com"})
+  
+  ;; Generate test data
+  (generate-test-users 5)
+  
+  ;; Run property-based tests
+  (user-roundtrip-test))</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Performance & Optimization</h4>
+                        <div class="code-example">
+                            <pre><code>;; Performance optimization techniques
+(ns performance-examples
+  (:require [criterium.core :as crit]
+            [clojure.core.reducers :as r]))
+
+;; Lazy vs eager evaluation
+(defn lazy-processing [data]
+  (->> data
+       (map #(* % %))
+       (filter even?)
+       (take 10)))
+
+(defn eager-processing [data]
+  (->> data
+       (mapv #(* % %))
+       (filterv even?)
+       (take 10)))
+
+;; Transducers for efficient data transformation
+(def xform
+  (comp
+    (map #(* % %))
+    (filter even?)
+    (take 10)))
+
+(defn transducer-processing [data]
+  (transduce xform conj [] data))
+
+;; Reducers for parallel processing
+(defn reducer-processing [data]
+  (->> data
+       (r/map #(* % %))
+       (r/filter even?)
+       (into [])))
+
+;; Memoization for expensive computations
+(def fibonacci
+  (memoize
+    (fn [n]
+      (if (<= n 1)
+        n
+        (+ (fibonacci (dec n)) (fibonacci (- n 2)))))))
+
+;; Custom memoization with TTL
+(defn memoize-with-ttl [f ttl-ms]
+  (let [cache (atom {})]
+    (fn [& args]
+      (let [now (System/currentTimeMillis)
+            cached (@cache args)]
+        (if (and cached (< (- now (:timestamp cached)) ttl-ms))
+          (:value cached)
+          (let [result (apply f args)]
+            (swap! cache assoc args {:value result :timestamp now})
+            result))))))
+
+;; Efficient string operations
+(defn efficient-string-concat [strings]
+  (reduce str strings)) ; Don't do this for many strings
+
+(defn better-string-concat [strings]
+  (apply str strings))
+
+(defn best-string-concat [strings]
+  (clojure.string/join strings))
+
+;; Efficient collection operations
+(defn find-in-vector [v item]
+  (some #(when (= % item) %) v)) ; O(n)
+
+(defn find-in-set [s item]
+  (s item)) ; O(1) average case
+
+;; Avoiding reflection with type hints
+(defn slow-math-operation [^Object x ^Object y]
+  (+ x y))
+
+(defn fast-math-operation [^long x ^long y]
+  (+ x y))
+
+;; Batch processing for I/O operations
+(defn process-files-sequentially [filenames]
+  (map slurp filenames))
+
+(defn process-files-in-batches [filenames batch-size]
+  (->> filenames
+       (partition batch-size batch-size [])
+       (pmap (fn [batch] (mapv slurp batch)))
+       (apply concat)))
+
+;; Memory-efficient data processing
+(defn memory-efficient-processing [large-seq]
+  (with-open [writer (clojure.java.io/writer "output.txt")]
+    (doseq [item (take-while some? large-seq)]
+      (.write writer (str item "\n")))))
+
+;; Optimized recursive functions
+(defn tail-recursive-sum [coll]
+  (loop [remaining coll
+         acc 0]
+    (if (empty? remaining)
+      acc
+      (recur (rest remaining) (+ acc (first remaining))))))
+
+;; Using protocols for polymorphism
+(defprotocol Drawable
+  (draw [this]))
+
+(defrecord Circle [radius]
+  Drawable
+  (draw [this]
+    (str "Drawing circle with radius " radius)))
+
+(defrecord Rectangle [width height]
+  Drawable
+  (draw [this]
+    (str "Drawing rectangle " width "x" height)))
+
+;; Efficient data structure operations
+(defn efficient-map-updates [data updates]
+  (reduce
+    (fn [acc [k v]]
+      (assoc acc k v))
+    data
+    updates))
+
+(defn batch-map-updates [data updates]
+  (into data updates))
+
+;; JVM optimization hints
+(defn optimized-loop [^longs arr]
+  (let [len (alength arr)]
+    (loop [i 0 sum 0]
+      (if (< i len)
+        (recur (inc i) (+ sum (aget arr i)))
+        sum))))
+
+;; Benchmarking utilities
+(defn benchmark-functions [functions data]
+  (doseq [[name f] functions]
+    (println (str "Benchmarking " name ":"))
+    (crit/bench (f data))
+    (println)))
+
+;; Memory profiling
+(defn measure-memory [f]
+  (let [runtime (Runtime/getRuntime)
+        _ (System/gc)
+        before (.totalMemory runtime)
+        result (f)
+        _ (System/gc)
+        after (.totalMemory runtime)]
+    {:result result
+     :memory-used (- after before)}))
+
+;; Concurrent processing patterns
+(defn parallel-map-reduce [map-fn reduce-fn init-val coll]
+  (let [num-threads (.. Runtime getRuntime availableProcessors)
+        chunk-size (max 1 (quot (count coll) num-threads))
+        chunks (partition-all chunk-size coll)
+        futures (map #(future (reduce reduce-fn init-val (map map-fn %))) chunks)]
+    (reduce reduce-fn init-val (map deref futures))))
+
+;; Example usage and benchmarking
+(comment
+  ;; Benchmark different approaches
+  (let [data (range 1000000)]
+    (benchmark-functions
+      {"lazy" lazy-processing
+       "eager" eager-processing
+       "transducer" transducer-processing
+       "reducer" reducer-processing}
+      data))
+  
+  ;; Memory measurement
+  (measure-memory #(vec (range 1000000))))</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

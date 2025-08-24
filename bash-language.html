@@ -318,29 +318,975 @@ echo "Extracted: $name, $age"</code></pre>
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Bash Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🐚 Complete Bash Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Bash Reference Manual</h4>
-                            <p>Official GNU Bash reference documentation</p>
-                            <a href="https://www.gnu.org/software/bash/manual/" target="_blank" class="btn btn-secondary">Read Manual</a>
+                            <h4>Advanced Scripting & Functions</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# Advanced function definitions
+# Function with local variables and return values
+calculate_area() {
+    local width=$1
+    local height=$2
+    local area=$((width * height))
+    return $area
+}
+
+# Function that returns a string
+get_user_info() {
+    local username=$1
+    local user_info=$(id "$username" 2>/dev/null)
+    echo "$user_info"
+}
+
+# Function with default parameters
+greet_user() {
+    local name=${1:-"Guest"}
+    local greeting=${2:-"Hello"}
+    echo "$greeting, $name!"
+}
+
+# Recursive function
+factorial() {
+    local n=$1
+    if [ $n -le 1 ]; then
+        echo 1
+    else
+        local prev=$(factorial $((n - 1)))
+        echo $((n * prev))
+    fi
+}
+
+# Function that processes arrays
+process_array() {
+    local -n arr=$1  # Name reference (Bash 4.3+)
+    local total=0
+    
+    for item in "${arr[@]}"; do
+        total=$((total + item))
+    done
+    
+    echo $total
+}
+
+# Function with error handling
+safe_operation() {
+    local input=$1
+    
+    # Check if input is numeric
+    if ! [[ "$input" =~ ^[0-9]+$ ]]; then
+        echo "Error: Input must be a number" >&2
+        return 1
+    fi
+    
+    # Perform operation
+    local result=$((input * 2))
+    echo $result
+    return 0
+}
+
+# Function that creates a temporary file
+create_temp_file() {
+    local prefix=${1:-"temp"}
+    local suffix=${2:-"txt"}
+    local temp_file=$(mktemp "${prefix}.XXXXXX.${suffix}")
+    echo "$temp_file"
+}
+
+# Function with signal handling
+cleanup_on_exit() {
+    echo "Cleaning up..."
+    rm -f /tmp/temp_*
+}
+
+# Set up signal handlers
+trap cleanup_on_exit EXIT
+trap 'echo "Interrupted"; exit 1' INT TERM
+
+# Example usage
+echo "Factorial of 5: $(factorial 5)"
+greet_user "Alice" "Good morning"
+numbers=(1 2 3 4 5)
+echo "Sum of array: $(process_array numbers)"
+safe_operation "abc" || echo "Operation failed"
+temp_file=$(create_temp_file "backup" "log")
+echo "Created temp file: $temp_file"</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Bash Hackers Wiki</h4>
-                            <p>Community-driven Bash scripting resource</p>
-                            <a href="https://wiki.bash-hackers.org/" target="_blank" class="btn btn-secondary">Visit Wiki</a>
+                            <h4>Advanced Text Processing & Regex</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# Advanced text processing with sed
+# Multi-line text replacement
+cat &lt;&lt; 'EOF' | sed '/^#/d; s/^[[:space:]]*//; /^$/d'
+# This is a comment
+    This line has leading spaces
+# Another comment
+
+This is actual content
+EOF
+
+# Complex sed patterns
+echo "Hello World 123" | sed -E 's/([A-Za-z]+) ([A-Za-z]+) ([0-9]+)/\3: \1 \2/'
+
+# Using awk for complex data processing
+cat &lt;&lt; 'EOF' | awk '
+BEGIN { 
+    FS=","; 
+    OFS=" | "; 
+    print "Name | Age | City | Salary"
+    print "-----|-----|-----|-------"
+}
+NR > 1 {
+    if ($3 ~ /^[A-Z]/) {
+        salary = $4 * 1.1  # 10% bonus for cities starting with capital
+    } else {
+        salary = $4
+    }
+    print $1, $2, $3, sprintf("%.2f", salary)
+}
+END {
+    print "-----|-----|-----|-------"
+    print "Total records processed:", NR-1
+}
+EOF
+Alice,25,New York,50000
+Bob,30,los angeles,60000
+Charlie,35,Chicago,55000
+Diana,28,Boston,52000
+
+# Advanced grep patterns
+# Find files containing specific patterns
+find . -type f -name "*.txt" -exec grep -l "error\|warning\|critical" {} \;
+
+# Extract specific fields using grep and cut
+echo "2024-01-15 10:30:45 [INFO] User login successful" | \
+    grep -o '\[[^]]*\]' | cut -d'[' -f2 | cut -d']' -f1
+
+# Complex regex with bash
+text="Email: user@example.com, Phone: +1-555-123-4567"
+if [[ $text =~ ([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}) ]]; then
+    email="${BASH_REMATCH[1]}"
+    echo "Found email: $email"
+fi
+
+if [[ $text =~ (\+[0-9]{1,3}-[0-9]{3}-[0-9]{3}-[0-9]{4}) ]]; then
+    phone="${BASH_REMATCH[1]}"
+    echo "Found phone: $phone"
+fi
+
+# Text transformation pipeline
+cat &lt;&lt; 'EOF' | \
+    tr '[:upper:]' '[:lower:]' | \
+    sed 's/[[:punct:]]//g' | \
+    tr -s '[:space:]' '\n' | \
+    sort | \
+    uniq -c | \
+    sort -nr | \
+    head -5
+Hello World! This is a test.
+Hello again, world!
+This is another test.
+EOF
+
+# JSON processing with jq (if available)
+if command -v jq &> /dev/null; then
+    echo '{"users": [{"name": "Alice", "age": 25}, {"name": "Bob", "age": 30}]}' | \
+        jq '.users[] | select(.age > 25) | .name'
+fi
+
+# CSV processing
+cat &lt;&lt; 'EOF' | awk -F',' '
+    NR==1 { 
+        for(i=1; i&lt;=NF; i++) headers[i]=$i 
+    }
+    NR>1 { 
+        for(i=1; i&lt;=NF; i++) {
+            printf "%s: %s\n", headers[i], $i
+        }
+        print "---"
+    }
+EOF
+Name,Age,City,Occupation
+Alice,25,New York,Engineer
+Bob,30,Los Angeles,Designer
+Charlie,35,Chicago,Manager</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Advanced Bash Scripting Guide</h4>
-                            <p>Comprehensive guide to Bash scripting</p>
-                            <a href="https://tldp.org/LDP/abs/html/" target="_blank" class="btn btn-secondary">Read Guide</a>
+                            <h4>System Administration & Process Management</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# System monitoring script
+monitor_system() {
+    echo "=== System Information ==="
+    echo "Hostname: $(hostname)"
+    echo "Uptime: $(uptime)"
+    echo "Kernel: $(uname -r)"
+    echo "Architecture: $(uname -m)"
+    
+    echo -e "\n=== Memory Usage ==="
+    free -h
+    
+    echo -e "\n=== Disk Usage ==="
+    df -h
+    
+    echo -e "\n=== CPU Load ==="
+    top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1
+    
+    echo -e "\n=== Active Processes ==="
+    ps aux --sort=-%cpu | head -10
+}
+
+# Process management functions
+kill_process_by_name() {
+    local process_name=$1
+    local pids=$(pgrep "$process_name")
+    
+    if [ -n "$pids" ]; then
+        echo "Killing processes: $pids"
+        kill $pids
+    else
+        echo "No processes found matching: $process_name"
+    fi
+}
+
+monitor_process() {
+    local process_name=$1
+    local interval=${2:-5}
+    
+    while true; do
+        if pgrep -x "$process_name" > /dev/null; then
+            echo "$(date): $process_name is running"
+        else
+            echo "$(date): $process_name is not running"
+        fi
+        sleep $interval
+    done
+}
+
+# Service management
+service_status() {
+    local service_name=$1
+    
+    if systemctl is-active --quiet "$service_name"; then
+        echo "$service_name is running"
+        return 0
+    else
+        echo "$service_name is not running"
+        return 1
+    fi
+}
+
+restart_service() {
+    local service_name=$1
+    echo "Restarting $service_name..."
+    sudo systemctl restart "$service_name"
+    
+    if service_status "$service_name"; then
+        echo "$service_name restarted successfully"
+    else
+        echo "Failed to restart $service_name"
+        return 1
+    fi
+}
+
+# Log monitoring
+tail_logs() {
+    local log_file=$1
+    local lines=${2:-50}
+    
+    if [ -f "$log_file" ]; then
+        echo "=== Last $lines lines of $log_file ==="
+        tail -n "$lines" "$log_file"
+    else
+        echo "Log file $log_file not found"
+    fi
+}
+
+search_logs() {
+    local log_file=$1
+    local pattern=$2
+    local days=${3:-7}
+    
+    if [ -f "$log_file" ]; then
+        echo "=== Searching for '$pattern' in last $days days ==="
+        find "$log_file" -mtime -$days -exec grep -H "$pattern" {} \;
+    else
+        echo "Log file $log_file not found"
+    fi
+}
+
+# Backup script
+create_backup() {
+    local source_dir=$1
+    local backup_dir=$2
+    local timestamp=$(date +%Y%m%d_%H%M%S)
+    local backup_name="backup_${timestamp}.tar.gz"
+    
+    if [ ! -d "$source_dir" ]; then
+        echo "Source directory $source_dir does not exist"
+        return 1
+    fi
+    
+    mkdir -p "$backup_dir"
+    
+    echo "Creating backup: $backup_name"
+    tar -czf "$backup_dir/$backup_name" -C "$(dirname "$source_dir")" "$(basename "$source_dir")"
+    
+    if [ $? -eq 0 ]; then
+        echo "Backup created successfully: $backup_dir/$backup_name"
+        
+        # Keep only last 5 backups
+        cd "$backup_dir"
+        ls -t backup_*.tar.gz | tail -n +6 | xargs -r rm
+    else
+        echo "Backup failed"
+        return 1
+    fi
+}
+
+# Network monitoring
+check_connectivity() {
+    local host=${1:-"8.8.8.8"}
+    local count=${2:-3}
+    
+    echo "Checking connectivity to $host..."
+    if ping -c "$count" "$host" > /dev/null 2>&1; then
+        echo "Connection to $host is working"
+        return 0
+    else
+        echo "Connection to $host failed"
+        return 1
+    fi
+}
+
+# Disk space monitoring
+check_disk_space() {
+    local threshold=${1:-90}
+    local partitions=$(df -h | awk 'NR>1 {print $5, $6}' | sed 's/%//')
+    
+    while read -r usage mount; do
+        if [ "$usage" -gt "$threshold" ]; then
+            echo "WARNING: $mount is ${usage}% full"
+        fi
+    done &lt;&lt;&lt; "$partitions"
+}
+
+# Example usage
+# monitor_system
+# kill_process_by_name "chrome"
+# monitor_process "nginx" 10 &
+# service_status "apache2"
+# restart_service "nginx"
+# tail_logs "/var/log/syslog" 100
+# search_logs "/var/log/auth.log" "Failed password" 1
+# create_backup "/home/user/documents" "/backup"
+# check_connectivity "google.com"
+# check_disk_space 85</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Bash Community</h4>
-                            <p>Stack Overflow, Reddit, and Bash forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/bash" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Advanced Control Structures & Error Handling</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# Strict error handling
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
+
+# Custom error handling function
+handle_error() {
+    local exit_code=$?
+    local line_number=$1
+    local script_name=$2
+    
+    echo "Error occurred in $script_name at line $line_number (exit code: $exit_code)" >&2
+    
+    # Log error
+    echo "$(date): Error in $script_name:$line_number (exit code: $exit_code)" >> /var/log/script_errors.log
+    
+    # Cleanup if needed
+    cleanup_on_error
+    
+    exit $exit_code
+}
+
+# Set up error trap
+trap 'handle_error ${LINENO} ${BASH_SOURCE[0]}' ERR
+
+# Cleanup function
+cleanup_on_error() {
+    echo "Performing cleanup..."
+    # Remove temporary files
+    rm -f /tmp/temp_*
+    # Kill background processes
+    jobs -p | xargs -r kill
+}
+
+# Advanced conditional statements
+check_system_requirements() {
+    local min_memory=1024  # MB
+    local min_disk=1000    # MB
+    local required_commands=("curl" "wget" "tar")
+    
+    # Check memory
+    local available_memory=$(free -m | awk 'NR==2{print $7}')
+    if [ "$available_memory" -lt "$min_memory" ]; then
+        echo "ERROR: Insufficient memory. Required: ${min_memory}MB, Available: ${available_memory}MB"
+        return 1
+    fi
+    
+    # Check disk space
+    local available_disk=$(df -m / | awk 'NR==2{print $4}')
+    if [ "$available_disk" -lt "$min_disk" ]; then
+        echo "ERROR: Insufficient disk space. Required: ${min_disk}MB, Available: ${available_disk}MB"
+        return 1
+    fi
+    
+    # Check required commands
+    for cmd in "${required_commands[@]}"; do
+        if ! command -v "$cmd" &> /dev/null; then
+            echo "ERROR: Required command '$cmd' not found"
+            return 1
+        fi
+    done
+    
+    echo "System requirements check passed"
+    return 0
+}
+
+# Advanced loop patterns
+process_files_with_retry() {
+    local directory=$1
+    local max_retries=${2:-3}
+    local retry_delay=${3:-5}
+    
+    for file in "$directory"/*; do
+        if [ -f "$file" ]; then
+            local retry_count=0
+            local success=false
+            
+            while [ $retry_count -lt $max_retries ] && [ "$success" = false ]; do
+                echo "Processing $file (attempt $((retry_count + 1)))"
+                
+                if process_single_file "$file"; then
+                    echo "Successfully processed $file"
+                    success=true
+                else
+                    echo "Failed to process $file"
+                    retry_count=$((retry_count + 1))
+                    
+                    if [ $retry_count -lt $max_retries ]; then
+                        echo "Retrying in $retry_delay seconds..."
+                        sleep $retry_delay
+                    fi
+                fi
+            done
+            
+            if [ "$success" = false ]; then
+                echo "ERROR: Failed to process $file after $max_retries attempts"
+                return 1
+            fi
+        fi
+    done
+}
+
+# Parallel processing
+parallel_process() {
+    local max_jobs=${1:-4}
+    local job_count=0
+    
+    for item in "$@"; do
+        # Wait if we've reached max jobs
+        while [ $job_count -ge $max_jobs ]; do
+            wait -n
+            job_count=$((job_count - 1))
+        done
+        
+        # Start new job
+        process_item "$item" &
+        job_count=$((job_count + 1))
+    done
+    
+    # Wait for all remaining jobs
+    wait
+}
+
+# Advanced case statement with patterns
+classify_file() {
+    local file=$1
+    
+    case "$file" in
+        *.txt|*.md|*.rst)
+            echo "text"
+            ;;
+        *.jpg|*.jpeg|*.png|*.gif|*.bmp)
+            echo "image"
+            ;;
+        *.mp3|*.wav|*.flac|*.ogg)
+            echo "audio"
+            ;;
+        *.mp4|*.avi|*.mkv|*.mov)
+            echo "video"
+            ;;
+        *.tar|*.tar.gz|*.tar.bz2|*.zip|*.rar)
+            echo "archive"
+            ;;
+        *.sh|*.bash|*.zsh)
+            echo "script"
+            ;;
+        *)
+            echo "unknown"
+            ;;
+    esac
+}
+
+# Function with multiple return values
+get_file_info() {
+    local file=$1
+    
+    if [ ! -f "$file" ]; then
+        return 1
+    fi
+    
+    local size=$(stat -c%s "$file")
+    local modified=$(stat -c%Y "$file")
+    local permissions=$(stat -c%a "$file")
+    
+    # Return multiple values as a single string
+    echo "$size|$modified|$permissions"
+}
+
+# Parse multiple return values
+parse_file_info() {
+    local file_info=$1
+    IFS='|' read -r size modified permissions &lt;&lt;&lt; "$file_info"
+    
+    echo "Size: $size bytes"
+    echo "Modified: $(date -d @$modified)"
+    echo "Permissions: $permissions"
+}
+
+# Example usage
+# check_system_requirements || exit 1
+# process_files_with_retry "/path/to/files" 3 10
+# parallel_process 4 "item1" "item2" "item3" "item4"
+# file_type=$(classify_file "document.txt")
+# file_info=$(get_file_info "example.txt")
+# parse_file_info "$file_info"</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Network & Web Automation</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# Web scraping and automation
+scrape_website() {
+    local url=$1
+    local output_file=${2:-"output.html"}
+    
+    if command -v curl &> /dev/null; then
+        curl -s -L -A "Mozilla/5.0 (compatible; Bot/1.0)" "$url" > "$output_file"
+        echo "Scraped $url to $output_file"
+    elif command -v wget &> /dev/null; then
+        wget -q -O "$output_file" --user-agent="Mozilla/5.0 (compatible; Bot/1.0)" "$url"
+        echo "Scraped $url to $output_file"
+    else
+        echo "ERROR: Neither curl nor wget found"
+        return 1
+    fi
+}
+
+# API interaction
+call_api() {
+    local url=$1
+    local method=${2:-"GET"}
+    local data=${3:-""}
+    local headers=${4:-""}
+    
+    local curl_opts="-s -X $method"
+    
+    if [ -n "$data" ]; then
+        curl_opts="$curl_opts -d '$data'"
+    fi
+    
+    if [ -n "$headers" ]; then
+        curl_opts="$curl_opts -H '$headers'"
+    fi
+    
+    eval "curl $curl_opts '$url'"
+}
+
+# Download manager with progress
+download_file() {
+    local url=$1
+    local output_file=${2:-$(basename "$url")}
+    local chunk_size=${3:-1024}
+    
+    echo "Downloading $url to $output_file..."
+    
+    # Get file size
+    local file_size=$(curl -sI "$url" | grep -i content-length | awk '{print $2}' | tr -d '\r')
+    
+    if [ -z "$file_size" ]; then
+        echo "Could not determine file size, downloading without progress..."
+        curl -L -o "$output_file" "$url"
+        return $?
+    fi
+    
+    # Download with progress
+    local downloaded=0
+    local temp_file="${output_file}.tmp"
+    
+    # Create empty file
+    truncate -s "$file_size" "$temp_file"
+    
+    while [ $downloaded -lt $file_size ]; do
+        local end=$((downloaded + chunk_size - 1))
+        if [ $end -gt $file_size ]; then
+            end=$file_size
+        fi
+        
+        curl -s -r "$downloaded-$end" "$url" >> "$temp_file"
+        downloaded=$((end + 1))
+        
+        # Calculate progress percentage
+        local progress=$((downloaded * 100 / file_size))
+        printf "\rProgress: %d%%" $progress
+    done
+    
+    echo
+    mv "$temp_file" "$output_file"
+    echo "Download completed: $output_file"
+}
+
+# Network monitoring
+monitor_network() {
+    local interface=${1:-"eth0"}
+    local duration=${2:-60}
+    local interval=${3:-5}
+    
+    echo "Monitoring network interface $interface for $duration seconds..."
+    echo "Time | RX Bytes | TX Bytes | RX Packets | TX Packets"
+    echo "-----|----------|----------|------------|------------"
+    
+    local start_time=$(date +%s)
+    local end_time=$((start_time + duration))
+    
+    while [ $(date +%s) -lt $end_time ]; do
+        local stats=$(cat "/sys/class/net/$interface/statistics/rx_bytes" "/sys/class/net/$interface/statistics/tx_bytes" "/sys/class/net/$interface/statistics/rx_packets" "/sys/class/net/$interface/statistics/tx_packets" 2>/dev/null)
+        
+        if [ $? -eq 0 ]; then
+            local rx_bytes=$(echo "$stats" | sed -n '1p')
+            local tx_bytes=$(echo "$stats" | sed -n '2p')
+            local rx_packets=$(echo "$stats" | sed -n '3p')
+            local tx_packets=$(echo "$stats" | sed -n '4p')
+            
+            printf "%s | %s | %s | %s | %s\n" \
+                "$(date +%H:%M:%S)" \
+                "$(numfmt --to=iec $rx_bytes)" \
+                "$(numfmt --to=iec $tx_bytes)" \
+                "$rx_packets" \
+                "$tx_packets"
+        fi
+        
+        sleep $interval
+    done
+}
+
+# Port scanner
+scan_ports() {
+    local host=$1
+    local start_port=${2:-1}
+    local end_port=${3:-1024}
+    local timeout=${4:-1}
+    
+    echo "Scanning ports $start_port-$end_port on $host..."
+    
+    for port in $(seq $start_port $end_port); do
+        (timeout $timeout bash -c "echo &gt;/dev/tcp/$host/$port" 2>/dev/null && echo "Port $port is open") &
+    done
+    
+    wait
+}
+
+# SSL certificate checker
+check_ssl_cert() {
+    local host=$1
+    local port=${2:-443}
+    
+    echo "Checking SSL certificate for $host:$port..."
+    
+    if command -v openssl &> /dev/null; then
+        echo | openssl s_client -servername "$host" -connect "$host:$port" 2>/dev/null | \
+            openssl x509 -noout -dates -subject -issuer
+    else
+        echo "ERROR: openssl not found"
+        return 1
+    fi
+}
+
+# DNS lookup and validation
+dns_lookup() {
+    local domain=$1
+    local record_type=${2:-"A"}
+    
+    echo "DNS lookup for $domain ($record_type record)..."
+    
+    if command -v dig &> /dev/null; then
+        dig +short "$domain" "$record_type"
+    elif command -v nslookup &> /dev/null; then
+        nslookup -type="$record_type" "$domain"
+    else
+        echo "ERROR: Neither dig nor nslookup found"
+        return 1
+    fi
+}
+
+# Web server health check
+check_web_server() {
+    local url=$1
+    local expected_status=${2:-200}
+    
+    echo "Checking web server at $url..."
+    
+    local response_code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+    
+    if [ "$response_code" -eq "$expected_status" ]; then
+        echo "SUCCESS: Server responded with status $response_code"
+        return 0
+    else
+        echo "ERROR: Server responded with status $response_code (expected $expected_status)"
+        return 1
+    fi
+}
+
+# Example usage
+# scrape_website "https://example.com" "page.html"
+# api_response=$(call_api "https://api.example.com/data" "POST" '{"key":"value"}' "Content-Type: application/json")
+# download_file "https://example.com/large-file.zip"
+# monitor_network "eth0" 300 10 &
+# scan_ports "192.168.1.1" 80 90
+# check_ssl_cert "google.com"
+# dns_lookup "example.com" "MX"
+# check_web_server "https://example.com" 200</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Database & Configuration Management</h4>
+                            <div class="code-example">
+                                <pre><code>#!/bin/bash
+
+# Database backup and management
+backup_database() {
+    local db_name=$1
+    local backup_dir=${2:-"/backup"}
+    local timestamp=$(date +%Y%m%d_%H%M%S)
+    local backup_file="${backup_dir}/${db_name}_${timestamp}.sql"
+    
+    mkdir -p "$backup_dir"
+    
+    echo "Backing up database $db_name..."
+    
+    if command -v mysqldump &> /dev/null; then
+        mysqldump --single-transaction --routines --triggers "$db_name" > "$backup_file"
+    elif command -v pg_dump &> /dev/null; then
+        pg_dump "$db_name" > "$backup_file"
+    else
+        echo "ERROR: No database dump tool found"
+        return 1
+    fi
+    
+    if [ $? -eq 0 ]; then
+        echo "Database backup completed: $backup_file"
+        
+        # Compress backup
+        gzip "$backup_file"
+        echo "Backup compressed: ${backup_file}.gz"
+        
+        # Keep only last 7 backups
+        find "$backup_dir" -name "${db_name}_*.sql.gz" -mtime +7 -delete
+    else
+        echo "Database backup failed"
+        return 1
+    fi
+}
+
+# Configuration file management
+update_config() {
+    local config_file=$1
+    local key=$2
+    local value=$3
+    local backup=${4:-true}
+    
+    if [ ! -f "$config_file" ]; then
+        echo "ERROR: Config file $config_file not found"
+        return 1
+    fi
+    
+    if [ "$backup" = true ]; then
+        cp "$config_file" "${config_file}.backup.$(date +%Y%m%d_%H%M%S)"
+    fi
+    
+    # Update configuration using sed
+    if grep -q "^$key=" "$config_file"; then
+        # Key exists, update it
+        sed -i "s/^$key=.*/$key=$value/" "$config_file"
+    else
+        # Key doesn't exist, add it
+        echo "$key=$value" >> "$config_file"
+    fi
+    
+    echo "Updated $key=$value in $config_file"
+}
+
+# Environment variable management
+load_env_file() {
+    local env_file=$1
+    
+    if [ ! -f "$env_file" ]; then
+        echo "ERROR: Environment file $env_file not found"
+        return 1
+    fi
+    
+    # Load environment variables
+    while IFS= read -r line; do
+        # Skip comments and empty lines
+        [[ $line =~ ^[[:space:]]*# ]] && continue
+        [[ -z $line ]] && continue
+        
+        # Export variable
+        export "$line"
+    done &lt; "$env_file"
+    
+    echo "Loaded environment variables from $env_file"
+}
+
+# Log rotation
+rotate_logs() {
+    local log_dir=$1
+    local max_size=${2:-100}  # MB
+    local keep_count=${3:-5}
+    
+    echo "Rotating logs in $log_dir..."
+    
+    find "$log_dir" -name "*.log" -type f | while read -r log_file; do
+        local file_size=$(stat -c%s "$log_file")
+        local size_mb=$((file_size / 1024 / 1024))
+        
+        if [ $size_mb -gt $max_size ]; then
+            echo "Rotating $log_file (${size_mb}MB)"
+            
+            # Rotate existing backups
+            for i in $(seq $((keep_count - 1)) -1 1); do
+                if [ -f "${log_file}.$i" ]; then
+                    mv "${log_file}.$i" "${log_file}.$((i + 1))"
+                fi
+            done
+            
+            # Move current log to .1
+            mv "$log_file" "${log_file}.1"
+            
+            # Create new log file
+            touch "$log_file"
+            
+            # Restart services if needed
+            restart_services_after_log_rotation "$log_file"
+        fi
+    done
+}
+
+# Package management
+install_packages() {
+    local packages=("$@")
+    
+    if command -v apt-get &> /dev/null; then
+        # Debian/Ubuntu
+        sudo apt-get update
+        sudo apt-get install -y "${packages[@]}"
+    elif command -v yum &> /dev/null; then
+        # CentOS/RHEL
+        sudo yum install -y "${packages[@]}"
+    elif command -v dnf &> /dev/null; then
+        # Fedora
+        sudo dnf install -y "${packages[@]}"
+    elif command -v pacman &> /dev/null; then
+        # Arch Linux
+        sudo pacman -S --noconfirm "${packages[@]}"
+    else
+        echo "ERROR: No supported package manager found"
+        return 1
+    fi
+}
+
+# User management
+create_user() {
+    local username=$1
+    local password=${2:-""}
+    local home_dir=${3:-"/home/$username"}
+    
+    if id "$username" &>/dev/null; then
+        echo "User $username already exists"
+        return 0
+    fi
+    
+    echo "Creating user $username..."
+    
+    if [ -n "$password" ]; then
+        useradd -m -d "$home_dir" -s /bin/bash "$username"
+        echo "$username:$password" | chpasswd
+    else
+        useradd -m -d "$home_dir" -s /bin/bash "$username"
+    fi
+    
+    echo "User $username created successfully"
+}
+
+# File permission management
+set_permissions() {
+    local path=$1
+    local permissions=${2:-"644"}
+    local owner=${3:-""}
+    local group=${4:-""}
+    
+    if [ ! -e "$path" ]; then
+        echo "ERROR: Path $path does not exist"
+        return 1
+    fi
+    
+    # Set permissions
+    chmod "$permissions" "$path"
+    
+    # Set owner if specified
+    if [ -n "$owner" ]; then
+        chown "$owner" "$path"
+    fi
+    
+    # Set group if specified
+    if [ -n "$group" ]; then
+        chgrp "$group" "$path"
+    fi
+    
+    echo "Set permissions $permissions on $path"
+}
+
+# Example usage
+# backup_database "myapp" "/backup/mysql"
+# update_config "/etc/myapp.conf" "debug" "true"
+# load_env_file ".env"
+# rotate_logs "/var/log" 50 3
+# install_packages "nginx" "mysql-server" "php-fpm"
+# create_user "deploy" "secure_password"
+# set_permissions "/var/www/html" "755" "www-data" "www-data"</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

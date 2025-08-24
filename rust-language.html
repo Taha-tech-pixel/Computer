@@ -252,29 +252,883 @@ fn main() -> Result&lt;(), CustomError&gt; {
                     </div>
                 </div>
 
-                <!-- Learning Resources -->
+                <!-- Complete Rust Reference -->
                 <div class="section-card">
-                    <h3>Learning Resources</h3>
+                    <h3>🦀 Complete Rust Reference</h3>
                     <div class="resources-grid">
                         <div class="resource-item">
-                            <h4>Official Book</h4>
-                            <p>The Rust Programming Language (The Book)</p>
-                            <a href="https://doc.rust-lang.org/book/" target="_blank" class="btn btn-secondary">Read Book</a>
+                            <h4>Advanced Ownership & Memory Management</h4>
+                            <div class="code-example">
+                                <pre><code>use std::rc::Rc;
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+// Advanced ownership patterns
+struct AdvancedOwnershipExamples {
+    // Smart pointers
+    shared_data: Arc&lt;Mutex&lt;Vec&lt;i32&gt;&gt;&gt;,
+    reference_counted: Rc&lt;String&gt;,
+}
+
+impl AdvancedOwnershipExamples {
+    fn new() -> Self {
+        Self {
+            shared_data: Arc::new(Mutex::new(Vec::new())),
+            reference_counted: Rc::new(String::from("Shared String")),
+        }
+    }
+    
+    // Thread-safe data sharing
+    fn share_data_across_threads(&self) {
+        let data_clone = Arc::clone(&self.shared_data);
+        
+        let handle = thread::spawn(move || {
+            let mut data = data_clone.lock().unwrap();
+            data.push(42);
+            println!("Added value in thread");
+        });
+        
+        handle.join().unwrap();
+        
+        let data = self.shared_data.lock().unwrap();
+        println!("Data: {:?}", *data);
+    }
+    
+    // Reference counting
+    fn demonstrate_rc(&self) {
+        let rc1 = Rc::clone(&self.reference_counted);
+        let rc2 = Rc::clone(&self.reference_counted);
+        
+        println!("Reference count: {}", Rc::strong_count(&self.reference_counted));
+        println!("Value: {}", *rc1);
+    }
+    
+    // Interior mutability with RefCell
+    fn interior_mutability_example() {
+        use std::cell::RefCell;
+        
+        let data = RefCell::new(5);
+        
+        {
+            let mut borrow = data.borrow_mut();
+            *borrow += 10;
+        }
+        
+        println!("Value: {}", *data.borrow());
+    }
+    
+    // Custom smart pointer
+    struct CustomBox&lt;T&gt; {
+        data: T,
+    }
+    
+    impl&lt;T&gt; CustomBox&lt;T&gt; {
+        fn new(data: T) -> Self {
+            Self { data }
+        }
+    }
+    
+    impl&lt;T&gt; std::ops::Deref for CustomBox&lt;T&gt; {
+        type Target = T;
+        
+        fn deref(&self) -> &Self::Target {
+            &self.data
+        }
+    }
+    
+    impl&lt;T&gt; std::ops::DerefMut for CustomBox&lt;T&gt; {
+        fn deref_mut(&mut self) -> &mut Self::Target {
+            &mut self.data
+        }
+    }
+    
+    impl&lt;T&gt; Drop for CustomBox&lt;T&gt; {
+        fn drop(&mut self) {
+            println!("CustomBox is being dropped!");
+        }
+    }
+}
+
+// Lifetime annotations
+struct ImportantExcerpt&lt;'a&gt; {
+    part: &'a str,
+}
+
+impl&lt;'a&gt; ImportantExcerpt&lt;'a&gt; {
+    fn level(&self) -> i32 {
+        3
+    }
+    
+    fn announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("Attention please: {}", announcement);
+        self.part
+    }
+}
+
+// Static lifetime
+fn longest_with_an_announcement&lt;'a&gt;(
+    x: &'a str,
+    y: &'a str,
+    ann: &str,
+) -> &'a str {
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Rust by Example</h4>
-                            <p>Collection of runnable examples for Rust concepts</p>
-                            <a href="https://doc.rust-lang.org/rust-by-example/" target="_blank" class="btn btn-secondary">Learn Examples</a>
+                            <h4>Traits & Generic Programming</h4>
+                            <div class="code-example">
+                                <pre><code>use std::fmt::Display;
+
+// Advanced trait definitions
+trait Summary {
+    fn summarize(&self) -> String;
+    
+    // Default implementation
+    fn default_summary(&self) -> String {
+        String::from("(Read more...)")
+    }
+}
+
+trait Display {
+    fn display(&self) -> String;
+}
+
+// Trait bounds
+fn notify&lt;T: Summary + Display&gt;(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+    println!("Display: {}", item.display());
+}
+
+// Multiple trait bounds with where clause
+fn some_function&lt;T, U&gt;(t: &T, u: &U) -> i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+{
+    0
+}
+
+// Associated types
+trait Iterator {
+    type Item;
+    
+    fn next(&mut self) -> Option&lt;Self::Item&gt;;
+}
+
+// Default generic type parameters
+trait Add&lt;Rhs = Self&gt; {
+    type Output;
+    
+    fn add(self, rhs: Rhs) -> Self::Output;
+}
+
+// Operator overloading
+use std::ops::Add;
+
+#[derive(Debug, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Point {
+    type Output = Point;
+    
+    fn add(self, other: Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+// Supertraits
+trait OutlinePrint: Display {
+    fn outline_print(&self) {
+        let output = self.to_string();
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+// Newtype pattern
+struct Millimeters(u32);
+struct Meters(u32);
+
+impl Add&lt;Meters&gt; for Millimeters {
+    type Output = Millimeters;
+    
+    fn add(self, other: Meters) -> Millimeters {
+        Millimeters(self.0 + (other.0 * 1000))
+    }
+}
+
+// Orphan rule and newtype pattern
+use std::fmt;
+
+struct Wrapper(Vec&lt;String&gt;);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+// Advanced trait objects
+trait Draw {
+    fn draw(&self);
+}
+
+struct Button {
+    width: u32,
+    height: u32,
+    label: String,
+}
+
+impl Draw for Button {
+    fn draw(&self) {
+        println!("Drawing button: {}x{} - {}", self.width, self.height, self.label);
+    }
+}
+
+struct SelectBox {
+    width: u32,
+    height: u32,
+    options: Vec&lt;String&gt;,
+}
+
+impl Draw for SelectBox {
+    fn draw(&self) {
+        println!("Drawing select box: {}x{} with {} options", 
+                self.width, self.height, self.options.len());
+    }
+}
+
+// Using trait objects
+struct Screen {
+    components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+}
+
+impl Screen {
+    fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Rust Playground</h4>
-                            <p>Online editor to experiment with Rust</p>
-                            <a href="https://play.rust-lang.org/" target="_blank" class="btn btn-secondary">Try Online</a>
+                            <h4>Concurrency & Async Programming</h4>
+                            <div class="code-example">
+                                <pre><code>use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+use tokio::time::{sleep, Duration as TokioDuration};
+
+// Thread-based concurrency
+struct ThreadExamples {
+    counter: Arc&lt;Mutex&lt;i32&gt;&gt;,
+}
+
+impl ThreadExamples {
+    fn new() -> Self {
+        Self {
+            counter: Arc::new(Mutex::new(0)),
+        }
+    }
+    
+    fn increment_counter(&self) {
+        let counter_clone = Arc::clone(&self.counter);
+        
+        let handle = thread::spawn(move || {
+            for _ in 0..10 {
+                let mut num = counter_clone.lock().unwrap();
+                *num += 1;
+                thread::sleep(Duration::from_millis(100));
+            }
+        });
+        
+        handle.join().unwrap();
+        println!("Final count: {}", *self.counter.lock().unwrap());
+    }
+    
+    // Channel communication
+    fn channel_example() {
+        use std::sync::mpsc;
+        
+        let (tx, rx) = mpsc::channel();
+        
+        let tx_clone = tx.clone();
+        thread::spawn(move || {
+            let vals = vec![
+                String::from("hi"),
+                String::from("from"),
+                String::from("the"),
+                String::from("thread"),
+            ];
+            
+            for val in vals {
+                tx_clone.send(val).unwrap();
+                thread::sleep(Duration::from_secs(1));
+            }
+        });
+        
+        thread::spawn(move || {
+            let vals = vec![
+                String::from("more"),
+                String::from("messages"),
+                String::from("for"),
+                String::from("you"),
+            ];
+            
+            for val in vals {
+                tx.send(val).unwrap();
+                thread::sleep(Duration::from_secs(1));
+            }
+        });
+        
+        for received in rx {
+            println!("Got: {}", received);
+        }
+    }
+}
+
+// Async/await with tokio
+#[tokio::main]
+async fn async_examples() {
+    // Basic async function
+    async fn fetch_data(id: u32) -> String {
+        sleep(TokioDuration::from_secs(1)).await;
+        format!("Data for id: {}", id)
+    }
+    
+    // Parallel execution
+    let future1 = fetch_data(1);
+    let future2 = fetch_data(2);
+    
+    let (result1, result2) = tokio::join!(future1, future2);
+    println!("Results: {}, {}", result1, result2);
+    
+    // Async streams
+    use tokio_stream::{self, StreamExt};
+    
+    let mut stream = tokio_stream::iter(1..=5);
+    while let Some(value) = stream.next().await {
+        println!("Stream value: {}", value);
+    }
+    
+    // Async channels
+    use tokio::sync::mpsc;
+    
+    let (tx, mut rx) = mpsc::channel(100);
+    
+    tokio::spawn(async move {
+        for i in 0..10 {
+            tx.send(i).await.unwrap();
+        }
+    });
+    
+    while let Some(value) = rx.recv().await {
+        println!("Received: {}", value);
+    }
+}
+
+// Custom async trait
+use std::future::Future;
+use std::pin::Pin;
+
+trait AsyncProcessor {
+    type Output;
+    
+    fn process(&self) -> Pin&lt;Box&lt;dyn Future&lt;Output = Self::Output&gt; + Send&gt;&gt;;
+}
+
+struct DataProcessor;
+
+impl AsyncProcessor for DataProcessor {
+    type Output = String;
+    
+    fn process(&self) -> Pin&lt;Box&lt;dyn Future&lt;Output = Self::Output&gt; + Send&gt;&gt; {
+        Box::pin(async move {
+            sleep(TokioDuration::from_secs(1)).await;
+            String::from("Processed data")
+        })
+    }
+}
+
+// Async error handling
+async fn async_error_handling() -> Result&lt;String, Box&lt;dyn std::error::Error&gt;&gt; {
+    let data = fetch_data(1).await;
+    Ok(data)
+}</code></pre>
+                            </div>
                         </div>
                         <div class="resource-item">
-                            <h4>Rust Community</h4>
-                            <p>Stack Overflow, Reddit, and Rust forums</p>
-                            <a href="https://stackoverflow.com/questions/tagged/rust" target="_blank" class="btn btn-secondary">Join Community</a>
+                            <h4>Error Handling & Custom Types</h4>
+                            <div class="code-example">
+                                <pre><code>use std::error::Error;
+use std::fmt;
+
+// Custom error types
+#[derive(Debug)]
+enum CustomError {
+    IoError(std::io::Error),
+    ParseError(String),
+    ValidationError(String),
+}
+
+impl fmt::Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            CustomError::IoError(err) => write!(f, "IO error: {}", err),
+            CustomError::ParseError(msg) => write!(f, "Parse error: {}", msg),
+            CustomError::ValidationError(msg) => write!(f, "Validation error: {}", msg),
+        }
+    }
+}
+
+impl Error for CustomError {}
+
+impl From&lt;std::io::Error&gt; for CustomError {
+    fn from(err: std::io::Error) -> CustomError {
+        CustomError::IoError(err)
+    }
+}
+
+// Result type with custom error
+type Result&lt;T&gt; = std::result::Result&lt;T, CustomError&gt;;
+
+// Advanced error handling patterns
+struct ErrorHandlingExamples;
+
+impl ErrorHandlingExamples {
+    // Error propagation with ?
+    fn read_and_parse_file(filename: &str) -> Result&lt;i32&gt; {
+        let content = std::fs::read_to_string(filename)?;
+        let number: i32 = content.trim().parse()
+            .map_err(|e| CustomError::ParseError(e.to_string()))?;
+        Ok(number)
+    }
+    
+    // Combinator methods
+    fn process_data(data: Option&lt;String&gt;) -> Result&lt;String&gt; {
+        data
+            .ok_or(CustomError::ValidationError("No data provided".to_string()))?
+            .parse::&lt;i32&gt;()
+            .map_err(|e| CustomError::ParseError(e.to_string()))?
+            .to_string()
+            .into()
+    }
+    
+    // Custom Option and Result extensions
+    trait OptionExt&lt;T&gt; {
+        fn ok_or_custom_error(self, msg: &str) -> Result&lt;T&gt;;
+    }
+    
+    impl&lt;T&gt; OptionExt&lt;T&gt; for Option&lt;T&gt; {
+        fn ok_or_custom_error(self, msg: &str) -> Result&lt;T&gt; {
+            self.ok_or(CustomError::ValidationError(msg.to_string()))
+        }
+    }
+    
+    // Error context
+    fn add_context&lt;T, E&gt;(result: Result&lt;T, E&gt;, context: &str) -> Result&lt;T, CustomError&gt;
+    where
+        E: Into&lt;CustomError&gt;,
+    {
+        result.map_err(|e| {
+            let mut custom_error: CustomError = e.into();
+            // Add context to error message
+            custom_error
+        })
+    }
+}
+
+// Custom types with validation
+#[derive(Debug, Clone)]
+struct Email(String);
+
+impl Email {
+    fn new(email: String) -> Result&lt;Self&gt; {
+        if email.contains('@') {
+            Ok(Email(email))
+        } else {
+            Err(CustomError::ValidationError("Invalid email format".to_string()))
+        }
+    }
+    
+    fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+impl fmt::Display for Email {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+// Builder pattern with error handling
+struct UserBuilder {
+    name: Option&lt;String&gt;,
+    email: Option&lt;Email&gt;,
+    age: Option&lt;u32&gt;,
+}
+
+impl UserBuilder {
+    fn new() -> Self {
+        Self {
+            name: None,
+            email: None,
+            age: None,
+        }
+    }
+    
+    fn name(mut self, name: String) -> Self {
+        self.name = Some(name);
+        self
+    }
+    
+    fn email(mut self, email: String) -> Result&lt;Self&gt; {
+        self.email = Some(Email::new(email)?);
+        Ok(self)
+    }
+    
+    fn age(mut self, age: u32) -> Self {
+        self.age = Some(age);
+        self
+    }
+    
+    fn build(self) -> Result&lt;User&gt; {
+        let name = self.name.ok_or_custom_error("Name is required")?;
+        let email = self.email.ok_or_custom_error("Email is required")?;
+        let age = self.age.ok_or_custom_error("Age is required")?;
+        
+        Ok(User { name, email, age })
+    }
+}
+
+#[derive(Debug)]
+struct User {
+    name: String,
+    email: Email,
+    age: u32,
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Macros & Metaprogramming</h4>
+                            <div class="code-example">
+                                <pre><code>// Declarative macros
+macro_rules! vec {
+    ( $( $x:expr ),* ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    };
+}
+
+// Procedural macros
+use proc_macro::TokenStream;
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput};
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+    let ast = parse_macro_input!(input as DeriveInput);
+    let name = ast.ident;
+    
+    let gen = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}!", stringify!(#name));
+            }
+        }
+    };
+    
+    gen.into()
+}
+
+// Attribute macros
+#[proc_macro_attribute]
+pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
+    // Implementation for route macro
+    item
+}
+
+// Function-like macros
+#[proc_macro]
+pub fn sql(input: TokenStream) -> TokenStream {
+    // Implementation for sql macro
+    input
+}
+
+// Advanced macro patterns
+macro_rules! create_struct {
+    ($struct_name:ident { $($field_name:ident: $field_type:ty),* }) => {
+        struct $struct_name {
+            $($field_name: $field_type),*
+        }
+        
+        impl $struct_name {
+            fn new($($field_name: $field_type),*) -> Self {
+                Self {
+                    $($field_name),*
+                }
+            }
+        }
+    };
+}
+
+// Using the macro
+create_struct!(Person {
+    name: String,
+    age: u32,
+    email: String
+});
+
+// Conditional compilation
+#[cfg(target_os = "windows")]
+fn windows_specific_function() {
+    println!("This is Windows-specific code");
+}
+
+#[cfg(target_os = "linux")]
+fn linux_specific_function() {
+    println!("This is Linux-specific code");
+}
+
+// Feature flags
+#[cfg(feature = "advanced")]
+mod advanced {
+    pub fn advanced_function() {
+        println!("Advanced feature enabled");
+    }
+}
+
+// Compile-time assertions
+const fn assert_size&lt;T&gt;() {
+    assert!(std::mem::size_of::&lt;T&gt;() &lt;= 64, "Type too large");
+}
+
+// Using const assertions
+struct SmallStruct {
+    data: [u8; 32],
+}
+
+const _: () = assert_size::&lt;SmallStruct&gt;();
+
+// Custom derive macros
+#[derive(Debug, Clone, PartialEq)]
+struct CustomStruct {
+    field1: String,
+    field2: i32,
+}
+
+// Macro for testing
+macro_rules! test_cases {
+    ($($test_name:ident: $input:expr => $expected:expr),*) => {
+        $(
+            #[test]
+            fn $test_name() {
+                assert_eq!($input, $expected);
+            }
+        )*
+    };
+}
+
+// Using test macro
+test_cases! {
+    test_addition: 2 + 2 => 4,
+    test_string: "hello".to_string() => "hello".to_string(),
+    test_boolean: true => true
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <h4>Performance & Optimization</h4>
+                            <div class="code-example">
+                                <pre><code>use std::time::Instant;
+use std::hint::black_box;
+
+// Performance measurement
+struct PerformanceExamples;
+
+impl PerformanceExamples {
+    fn measure_performance&lt;F&gt;(name: &str, f: F) -&gt; std::time::Duration
+    where
+        F: FnOnce(),
+    {
+        let start = Instant::now();
+        black_box(f());
+        let duration = start.elapsed();
+        println!("{} took {:?}", name, duration);
+        duration
+    }
+    
+    // Zero-cost abstractions
+    fn zero_cost_example() {
+        // Iterator chains are zero-cost
+        let numbers: Vec&lt;i32&gt; = (0..1000)
+            .filter(|&x| x % 2 == 0)
+            .map(|x| x * x)
+            .collect();
+        
+        // Same performance as manual loop
+        let mut numbers_manual = Vec::new();
+        for x in 0..1000 {
+            if x % 2 == 0 {
+                numbers_manual.push(x * x);
+            }
+        }
+    }
+    
+    // Memory layout optimization
+    #[repr(C)]
+    struct OptimizedStruct {
+        a: u32,    // 4 bytes
+        b: u8,     // 1 byte
+        c: u32,    // 4 bytes
+    }
+    
+    // Avoid padding
+    #[repr(C)]
+    struct PackedStruct {
+        a: u32,    // 4 bytes
+        b: u32,    // 4 bytes
+        c: u8,     // 1 byte
+    }
+    
+    // SIMD operations
+    fn simd_example() {
+        // Using SIMD types when available
+        #[cfg(target_arch = "x86_64")]
+        {
+            use std::arch::x86_64::*;
+            
+            unsafe {
+                let a = _mm_set1_ps(1.0);
+                let b = _mm_set1_ps(2.0);
+                let result = _mm_add_ps(a, b);
+                // Process result...
+            }
+        }
+    }
+    
+    // Inline assembly
+    fn inline_assembly_example() -&gt; u64 {
+        let result: u64;
+        unsafe {
+            asm!(
+                "mov {}, 42",
+                out(reg) result,
+            );
+        }
+        result
+    }
+    
+    // Custom allocators
+    use std::alloc::{GlobalAlloc, Layout};
+    
+    struct CustomAllocator;
+    
+    unsafe impl GlobalAlloc for CustomAllocator {
+        unsafe fn alloc(&self, layout: Layout) -&gt; *mut u8 {
+            // Custom allocation logic
+            std::alloc::System.alloc(layout)
+        }
+        
+        unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+            std::alloc::System.dealloc(ptr, layout)
+        }
+    }
+    
+    // Benchmarking
+    fn benchmark_example() {
+        let iterations = 1_000_000;
+        
+        let vector_time = Self::measure_performance("Vector", || {
+            let mut v = Vec::new();
+            for i in 0..iterations {
+                v.push(i);
+            }
+        });
+        
+        let preallocated_time = Self::measure_performance("Preallocated Vector", || {
+            let mut v = Vec::with_capacity(iterations);
+            for i in 0..iterations {
+                v.push(i);
+            }
+        });
+        
+        println!("Preallocation saved: {:?}", vector_time - preallocated_time);
+    }
+    
+    // Profile-guided optimization hints
+    #[cold]
+    fn cold_function() {
+        // This function is rarely called
+        println!("Cold function called");
+    }
+    
+    #[inline(always)]
+    fn hot_function() {
+        // This function should always be inlined
+        println!("Hot function called");
+    }
+    
+    // Memory pooling
+    struct ObjectPool&lt;T&gt; {
+        objects: Vec&lt;T&gt;,
+    }
+    
+    impl&lt;T: Default&gt; ObjectPool&lt;T&gt; {
+        fn new(capacity: usize) -&gt; Self {
+            let mut objects = Vec::with_capacity(capacity);
+            for _ in 0..capacity {
+                objects.push(T::default());
+            }
+            Self { objects }
+        }
+        
+        fn get(&mut self) -&gt; Option&lt;T&gt; {
+            self.objects.pop()
+        }
+        
+        fn return_object(&mut self, obj: T) {
+            self.objects.push(obj);
+        }
+    }
+}
+
+// Compile-time optimizations
+const fn compile_time_constant() -&gt; u32 {
+    42 * 2
+}
+
+static COMPILE_TIME_VALUE: u32 = compile_time_constant();
+
+// Link-time optimization
+#[link(name = "optimized_lib")]
+extern "C" {
+    fn optimized_function() -&gt; i32;
+}</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>

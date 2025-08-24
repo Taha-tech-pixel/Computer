@@ -524,35 +524,568 @@ end program pointers</code></pre>
                 </div>
             </div>
 
+            <!-- Complete Fortran Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>🔬 Complete Fortran Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"Modern Fortran Explained" by Metcalf, Reid, and Cohen</li>
-                            <li>"Fortran 90/95 Explained" by Metcalf and Reid</li>
-                            <li>"Scientific Software Development with Fortran" by Chapman</li>
-                        </ul>
+                        <h4>Modern Fortran Features & Scientific Computing</h4>
+                        <div class="code-example">
+                            <pre><code>! Modern Fortran scientific computing examples
+program scientific_computing
+    use, intrinsic :: iso_fortran_env, only: real64, int32
+    use, intrinsic :: ieee_arithmetic
+    implicit none
+    
+    ! Parameterized derived types
+    type :: matrix_t(k, rows, cols)
+        integer, kind :: k = real64
+        integer, len :: rows, cols
+        real(k) :: data(rows, cols)
+    contains
+        procedure :: multiply => matrix_multiply
+        procedure :: transpose => matrix_transpose
+        procedure :: determinant => matrix_determinant
+    end type matrix_t
+    
+    ! Advanced array operations
+    integer, parameter :: n = 1000
+    real(real64), dimension(n, n) :: a, b, c
+    real(real64), dimension(n) :: x, y
+    integer :: i, j
+    
+    ! Initialize arrays with array constructors
+    x = [(real(i, real64), i = 1, n)]
+    y = [(sin(real(i, real64) * 0.01), i = 1, n)]
+    
+    ! Vectorized operations
+    where (x > 0.0_real64)
+        y = sqrt(x)
+    elsewhere
+        y = 0.0_real64
+    end where
+    
+    ! Matrix operations using intrinsic procedures
+    call random_number(a)
+    call random_number(b)
+    
+    ! Matrix multiplication
+    c = matmul(a, b)
+    
+    ! Elemental functions
+    c = sin(a) + cos(b)
+    
+contains
+    
+    ! Pure function for numerical integration
+    pure function simpson_rule(f, a, b, n) result(integral)
+        interface
+            pure function f(x) result(y)
+                import :: real64
+                real(real64), intent(in) :: x
+                real(real64) :: y
+            end function f
+        end interface
+        real(real64), intent(in) :: a, b
+        integer, intent(in) :: n
+        real(real64) :: integral
+        
+        real(real64) :: h, sum_odds, sum_evens
+        integer :: i
+        
+        h = (b - a) / real(n, real64)
+        sum_odds = 0.0_real64
+        sum_evens = 0.0_real64
+        
+        do i = 1, n-1, 2
+            sum_odds = sum_odds + f(a + i * h)
+        end do
+        
+        do i = 2, n-2, 2
+            sum_evens = sum_evens + f(a + i * h)
+        end do
+        
+        integral = h / 3.0_real64 * (f(a) + 4.0_real64 * sum_odds + &
+                   2.0_real64 * sum_evens + f(b))
+    end function simpson_rule
+    
+    ! Elemental function for array operations
+    elemental function gaussian(x, mu, sigma) result(y)
+        real(real64), intent(in) :: x, mu, sigma
+        real(real64) :: y
+        real(real64), parameter :: pi = 4.0_real64 * atan(1.0_real64)
+        
+        y = exp(-0.5_real64 * ((x - mu) / sigma)**2) / (sigma * sqrt(2.0_real64 * pi))
+    end function gaussian
+    
+end program scientific_computing
+
+! Module for linear algebra operations
+module linear_algebra
+    use, intrinsic :: iso_fortran_env, only: real64
+    implicit none
+    private
+    public :: solve_linear_system, eigenvalues, svd_decomposition
+    
+contains
+    
+    ! Solve linear system using LU decomposition
+    subroutine solve_linear_system(a, b, x, info)
+        real(real64), intent(inout) :: a(:,:)
+        real(real64), intent(inout) :: b(:)
+        real(real64), intent(out) :: x(:)
+        integer, intent(out) :: info
+        
+        integer :: n, i, j, k, pivot
+        real(real64) :: factor, temp
+        integer, allocatable :: perm(:)
+        
+        n = size(a, 1)
+        allocate(perm(n))
+        perm = [(i, i = 1, n)]
+        info = 0
+        
+        ! LU decomposition with partial pivoting
+        do k = 1, n-1
+            ! Find pivot
+            pivot = k
+            do i = k+1, n
+                if (abs(a(perm(i), k)) > abs(a(perm(pivot), k))) then
+                    pivot = i
+                end if
+            end do
+            
+            ! Swap rows
+            if (pivot /= k) then
+                temp = perm(k)
+                perm(k) = perm(pivot)
+                perm(pivot) = int(temp)
+            end if
+            
+            ! Check for singular matrix
+            if (abs(a(perm(k), k)) < epsilon(1.0_real64)) then
+                info = k
+                return
+            end if
+            
+            ! Eliminate
+            do i = k+1, n
+                factor = a(perm(i), k) / a(perm(k), k)
+                do j = k+1, n
+                    a(perm(i), j) = a(perm(i), j) - factor * a(perm(k), j)
+                end do
+                b(perm(i)) = b(perm(i)) - factor * b(perm(k))
+            end do
+        end do
+        
+        ! Back substitution
+        do i = n, 1, -1
+            x(i) = b(perm(i))
+            do j = i+1, n
+                x(i) = x(i) - a(perm(i), j) * x(j)
+            end do
+            x(i) = x(i) / a(perm(i), i)
+        end do
+        
+        deallocate(perm)
+    end subroutine solve_linear_system
+    
+end module linear_algebra</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://fortran-lang.org" target="_blank">Fortran-lang.org</a></li>
-                            <li><a href="https://gcc.gnu.org/fortran" target="_blank">GNU Fortran</a></li>
-                            <li><a href="https://www.intel.com/fortran" target="_blank">Intel Fortran</a></li>
-                        </ul>
+                        <h4>High Performance Computing & Parallelization</h4>
+                        <div class="code-example">
+                            <pre><code>! High-performance computing with OpenMP and Coarrays
+program parallel_computing
+    use, intrinsic :: iso_fortran_env, only: real64
+    use omp_lib
+    implicit none
+    
+    integer, parameter :: n = 10000
+    real(real64), dimension(n, n) :: a, b, c
+    real(real64) :: start_time, end_time
+    integer :: i, j, k, num_threads
+    
+    ! OpenMP parallel matrix multiplication
+    call omp_set_num_threads(4)
+    num_threads = omp_get_max_threads()
+    print *, 'Using', num_threads, 'threads'
+    
+    ! Initialize matrices
+    call random_number(a)
+    call random_number(b)
+    
+    start_time = omp_get_wtime()
+    
+    !$omp parallel do private(i, j, k) shared(a, b, c)
+    do i = 1, n
+        do j = 1, n
+            c(i, j) = 0.0_real64
+            do k = 1, n
+                c(i, j) = c(i, j) + a(i, k) * b(k, j)
+            end do
+        end do
+    end do
+    !$omp end parallel do
+    
+    end_time = omp_get_wtime()
+    print *, 'Matrix multiplication time:', end_time - start_time, 'seconds'
+    
+    ! Parallel reduction example
+    call parallel_sum_example()
+    
+    ! Coarray example for distributed computing
+    call coarray_example()
+    
+contains
+    
+    subroutine parallel_sum_example()
+        integer, parameter :: array_size = 1000000
+        real(real64), dimension(array_size) :: data
+        real(real64) :: total_sum, partial_sum
+        integer :: i, thread_id
+        
+        ! Initialize data
+        data = [(real(i, real64), i = 1, array_size)]
+        total_sum = 0.0_real64
+        
+        !$omp parallel private(partial_sum, thread_id)
+        thread_id = omp_get_thread_num()
+        partial_sum = 0.0_real64
+        
+        !$omp do
+        do i = 1, array_size
+            partial_sum = partial_sum + data(i)**2
+        end do
+        !$omp end do
+        
+        !$omp critical
+        total_sum = total_sum + partial_sum
+        print *, 'Thread', thread_id, 'partial sum:', partial_sum
+        !$omp end critical
+        
+        !$omp end parallel
+        
+        print *, 'Total sum:', total_sum
+    end subroutine parallel_sum_example
+    
+    subroutine coarray_example()
+        ! Coarray programming for distributed memory
+        integer, parameter :: local_size = 1000
+        real(real64), dimension(local_size)[*] :: local_data
+        real(real64) :: global_sum, local_sum
+        integer :: i, img, num_images
+        
+        num_images = num_images()
+        
+        ! Initialize local data on each image
+        do i = 1, local_size
+            local_data(i) = real(this_image() * local_size + i, real64)
+        end do
+        
+        ! Compute local sum
+        local_sum = sum(local_data)
+        
+        ! Synchronize all images
+        sync all
+        
+        ! Collect results on image 1
+        if (this_image() == 1) then
+            global_sum = local_sum
+            do img = 2, num_images
+                global_sum = global_sum + sum(local_data(:)[img])
+            end do
+            print *, 'Global sum across', num_images, 'images:', global_sum
+        end if
+        
+        sync all
+    end subroutine coarray_example
+    
+end program parallel_computing
+
+! Advanced numerical methods module
+module numerical_methods
+    use, intrinsic :: iso_fortran_env, only: real64
+    implicit none
+    private
+    public :: runge_kutta_4, newton_raphson, monte_carlo_pi
+    
+contains
+    
+    ! Fourth-order Runge-Kutta method for ODEs
+    subroutine runge_kutta_4(f, y0, t0, tf, n, y, t)
+        interface
+            function f(t, y) result(dydt)
+                import :: real64
+                real(real64), intent(in) :: t, y
+                real(real64) :: dydt
+            end function f
+        end interface
+        real(real64), intent(in) :: y0, t0, tf
+        integer, intent(in) :: n
+        real(real64), intent(out) :: y(0:n), t(0:n)
+        
+        real(real64) :: h, k1, k2, k3, k4
+        integer :: i
+        
+        h = (tf - t0) / real(n, real64)
+        t(0) = t0
+        y(0) = y0
+        
+        do i = 1, n
+            k1 = h * f(t(i-1), y(i-1))
+            k2 = h * f(t(i-1) + h/2, y(i-1) + k1/2)
+            k3 = h * f(t(i-1) + h/2, y(i-1) + k2/2)
+            k4 = h * f(t(i-1) + h, y(i-1) + k3)
+            
+            y(i) = y(i-1) + (k1 + 2*k2 + 2*k3 + k4) / 6
+            t(i) = t0 + i * h
+        end do
+    end subroutine runge_kutta_4
+    
+    ! Newton-Raphson method for root finding
+    function newton_raphson(f, df, x0, tol, max_iter) result(root)
+        interface
+            function f(x) result(y)
+                import :: real64
+                real(real64), intent(in) :: x
+                real(real64) :: y
+            end function f
+            function df(x) result(dy)
+                import :: real64
+                real(real64), intent(in) :: x
+                real(real64) :: dy
+            end function df
+        end interface
+        real(real64), intent(in) :: x0, tol
+        integer, intent(in) :: max_iter
+        real(real64) :: root
+        
+        real(real64) :: x, fx, dfx
+        integer :: iter
+        
+        x = x0
+        do iter = 1, max_iter
+            fx = f(x)
+            dfx = df(x)
+            
+            if (abs(dfx) < epsilon(1.0_real64)) then
+                print *, 'Derivative too small, stopping'
+                exit
+            end if
+            
+            x = x - fx / dfx
+            
+            if (abs(fx) < tol) then
+                print *, 'Converged in', iter, 'iterations'
+                exit
+            end if
+        end do
+        
+        root = x
+    end function newton_raphson
+    
+end module numerical_methods</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>Fortran Discourse</li>
-                            <li>Stack Overflow Fortran tag</li>
-                            <li>Reddit r/fortran</li>
-                        </ul>
+                        <h4>Advanced I/O & File Processing</h4>
+                        <div class="code-example">
+                            <pre><code>! Advanced I/O operations and file processing
+program advanced_io
+    use, intrinsic :: iso_fortran_env, only: real64, int32, iostat_end
+    implicit none
+    
+    character(len=100) :: filename
+    integer :: unit_num, iostat
+    
+    ! Binary file I/O example
+    call binary_file_example()
+    
+    ! Formatted I/O with custom formats
+    call formatted_io_example()
+    
+    ! Stream I/O for large datasets
+    call stream_io_example()
+    
+    ! NetCDF-style data processing
+    call scientific_data_processing()
+    
+contains
+    
+    subroutine binary_file_example()
+        integer, parameter :: n = 1000
+        real(real64), dimension(n, n) :: matrix
+        integer :: i, j, unit
+        
+        ! Create test data
+        do i = 1, n
+            do j = 1, n
+                matrix(i, j) = sin(real(i, real64)) * cos(real(j, real64))
+            end do
+        end do
+        
+        ! Write binary file
+        open(newunit=unit, file='matrix_data.bin', form='unformatted', &
+             access='stream', status='replace')
+        write(unit) n, n
+        write(unit) matrix
+        close(unit)
+        
+        ! Read binary file
+        matrix = 0.0_real64
+        open(newunit=unit, file='matrix_data.bin', form='unformatted', &
+             access='stream', status='old')
+        read(unit) i, j  ! dimensions
+        read(unit) matrix(1:i, 1:j)
+        close(unit)
+        
+        print *, 'Binary I/O completed. Matrix(1,1) =', matrix(1,1)
+    end subroutine binary_file_example
+    
+    subroutine formatted_io_example()
+        type :: person_t
+            character(len=50) :: name
+            integer :: age
+            real(real64) :: salary
+        end type person_t
+        
+        type(person_t), dimension(3) :: people
+        integer :: i, unit
+        character(len=*), parameter :: fmt = '(a50, i5, f12.2)'
+        
+        ! Initialize data
+        people(1) = person_t('John Doe', 30, 50000.0_real64)
+        people(2) = person_t('Jane Smith', 25, 45000.0_real64)
+        people(3) = person_t('Bob Johnson', 35, 60000.0_real64)
+        
+        ! Write formatted file
+        open(newunit=unit, file='people.txt', status='replace')
+        write(unit, '(a)') '# Name                Age    Salary'
+        write(unit, '(a)') '# ====================================='
+        do i = 1, size(people)
+            write(unit, fmt) people(i)%name, people(i)%age, people(i)%salary
+        end do
+        close(unit)
+        
+        ! Read formatted file with error handling
+        people = person_t('', 0, 0.0_real64)  ! Reset
+        open(newunit=unit, file='people.txt', status='old')
+        
+        ! Skip header lines
+        read(unit, *)
+        read(unit, *)
+        
+        i = 1
+        do
+            read(unit, fmt, iostat=iostat) people(i)%name, people(i)%age, people(i)%salary
+            if (iostat /= 0) exit
+            i = i + 1
+            if (i > size(people)) exit
+        end do
+        close(unit)
+        
+        print *, 'Read', i-1, 'records from file'
+    end subroutine formatted_io_example
+    
+    subroutine stream_io_example()
+        integer, parameter :: buffer_size = 1024
+        character(len=buffer_size) :: buffer
+        integer :: unit, pos, bytes_read
+        character(len=1) :: char
+        integer :: word_count, line_count
+        logical :: in_word
+        
+        ! Process large text file character by character
+        open(newunit=unit, file='large_text.txt', access='stream', &
+             form='unformatted', status='old', iostat=iostat)
+        
+        if (iostat /= 0) then
+            print *, 'Creating sample file...'
+            call create_sample_text_file()
+            open(newunit=unit, file='large_text.txt', access='stream', &
+                 form='unformatted', status='old')
+        end if
+        
+        word_count = 0
+        line_count = 0
+        in_word = .false.
+        pos = 1
+        
+        do
+            read(unit, pos=pos, iostat=iostat) char
+            if (iostat /= 0) exit
+            
+            select case (char)
+            case (' ', char(9))  ! Space or tab
+                in_word = .false.
+            case (char(10), char(13))  ! Newline
+                line_count = line_count + 1
+                in_word = .false.
+            case default
+                if (.not. in_word) then
+                    word_count = word_count + 1
+                    in_word = .true.
+                end if
+            end select
+            
+            pos = pos + 1
+        end do
+        
+        close(unit)
+        print *, 'File statistics: Words =', word_count, ', Lines =', line_count
+    end subroutine stream_io_example
+    
+    subroutine create_sample_text_file()
+        integer :: unit, i
+        
+        open(newunit=unit, file='large_text.txt', status='replace')
+        do i = 1, 1000
+            write(unit, '(a, i0, a)') 'This is line ', i, ' of the sample text file.'
+        end do
+        close(unit)
+    end subroutine create_sample_text_file
+    
+    subroutine scientific_data_processing()
+        ! Simulate processing scientific datasets
+        integer, parameter :: nx = 100, ny = 100, nt = 50
+        real(real64), dimension(nx, ny, nt) :: temperature
+        real(real64), dimension(nx, ny) :: avg_temp, max_temp
+        integer :: i, j, t, unit
+        
+        ! Generate synthetic temperature data
+        do t = 1, nt
+            do j = 1, ny
+                do i = 1, nx
+                    temperature(i, j, t) = 20.0_real64 + 10.0_real64 * &
+                        sin(2.0_real64 * 3.14159_real64 * real(t, real64) / real(nt, real64)) * &
+                        exp(-((real(i-nx/2, real64))**2 + (real(j-ny/2, real64))**2) / 1000.0_real64)
+                end do
+            end do
+        end do
+        
+        ! Compute statistics
+        avg_temp = sum(temperature, dim=3) / real(nt, real64)
+        max_temp = maxval(temperature, dim=3)
+        
+        ! Write results in scientific format
+        open(newunit=unit, file='temperature_analysis.dat', status='replace')
+        write(unit, '(a)') '# Temperature Analysis Results'
+        write(unit, '(a)') '# x y avg_temp max_temp'
+        do j = 1, ny
+            do i = 1, nx
+                write(unit, '(2i5, 2f12.4)') i, j, avg_temp(i, j), max_temp(i, j)
+            end do
+        end do
+        close(unit)
+        
+        print *, 'Scientific data processing completed'
+        print *, 'Average temperature range:', minval(avg_temp), 'to', maxval(avg_temp)
+    end subroutine scientific_data_processing
+    
+end program advanced_io</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

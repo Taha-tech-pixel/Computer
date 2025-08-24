@@ -428,35 +428,996 @@ end</code></pre>
                 </div>
             </div>
 
+            <!-- Complete Ruby Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>💎 Complete Ruby Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"Programming Ruby" by Dave Thomas</li>
-                            <li>"The Well-Grounded Rubyist" by David A. Black</li>
-                            <li>"Eloquent Ruby" by Russ Olsen</li>
-                        </ul>
+                        <h4>Metaprogramming & Dynamic Features</h4>
+                        <div class="code-example">
+                            <pre><code># Dynamic method definition
+class Person
+  attr_accessor :name, :age
+  
+  def initialize(name, age)
+    @name, @age = name, age
+  end
+  
+  # Define methods dynamically
+  %w[walk run jump].each do |action|
+    define_method("#{action}!") do
+      puts "#{@name} is #{action}ing!"
+    end
+  end
+  
+  # Method missing for dynamic attributes
+  def method_missing(method_name, *args)
+    if method_name.to_s.start_with?('say_')
+      word = method_name.to_s.sub('say_', '')
+      puts "#{@name} says: #{word.capitalize}!"
+    else
+      super
+    end
+  end
+  
+  def respond_to_missing?(method_name, include_private = false)
+    method_name.to_s.start_with?('say_') || super
+  end
+end
+
+# Class-level metaprogramming
+class ActiveRecord
+  def self.belongs_to(association)
+    define_method(association) do
+      instance_variable_get("@#{association}")
+    end
+    
+    define_method("#{association}=") do |value|
+      instance_variable_set("@#{association}", value)
+    end
+  end
+  
+  def self.validates(field, options = {})
+    define_method("valid_#{field}?") do
+      value = send(field)
+      return false if options[:presence] && value.nil?
+      return false if options[:length] && value.length < options[:length][:minimum]
+      true
+    end
+  end
+end
+
+class User < ActiveRecord
+  belongs_to :company
+  validates :name, presence: true, length: { minimum: 2 }
+end
+
+# Module inclusion and extension
+module Trackable
+  def self.included(base)
+    base.extend(ClassMethods)
+    base.class_eval do
+      attr_accessor :created_at, :updated_at
+    end
+  end
+  
+  module ClassMethods
+    def track_changes
+      define_method(:touch) do
+        @updated_at = Time.now
+      end
+    end
+  end
+  
+  def initialize(*)
+    super
+    @created_at = Time.now
+    @updated_at = Time.now
+  end
+end
+
+# Usage examples
+person = Person.new("Alice", 25)
+person.walk!
+person.say_hello
+person.say_goodbye</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
-                            <li><a href="https://www.ruby-lang.org" target="_blank">Ruby-lang.org</a></li>
-                            <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
-                        </ul>
+                        <h4>Advanced Collections & Enumerable</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced Enumerable operations
+class DataProcessor
+  def self.process_sales_data(sales)
+    # Group by category and calculate statistics
+    grouped = sales.group_by { |sale| sale[:category] }
+    
+    grouped.transform_values do |category_sales|
+      {
+        total_revenue: category_sales.sum { |s| s[:amount] },
+        average_sale: category_sales.sum { |s| s[:amount] } / category_sales.size.to_f,
+        count: category_sales.size,
+        top_products: category_sales
+          .group_by { |s| s[:product] }
+          .transform_values { |products| products.sum { |p| p[:amount] } }
+          .sort_by { |_, revenue| -revenue }
+          .first(3)
+          .to_h
+      }
+    end
+  end
+  
+  # Custom enumerable class
+  class NumberSequence
+    include Enumerable
+    
+    def initialize(start, finish, step = 1)
+      @start, @finish, @step = start, finish, step
+    end
+    
+    def each
+      return enum_for(:each) unless block_given?
+      
+      current = @start
+      while current <= @finish
+        yield current
+        current += @step
+      end
+    end
+    
+    # Custom methods using Enumerable
+    def even_numbers
+      select(&:even?)
+    end
+    
+    def squares
+      map { |n| n ** 2 }
+    end
+  end
+end
+
+# Functional programming patterns
+module FunctionalHelpers
+  # Curry functions
+  def self.curry(method, *args)
+    lambda do |*remaining_args|
+      all_args = args + remaining_args
+      method.call(*all_args)
+    end
+  end
+  
+  # Compose functions
+  def self.compose(*functions)
+    lambda do |input|
+      functions.reverse.reduce(input) { |result, func| func.call(result) }
+    end
+  end
+  
+  # Memoization
+  def self.memoize(method)
+    cache = {}
+    lambda do |*args|
+      cache[args] ||= method.call(*args)
+    end
+  end
+end
+
+# Usage examples
+sales_data = [
+  { category: 'Electronics', product: 'iPhone', amount: 999 },
+  { category: 'Electronics', product: 'MacBook', amount: 1999 },
+  { category: 'Books', product: 'Ruby Book', amount: 29 },
+  { category: 'Books', product: 'Rails Guide', amount: 39 }
+]
+
+processed = DataProcessor.process_sales_data(sales_data)
+puts processed['Electronics'][:total_revenue] # 2998
+
+# Custom enumerable
+sequence = DataProcessor::NumberSequence.new(1, 10, 2)
+puts sequence.even_numbers.to_a # [2, 4, 6, 8, 10]
+puts sequence.squares.first(3)  # [1, 9, 25]
+
+# Functional helpers
+add = ->(x, y) { x + y }
+multiply = ->(x, y) { x * y }
+square = ->(x) { x ** 2 }
+
+add_five = FunctionalHelpers.curry(add, 5)
+puts add_five.call(10) # 15
+
+transform = FunctionalHelpers.compose(square, add_five)
+puts transform.call(3) # 64 ((3 + 5) ** 2)</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>Ruby Forum</li>
-                            <li>Stack Overflow Ruby tag</li>
-                            <li>Reddit r/ruby</li>
-                        </ul>
+                        <h4>Web Development with Rails Patterns</h4>
+                        <div class="code-example">
+                            <pre><code># Advanced Rails patterns and techniques
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+  before_action :set_current_user
+  
+  private
+  
+  def set_current_user
+    Current.user = current_user if user_signed_in?
+  end
+end
+
+# Service Objects
+class UserRegistrationService
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+  
+  attribute :email, :string
+  attribute :password, :string
+  attribute :first_name, :string
+  attribute :last_name, :string
+  
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, presence: true, length: { minimum: 8 }
+  validates :first_name, :last_name, presence: true
+  
+  def call
+    return false unless valid?
+    
+    ActiveRecord::Base.transaction do
+      user = create_user
+      send_welcome_email(user)
+      create_user_profile(user)
+      user
+    end
+  rescue => e
+    errors.add(:base, e.message)
+    false
+  end
+  
+  private
+  
+  def create_user
+    User.create!(
+      email: email,
+      password: password,
+      first_name: first_name,
+      last_name: last_name
+    )
+  end
+  
+  def send_welcome_email(user)
+    UserMailer.welcome_email(user).deliver_later
+  end
+  
+  def create_user_profile(user)
+    user.create_profile!(
+      display_name: "#{first_name} #{last_name}",
+      bio: "New member"
+    )
+  end
+end
+
+# Repository Pattern
+class UserRepository
+  def self.find_active_users_with_posts
+    User.joins(:posts)
+        .where(active: true)
+        .where('posts.published_at IS NOT NULL')
+        .distinct
+        .includes(:posts, :profile)
+  end
+  
+  def self.find_by_email_or_username(identifier)
+    User.where(
+      'email = :identifier OR username = :identifier',
+      identifier: identifier
+    ).first
+  end
+  
+  def self.recent_signups(days = 7)
+    User.where('created_at >= ?', days.days.ago)
+        .order(created_at: :desc)
+  end
+end
+
+# Query Objects
+class PostSearchQuery
+  def initialize(relation = Post.all)
+    @relation = relation
+  end
+  
+  def by_author(author)
+    @relation = @relation.where(author: author)
+    self
+  end
+  
+  def by_category(category)
+    @relation = @relation.joins(:categories).where(categories: { name: category })
+    self
+  end
+  
+  def published
+    @relation = @relation.where.not(published_at: nil)
+    self
+  end
+  
+  def recent(days = 30)
+    @relation = @relation.where('created_at >= ?', days.days.ago)
+    self
+  end
+  
+  def with_tags(*tags)
+    @relation = @relation.joins(:tags).where(tags: { name: tags })
+    self
+  end
+  
+  def call
+    @relation
+  end
+end
+
+# Decorator Pattern
+class UserDecorator < SimpleDelegator
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+  
+  def display_name
+    username.present? ? "@#{username}" : full_name
+  end
+  
+  def avatar_url(size = :medium)
+    if avatar.attached?
+      avatar.variant(resize_to_limit: avatar_size(size))
+    else
+      "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(full_name)}"
+    end
+  end
+  
+  def formatted_join_date
+    created_at.strftime("Member since %B %Y")
+  end
+  
+  def post_count_text
+    case posts.published.count
+    when 0 then "No posts yet"
+    when 1 then "1 post"
+    else "#{posts.published.count} posts"
+    end
+  end
+  
+  private
+  
+  def avatar_size(size)
+    case size
+    when :small then [50, 50]
+    when :medium then [100, 100]
+    when :large then [200, 200]
+    else [100, 100]
+    end
+  end
+end
+
+# Usage in controller
+class UsersController < ApplicationController
+  def create
+    service = UserRegistrationService.new(user_params)
+    
+    if (user = service.call)
+      redirect_to dashboard_path, notice: 'Welcome!'
+    else
+      @user = User.new(user_params)
+      @user.errors.merge!(service.errors)
+      render :new
+    end
+  end
+  
+  def show
+    @user = UserDecorator.new(User.find(params[:id]))
+    @recent_posts = PostSearchQuery.new(@user.posts)
+                                  .published
+                                  .recent
+                                  .call
+                                  .limit(5)
+  end
+end</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Testing & Quality Assurance</h4>
+                        <div class="code-example">
+                            <pre><code># RSpec testing patterns
+RSpec.describe UserRegistrationService do
+  let(:valid_params) do
+    {
+      email: 'test@example.com',
+      password: 'password123',
+      first_name: 'John',
+      last_name: 'Doe'
+    }
+  end
+  
+  describe '#call' do
+    context 'with valid parameters' do
+      it 'creates a user successfully' do
+        service = described_class.new(valid_params)
+        
+        expect { service.call }.to change(User, :count).by(1)
+      end
+      
+      it 'sends welcome email' do
+        service = described_class.new(valid_params)
+        
+        expect(UserMailer).to receive(:welcome_email)
+          .and_return(double(deliver_later: true))
+        
+        service.call
+      end
+      
+      it 'creates user profile' do
+        service = described_class.new(valid_params)
+        user = service.call
+        
+        expect(user.profile).to be_present
+        expect(user.profile.display_name).to eq('John Doe')
+      end
+    end
+    
+    context 'with invalid email' do
+      it 'returns false and adds error' do
+        service = described_class.new(valid_params.merge(email: 'invalid'))
+        
+        expect(service.call).to be_falsey
+        expect(service.errors[:email]).to include('is invalid')
+      end
+    end
+  end
+end
+
+# Factory patterns with FactoryBot
+FactoryBot.define do
+  factory :user do
+    sequence(:email) { |n| "user#{n}@example.com" }
+    sequence(:username) { |n| "user#{n}" }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+    password { 'password123' }
+    
+    trait :admin do
+      role { 'admin' }
+    end
+    
+    trait :with_posts do
+      after(:create) do |user|
+        create_list(:post, 3, author: user)
+      end
+    end
+    
+    trait :inactive do
+      active { false }
+    end
+  end
+  
+  factory :post do
+    association :author, factory: :user
+    title { Faker::Lorem.sentence }
+    content { Faker::Lorem.paragraphs(number: 3).join("\n\n") }
+    published_at { 1.day.ago }
+    
+    trait :draft do
+      published_at { nil }
+    end
+    
+    trait :with_comments do
+      after(:create) do |post|
+        create_list(:comment, 5, post: post)
+      end
+    end
+  end
+end
+
+# Custom matchers
+RSpec::Matchers.define :be_a_valid_email do
+  match do |email|
+    email =~ URI::MailTo::EMAIL_REGEXP
+  end
+  
+  failure_message do |email|
+    "expected #{email} to be a valid email address"
+  end
+end
+
+RSpec::Matchers.define :have_error_on do |attribute|
+  match do |model|
+    model.valid?
+    model.errors[attribute].any?
+  end
+  
+  failure_message do |model|
+    "expected #{model.class} to have error on #{attribute}, but it didn't"
+  end
+end
+
+# Shared examples
+RSpec.shared_examples 'authenticatable' do
+  it 'requires authentication' do
+    get action
+    expect(response).to redirect_to(login_path)
+  end
+  
+  it 'allows access for authenticated users' do
+    sign_in create(:user)
+    get action
+    expect(response).to be_successful
+  end
+end
+
+# Controller testing
+RSpec.describe UsersController, type: :controller do
+  describe 'GET #show' do
+    let(:user) { create(:user, :with_posts) }
+    let(:action) { get :show, params: { id: user.id } }
+    
+    include_examples 'authenticatable'
+    
+    context 'when authenticated' do
+      before { sign_in create(:user) }
+      
+      it 'assigns decorated user' do
+        get :show, params: { id: user.id }
+        expect(assigns(:user)).to be_a(UserDecorator)
+      end
+      
+      it 'loads recent posts' do
+        get :show, params: { id: user.id }
+        expect(assigns(:recent_posts)).to all(be_a(Post))
+      end
+    end
+  end
+end
+
+# Integration testing
+RSpec.describe 'User Registration', type: :system do
+  it 'allows user to register successfully' do
+    visit new_user_registration_path
+    
+    fill_in 'Email', with: 'test@example.com'
+    fill_in 'Password', with: 'password123'
+    fill_in 'First name', with: 'John'
+    fill_in 'Last name', with: 'Doe'
+    
+    click_button 'Sign up'
+    
+    expect(page).to have_content('Welcome!')
+    expect(page).to have_current_path(dashboard_path)
+  end
+end</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Performance & Optimization</h4>
+                        <div class="code-example">
+                            <pre><code># Performance optimization techniques
+class PerformanceOptimizer
+  # Memoization for expensive calculations
+  def self.fibonacci(n)
+    @fibonacci_cache ||= {}
+    @fibonacci_cache[n] ||= begin
+      return n if n <= 1
+      fibonacci(n - 1) + fibonacci(n - 2)
+    end
+  end
+  
+  # Lazy loading and caching
+  class LazyLoader
+    def initialize
+      @cache = {}
+    end
+    
+    def expensive_operation(key)
+      @cache[key] ||= begin
+        # Simulate expensive operation
+        sleep(0.1)
+        "Result for #{key}: #{Time.now}"
+      end
+    end
+  end
+  
+  # Batch processing
+  def self.process_users_in_batches(batch_size = 1000)
+    User.find_in_batches(batch_size: batch_size) do |batch|
+      batch.each do |user|
+        # Process individual user
+        update_user_statistics(user)
+      end
+      
+      # Batch operations
+      batch_ids = batch.map(&:id)
+      UserStatistic.where(user_id: batch_ids).update_all(processed_at: Time.current)
+    end
+  end
+  
+  # Database optimization
+  def self.optimized_user_query
+    User.includes(:posts, :profile, :comments)
+        .where(active: true)
+        .where('posts.published_at > ?', 1.month.ago)
+        .select('users.*, COUNT(posts.id) as posts_count')
+        .group('users.id')
+        .having('COUNT(posts.id) > ?', 5)
+        .order('posts_count DESC')
+  end
+  
+  # Memory-efficient enumeration
+  def self.process_large_dataset(filename)
+    total_processed = 0
+    
+    File.foreach(filename).lazy
+        .map(&:chomp)
+        .select { |line| line.length > 10 }
+        .map { |line| line.split(',') }
+        .each_slice(100) do |batch|
+          # Process batch
+          process_batch(batch)
+          total_processed += batch.size
+          
+          # Memory cleanup
+          GC.start if total_processed % 10_000 == 0
+        end
+    
+    total_processed
+  end
+  
+  # Concurrent processing with threads
+  def self.parallel_processing(items, thread_count = 4)
+    queue = Queue.new
+    items.each { |item| queue << item }
+    
+    results = Concurrent::Array.new
+    threads = []
+    
+    thread_count.times do
+      threads << Thread.new do
+        while !queue.empty?
+          item = queue.pop(true) rescue break
+          result = expensive_process(item)
+          results << result
+        end
+      end
+    end
+    
+    threads.each(&:join)
+    results.to_a
+  end
+  
+  # Profiling and benchmarking
+  def self.benchmark_methods
+    require 'benchmark'
+    
+    Benchmark.bm(15) do |x|
+      x.report('String concat:') do
+        1000.times do
+          result = ''
+          100.times { |i| result += "string#{i}" }
+        end
+      end
+      
+      x.report('Array join:') do
+        1000.times do
+          parts = []
+          100.times { |i| parts << "string#{i}" }
+          result = parts.join
+        end
+      end
+      
+      x.report('String interp:') do
+        1000.times do
+          result = ''
+          100.times { |i| result << "string#{i}" }
+        end
+      end
+    end
+  end
+  
+  # Memory profiling
+  def self.memory_profile(&block)
+    require 'memory_profiler'
+    
+    report = MemoryProfiler.report do
+      block.call
+    end
+    
+    puts "Total allocated: #{report.total_allocated} bytes"
+    puts "Total retained: #{report.total_retained} bytes"
+    
+    report.pretty_print(scale_bytes: true)
+  end
+  
+  # Rails-specific optimizations
+  def self.optimize_active_record
+    # Use counter cache
+    class Post < ApplicationRecord
+      belongs_to :user, counter_cache: true
+    end
+    
+    # Efficient bulk operations
+    def bulk_update_users(updates)
+      User.transaction do
+        updates.each_slice(1000) do |batch|
+          User.upsert_all(batch)
+        end
+      end
+    end
+    
+    # Connection pooling
+    def with_database_connection(&block)
+      ActiveRecord::Base.connection_pool.with_connection do |connection|
+        block.call(connection)
+      end
+    end
+  end
+end
+
+# Usage examples
+loader = PerformanceOptimizer::LazyLoader.new
+puts loader.expensive_operation("key1") # Calculated
+puts loader.expensive_operation("key1") # Cached
+
+# Benchmark methods
+PerformanceOptimizer.benchmark_methods
+
+# Memory profiling
+PerformanceOptimizer.memory_profile do
+  1000.times { |i| "String number #{i}" }
+end</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Design Patterns & Architecture</h4>
+                        <div class="code-example">
+                            <pre><code># Design patterns implementation in Ruby
+module DesignPatterns
+  # Singleton pattern
+  class Configuration
+    include Singleton
+    
+    attr_accessor :database_url, :api_key, :debug_mode
+    
+    def initialize
+      @database_url = ENV['DATABASE_URL']
+      @api_key = ENV['API_KEY']
+      @debug_mode = ENV['DEBUG'] == 'true'
+    end
+  end
+  
+  # Factory pattern
+  class NotificationFactory
+    def self.create(type, message, recipient)
+      case type
+      when :email
+        EmailNotification.new(message, recipient)
+      when :sms
+        SMSNotification.new(message, recipient)
+      when :push
+        PushNotification.new(message, recipient)
+      else
+        raise ArgumentError, "Unknown notification type: #{type}"
+      end
+    end
+  end
+  
+  # Observer pattern
+  module Observable
+    def initialize
+      @observers = []
+      super
+    end
+    
+    def add_observer(observer)
+      @observers << observer unless @observers.include?(observer)
+    end
+    
+    def remove_observer(observer)
+      @observers.delete(observer)
+    end
+    
+    def notify_observers(*args)
+      @observers.each { |observer| observer.update(self, *args) }
+    end
+  end
+  
+  class User
+    include Observable
+    
+    attr_reader :name, :email
+    
+    def initialize(name, email)
+      @name = name
+      @email = email
+      super()
+    end
+    
+    def update_profile(new_name, new_email)
+      old_name, old_email = @name, @email
+      @name = new_name
+      @email = new_email
+      notify_observers(:profile_updated, old_name, old_email)
+    end
+  end
+  
+  # Strategy pattern
+  class PaymentProcessor
+    def initialize(strategy)
+      @strategy = strategy
+    end
+    
+    def process_payment(amount)
+      @strategy.process(amount)
+    end
+  end
+  
+  class CreditCardStrategy
+    def process(amount)
+      "Processing $#{amount} via credit card"
+    end
+  end
+  
+  class PayPalStrategy
+    def process(amount)
+      "Processing $#{amount} via PayPal"
+    end
+  end
+  
+  # Command pattern
+  class Command
+    def execute
+      raise NotImplementedError
+    end
+    
+    def undo
+      raise NotImplementedError
+    end
+  end
+  
+  class CreateUserCommand < Command
+    def initialize(user_params)
+      @user_params = user_params
+    end
+    
+    def execute
+      @user = User.create(@user_params)
+    end
+    
+    def undo
+      @user&.destroy
+    end
+  end
+  
+  class CommandInvoker
+    def initialize
+      @history = []
+    end
+    
+    def execute_command(command)
+      command.execute
+      @history << command
+    end
+    
+    def undo_last_command
+      command = @history.pop
+      command&.undo
+    end
+  end
+  
+  # Decorator pattern
+  class Coffee
+    def cost
+      2.0
+    end
+    
+    def description
+      "Simple coffee"
+    end
+  end
+  
+  class CoffeeDecorator
+    def initialize(coffee)
+      @coffee = coffee
+    end
+    
+    def cost
+      @coffee.cost
+    end
+    
+    def description
+      @coffee.description
+    end
+  end
+  
+  class MilkDecorator < CoffeeDecorator
+    def cost
+      @coffee.cost + 0.5
+    end
+    
+    def description
+      @coffee.description + ", milk"
+    end
+  end
+  
+  class SugarDecorator < CoffeeDecorator
+    def cost
+      @coffee.cost + 0.2
+    end
+    
+    def description
+      @coffee.description + ", sugar"
+    end
+  end
+  
+  # Builder pattern
+  class QueryBuilder
+    def initialize
+      @conditions = []
+      @joins = []
+      @order = nil
+      @limit = nil
+    end
+    
+    def where(condition)
+      @conditions << condition
+      self
+    end
+    
+    def join(table)
+      @joins << table
+      self
+    end
+    
+    def order_by(column)
+      @order = column
+      self
+    end
+    
+    def limit(count)
+      @limit = count
+      self
+    end
+    
+    def build
+      query = "SELECT * FROM users"
+      query += " #{@joins.map { |j| "JOIN #{j}" }.join(' ')}" if @joins.any?
+      query += " WHERE #{@conditions.join(' AND ')}" if @conditions.any?
+      query += " ORDER BY #{@order}" if @order
+      query += " LIMIT #{@limit}" if @limit
+      query
+    end
+  end
+end
+
+# Usage examples
+config = DesignPatterns::Configuration.instance
+config.debug_mode = true
+
+notification = DesignPatterns::NotificationFactory.create(:email, "Hello!", "user@example.com")
+
+user = DesignPatterns::User.new("John", "john@example.com")
+user.add_observer(->(user, event, *args) { puts "User #{user.name} triggered #{event}" })
+
+processor = DesignPatterns::PaymentProcessor.new(DesignPatterns::CreditCardStrategy.new)
+puts processor.process_payment(100)
+
+coffee = DesignPatterns::Coffee.new
+coffee = DesignPatterns::MilkDecorator.new(coffee)
+coffee = DesignPatterns::SugarDecorator.new(coffee)
+puts "#{coffee.description}: $#{coffee.cost}"
+
+query = DesignPatterns::QueryBuilder.new
+                                   .where("age > 18")
+                                   .join("profiles ON users.id = profiles.user_id")
+                                   .order_by("created_at DESC")
+                                   .limit(10)
+                                   .build
+puts query</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>

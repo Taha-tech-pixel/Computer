@@ -455,35 +455,761 @@ greeter ! "Bob"</code></pre>
                 </div>
             </div>
 
+            <!-- Complete Scala Reference -->
             <div class="section-card">
-                <h3>Learning Resources</h3>
+                <h3>🔥 Complete Scala Reference</h3>
                 <div class="resources-grid">
                     <div class="resource-item">
-                        <i class="fas fa-book"></i>
-                        <h4>Books</h4>
-                        <ul>
-                            <li>"Programming in Scala" by Martin Odersky</li>
-                            <li>"Scala for the Impatient" by Cay Horstmann</li>
-                            <li>"Functional Programming in Scala" by Paul Chiusano</li>
-                        </ul>
+                        <h4>Functional Programming & Collections</h4>
+                        <div class="code-example">
+                            <pre><code>// Advanced functional programming in Scala
+object FunctionalExamples {
+  
+  // Higher-order functions and function composition
+  val numbers = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+  
+  val processNumbers = (nums: List[Int]) => {
+    nums
+      .filter(_ % 2 == 0)
+      .map(x => x * x)
+      .take(3)
+  }
+  
+  // Function composition with andThen and compose
+  val addOne: Int => Int = _ + 1
+  val multiplyByTwo: Int => Int = _ * 2
+  val composed = addOne andThen multiplyByTwo
+  
+  // Currying and partial application
+  def multiply(x: Int)(y: Int): Int = x * y
+  val multiplyBy5 = multiply(5) _
+  
+  // Monadic operations with Option, Either, Try
+  import scala.util.{Try, Success, Failure}
+  
+  def safeDivide(x: Int, y: Int): Either[String, Int] = {
+    if (y == 0) Left("Division by zero")
+    else Right(x / y)
+  }
+  
+  val result = for {
+    a <- safeDivide(10, 2)
+    b <- safeDivide(a, 2)
+  } yield b
+  
+  // Advanced pattern matching
+  sealed trait Shape
+  case class Circle(radius: Double) extends Shape
+  case class Rectangle(width: Double, height: Double) extends Shape
+  case class Triangle(base: Double, height: Double) extends Shape
+  
+  def area(shape: Shape): Double = shape match {
+    case Circle(r) => math.Pi * r * r
+    case Rectangle(w, h) => w * h
+    case Triangle(b, h) => 0.5 * b * h
+  }
+  
+  // Custom extractors
+  object Even {
+    def unapply(x: Int): Option[Int] = 
+      if (x % 2 == 0) Some(x) else None
+  }
+  
+  def classifyNumber(n: Int): String = n match {
+    case Even(x) => s"$x is even"
+    case x if x % 2 != 0 => s"$x is odd"
+  }
+  
+  // Lazy evaluation and streams
+  lazy val fibonacci: LazyList[Int] = 0 #:: 1 #:: fibonacci.zip(fibonacci.tail).map { case (a, b) => a + b }
+  
+  // Custom collection operations
+  implicit class ListExtensions[A](list: List[A]) {
+    def chunked(size: Int): List[List[A]] = {
+      list.grouped(size).toList
+    }
+    
+    def intersperse(sep: A): List[A] = {
+      list.init.flatMap(List(_, sep)) :+ list.last
+    }
+  }
+}</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-globe"></i>
-                        <h4>Online Resources</h4>
-                        <ul>
-                            <li><a href="https://scala-lang.org" target="_blank">Scala-lang.org</a></li>
-                            <li><a href="https://docs.scala-lang.org" target="_blank">Scala Documentation</a></li>
-                            <li><a href="https://scala-exercises.org" target="_blank">Scala Exercises</a></li>
-                        </ul>
+                        <h4>Advanced OOP & Type System</h4>
+                        <div class="code-example">
+                            <pre><code>// Advanced object-oriented programming
+object TypeSystemExamples {
+  
+  // Traits with self-types and abstract members
+  trait Logging {
+    def log(message: String): Unit = println(s"[LOG] $message")
+  }
+  
+  trait Database {
+    def save(data: String): Unit
+    def load(id: String): Option[String]
+  }
+  
+  // Self-type annotation
+  trait UserService {
+    self: Database with Logging =>
+    
+    def createUser(name: String, email: String): String = {
+      val id = java.util.UUID.randomUUID().toString
+      log(s"Creating user: $name")
+      save(s"$id:$name:$email")
+      id
+    }
+  }
+  
+  // Phantom types for type-safe APIs
+  sealed trait State
+  sealed trait Open extends State
+  sealed trait Closed extends State
+  
+  class Connection[S <: State] private (isOpen: Boolean) {
+    def execute(query: String)(implicit ev: S =:= Open): String = {
+      s"Executing: $query"
+    }
+    
+    def close()(implicit ev: S =:= Open): Connection[Closed] = {
+      new Connection[Closed](false)
+    }
+  }
+  
+  object Connection {
+    def open(): Connection[Open] = new Connection[Open](true)
+  }
+  
+  // Type classes
+  trait Show[A] {
+    def show(a: A): String
+  }
+  
+  object Show {
+    implicit val intShow: Show[Int] = (a: Int) => a.toString
+    implicit val stringShow: Show[String] = (a: String) => s"\"$a\""
+    
+    implicit def listShow[A](implicit showA: Show[A]): Show[List[A]] = {
+      (list: List[A]) => list.map(showA.show).mkString("[", ", ", "]")
+    }
+    
+    def apply[A](implicit show: Show[A]): Show[A] = show
+  }
+  
+  def display[A: Show](value: A): String = Show[A].show(value)
+  
+  // Higher-kinded types
+  trait Functor[F[_]] {
+    def map[A, B](fa: F[A])(f: A => B): F[B]
+  }
+  
+  implicit val optionFunctor: Functor[Option] = new Functor[Option] {
+    def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa.map(f)
+  }
+  
+  implicit val listFunctor: Functor[List] = new Functor[List] {
+    def map[A, B](fa: List[A])(f: A => B): List[B] = fa.map(f)
+  }
+  
+  // Variance annotations
+  trait Producer[+A] {
+    def get: A
+  }
+  
+  trait Consumer[-A] {
+    def consume(a: A): Unit
+  }
+  
+  // Path-dependent types
+  class Outer {
+    class Inner {
+      def getValue: String = "inner value"
+    }
+    
+    def createInner: Inner = new Inner
+  }
+  
+  // Structural types
+  type Closeable = { def close(): Unit }
+  
+  def withResource[R <: Closeable, A](resource: R)(f: R => A): A = {
+    try {
+      f(resource)
+    } finally {
+      resource.close()
+    }
+  }
+}</code></pre>
+                        </div>
                     </div>
                     <div class="resource-item">
-                        <i class="fas fa-users"></i>
-                        <h4>Community</h4>
-                        <ul>
-                            <li>Scala Discord</li>
-                            <li>Stack Overflow Scala tag</li>
-                            <li>Reddit r/scala</li>
-                        </ul>
+                        <h4>Concurrency & Akka Actors</h4>
+                        <div class="code-example">
+                            <pre><code>// Concurrency and Actor model
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.pattern.ask
+import akka.util.Timeout
+import scala.concurrent.{ExecutionContext, Future, Promise}
+import scala.concurrent.duration._
+import scala.util.{Success, Failure}
+
+object ConcurrencyExamples {
+  
+  // Futures and async programming
+  implicit val ec: ExecutionContext = ExecutionContext.global
+  
+  def fetchUserData(userId: String): Future[String] = {
+    Future {
+      Thread.sleep(1000) // Simulate network call
+      s"User data for $userId"
+    }
+  }
+  
+  def fetchUserPreferences(userId: String): Future[String] = {
+    Future {
+      Thread.sleep(800)
+      s"Preferences for $userId"
+    }
+  }
+  
+  // Combining futures
+  def getUserProfile(userId: String): Future[String] = {
+    val userData = fetchUserData(userId)
+    val preferences = fetchUserPreferences(userId)
+    
+    for {
+      data <- userData
+      prefs <- preferences
+    } yield s"Profile: $data, $prefs"
+  }
+  
+  // Actor system
+  sealed trait UserMessage
+  case class CreateUser(name: String, email: String) extends UserMessage
+  case class GetUser(id: String) extends UserMessage
+  case class UpdateUser(id: String, name: String) extends UserMessage
+  case class DeleteUser(id: String) extends UserMessage
+  
+  class UserActor extends Actor {
+    private var users = Map.empty[String, (String, String)]
+    
+    def receive: Receive = {
+      case CreateUser(name, email) =>
+        val id = java.util.UUID.randomUUID().toString
+        users += id -> (name, email)
+        sender() ! s"Created user: $id"
+        
+      case GetUser(id) =>
+        users.get(id) match {
+          case Some((name, email)) => sender() ! s"User: $name, $email"
+          case None => sender() ! s"User not found: $id"
+        }
+        
+      case UpdateUser(id, name) =>
+        users.get(id) match {
+          case Some((_, email)) =>
+            users += id -> (name, email)
+            sender() ! s"Updated user: $id"
+          case None => sender() ! s"User not found: $id"
+        }
+        
+      case DeleteUser(id) =>
+        users -= id
+        sender() ! s"Deleted user: $id"
+    }
+  }
+  
+  // Supervisor strategy
+  import akka.actor.SupervisorStrategy._
+  import akka.actor.OneForOneStrategy
+  
+  class Supervisor extends Actor {
+    override val supervisorStrategy = OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1.minute) {
+      case _: ArithmeticException => Resume
+      case _: NullPointerException => Restart
+      case _: IllegalArgumentException => Stop
+      case _: Exception => Escalate
+    }
+    
+    def receive: Receive = {
+      case props: Props => sender() ! context.actorOf(props)
+    }
+  }
+  
+  // Akka Streams for reactive programming
+  import akka.stream.scaladsl.{Source, Sink, Flow}
+  import akka.NotUsed
+  
+  def processDataStream(): Unit = {
+    val source: Source[Int, NotUsed] = Source(1 to 100)
+    
+    val flow: Flow[Int, Int, NotUsed] = Flow[Int]
+      .filter(_ % 2 == 0)
+      .map(_ * 2)
+      .take(10)
+    
+    val sink: Sink[Int, Future[Int]] = Sink.fold(0)(_ + _)
+    
+    val result: Future[Int] = source.via(flow).runWith(sink)
+    
+    result.onComplete {
+      case Success(sum) => println(s"Sum: $sum")
+      case Failure(ex) => println(s"Failed: ${ex.getMessage}")
+    }
+  }
+  
+  // Custom execution context
+  import java.util.concurrent.Executors
+  
+  val customExecutor = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(4))
+  
+  def parallelProcessing[A, B](items: List[A])(f: A => B): Future[List[B]] = {
+    implicit val ec = customExecutor
+    Future.traverse(items)(item => Future(f(item)))
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Metaprogramming & Macros</h4>
+                        <div class="code-example">
+                            <pre><code>// Metaprogramming with Scala 3 macros
+import scala.quoted.*
+
+object MetaprogrammingExamples {
+  
+  // Inline functions and compile-time evaluation
+  inline def power(x: Double, inline n: Int): Double = {
+    inline if (n == 0) 1.0
+    else inline if (n == 1) x
+    else x * power(x, n - 1)
+  }
+  
+  // Compile-time string interpolation
+  extension (sc: StringContext) {
+    inline def sql(inline args: Any*): String = {
+      // Compile-time validation of SQL syntax
+      ${validateSQL('sc, 'args)}
+    }
+  }
+  
+  def validateSQL(sc: Expr[StringContext], args: Expr[Seq[Any]])(using Quotes): Expr[String] = {
+    import quotes.reflect.*
+    
+    val parts = sc.valueOrAbort.parts
+    // Validate SQL syntax at compile time
+    if (parts.exists(_.contains("DROP TABLE"))) {
+      report.error("DROP TABLE not allowed in SQL interpolation")
+    }
+    
+    '{ ${sc}.s(${args}: _*) }
+  }
+  
+  // Derivation and type class generation
+  trait JsonEncoder[A] {
+    def encode(value: A): String
+  }
+  
+  object JsonEncoder {
+    given JsonEncoder[String] = (value: String) => s"\"$value\""
+    given JsonEncoder[Int] = (value: Int) => value.toString
+    given JsonEncoder[Boolean] = (value: Boolean) => value.toString
+    
+    given [A](using encoder: JsonEncoder[A]): JsonEncoder[List[A]] = {
+      (list: List[A]) => list.map(encoder.encode).mkString("[", ",", "]")
+    }
+    
+    // Automatic derivation for case classes
+    inline given derived[A](using m: Mirror.Of[A]): JsonEncoder[A] = {
+      inline m match {
+        case s: Mirror.SumOf[A] => derivedSum(s)
+        case p: Mirror.ProductOf[A] => derivedProduct(p)
+      }
+    }
+    
+    private def derivedProduct[A](p: Mirror.ProductOf[A])(using JsonEncoder[p.MirroredElemTypes]): JsonEncoder[A] = {
+      (value: A) => {
+        val product = value.asInstanceOf[Product]
+        val fields = product.productElementNames.zip(product.productIterator).toList
+        fields.map { case (name, value) => s"\"$name\":${summon[JsonEncoder[Any]].encode(value)}" }
+              .mkString("{", ",", "}")
+      }
+    }
+    
+    private def derivedSum[A](s: Mirror.SumOf[A]): JsonEncoder[A] = ???
+  }
+  
+  // Compile-time reflection
+  inline def fieldNames[A]: List[String] = ${ fieldNamesImpl[A] }
+  
+  def fieldNamesImpl[A: Type](using Quotes): Expr[List[String]] = {
+    import quotes.reflect.*
+    
+    val tpe = TypeRepr.of[A]
+    val fields = tpe.typeSymbol.caseFields.map(_.name)
+    Expr(fields)
+  }
+  
+  // Custom control structures
+  inline def times[A](inline n: Int)(inline body: => A): Unit = {
+    inline if (n > 0) {
+      body
+      times(n - 1)(body)
+    }
+  }
+  
+  // Compile-time configuration
+  inline def config[A](inline key: String): A = ${ configImpl[A]('key) }
+  
+  def configImpl[A: Type](key: Expr[String])(using Quotes): Expr[A] = {
+    import quotes.reflect.*
+    
+    val keyValue = key.valueOrAbort
+    val configValue = sys.env.get(keyValue).orElse(sys.props.get(keyValue))
+    
+    configValue match {
+      case Some(value) =>
+        TypeRepr.of[A] match {
+          case t if t =:= TypeRepr.of[String] => Expr(value).asExprOf[A]
+          case t if t =:= TypeRepr.of[Int] => Expr(value.toInt).asExprOf[A]
+          case t if t =:= TypeRepr.of[Boolean] => Expr(value.toBoolean).asExprOf[A]
+          case _ => report.errorAndAbort(s"Unsupported config type: ${TypeRepr.of[A]}")
+        }
+      case None => report.errorAndAbort(s"Configuration key not found: $keyValue")
+    }
+  }
+  
+  // Usage examples
+  case class Person(name: String, age: Int)
+  
+  val person = Person("John", 30)
+  val json = summon[JsonEncoder[Person]].encode(person)
+  val fields = fieldNames[Person] // List("name", "age")
+  
+  times(3) {
+    println("Hello, World!")
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Performance & Optimization</h4>
+                        <div class="code-example">
+                            <pre><code>// Performance optimization techniques
+object PerformanceExamples {
+  
+  // Specialized collections and primitive optimizations
+  import scala.collection.mutable
+  import scala.collection.immutable.{IntMap, LongMap}
+  
+  // Using specialized collections for primitives
+  def efficientIntProcessing(data: Array[Int]): Int = {
+    var sum = 0
+    var i = 0
+    while (i < data.length) {
+      sum += data(i)
+      i += 1
+    }
+    sum
+  }
+  
+  // Avoiding boxing with specialized type classes
+  trait Numeric[@specialized(Int, Long, Double) T] {
+    def plus(x: T, y: T): T
+    def zero: T
+  }
+  
+  implicit val intNumeric: Numeric[Int] = new Numeric[Int] {
+    def plus(x: Int, y: Int): Int = x + y
+    def zero: Int = 0
+  }
+  
+  def sum[@specialized T](list: List[T])(implicit num: Numeric[T]): T = {
+    list.foldLeft(num.zero)(num.plus)
+  }
+  
+  // Memory-efficient data structures
+  class CompactIntSet {
+    private val bitSet = mutable.BitSet()
+    
+    def add(value: Int): Unit = bitSet += value
+    def contains(value: Int): Boolean = bitSet.contains(value)
+    def remove(value: Int): Unit = bitSet -= value
+    def size: Int = bitSet.size
+  }
+  
+  // Lazy evaluation for performance
+  class LazyTree[A](value: A, childrenThunk: => List[LazyTree[A]]) {
+    lazy val children: List[LazyTree[A]] = childrenThunk
+    
+    def map[B](f: A => B): LazyTree[B] = 
+      new LazyTree(f(value), children.map(_.map(f)))
+    
+    def find(predicate: A => Boolean): Option[LazyTree[A]] = {
+      if (predicate(value)) Some(this)
+      else children.view.flatMap(_.find(predicate)).headOption
+    }
+  }
+  
+  // Tail recursion optimization
+  import scala.annotation.tailrec
+  
+  @tailrec
+  def factorial(n: Long, acc: Long = 1): Long = {
+    if (n <= 1) acc
+    else factorial(n - 1, n * acc)
+  }
+  
+  @tailrec
+  def quickSort[A](list: List[A])(implicit ord: Ordering[A]): List[A] = {
+    import ord._
+    
+    def sort(toSort: List[List[A]], sorted: List[A]): List[A] = {
+      toSort match {
+        case Nil => sorted
+        case Nil :: tail => sort(tail, sorted)
+        case (pivot :: rest) :: tail =>
+          val (smaller, larger) = rest.partition(_ < pivot)
+          sort(smaller :: (pivot :: Nil) :: larger :: tail, sorted)
+      }
+    }
+    
+    sort(List(list), Nil)
+  }
+  
+  // Parallel collections
+  import scala.collection.parallel.CollectionConverters._
+  
+  def parallelProcessing(data: Vector[Int]): Vector[Int] = {
+    data.par
+      .filter(_ % 2 == 0)
+      .map(x => expensiveComputation(x))
+      .seq
+  }
+  
+  def expensiveComputation(x: Int): Int = {
+    Thread.sleep(1) // Simulate expensive operation
+    x * x
+  }
+  
+  // Memory pooling for object reuse
+  class ObjectPool[A](factory: () => A, reset: A => Unit, maxSize: Int = 10) {
+    private val pool = mutable.Queue.empty[A]
+    
+    def borrow(): A = {
+      pool.synchronized {
+        if (pool.nonEmpty) pool.dequeue()
+        else factory()
+      }
+    }
+    
+    def return(obj: A): Unit = {
+      pool.synchronized {
+        if (pool.size < maxSize) {
+          reset(obj)
+          pool.enqueue(obj)
+        }
+      }
+    }
+  }
+  
+  // JVM optimization hints
+  final class HotPath {
+    @inline final def criticalMethod(x: Int, y: Int): Int = {
+      x * y + (x << 1) // Bit shifting for multiplication by 2
+    }
+  }
+  
+  // Benchmarking utilities
+  def benchmark[A](name: String)(code: => A): A = {
+    val start = System.nanoTime()
+    val result = code
+    val end = System.nanoTime()
+    println(s"$name took ${(end - start) / 1000000} ms")
+    result
+  }
+  
+  // Example usage
+  def runPerformanceTests(): Unit = {
+    val data = (1 to 1000000).toArray
+    
+    benchmark("Efficient sum") {
+      efficientIntProcessing(data)
+    }
+    
+    benchmark("Parallel processing") {
+      parallelProcessing(data.toVector)
+    }
+    
+    val pool = new ObjectPool[mutable.StringBuilder](
+      () => new mutable.StringBuilder(),
+      _.clear(),
+      5
+    )
+    
+    benchmark("With object pool") {
+      (1 to 1000).map { i =>
+        val sb = pool.borrow()
+        sb.append(s"String $i")
+        val result = sb.toString
+        pool.return(sb)
+        result
+      }
+    }
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-item">
+                        <h4>Build Tools & Ecosystem</h4>
+                        <div class="code-example">
+                            <pre><code>// SBT build configuration and ecosystem
+// build.sbt
+scalaVersion := "3.3.1"
+
+libraryDependencies ++= Seq(
+  "org.typelevel" %% "cats-core" % "2.10.0",
+  "org.typelevel" %% "cats-effect" % "3.5.2",
+  "com.typesafe.akka" %% "akka-actor-typed" % "2.8.5",
+  "com.typesafe.akka" %% "akka-stream" % "2.8.5",
+  "org.scalatest" %% "scalatest" % "3.2.17" % Test,
+  "org.scalatestplus" %% "mockito-4-11" % "3.2.17.0" % Test
+)
+
+// Custom SBT tasks
+lazy val generateDocs = taskKey[Unit]("Generate documentation")
+generateDocs := {
+  val log = streams.value.log
+  log.info("Generating documentation...")
+  // Custom documentation generation logic
+}
+
+// Multi-module project
+lazy val core = project
+  .in(file("core"))
+  .settings(
+    name := "myproject-core",
+    libraryDependencies ++= commonDependencies
+  )
+
+lazy val api = project
+  .in(file("api"))
+  .dependsOn(core)
+  .settings(
+    name := "myproject-api",
+    libraryDependencies ++= webDependencies
+  )
+
+lazy val root = project
+  .in(file("."))
+  .aggregate(core, api)
+  .settings(
+    name := "myproject"
+  )
+
+// Testing with ScalaTest
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.mockito.MockitoSugar
+
+class UserServiceSpec extends AnyFlatSpec with Matchers with MockitoSugar {
+  
+  "UserService" should "create users successfully" in {
+    val mockDb = mock[Database]
+    val userService = new UserService(mockDb)
+    
+    when(mockDb.save(any[String])).thenReturn(Future.successful(()))
+    
+    val result = userService.createUser("John", "john@example.com")
+    result shouldBe defined
+  }
+  
+  it should "handle database errors gracefully" in {
+    val mockDb = mock[Database]
+    val userService = new UserService(mockDb)
+    
+    when(mockDb.save(any[String])).thenReturn(Future.failed(new RuntimeException("DB Error")))
+    
+    assertThrows[RuntimeException] {
+      await(userService.createUser("John", "john@example.com"))
+    }
+  }
+}
+
+// Property-based testing with ScalaCheck
+import org.scalacheck.Properties
+import org.scalacheck.Prop.forAll
+import org.scalacheck.Gen
+
+object StringSpecification extends Properties("String") {
+  
+  property("concatenation length") = forAll { (s1: String, s2: String) =>
+    (s1 + s2).length == s1.length + s2.length
+  }
+  
+  property("reverse twice is identity") = forAll { (s: String) =>
+    s.reverse.reverse == s
+  }
+  
+  // Custom generators
+  val emailGen: Gen[String] = for {
+    name <- Gen.alphaStr.suchThat(_.nonEmpty)
+    domain <- Gen.alphaStr.suchThat(_.nonEmpty)
+    tld <- Gen.oneOf("com", "org", "net", "edu")
+  } yield s"$name@$domain.$tld"
+  
+  property("email validation") = forAll(emailGen) { email =>
+    isValidEmail(email) == true
+  }
+  
+  def isValidEmail(email: String): Boolean = {
+    email.contains("@") && email.contains(".")
+  }
+}
+
+// Cats Effect for functional programming
+import cats.effect.{IO, IOApp, Resource}
+import cats.effect.std.Console
+import cats.syntax.all._
+
+object CatsEffectExample extends IOApp.Simple {
+  
+  def run: IO[Unit] = {
+    val program = for {
+      _ <- Console[IO].println("Enter your name:")
+      name <- Console[IO].readLine
+      _ <- Console[IO].println(s"Hello, $name!")
+    } yield ()
+    
+    program
+  }
+  
+  // Resource management
+  def fileProcessing: IO[String] = {
+    val fileResource = Resource.make(
+      IO(scala.io.Source.fromFile("data.txt"))
+    )(source => IO(source.close()))
+    
+    fileResource.use { source =>
+      IO(source.getLines().mkString("\n"))
+    }
+  }
+  
+  // Parallel processing with Cats Effect
+  def parallelTasks: IO[List[String]] = {
+    val tasks = List(
+      IO.sleep(1.second) >> IO.pure("Task 1"),
+      IO.sleep(2.seconds) >> IO.pure("Task 2"),
+      IO.sleep(1.5.seconds) >> IO.pure("Task 3")
+    )
+    
+    tasks.parSequence
+  }
+}</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
