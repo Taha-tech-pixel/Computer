@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Advanced Enhancements</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="advanced-enhancements.js" defer></script>
+</head>
+<body class="theme-galaxy">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher glass" id="themeSwitcher">
+        <button class="theme-btn" id="themeToggle" data-tooltip="Change Theme">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options" id="themeOptions">
+            <button class="theme-option" data-theme="galaxy">
+                <span class="theme-preview theme-galaxy"></span>
+                <span class="theme-name">Galaxy</span>
+            </button>
+            <button class="theme-option" data-theme="ocean">
+                <span class="theme-preview theme-ocean"></span>
+                <span class="theme-name">Ocean</span>
+            </button>
+            <button class="theme-option" data-theme="forest">
+                <span class="theme-preview theme-forest"></span>
+                <span class="theme-name">Forest</span>
+            </button>
+            <button class="theme-option" data-theme="sunset">
+                <span class="theme-preview theme-sunset"></span>
+                <span class="theme-name">Sunset</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Advanced Search -->
+    <div class="search-advanced" id="advancedSearch">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input-advanced" placeholder="Search languages, concepts, challenges..." id="advancedSearchInput">
+    </div>
+
+    <main style="padding: 2rem; min-height: 100vh;">
+        <h1>Advanced Enhancements Test</h1>
+        
+        <div class="hero-section glass" style="margin-bottom: 2rem;">
+            <div class="parallax-container">
+                <div class="parallax-layer parallax-bg"></div>
+                <div class="parallax-layer parallax-mid"></div>
+                <div class="parallax-layer parallax-front">
+                    <h1 data-animation="fade-up">🚀 Test Page</h1>
+                    <p data-animation="fade-up" data-delay="0.2">Testing advanced enhancements...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="feature-card hover-lift scale-on-hover" data-animation="slide-left" data-delay="0.1">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Test Card 1</h3>
+                <p>This is a test card with animations.</p>
+            </div>
+            
+            <div class="feature-card hover-lift scale-on-hover" data-animation="slide-right" data-delay="0.2">
+                <i class="fas fa-rocket"></i>
+                <h3>Test Card 2</h3>
+                <p>Another test card with different animation.</p>
+            </div>
+            
+            <div class="feature-card hover-lift scale-on-hover" data-animation="scale-in" data-delay="0.3">
+                <i class="fas fa-star"></i>
+                <h3>Test Card 3</h3>
+                <p>Third test card with scale animation.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <h2>Test Instructions:</h2>
+            <ul>
+                <li>Look for floating particles in the background</li>
+                <li>Click the palette icon to change themes</li>
+                <li>Press Ctrl+K to open advanced search</li>
+                <li>Scroll to see animations trigger</li>
+                <li>Hover over cards to see 3D effects</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        // Simple notification function for testing
+        function showNotification(message, type, duration = 5000) {
+            console.log(`[${type.toUpperCase()}] ${message}`);
+            
+            // Create a simple notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 212, 255, 0.9);
+                color: white;
+                padding: 1rem;
+                border-radius: 8px;
+                z-index: 10000;
+                max-width: 300px;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, duration);
+        }
+    </script>
+</body>
+</html>

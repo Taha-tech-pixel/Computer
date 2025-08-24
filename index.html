@@ -6,6 +6,7 @@
     <title>Learning Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="advanced-enhancements.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
@@ -91,14 +92,17 @@
         
         <!-- Enhanced Controls -->
         <div class="nav-controls">
-            <button id="darkModeToggle" class="control-btn" title="Toggle Dark Mode (Ctrl+D)">
+            <button id="darkModeToggle" class="control-btn theme-toggle" title="Toggle Dark Mode (Ctrl+/)">
                 <i class="fas fa-moon"></i>
             </button>
-            <button id="tutorialBtn" class="control-btn" title="Start Tutorial (Ctrl+T)">
+            <button id="tutorialBtn" class="control-btn" title="Start Tutorial (Ctrl+T)" data-tooltip="Interactive Tutorial">
                 <i class="fas fa-graduation-cap"></i>
             </button>
-            <button id="settingsBtn" class="control-btn" title="Settings (Ctrl+,)">
+            <button id="settingsBtn" class="control-btn" title="Settings (Ctrl+,)" data-tooltip="Settings & Preferences">
                 <i class="fas fa-cog"></i>
+            </button>
+            <button id="searchToggle" class="control-btn" title="Search (Ctrl+K)" data-tooltip="Search Platform">
+                <i class="fas fa-search"></i>
             </button>
         </div>
         
@@ -280,87 +284,128 @@
         </div>
     </div>
 
+    <!-- Theme Switcher -->
+    <div class="theme-switcher glass" id="themeSwitcher">
+        <button class="theme-btn" id="themeToggle" data-tooltip="Change Theme">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-options" id="themeOptions">
+            <button class="theme-option" data-theme="galaxy">
+                <span class="theme-preview theme-galaxy"></span>
+                <span class="theme-name">Galaxy</span>
+            </button>
+            <button class="theme-option" data-theme="ocean">
+                <span class="theme-preview theme-ocean"></span>
+                <span class="theme-name">Ocean</span>
+            </button>
+            <button class="theme-option" data-theme="forest">
+                <span class="theme-preview theme-forest"></span>
+                <span class="theme-name">Forest</span>
+            </button>
+            <button class="theme-option" data-theme="sunset">
+                <span class="theme-preview theme-sunset"></span>
+                <span class="theme-name">Sunset</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Advanced Search -->
+    <div class="search-advanced" id="advancedSearch">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input-advanced" placeholder="Search languages, concepts, challenges..." id="advancedSearchInput">
+    </div>
+
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+
     <main class="main-content">
         <!-- Home Page -->
         <div id="home" class="page active">
-            <div class="hero-section">
-                <h1>🚀 Welcome to GalaxyCode</h1>
-                <p>Embark on an interstellar journey through programming languages, explore coding concepts, and unlock your potential with our AI-powered learning platform.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">Get Started</button>
-                    <button class="btn btn-secondary">Learn More</button>
+            <div class="hero-section glass">
+                <div class="parallax-container">
+                    <div class="parallax-layer parallax-bg"></div>
+                    <div class="parallax-layer parallax-mid"></div>
+                    <div class="parallax-layer parallax-front">
+                        <h1 data-animation="fade-up">🚀 Welcome to GalaxyCode</h1>
+                        <p data-animation="fade-up" data-delay="0.2">Embark on an interstellar journey through programming languages, explore coding concepts, and unlock your potential with our AI-powered learning platform.</p>
+                        <div class="hero-buttons" data-animation="fade-up" data-delay="0.4">
+                            <button class="btn btn-primary btn-3d">Get Started</button>
+                            <button class="btn btn-secondary btn-3d">Learn More</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="features-grid">
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="slide-left" data-delay="0.1">
                     <i class="fas fa-laptop-code"></i>
                     <h3>Programming Languages</h3>
                     <p>Explore 30+ programming languages across 7 categories: Web Development, General-Purpose, Scripting, Data Science, Functional, Legacy, and Query languages. Learn about language paradigms and when to use each one.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">🌐 Web Dev</span>
-                        <span class="detail-tag">💻 General</span>
-                        <span class="detail-tag">📜 Scripting</span>
-                        <span class="detail-tag">📊 Data Science</span>
+                        <span class="badge badge-primary">🌐 Web Dev</span>
+                        <span class="badge badge-success">💻 General</span>
+                        <span class="badge badge-warning">📜 Scripting</span>
+                        <span class="badge badge-info">📊 Data Science</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="slide-right" data-delay="0.2">
                     <i class="fas fa-project-diagram"></i>
                     <h3>Coding Schemes</h3>
                     <p>Learn about character encoding schemes (ASCII, Unicode) and design patterns. Understand how computers represent text and software architecture principles.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">ASCII</span>
-                        <span class="detail-tag">Unicode</span>
-                        <span class="detail-tag">Design Patterns</span>
+                        <span class="badge badge-primary">ASCII</span>
+                        <span class="badge badge-success">Unicode</span>
+                        <span class="badge badge-warning">Design Patterns</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="slide-top" data-delay="0.3">
                     <i class="fas fa-calculator"></i>
                     <h3>Number System</h3>
                     <p>Convert between decimal, binary, hexadecimal, and octal number systems. Interactive tools help you understand how computers represent and process numbers.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">Binary (Base-2)</span>
-                        <span class="detail-tag">Hex (Base-16)</span>
-                        <span class="detail-tag">Octal (Base-8)</span>
+                        <span class="badge badge-primary">Binary (Base-2)</span>
+                        <span class="badge badge-success">Hex (Base-16)</span>
+                        <span class="badge badge-warning">Octal (Base-8)</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="slide-bottom" data-delay="0.4">
                     <i class="fas fa-cogs"></i>
                     <h3>Compiler</h3>
                     <p>Learn about the four phases of compilation: Lexical Analysis, Syntax Analysis, Semantic Analysis, and Code Generation. Try our interactive compiler demo.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">4 Phases</span>
-                        <span class="detail-tag">Interactive Demo</span>
-                        <span class="detail-tag">Expression Evaluator</span>
+                        <span class="badge badge-primary">4 Phases</span>
+                        <span class="badge badge-success">Interactive Demo</span>
+                        <span class="badge badge-warning">Expression Evaluator</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="scale-in" data-delay="0.5">
                     <i class="fas fa-trophy"></i>
                     <h3>Challenges</h3>
                     <p>Test your programming skills with three difficulty levels. Solve FizzBuzz, Palindrome Checker, and Binary Tree Traversal problems with detailed solutions.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">Easy</span>
-                        <span class="detail-tag">Medium</span>
-                        <span class="detail-tag">Hard</span>
+                        <span class="badge badge-success">Easy</span>
+                        <span class="badge badge-warning">Medium</span>
+                        <span class="badge badge-danger">Hard</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="rotate-in" data-delay="0.6">
                     <i class="fas fa-chart-line"></i>
                     <h3>Progress</h3>
                     <p>Track your learning journey with visual progress indicators, statistics dashboard, and weekly activity charts. Monitor your achievements and stay motivated.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">Progress Circle</span>
-                        <span class="detail-tag">Statistics</span>
-                        <span class="detail-tag">Activity Chart</span>
+                        <span class="badge badge-primary">Progress Circle</span>
+                        <span class="badge badge-success">Statistics</span>
+                        <span class="badge badge-info">Activity Chart</span>
                     </div>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card hover-lift scale-on-hover" data-animation="bounce-in" data-delay="0.7">
                     <i class="fas fa-robot"></i>
                     <h3>AI Bot</h3>
                     <p>Get instant help from our AI Learning Assistant. Ask questions about programming concepts, get explanations, and use quick question buttons for common topics.</p>
                     <div class="feature-details">
-                        <span class="detail-tag">Chat Interface</span>
-                        <span class="detail-tag">Quick Questions</span>
-                        <span class="detail-tag">Programming Help</span>
+                        <span class="badge badge-primary">Chat Interface</span>
+                        <span class="badge badge-success">Quick Questions</span>
+                        <span class="badge badge-info">Programming Help</span>
                     </div>
                 </div>
 
